@@ -10,9 +10,10 @@ using Exiled.Events.EventArgs.Player;
 using GameCore;
 using Log = Exiled.API.Features.Log;
 using UnityEngine;
-using PluginAPI;
+using LabApi;
 using Exiled.API.Features.Hazards;
 using Mirror;
+using Respawning.Waves;
 
 
 namespace callvote
@@ -299,14 +300,14 @@ namespace callvote
 									if (mtfVotePercent >= Plugin.Instance.Config.ThresholdRespawnWave)
 									{
 										Map.Broadcast(5, Translation.mtfRespawn.Replace("%VotePercent%", mtfVotePercent.ToString() + "%"));
-										Respawning.RespawnManager.Singleton.ForceSpawnTeam(Respawning.SpawnableTeamType.NineTailedFox);
+                                        Respawning.WaveManager.Spawn(Respawning.WaveManager.Waves[0]);
 
 									}
 									else if (ciVotePercent >= Plugin.Instance.Config.ThresholdRespawnWave)
 									{
 										Map.Broadcast(5, Translation.ciRespawn.Replace("%VotePercent%", ciVotePercent.ToString()));
-										Respawning.RespawnManager.Singleton.ForceSpawnTeam(Respawning.SpawnableTeamType.ChaosInsurgency);
-									}
+										Respawning.WaveManager.Spawn(Respawning.WaveManager.Waves[1]);
+                                    }
 									else
 									{
 										Map.Broadcast(5, Translation.NoSuccessFullRespawn.Replace("%VotePercent%",votePercent.ToString()).Replace("%ThresholdRespawnWave%", Plugin.Instance.Config.ThresholdRespawnWave.ToString()));
@@ -375,8 +376,8 @@ namespace callvote
 										options[i] = args[i];
 									}
 								}
-								voteCoroutine = Timing.RunCoroutine(StartVoteCoroutine(new Vote(playerNickname + " asks: " + args[0], options), null));
-								break;
+                                voteCoroutine = Timing.RunCoroutine(StartVoteCoroutine(new Vote(Translation.AskedToRestart.Replace("%Player%", playerNickname).Replace("%Custom%", args[0]), options), null));
+                                break;
 							}
 							else {return Translation.NoPermissionToVote; }
 					}
