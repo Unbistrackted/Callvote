@@ -27,9 +27,9 @@ threshold_restart_round | integer | 30 | Percentage threshold required to restar
 ## Permissions
 Permission | Command | Description
 --- | --- | ---
-cv.callvote | .callvote <parameter> | Allows players to use **.callvote**
-cv.bypass | .callvote <parameter> | Bypasses permissions requeriments and time
-cv.unlimitedvotes | .callvote <parameter> | Bypasses max_amount_of_votes_per_round
+cv.callvote | .callvote (Parameter) | Allows players to use **.callvote**
+cv.bypass | .callvote (Parameter) | Bypasses permissions requeriments and time
+cv.unlimitedvotes | .callvote (Parameter) | Bypasses max_amount_of_votes_per_round
 cv.callvotekick | .callvote kick | Gives permission to use **.callvote kick**
 cv.callvotekill | .callvote kill | Gives permission to use **.callvote kill**
 cv.callvotenuke | .callvote nuke | Gives permission to use **.callvote nuke**
@@ -38,7 +38,7 @@ cv.callvoterestartround | .callvote restartround | Gives permission to use **.ca
 cv.callvotecustom | .callvote "Custom Question" ... | Gives permission to use **.callvote "Custom Question" ...**
 cv.stopvote | .stopvote | Stops current vote
 cv.untouchable | .callvote kick/kill | Player cannot be kicked or killed
-cv.superadmin+ | .callvote <parameter> | Allows player to rig the system :trollface:
+cv.superadmin+ | .callvote (Parameter) | Allows player to rig the system :trollface:
 
 
 ## Commands
