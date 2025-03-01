@@ -38,7 +38,7 @@ cv.callvoterestartround | .callvote restartround | Gives permission to use **.ca
 cv.callvotecustom | .callvote "Custom Question" ... | Gives permission to use **.callvote "Custom Question" ...**
 cv.stopvote | .stopvote | Stops current vote
 cv.untouchable | .callvote kick/kill | Player cannot be kicked or killed
-cv.superadmin+ | .callvote kick/kill | Allows player to rig the system :trollface:
+cv.superadmin+ | .callvote <parameter> | Allows player to rig the system :trollface:
 
 
 ## Commands
