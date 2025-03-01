@@ -72,6 +72,13 @@ callvote:
 # Enable or disable the plugin. Defaults to true.
   is_enabled: true
   debug: false
+  # Modules:
+  enable_kick: true
+  enable_kill: true
+  enable_nuke: true
+  enable_respawn_wave: true
+  enable_restart_round: true
+  # Durations:
   vote_duration: 30
   vote_cooldown: 5
   max_amount_of_votes_per_round: 10
@@ -80,11 +87,7 @@ callvote:
   max_wait_nuke: 0
   max_wait_respawn_wave: 0
   max_wait_restart_round: 0
-  enable_kick: true
-  enable_kill: true
-  enable_nuke: true
-  enable_respawn_wave: true
-  enable_restart_round: true
+  # Thresholds:
   threshold_kick: 30
   threshold_kill: 30
   threshold_nuke: 30
