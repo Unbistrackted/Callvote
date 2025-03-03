@@ -1,31 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Callvote.VoteHandlers;
 using CommandSystem;
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
-using RemoteAdmin;
-using UnityEngine;
-using System.Text.RegularExpressions;
-using callvote.VoteHandlers;
-using MEC;
 
-namespace callvote.Commands
+namespace Callvote.Commands
 {
     public class BinaryCommand : ICommand
     {
         public string Command => "binary";
 
-        public string[] Aliases => new string[] { "binario", "bi", "b" };
+        public string[] Aliases => new[] { "binario", "bi", "b" };
 
-        public string Description => "Calls a voting for restarting the round";
+        public string Description => "Calls a binary voting";
+
         public bool Execute(ArraySegment<string> args, ICommandSender sender, out string response)
         {
-            Dictionary<string, string> options = new Dictionary<string, string>();
+            var options = new Dictionary<string, string>();
 
-            Player player = Player.Get((CommandSender)sender);
+            var player = Player.Get((CommandSender)sender);
 
 
             if (!player.CheckPermission("cv.callvotecustom") || !player.CheckPermission("cv.bypass"))
@@ -34,14 +29,15 @@ namespace callvote.Commands
                 return true;
             }
 
-            options.Add("yes", Plugin.Instance.Translation.OptionYes);
-            options.Add("no", Plugin.Instance.Translation.OptionNo);
+            options.Add(Plugin.Instance.Translation.CommandYes, Plugin.Instance.Translation.OptionYes);
+            options.Add(Plugin.Instance.Translation.CommandNo, Plugin.Instance.Translation.OptionNo);
 
-            VoteHandler.StartVote(Plugin.Instance.Translation.AskedCustom.Replace("%Player%", player.Nickname).Replace("%Custom%", args.ToArray()[0]), options, null);
+            VoteAPI.StartVote(
+                Plugin.Instance.Translation.AskedCustom.Replace("%Player%", player.Nickname)
+                    .Replace("%Custom%", args.ElementAt(0)), options, null);
 
-            response = "Vote started.";
+            response = Plugin.Instance.Translation.VoteStarted;
             return true;
         }
     }
-
 }

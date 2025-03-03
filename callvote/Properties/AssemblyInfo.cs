@@ -1,19 +1,19 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Callvote;
 
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle(Callvote.AssemblyInfo.Name)]
-[assembly: AssemblyDescription(Callvote.AssemblyInfo.Description)]
+[assembly: AssemblyTitle(AssemblyInfo.Name)]
+[assembly: AssemblyDescription(AssemblyInfo.Description)]
 #if DEBUG
 [assembly: AssemblyConfiguration("Debug")]
 #else
 [assembly: AssemblyConfiguration("Release")]
 #endif
 [assembly: AssemblyCompany("Universal Gaming Alliance")]
-[assembly: AssemblyProduct(Callvote.AssemblyInfo.Name)]
+[assembly: AssemblyProduct(AssemblyInfo.Name)]
 [assembly: AssemblyCopyright("Copyright © 2018 Nicholas Solin a.k.a. PatPeter")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -36,19 +36,22 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion(Callvote.AssemblyInfo.Version)]
-[assembly: AssemblyFileVersion(Callvote.AssemblyInfo.Version)]
+[assembly: AssemblyVersion(AssemblyInfo.Version)]
+[assembly: AssemblyFileVersion(AssemblyInfo.Version)]
 
 namespace Callvote
 {
-	static internal class AssemblyInfo
-	{
-		internal const string Author = "PatPeter";
-		internal const string Name = "callvote";
-		internal const string Description = "callvote command like in the Source engine. Vote to kick users, restart round, or make your own custom votes.";
-		internal const string Id = "patpeter.callvote";
-		internal const string ConfigPrefix = "callvote";
-		internal const string LangFile = "callvote";
-		internal const string Version = "3.1.0";
-	}
+    internal static class AssemblyInfo
+    {
+        internal const string Author = "PatPeter & Unbistrackted";
+        internal const string Name = "Callvote";
+
+        internal const string Description =
+            "Callvote command like in the Source engine. Vote to kick users, restart round, or make your own custom votes.";
+
+        internal const string Id = "unbistrackted.Callvote";
+        internal const string ConfigPrefix = "Callvote";
+        internal const string LangFile = "Callvote";
+        internal const string Version = "5.1.0";
+    }
 }
