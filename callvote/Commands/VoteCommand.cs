@@ -12,21 +12,14 @@ using UnityEngine;
 
 namespace callvote.Commands
 {
-
-    public class VoteCommand : CommandHandler, ICommand
+    public class VoteCommand : ICommand
     {
         public string Command { get; set; }
 
-        public string[] Aliases { get; } = new string[0];
+        public string[] Aliases { get; set; }
 
         public string Description { get; } = "";
 
-        public override IEnumerable<ICommand> AllCommands => base.AllCommands;
-
-        public override void ClearCommands()
-        {
-            base.ClearCommands();
-        }
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
@@ -44,29 +37,10 @@ namespace callvote.Commands
             return true;
         }
 
-        public override void LoadGeneratedCommands()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void RegisterCommand(ICommand command)
-        {
-            base.RegisterCommand(command);
-        }
-
-        public override bool TryGetCommand(string query, out ICommand command)
-        {
-            return base.TryGetCommand(query, out command);
-        }
-
-        public override void UnregisterCommand(ICommand command)
-        {
-            base.UnregisterCommand(command);
-        }
-
-        public VoteCommand(string command)
+        public VoteCommand(string command, string[] aliases)
         {
             Command = command;
+            Aliases = aliases;
         }
     }
 }

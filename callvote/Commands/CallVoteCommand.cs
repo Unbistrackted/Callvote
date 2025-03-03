@@ -21,7 +21,7 @@ namespace callvote.Commands
         {
             LoadGeneratedCommands();
         }
-        public override string Command => "callvoteT";
+        public override string Command => "callvote";
 
         public override string[] Aliases => null;
 
@@ -50,6 +50,8 @@ namespace callvote.Commands
                 Dictionary<string, string> options = new Dictionary<string, string>();
 
                 Player player = Player.Get((CommandSender)sender);
+                Player locatedPlayer = Player.Get(args.ToArray()[0]);
+
                 if (!player.CheckPermission("cv.callvotekick") || !player.CheckPermission("cv.bypass"))
                 {
                     response = Plugin.Instance.Translation.NoPermissionToVote;
@@ -61,6 +63,7 @@ namespace callvote.Commands
                     response = "callvote Kick <player> (reason)";
                     return true;
                 }
+
 
                 if (args.Count == 1)
                 {
@@ -81,9 +84,9 @@ namespace callvote.Commands
                     return true;
                 }
 
-                if (Player.Get(args.ToArray()[1]) == null)
+                if (locatedPlayer == null)
                 {
-                    response = Plugin.Instance.Translation.PlayerNotFound.Replace("%Player", args.ToArray()[1]);
+                    response = Plugin.Instance.Translation.PlayerNotFound.Replace("%Player%", args.ToArray()[1]);
                     return true;
                 }
 
@@ -93,24 +96,28 @@ namespace callvote.Commands
                 {
                     response = Plugin.Instance.Translation.PlayersWithSameName.Replace("%Player%", args.ToArray()[1]);
                     return true;
-
                 }
 
-                Player locatedPlayer= Player.Get(args.ToArray()[1]);
+
+                string reason = args.ToArray()[1];
 
                 options.Add("yes", Plugin.Instance.Translation.OptionYes);
                 options.Add("no", Plugin.Instance.Translation.OptionNo);
 
-                VoteHandler.StartVote(Plugin.Instance.Translation.AskedToKick.Replace("%Player%", player.Nickname).Replace("%Offender%", locatedPlayer.Nickname), options, delegate (VoteType vote)
+                VoteHandler.StartVote(Plugin.Instance.Translation.AskedToKick.Replace("%Player%", player.Nickname).Replace("%Offender%", locatedPlayer.Nickname).Replace("%Reason%", reason),options, 
+                delegate (VoteType vote)
                 {
-                    int yesVotePercent = (int)((float)vote.Counter["yes"] / (float)(Player.List.Count()) * 100f);
-                    int noVotePercent = (int)((float)vote.Counter["no"] / (float)(Player.List.Count()) * 100f); //Just so you know that it exists
-                    if (yesVotePercent >= Plugin.Instance.Config.ThresholdKick)
+                    
+
+                    int yesVotePercent = (int)(vote.Counter["yes"] / (float)(Player.List.Count()) * 100f);
+                    int noVotePercent = (int)(vote.Counter["no"] / (float)(Player.List.Count()) * 100f); //Just so you know that it exists
+                    if (yesVotePercent >= Plugin.Instance.Config.ThresholdKick && yesVotePercent > noVotePercent)
                     {
-                        Map.Broadcast(5, Plugin.Instance.Translation.PlayerGettingKicked
+                        Map.Broadcast(8, Plugin.Instance.Translation.PlayerGettingKicked
                             .Replace("%VotePercent%", yesVotePercent.ToString())
-                            .Replace("%player%", locatedPlayer.Nickname)
-                            .Replace("%Reason%", args.ToArray()[2]));
+                            .Replace("%Player%", player.Nickname)
+                            .Replace("%Offender%", locatedPlayer.Nickname)
+                            .Replace("%Reason%", reason));
 
                         if (!locatedPlayer.CheckPermission("cv.untouchable"))
                         {
@@ -126,6 +133,9 @@ namespace callvote.Commands
                             .Replace("%ThresholdKick%", Plugin.Instance.Config.ThresholdKick.ToString())
                             .Replace("%Offender%", locatedPlayer.Nickname));
                     }
+
+                    VoteHandler.StopVote();
+
                 });
                 response = "Vote started.";
                 return true;

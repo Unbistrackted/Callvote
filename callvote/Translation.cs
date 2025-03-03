@@ -18,10 +18,10 @@ namespace callvote
         public string PlayersWithSameName { get; private set; } = "Multiple players have a name or partial name of %Player%. Please use a different search string.";
         public string OptionYes { get; private set; } = "<color=green>YES</color>";
         public string OptionNo { get; private set; } = "<color=red>NO</color>";
-        public string PlayerGettingKicked { get; private set; } = "%Player% asks: Kick %Offender% for %Reason%?";
+        public string PlayerGettingKicked { get; private set; } = "%Offender% was kicked for %Reason%.";
         public string AskedToKill { get; private set; } = "%Player% Asks: Kill %Offender% ";
         public string Untouchable { get; private set; } = "%VotePercent%% Voted to kill you.";
-        public string NotSuccessFullKick { get; private set; } = "%VotePercent%% voted yes. %ThresholdKick%% was required to kill. %Offender%.";
+        public string NotSuccessFullKick { get; private set; } = "%VotePercent%% voted yes, but %ThresholdKick%% was required to kick %Offender%.";
         public string PlayerNotFound { get; private set; } = "Did not find any players with the name or partial name of %Player%";
         public string NoOptionAvailable { get; private set; } = "Vote does not have that option.";
         public string AlreadyVoted { get; private set; } = "You've already voted.";
@@ -48,7 +48,7 @@ namespace callvote
         public string VoteKillDisabled { get; private set; } = "callvote kill is disabled.";
         public string VoteNukeDisabled { get; private set; } = "callvote nuke is disabled.";
         public string VoteRestartRoundDisabled { get; private set; } = "callvote restartround is disabled.";
-        public string AskedToKick { get; private set; } = "%Player% Asks: Kick %Offender%? ";
+        public string AskedToKick { get; private set; } = "%Player% asks: Kick %Offender% for %Reason%?";
         public string AskedToRestart { get; private set; } = "%Player% asks: Restart the round?";
         public string RoundRestarting { get; private set; } = "%VotePercent% voted yes. Restarting the round...";
         public string NoSuccessFullRestart { get; private set; } = "Only %VotePercent%% voted yes. %ThresholdRestartRound%% was required to restart the round.";

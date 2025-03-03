@@ -15,6 +15,7 @@ using Exiled.API.Features.Hazards;
 using Mirror;
 using Respawning.Waves;
 using callvote.VoteHandlers;
+using CommandSystem;
 
 
 namespace callvote
@@ -44,7 +45,7 @@ namespace callvote
         public int TimeOfLastVote = 0;
         public CoroutineHandle VoteCoroutine = new CoroutineHandle();
 
-
+        public static ClientCommandHandler ClientCMD;
 
         public override void OnEnabled()
         {
@@ -61,6 +62,7 @@ namespace callvote
                 Exiled.Events.Handlers.Server.RoundStarted += EventHandlers.OnRoundStarted;
                 
                 Log.Debug($"callvote loaded!");
+                //ClientCMD = CommandHandler
             }
             catch (Exception e)
             {
@@ -75,6 +77,7 @@ namespace callvote
             Exiled.Events.Handlers.Server.WaitingForPlayers -= EventHandlers.OnWaitingForPlayers;
             Exiled.Events.Handlers.Server.RoundEnded -= EventHandlers.OnRoundEnded;
             Instance = null;
+            ClientCMD = null;
             EventHandlers = null;
         }
 

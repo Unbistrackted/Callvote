@@ -141,14 +141,16 @@
     <Reference Include="UnityEngine.PhysicsModule">
       <HintPath>..\..\..\..\Downloads\steamcmd\steamapps\common\SCP Secret Laboratory Dedicated Server\SCPSL_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
     </Reference>
+    <Reference Include="YamlDotNet, Version=11.0.0.0, Culture=neutral, PublicKeyToken=ec19458f3c15af5e, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExMod.Exiled.9.5.1\lib\net48\YamlDotNet.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\CallVoteCommand.cs" />
     <Compile Include="Commands\ForceResultCommand.cs" />
-    <Compile Include="Commands\NoCommand.cs" />
     <Compile Include="Commands\StopVoteCommand.cs" />
     <Compile Include="Commands\VoteCommand.cs" />
-    <Compile Include="Commands\YesCommand.cs" />
+    <Compile Include="Commands\VoteCommandHandler.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="EventHandlers.cs" />

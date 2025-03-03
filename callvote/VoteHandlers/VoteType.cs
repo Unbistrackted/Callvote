@@ -11,7 +11,7 @@ namespace callvote.VoteHandlers
     {
         public string Question; 
         public Dictionary<string, string> Options; //Option and Option Description
-        public HashSet<string> Votes;
+        public Dictionary<string, string> Votes;
         public Dictionary<string, int> Counter; //Option and Votes to that Option
         public Timer Timer;
         public CallvoteFunction Callback;
@@ -20,7 +20,7 @@ namespace callvote.VoteHandlers
         {
             this.Question = question;
             this.Options = options;
-            this.Votes = new HashSet<string>();
+            this.Votes = new Dictionary<string, string>();
             this.Counter = new Dictionary<string, int>();
             foreach (string option in options.Keys)
             {
@@ -29,7 +29,7 @@ namespace callvote.VoteHandlers
         }
 
         // Allow Votes and Counter to be passed in and saved by reference for Event code
-        public VoteType(string question, Dictionary<string, string> options, HashSet<string> votes, Dictionary<string, int> counter)
+        public VoteType(string question, Dictionary<string, string> options, Dictionary<string, string> votes, Dictionary<string, int> counter)
         {
             this.Question = question;
             this.Options = options;
