@@ -43,13 +43,16 @@ namespace callvote.VoteHandlers
                     return Plugin.Instance.Translation.AlreadyVoted;
                 }
                 Plugin.Instance.CurrentVote.Counter[Plugin.Instance.CurrentVote.Votes[playerUserId]]--;
-                Plugin.Instance.CurrentVote.Counter[option]++;
                 Plugin.Instance.CurrentVote.Votes[playerUserId] = option;
-                return Plugin.Instance.Translation.VoteAccepted.Replace("%Reason%", Plugin.Instance.CurrentVote.Options[option]);
+            }
+
+            if (!Plugin.Instance.CurrentVote.Votes.ContainsKey(playerUserId))
+            {
+                Plugin.Instance.CurrentVote.Votes.Add(playerUserId, option);
             }
 
             Plugin.Instance.CurrentVote.Counter[option]++;
-            Plugin.Instance.CurrentVote.Votes.Add(playerUserId, option);
+
             return Plugin.Instance.Translation.VoteAccepted.Replace("%Reason%", Plugin.Instance.CurrentVote.Options[option]);
         }
 
@@ -58,7 +61,7 @@ namespace callvote.VoteHandlers
         public static void StartVote(string question, Dictionary<string, string> options, CallvoteFunction callback)
         {
 
-            VoteType newVote = new VoteType(question, options);
+            Vote newVote = new Vote(question, options);
             Plugin.Instance.VoteCoroutine = Timing.RunCoroutine(StartVoteCoroutine(newVote, callback));
             foreach (var kvp in options)
             {
@@ -86,7 +89,7 @@ namespace callvote.VoteHandlers
         }
 
 
-        public static IEnumerator<float> StartVoteCoroutine(VoteType newVote, CallvoteFunction callback)
+        public static IEnumerator<float> StartVoteCoroutine(Vote newVote, CallvoteFunction callback)
         {
             int timerCounter = 0;
             Plugin.Instance.CurrentVote = newVote;
@@ -126,7 +129,7 @@ namespace callvote.VoteHandlers
                     {
                         Plugin.Instance.CurrentVote.Callback.Invoke(Plugin.Instance.CurrentVote);
                     }
-                    Plugin.Instance.CurrentVote = null;
+                    StopVote();
                     yield break;
                 }
                 else
@@ -162,11 +165,11 @@ namespace callvote.VoteHandlers
         {
             while (true)
             {
-                Plugin.Instance.roundtimer = RoundStart.RoundLength.Seconds;
+                Plugin.Instance.Roundtimer = RoundStart.RoundLength.Seconds;
                 yield return Timing.WaitForOneFrame;
             }
         }
     }
 }
-public delegate void CallvoteFunction(VoteType vote);
+public delegate void CallvoteFunction(Vote vote);
 

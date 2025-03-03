@@ -146,11 +146,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\BinaryVote.cs" />
     <Compile Include="Commands\CallVoteCommand.cs" />
-    <Compile Include="Commands\ForceResultCommand.cs" />
+    <Compile Include="Commands\CustomVote.cs" />
+    <Compile Include="Commands\RigCommand.cs" />
+    <Compile Include="Commands\KickCommand.cs" />
+    <Compile Include="Commands\NukeCommand.cs" />
+    <Compile Include="Commands\RespawnWaveCommand.cs" />
+    <Compile Include="Commands\RestartRoundCommand.cs" />
     <Compile Include="Commands\StopVoteCommand.cs" />
     <Compile Include="Commands\VoteCommand.cs" />
-    <Compile Include="Commands\VoteCommandHandler.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="EventHandlers.cs" />

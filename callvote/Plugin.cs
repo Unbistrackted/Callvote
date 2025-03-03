@@ -33,42 +33,24 @@ namespace callvote
 
         //Instance variable for eventhandlers
         public EventHandlers EventHandlers;
-
-        public VoteType CurrentVote = null;
-
-        public int roundtimer = 0;
-
-
-
-
+        public Vote CurrentVote = null;
+        public int Roundtimer = 0;
         public Dictionary<int, int> DictionaryOfVotes = new Dictionary<int, int>();
         public int TimeOfLastVote = 0;
         public CoroutineHandle VoteCoroutine = new CoroutineHandle();
 
-        public static ClientCommandHandler ClientCMD;
 
         public override void OnEnabled()
         {
-            try
-            {
-                Log.Debug("Initializing event handlers..");
-                //Set instance varible to a new instance, this should be nulled again in OnDisable
-                EventHandlers = new EventHandlers(this);
-                Instance = this;
-                //Hook the events you will be using in the plugin. You should hook all events you will be using here, all events should be unhooked in OnDisabled 
-                Exiled.Events.Handlers.Server.WaitingForPlayers += EventHandlers.OnWaitingForPlayers;
-                Exiled.Events.Handlers.Server.RoundEnded += EventHandlers.OnRoundEnded;
-                Exiled.Events.Handlers.Server.RoundStarted += EventHandlers.OnRoundStarted;
-                Exiled.Events.Handlers.Server.RoundStarted += EventHandlers.OnRoundStarted;
-                
-                Log.Debug($"callvote loaded!");
-                //ClientCMD = CommandHandler
-            }
-            catch (Exception e)
-            {
-                //This try catch is redundant, as EXILED will throw an error before this block can, but is here as an example of how to handle exceptions/errors
-                Log.Error($"There was an error loading the plugin: {e}");
-            }
+
+            Log.Debug("Initializing event handlers for callvote..");
+            EventHandlers = new EventHandlers(this);
+            Instance = this;
+            Exiled.Events.Handlers.Server.WaitingForPlayers += EventHandlers.OnWaitingForPlayers;
+            Exiled.Events.Handlers.Server.RoundEnded += EventHandlers.OnRoundEnded;
+            Exiled.Events.Handlers.Server.RoundStarted += EventHandlers.OnRoundStarted;
+            Exiled.Events.Handlers.Server.RoundStarted += EventHandlers.OnRoundStarted;
+            Log.Debug($"Callvote loaded!");
         }
 
         public override void OnDisabled()
@@ -77,8 +59,8 @@ namespace callvote
             Exiled.Events.Handlers.Server.WaitingForPlayers -= EventHandlers.OnWaitingForPlayers;
             Exiled.Events.Handlers.Server.RoundEnded -= EventHandlers.OnRoundEnded;
             Instance = null;
-            ClientCMD = null;
             EventHandlers = null;
+            DictionaryOfVotes = null;
         }
 
         public override void OnReloaded()

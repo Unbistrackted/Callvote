@@ -32,8 +32,8 @@ namespace callvote
         public string OptionAndCounter { get; private set; } = " %Option% (%Counter%) ";
         public string Options { get; private set; } = ".%OptionKey% for %Option% ";
         public string AskedQuestion { get; private set; } = "%Question% \n Press ~ and type \n";
-        public string mtf { get; private set; } = "<color=blue>MTF</color>";
-        public string ci { get; private set; } = "<color=green>CI</color>";
+        public string OptionMTF { get; private set; } = "<color=blue>MTF</color>";
+        public string OptionCi { get; private set; } = "<color=green>CI</color>";
         public string ciRespawn { get; private set; } = "%VotePercent%% voted <color=green>YES</color>. Forcing the reappering of CI..";
         public string mtfRespawn { get; private set; } = "%VotePercent%% voted <color=green>YES</color>. Forcing the reappering of MTF..";
         public string NoSuccessFullRespawn { get; private set; } = "%VotePercent%% voted no. %ThresholdRespawnWave%% was required to respawn the next wave.";
@@ -55,7 +55,7 @@ namespace callvote
         public string VoteStarted { get; private set; } = "Vote has been started!";
         public string NoCallVoteInProgress { get; private set; } = "There is no vote in progress.";
         public string WaitToVote { get; private set; } = "You should wait %Timer%s before using this command.";
-        public string CustomVote { get; private set; } = "%Player% asks: %Custom%";
+        public string AskedCustom { get; private set; } = "%Player% asks: %Custom%";
 
     }
 }

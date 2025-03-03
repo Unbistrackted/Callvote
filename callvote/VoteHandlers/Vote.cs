@@ -7,16 +7,16 @@ using System.Timers;
 
 namespace callvote.VoteHandlers
 {
-    public class VoteType
+    public class Vote
     {
         public string Question; 
         public Dictionary<string, string> Options; //Option and Option Description
-        public Dictionary<string, string> Votes;
-        public Dictionary<string, int> Counter; //Option and Votes to that Option
+        public Dictionary<string, string> Votes; // Player and vote type
+        public Dictionary<string, int> Counter; //Option and Votes<int> to that Option
         public Timer Timer;
         public CallvoteFunction Callback;
 
-        public VoteType(string question, Dictionary<string, string> options)
+        public Vote(string question, Dictionary<string, string> options)
         {
             this.Question = question;
             this.Options = options;
@@ -29,7 +29,7 @@ namespace callvote.VoteHandlers
         }
 
         // Allow Votes and Counter to be passed in and saved by reference for Event code
-        public VoteType(string question, Dictionary<string, string> options, Dictionary<string, string> votes, Dictionary<string, int> counter)
+        public Vote(string question, Dictionary<string, string> options, Dictionary<string, string> votes, Dictionary<string, int> counter)
         {
             this.Question = question;
             this.Options = options;

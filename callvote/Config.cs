@@ -20,7 +20,7 @@ namespace callvote
         public bool EnableKill { get; set; } = true;
         public bool EnableNuke { get; set; } = true;
         public bool EnableRespawnWave { get; set; } = true;
-        public bool EnableRestartRound { get; set; } = true;
+        public bool EnableRoundRestart { get; set; } = true;
         [Description("Durations:")]
         public int VoteDuration { get; set; } = 30;
         public int VoteCooldown { get; set; } = 5;
