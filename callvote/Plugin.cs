@@ -34,10 +34,14 @@ namespace callvote
         //Instance variable for eventhandlers
         public EventHandlers EventHandlers;
         public Vote CurrentVote = null;
-        public int Roundtimer = 0;
+        public int Roundtimer = 0; //I know this is useless due to Round.Duration
         public Dictionary<int, int> DictionaryOfVotes = new Dictionary<int, int>();
         public int TimeOfLastVote = 0;
         public CoroutineHandle VoteCoroutine = new CoroutineHandle();
+
+
+        
+
 
 
         public override void OnEnabled()

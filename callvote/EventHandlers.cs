@@ -10,6 +10,7 @@ namespace callvote
     using Exiled.Permissions.Extensions;
     using GameCore;
     using PluginAPI.Commands;
+    using PluginAPI.Core;
     using VoteHandlers;
 
     public class EventHandlers
