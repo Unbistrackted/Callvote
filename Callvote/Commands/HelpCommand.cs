@@ -1,14 +1,32 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Callvote.VoteHandlers;
+using CommandSystem;
+using Exiled.API.Features;
+using Exiled.Permissions.Extensions;
 
-namespace callvote.Commands
+namespace Callvote.Commands
 {
-    internal class HelpCommand
+    internal class HelpCommand : ICommand
     {
-        //WIP
+        public string Command => "help";
 
+        public string[] Aliases => new[] { "r" };
+
+        public string Description => "Usage of Callvote.";
+
+        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
+        {
+            response = "callvote custom <question> <option1> <option2>...." +
+                "\ncallvote binary <question>" +
+                "\ncallvote kick <player>" +
+                "\ncallvote kill <player>" +
+                "\ncallvote nuke" +
+                "\ncallvote respawnwave" +
+                "\ncallvote restartround" +
+                "\ncallvote stopvote" +
+                "\ncallvote rig <option>";
+            return true;
+        }
     }
 }
