@@ -25,7 +25,7 @@ namespace Callvote
         public string Results { get; private set; } = "Final results:\n";
         public string OptionAndCounter { get; private set; } = " %Option% (%Counter%) ";
         public string Options { get; private set; } = ".%OptionKey% for %Option% ";
-        public string AskedQuestion { get; private set; } = "%Question% \n Press ~ and type \n";
+        public string AskedQuestion { get; private set; } = "%Question% \n Press ~ and type or <color=#939383>Set the keybind in Server-specific!</color>\n";
         public string OptionMtf { get; private set; } = "<color=blue>MTF</color>";
         public string OptionCi { get; private set; } = "<color=green>CI</color>";
         public string CiRespawn { get; private set; } = "%VotePercent%% voted <color=green>YES</color>. Forcing the reappearing of CI..";
@@ -52,6 +52,8 @@ namespace Callvote
         public string AskedCustom { get; private set; } = "%Player% asks: %Custom%";
         public string PassReason { get; private set; } = "You need to pass a reason!";
         public string LessThanTwoOptions { get; private set; } = "You cannot create a custom voting without 2 options!";
+        public string VoteKeybind { get; private set; } = "Vote";
+        public string KeybindHint { get; private set; } = "Set this keybind to vote";
 
         [Description("Commands:")] 
         public string CommandYes { get; private set; } = "yes";

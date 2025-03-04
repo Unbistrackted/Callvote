@@ -2,9 +2,12 @@
 using Callvote.Commands;
 using Callvote.VoteHandlers;
 using Exiled.API.Features;
-using GameCore;
+using Exiled.Events.Patches.Events.Scp106;
+
 using MEC;
+using PlayerRoles;
 using RemoteAdmin;
+using UserSettings.ServerSpecific;
 
 namespace Callvote.VoteHandlers
 {
@@ -50,7 +53,7 @@ namespace Callvote.VoteHandlers
             int textsize = firstBroadcast.Length / 10;
             Map.Broadcast(5, "<size=" + (48 - textsize) + ">" + firstBroadcast + "</size>");
             yield return Timing.WaitForSeconds(5f);
-            for (;;)
+            for (; ; )
             {
                 if (timerCounter >= Plugin.Instance.Config.VoteDuration + 1)
                 {
@@ -78,7 +81,7 @@ namespace Callvote.VoteHandlers
 
                 {
                     string timerBroadcast = firstBroadcast + "\n";
-                    foreach (KeyValuePair<string,string> kvp in VoteAPI.CurrentVoting.Options)
+                    foreach (KeyValuePair<string, string> kvp in VoteAPI.CurrentVoting.Options)
                     {
                         timerBroadcast += Plugin.Instance.Translation.OptionAndCounter.Replace("%Option%", kvp.Value)
                             .Replace("%OptionKey%", kvp.Key)
@@ -100,6 +103,40 @@ namespace Callvote.VoteHandlers
                 return Plugin.Instance.Translation.NoOptionAvailable;
             VoteAPI.CurrentVoting.Counter[argument]++;
             return $"Rigged LMAO {argument}";
+        }
+        internal static void ProcessUserInput(ReferenceHub sender, ServerSpecificSettingBase settingbase)
+        {
+            if (CurrentVoting == null)
+                return;
+
+            if (settingbase is SSKeybindSetting keybindSetting && keybindSetting.SyncIsPressed)
+            {
+                switch ((int)keybindSetting.SettingId)
+                {
+                    case int id when id == 501:
+                        Voting(Player.Get(sender), Plugin.Instance.Translation.CommandYes);
+                        break;
+
+                    case int id when id == 502:
+                        Voting(Player.Get(sender), Plugin.Instance.Translation.CommandNo);
+                        break;
+
+                    case int id when id == 503:
+                        Voting(Player.Get(sender), Plugin.Instance.Translation.CommandMobileTaskForce);
+                        break;
+                    case int id when id == 504:
+                        Voting(Player.Get(sender), Plugin.Instance.Translation.CommandChaosInsurgency);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        public static void ApplyCallvoteMenu(Player player)
+        {
+            ServerSpecificSettingsSync.DefinedSettings = SettingHandlers.CallvoteMenu();
+            ServerSpecificSettingsSync.SendToPlayer(player.ReferenceHub);
         }
     }
 }

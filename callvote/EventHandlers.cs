@@ -1,4 +1,5 @@
 using Callvote.VoteHandlers;
+using Exiled.Events.EventArgs.Player;
 using Exiled.Events.EventArgs.Server;
 
 namespace Callvote
@@ -13,6 +14,11 @@ namespace Callvote
         public void OnRoundEnded(RoundEndedEventArgs ev)
         {
             VoteAPI.CurrentVoting.Stop();
+        }
+
+        public void OnPlayerJoined(JoinedEventArgs ev)
+        {
+            VoteAPI.ApplyCallvoteMenu(ev.Player);
         }
     }
 }

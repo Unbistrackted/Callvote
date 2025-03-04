@@ -5,6 +5,7 @@ using Callvote.VoteHandlers;
 using CommandSystem;
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
+using MEC;
 
 namespace Callvote.Commands
 {
@@ -32,7 +33,7 @@ namespace Callvote.Commands
             options.Add(Plugin.Instance.Translation.CommandYes, Plugin.Instance.Translation.OptionYes);
             options.Add(Plugin.Instance.Translation.CommandNo, Plugin.Instance.Translation.OptionNo);
 
-            VoteAPI.CurrentVoting = new Voting(Plugin.Instance.Translation.AskedCustom.Replace("%Player%", player.Nickname).Replace("%Custom%", args.ElementAt(0)), options, null);
+            VoteAPI.CurrentVoting = new Voting(Plugin.Instance.Translation.AskedCustom.Replace("%Player%", player.Nickname).Replace("%Custom%", string.Join(" ", args)), options, null);
             response = VoteAPI.CurrentVoting.Response;
             return true;
         }
