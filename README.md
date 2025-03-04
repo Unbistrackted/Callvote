@@ -1,7 +1,7 @@
 # Description
 
 This is a plugin for [EXILED](https://github.com/ExMod-Team/EXILED) that allows calling Kick, RestartRound, Kill,
-RespawnWave, or custom votes using console commands in the same format as the Source Engine (Left 4 Dead
+RespawnWave, or custom votes using **KEYBINDS** or **CONSOLE COMMANDS** in the same format as the Source Engine (Left 4 Dead
 2/Counter-Strike: Global Offensive).
 
 ## Configuration Settings
@@ -58,8 +58,10 @@ RespawnWave, or custom votes using console commands in the same format as the So
  callvote respawnwave  | .callvote respawnwave  | [none]                                               | Vote to restart a round.                 
  callvote restartround | .callvote restartround | [none]                                               | Vote to restart a round.                 
  stopvote              | .callvote stopvote     | [none]                                               | Stops a vote currently in progress       
- yes                   | .yes                   | [none]                                               | Vote option                         
- no                    | .no                    | [none]                                               | Vote option                          
+ yes (or translation)  | .yes (or translation)  | [none]                                               | Vote option                         
+ no  (or translation)  | .no  (or translation)  | [none]                                               | Vote option                          
+ mtf (or translation)  | .mtf (or translation)  | [none]                                               | Vote option                         
+ ci  (or translation)  | .ci  (or translation)  | [none]                                               | Vote option                          
  (custom)              | .(custom)              | [none]                                               | Vote option                          
 
 ## Config File
