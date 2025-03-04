@@ -8,17 +8,17 @@ namespace Callvote
     {
         public void OnWaitingForPlayers()
         {
-            if (VoteAPI.CurrentVoting != null) VoteAPI.CurrentVoting.Stop();
+            if (VotingAPI.CurrentVoting != null) VotingAPI.CurrentVoting.Stop();
         }
 
         public void OnRoundEnded(RoundEndedEventArgs ev)
         {
-            VoteAPI.CurrentVoting.Stop();
+            VotingAPI.CurrentVoting.Stop();
         }
 
         public void OnPlayerJoined(JoinedEventArgs ev)
         {
-            VoteAPI.ApplyCallvoteMenu(ev.Player);
+            VotingAPI.ApplyCallvoteMenu(ev.Player);
         }
     }
 }

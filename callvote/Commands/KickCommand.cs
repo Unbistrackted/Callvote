@@ -72,11 +72,12 @@ namespace Callvote.Commands
             options.Add(Plugin.Instance.Translation.CommandYes, Plugin.Instance.Translation.OptionYes);
             options.Add(Plugin.Instance.Translation.CommandNo, Plugin.Instance.Translation.OptionNo);
 
-            VoteAPI.CurrentVoting = new Voting(Plugin.Instance.Translation.AskedToKick
+            VotingAPI.CurrentVoting = new Voting(Plugin.Instance.Translation.AskedToKick
                 .Replace("%Player%", player.Nickname)
                 .Replace("%Offender%", locatedPlayer.Nickname)
                 .Replace("%Reason%", reason),
                 options,
+                player,
                 delegate (Voting vote)
                 {
                     int yesVotePercent = (int)(vote.Counter[Plugin.Instance.Translation.CommandYes] / (float)Player.List.Count() * 100f);
@@ -102,7 +103,7 @@ namespace Callvote.Commands
                             .Replace("%Offender%", locatedPlayer.Nickname));
                     }
                 });
-            response = VoteAPI.CurrentVoting.Response;
+            response = VotingAPI.CurrentVoting.Response;
             return true;
         }
     }

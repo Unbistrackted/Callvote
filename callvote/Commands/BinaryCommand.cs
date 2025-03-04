@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Callvote.VoteHandlers;
 using CommandSystem;
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
-using MEC;
 
 namespace Callvote.Commands
 {
@@ -23,7 +21,6 @@ namespace Callvote.Commands
 
             Player player = Player.Get(sender);
 
-
             if (!player.CheckPermission("cv.callvotecustom") || !player.CheckPermission("cv.bypass"))
             {
                 response = Plugin.Instance.Translation.NoPermissionToVote;
@@ -33,8 +30,8 @@ namespace Callvote.Commands
             options.Add(Plugin.Instance.Translation.CommandYes, Plugin.Instance.Translation.OptionYes);
             options.Add(Plugin.Instance.Translation.CommandNo, Plugin.Instance.Translation.OptionNo);
 
-            VoteAPI.CurrentVoting = new Voting(Plugin.Instance.Translation.AskedCustom.Replace("%Player%", player.Nickname).Replace("%Custom%", string.Join(" ", args)), options, null);
-            response = VoteAPI.CurrentVoting.Response;
+            VotingAPI.CurrentVoting = new Voting(Plugin.Instance.Translation.AskedCustom.Replace("%Player%", player.Nickname).Replace("%Custom%", string.Join(" ", args)), options, player, null);
+            response = VotingAPI.CurrentVoting.Response;
             return true;
         }
     }

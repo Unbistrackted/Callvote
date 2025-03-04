@@ -1,5 +1,6 @@
 ﻿using Callvote.Commands;
 using Exiled.API.Features;
+using Exiled.Permissions.Extensions;
 using MEC;
 using RemoteAdmin;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ namespace Callvote.VoteHandlers
 {
     public class Voting
     {
+        public Player CallVotePlayer;
         public CallvoteFunction Callback;
         public Dictionary<string, int> Counter; 
         public Dictionary<string, string> Options;
@@ -18,8 +20,9 @@ namespace Callvote.VoteHandlers
         public CoroutineHandle VotingCoroutine;
         public string Response;
 
-        public Voting(string question, Dictionary<string, string> options, CallvoteFunction callback)
+        public Voting(string question, Dictionary<string, string> options, Player player, CallvoteFunction callback)
         {
+            CallVotePlayer = player;
             Question = question;
             Options = options;
             Callback = callback;
@@ -45,25 +48,31 @@ namespace Callvote.VoteHandlers
 
         public string Start()
         {
-            if (VoteAPI.CurrentVoting != null) { return $"<color=red>{Plugin.Instance.Translation.VotingInProgress}</color>"; }
-            VotingCoroutine = Timing.RunCoroutine(VoteAPI.StartVoteCoroutine(this));
+            if (VotingAPI.CurrentVoting != null) { return $"<color=red>{Plugin.Instance.Translation.VotingInProgress}</color>"; }
+            if (VotingAPI.CallvotePlayerDict[CallVotePlayer] > Plugin.Instance.Config.MaxAmountOfVotesPerRound && !CallVotePlayer.CheckPermission("cv.bypass")) { return Plugin.Instance.Translation.MaxVote; }
+                VotingCoroutine = Timing.RunCoroutine(VotingAPI.StartVotingCoroutine(this));
             foreach (KeyValuePair<string, string> kvp in this.Options)
             {
                 VoteCommand voteCommand = new VoteCommand(kvp.Key);
                 QueryProcessor.DotCommandHandler.RegisterCommand(voteCommand);
             }
+            if (!VotingAPI.CallvotePlayerDict.ContainsKey(CallVotePlayer))
+            {
+                VotingAPI.CallvotePlayerDict.Add(CallVotePlayer, 1);
+            }
+            VotingAPI.CallvotePlayerDict[CallVotePlayer]++;
             return Plugin.Instance.Translation.VotingStarted;
         }
         public string Stop()
         {
-            if (VoteAPI.CurrentVoting == null) { return $"<color=red>{Plugin.Instance.Translation.NoVotingInProgress}</color>"; }
-            Timing.KillCoroutines(VoteAPI.CurrentVoting.VotingCoroutine);
-            foreach (KeyValuePair<string, string> kvp in VoteAPI.CurrentVoting.Options)
+            if (VotingAPI.CurrentVoting == null) { return $"<color=red>{Plugin.Instance.Translation.NoVotingInProgress}</color>"; }
+            Timing.KillCoroutines(VotingAPI.CurrentVoting.VotingCoroutine);
+            foreach (KeyValuePair<string, string> kvp in VotingAPI.CurrentVoting.Options)
             {
                 VoteCommand voteCommand = new VoteCommand(kvp.Key);
                 QueryProcessor.DotCommandHandler.UnregisterCommand(voteCommand);
             }
-            VoteAPI.CurrentVoting = null;
+            VotingAPI.CurrentVoting = null;
             return Plugin.Instance.Translation.VotingStoped;
         }
 

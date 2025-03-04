@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Callvote.VoteHandlers;
 using CommandSystem;
 using Exiled.API.Features;
-using Exiled.Permissions.Extensions;
 
 namespace Callvote.Commands
 {
@@ -39,7 +35,7 @@ namespace Callvote.Commands
         protected override bool ExecuteParent(ArraySegment<string> args, ICommandSender sender, out string response)
         {
             Player player = Player.Get(sender);
-            response = "Wrong Syntax, please use .callvote help";
+            response = "Wrong Syntax, use .callvote help";
             return false;
         }
     }

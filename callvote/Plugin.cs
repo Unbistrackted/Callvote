@@ -20,7 +20,6 @@ namespace Callvote
         public override Version RequiredExiledVersion { get; } = new Version(9, 5, 1);
         public override PluginPriority Priority { get; } = PluginPriority.Default;
 
-
         public override void OnEnabled()
         {
             EventHandlers = new EventHandlers();
@@ -28,7 +27,7 @@ namespace Callvote
             Server.WaitingForPlayers += EventHandlers.OnWaitingForPlayers;
             Server.RoundEnded += EventHandlers.OnRoundEnded;
             Player.Joined += EventHandlers.OnPlayerJoined;
-            ServerSpecificSettingsSync.ServerOnSettingValueReceived += VoteAPI.ProcessUserInput;
+            ServerSpecificSettingsSync.ServerOnSettingValueReceived += VotingAPI.ProcessUserInput;
         }
 
         public override void OnDisabled()
@@ -36,10 +35,10 @@ namespace Callvote
             Server.WaitingForPlayers -= EventHandlers.OnWaitingForPlayers;
             Server.RoundEnded -= EventHandlers.OnRoundEnded;
             Player.Joined -= EventHandlers.OnPlayerJoined;
-            ServerSpecificSettingsSync.ServerOnSettingValueReceived -= VoteAPI.ProcessUserInput;
+            ServerSpecificSettingsSync.ServerOnSettingValueReceived -= VotingAPI.ProcessUserInput;
             Instance = null;
             EventHandlers = null;
-            VoteAPI.CurrentVoting = null;
+            VotingAPI.CurrentVoting = null;
         }
 
         public override void OnReloaded()

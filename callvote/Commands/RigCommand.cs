@@ -31,13 +31,13 @@ namespace Callvote.Commands
                 return false;
             }
 
-            if (!VoteAPI.CurrentVoting.Options.ContainsKey(arguments.ElementAt(0)))
+            if (!VotingAPI.CurrentVoting.Options.ContainsKey(arguments.ElementAt(0)))
             {
                 response = "Couldn't find option";
                 return false;
             }
 
-            VoteAPI.Rigging(arguments.ElementAt(0));
+            VotingAPI.Rig(arguments.ElementAt(0));
             response = arguments.ElementAt(0);
             return true;
         }

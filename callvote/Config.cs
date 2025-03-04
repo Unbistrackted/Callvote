@@ -1,4 +1,3 @@
-using System.ComponentModel;
 using Exiled.API.Interfaces;
 
 namespace Callvote
@@ -8,7 +7,6 @@ namespace Callvote
         public bool IsEnabled { get; set; } = true;
         public bool Debug { get; set; } = false;
         public bool EnableKick { get; set; } = true;
-
         public bool EnableKill { get; set; } = true;
         public bool EnableNuke { get; set; } = true;
         public bool EnableRespawnWave { get; set; } = true;
@@ -26,5 +24,6 @@ namespace Callvote
         public int ThresholdNuke { get; set; } = 30;
         public int ThresholdRespawnWave { get; set; } = 30;
         public int ThresholdRestartRound { get; set; } = 30;
+        public int BroadcastSize { get; set; } = 0;
     }
 }

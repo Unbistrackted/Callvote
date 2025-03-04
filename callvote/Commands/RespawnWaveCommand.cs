@@ -45,9 +45,10 @@ namespace Callvote.Commands
             options.Add(Plugin.Instance.Translation.CommandMobileTaskForce, Plugin.Instance.Translation.OptionMtf);
             options.Add(Plugin.Instance.Translation.CommandChaosInsurgency, Plugin.Instance.Translation.OptionCi);
 
-            VoteAPI.CurrentVoting = new Voting(Plugin.Instance.Translation.AskedToRespawn
+            VotingAPI.CurrentVoting = new Voting(Plugin.Instance.Translation.AskedToRespawn
                 .Replace("%Player%", player.Nickname),
                 options,
+                player,
                 delegate(Voting vote)
                 {
                     int noVotePercent = (int)(vote.Counter[Plugin.Instance.Translation.CommandNo] / (float)Player.List.Count() * 100f);
@@ -72,7 +73,7 @@ namespace Callvote.Commands
                             .Replace("%ThresholdRespawnWave%", Plugin.Instance.Config.ThresholdRespawnWave.ToString()));
                     }
                 });
-            response = VoteAPI.CurrentVoting.Response;
+            response = VotingAPI.CurrentVoting.Response;
             return true;
         }
     }

@@ -44,8 +44,8 @@ namespace Callvote.Commands
 
                 options.Add(option, option);
             }
-            VoteAPI.CurrentVoting = new Voting(Plugin.Instance.Translation.AskedCustom.Replace("%Player%", player.Nickname).Replace("%Custom%", args.ElementAt(0)), options, null);
-            response = VoteAPI.CurrentVoting.Response;
+            VotingAPI.CurrentVoting = new Voting(Plugin.Instance.Translation.AskedCustom.Replace("%Player%", player.Nickname).Replace("%Custom%", args.ElementAt(0)), options, player, null);
+            response = VotingAPI.CurrentVoting.Response;
             return true;
         }
     }

@@ -11,7 +11,6 @@ namespace Callvote.Commands
         {
             Command = command;
         }
-
         public string Command { get; set; }
 
         public string[] Aliases { get; set; }
@@ -22,13 +21,12 @@ namespace Callvote.Commands
         {
             Player player = Player.Get(sender);
 
-            if (VoteAPI.CurrentVoting == null)
+            if (VotingAPI.CurrentVoting == null)
             {
                 response = Plugin.Instance.Translation.NoVotingInProgress;
                 return true;
             }
-
-            response = VoteAPI.Voting(player, Command);
+            response = VotingAPI.Vote(player, Command);
             return true;
         }
     }
