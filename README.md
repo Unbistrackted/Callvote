@@ -4,6 +4,8 @@ This is a plugin for [EXILED](https://github.com/ExMod-Team/EXILED) that allows 
 RespawnWave, or custom votes using **KEYBINDS** or **CONSOLE COMMANDS** in the same format as the Source Engine (Left 4 Dead
 2/Counter-Strike: Global Offensive).
 
+![image](https://github.com/user-attachments/assets/34b7522c-afad-4aa5-9e5b-34797eaee3c8)
+
 ![{2D20256F-794E-4164-BCF3-1AFFAFC8CF68}](https://github.com/user-attachments/assets/16dee768-58f1-45c4-b012-5eb8443e3737)
 
 
