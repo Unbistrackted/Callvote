@@ -14,13 +14,13 @@ namespace Callvote.Commands
 
         public string[] Aliases => new[] { "binario", "bi", "b" };
 
-        public string Description => "Calls a binary voting";
+        public string Description => "Calls a binary voting.";
 
         public bool Execute(ArraySegment<string> args, ICommandSender sender, out string response)
         {
-            var options = new Dictionary<string, string>();
+            Dictionary<string, string> options = new Dictionary<string, string>();
 
-            var player = Player.Get((CommandSender)sender);
+            Player player = Player.Get(sender);
 
 
             if (!player.CheckPermission("cv.callvotecustom") || !player.CheckPermission("cv.bypass"))
@@ -32,11 +32,8 @@ namespace Callvote.Commands
             options.Add(Plugin.Instance.Translation.CommandYes, Plugin.Instance.Translation.OptionYes);
             options.Add(Plugin.Instance.Translation.CommandNo, Plugin.Instance.Translation.OptionNo);
 
-            VoteAPI.StartVote(
-                Plugin.Instance.Translation.AskedCustom.Replace("%Player%", player.Nickname)
-                    .Replace("%Custom%", args.ElementAt(0)), options, null);
-
-            response = Plugin.Instance.Translation.VoteStarted;
+            VoteAPI.CurrentVoting = new Voting(Plugin.Instance.Translation.AskedCustom.Replace("%Player%", player.Nickname).Replace("%Custom%", args.ElementAt(0)), options, null);
+            response = VoteAPI.CurrentVoting.Response;
             return true;
         }
     }

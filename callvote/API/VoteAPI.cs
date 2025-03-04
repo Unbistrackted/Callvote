@@ -10,129 +10,83 @@ namespace Callvote.VoteHandlers
 {
     public class VoteAPI
     {
-        public static Vote CurrentVote = null;
-        public static Dictionary<int, int> DictionaryOfVotes = new Dictionary<int, int>();
-        public static CoroutineHandle VoteCoroutine;
-
-        public static void NullifyVariables()
-        {
-            DictionaryOfVotes = null;
-            CurrentVote = null;
-        }
-
-
+        public static Voting CurrentVoting;
         public static string Voting(Player player, string option)
         {
-
-            var playerUserId = player.UserId;
-            if (VoteAPI.CurrentVote == null) return Plugin.Instance.Translation.NoCallVoteInProgress;
-            if (!VoteAPI.CurrentVote.Options.ContainsKey(option))
-                return Plugin.Instance.Translation.NoOptionAvailable;
-            if (VoteAPI.CurrentVote.Votes.ContainsKey(playerUserId))
+            string playerUserId = player.UserId;
+            if (VoteAPI.CurrentVoting == null) return Plugin.Instance.Translation.NoVotingInProgress;
+            if (!VoteAPI.CurrentVoting.Options.ContainsKey(option)) return Plugin.Instance.Translation.NoOptionAvailable;
+            if (VoteAPI.CurrentVoting.PlayerVote.ContainsKey(playerUserId))
             {
-                if (VoteAPI.CurrentVote.Votes[playerUserId] == option)
-                    return Plugin.Instance.Translation.AlreadyVoted;
-                VoteAPI.CurrentVote.Counter[VoteAPI.CurrentVote.Votes[playerUserId]]--;
-                VoteAPI.CurrentVote.Votes[playerUserId] = option;
+                if (VoteAPI.CurrentVoting.PlayerVote[playerUserId] == option) return Plugin.Instance.Translation.AlreadyVoted;
+                VoteAPI.CurrentVoting.Counter[VoteAPI.CurrentVoting.PlayerVote[playerUserId]]--;
+                VoteAPI.CurrentVoting.PlayerVote[playerUserId] = option;
             }
 
-            if (!VoteAPI.CurrentVote.Votes.ContainsKey(playerUserId))
-                VoteAPI.CurrentVote.Votes.Add(playerUserId, option);
+            if (!VoteAPI.CurrentVoting.PlayerVote.ContainsKey(playerUserId))
+                VoteAPI.CurrentVoting.PlayerVote.Add(playerUserId, option);
 
-            VoteAPI.CurrentVote.Counter[option]++;
+            VoteAPI.CurrentVoting.Counter[option]++;
 
             return Plugin.Instance.Translation.VoteAccepted.Replace("%Reason%",
-                VoteAPI.CurrentVote.Options[option]);
+                VoteAPI.CurrentVoting.Options[option]);
         }
 
-
-        public static void StartVote(string question, Dictionary<string, string> options, CallvoteFunction callback)
+        public static IEnumerator<float> StartVoteCoroutine(Voting newVote)
         {
-            var newVote = new Vote(question, options);
-            VoteAPI.VoteCoroutine = Timing.RunCoroutine(StartVoteCoroutine(newVote, callback));
-            foreach (var kvp in options)
+            int timerCounter = 0;
+            VoteAPI.CurrentVoting = newVote;
+            string firstBroadcast = Plugin.Instance.Translation.AskedQuestion.Replace("%Question%", VoteAPI.CurrentVoting.Question);
+            int counter = 0;
+            foreach (KeyValuePair<string, string> kvp in VoteAPI.CurrentVoting.Options)
             {
-                string[] a = { kvp.Key };
-                var voteCommand = new VoteCommand(kvp.Key, a);
-                QueryProcessor.DotCommandHandler.RegisterCommand(voteCommand);
-            }
-        }
-
-        public static string StopVote()
-        {
-            if (!VoteAPI.VoteCoroutine.IsRunning) return Plugin.Instance.Translation.NoCallVoteInProgress;
-            Timing.KillCoroutines(VoteAPI.VoteCoroutine);
-            foreach (var kvp in VoteAPI.CurrentVote.Options)
-            {
-                string[] a = { kvp.Key };
-                var voteCommand = new VoteCommand(kvp.Key, a);
-                QueryProcessor.DotCommandHandler.UnregisterCommand(voteCommand);
-            }
-
-            VoteAPI.CurrentVote = null;
-            return Plugin.Instance.Translation.CallVoteEnded;
-        }
-
-
-        public static IEnumerator<float> StartVoteCoroutine(Vote newVote, CallvoteFunction callback)
-        {
-            var timerCounter = 0;
-            VoteAPI.CurrentVote = newVote;
-            VoteAPI.CurrentVote.Callback = callback;
-            var firstBroadcast =
-                Plugin.Instance.Translation.AskedQuestion.Replace("%Question%", VoteAPI.CurrentVote.Question);
-            var counter = 0;
-            foreach (var kv in VoteAPI.CurrentVote.Options)
-            {
-                if (counter == VoteAPI.CurrentVote.Options.Count - 1)
-                    firstBroadcast +=
-                        $", {Plugin.Instance.Translation.Options.Replace("%OptionKey%", kv.Key).Replace("%Option%", kv.Value)}";
+                if (counter == VoteAPI.CurrentVoting.Options.Count - 1)
+                    firstBroadcast += $", {Plugin.Instance.Translation.Options.Replace("%OptionKey%", kvp.Key).Replace("%Option%", kvp.Value)}";
                 else
-                    firstBroadcast +=
-                        $" {Plugin.Instance.Translation.Options.Replace("%OptionKey%", kv.Key).Replace("%Option%", kv.Value)}";
+                    firstBroadcast += $" {Plugin.Instance.Translation.Options.Replace("%OptionKey%", kvp.Key).Replace("%Option%", kvp.Value)}";
                 counter++;
             }
 
-            var textsize = firstBroadcast.Length / 10;
+            int textsize = firstBroadcast.Length / 10;
             Map.Broadcast(5, "<size=" + (48 - textsize) + ">" + firstBroadcast + "</size>");
             yield return Timing.WaitForSeconds(5f);
             for (;;)
             {
                 if (timerCounter >= Plugin.Instance.Config.VoteDuration + 1)
                 {
-                    if (VoteAPI.CurrentVote.Callback == null)
+                    if (VoteAPI.CurrentVoting.Callback == null)
                     {
-                        var timerBroadcast = Plugin.Instance.Translation.Results;
-                        foreach (var kv in VoteAPI.CurrentVote.Options)
+                        string timerBroadcast = Plugin.Instance.Translation.Results;
+                        foreach (KeyValuePair<string, string> kvp in VoteAPI.CurrentVoting.Options)
                         {
-                            timerBroadcast += Plugin.Instance.Translation.OptionAndCounter.Replace("%Option%", kv.Value)
-                                .Replace("%OptionKey%", kv.Key).Replace("%Counter%",
-                                    VoteAPI.CurrentVote.Counter[kv.Key].ToString());
+                            timerBroadcast += Plugin.Instance.Translation.OptionAndCounter
+                                .Replace("%Option%", kvp.Value)
+                                .Replace("%OptionKey%", kvp.Key).Replace("%Counter%", VoteAPI.CurrentVoting.Counter[kvp.Key].ToString());
                             textsize = timerBroadcast.Length / 10;
                         }
 
-                        Map.Broadcast(5, "<size=" + (48 - textsize) + ">" + timerBroadcast + "</size>");
+                        Map.Broadcast(5, $"<size={48 - textsize}>{timerBroadcast}</size>");
                     }
                     else
                     {
-                        VoteAPI.CurrentVote.Callback.Invoke(VoteAPI.CurrentVote);
+                        VoteAPI.CurrentVoting.Callback.Invoke(VoteAPI.CurrentVoting);
                     }
 
-                    StopVote();
+                    CurrentVoting.Stop();
                     yield break;
                 }
 
                 {
-                    var timerBroadcast = firstBroadcast + "\n";
-                    foreach (var kv in VoteAPI.CurrentVote.Options)
+                    string timerBroadcast = firstBroadcast + "\n";
+                    foreach (KeyValuePair<string,string> kvp in VoteAPI.CurrentVoting.Options)
                     {
-                        timerBroadcast += Plugin.Instance.Translation.OptionAndCounter.Replace("%Option%", kv.Value)
-                            .Replace("%OptionKey%", kv.Key).Replace("%Counter%",
-                                VoteAPI.CurrentVote.Counter[kv.Key].ToString());
+                        timerBroadcast += Plugin.Instance.Translation.OptionAndCounter.Replace("%Option%", kvp.Value)
+                            .Replace("%OptionKey%", kvp.Key)
+                            .Replace("%Counter%", VoteAPI.CurrentVoting.Counter[kvp.Key].ToString());
                         textsize = timerBroadcast.Length / 10;
                     }
 
-                    Map.Broadcast(1, "<size=" + (48 - textsize) + ">" + timerBroadcast + "</size>");
+                    Map.Broadcast(1, $"<size={48 - textsize}>{timerBroadcast}</size>");
                 }
                 timerCounter++;
                 yield return Timing.WaitForSeconds(1f);
@@ -141,13 +95,13 @@ namespace Callvote.VoteHandlers
 
         public static string Rigging(string argument)
         {
-            if (VoteAPI.CurrentVote == null) return "vote not active";
-            if (!VoteAPI.CurrentVote.Options.ContainsKey(argument))
+            if (VoteAPI.CurrentVoting == null) return "vote not active";
+            if (!VoteAPI.CurrentVoting.Options.ContainsKey(argument))
                 return Plugin.Instance.Translation.NoOptionAvailable;
-            VoteAPI.CurrentVote.Counter[argument]++;
-            return "vote added";
+            VoteAPI.CurrentVoting.Counter[argument]++;
+            return $"Rigged LMAO {argument}";
         }
     }
 }
 
-public delegate void CallvoteFunction(Vote vote);
+public delegate void CallvoteFunction(Voting vote);

@@ -5,7 +5,6 @@ namespace Callvote
 {
     public class Config : IConfig
     {
-        [Description("Enable or disable the plugin. Defaults to true.")]
         public bool IsEnabled { get; set; } = true;
         public bool Debug { get; set; } = false;
         public bool EnableKick { get; set; } = true;

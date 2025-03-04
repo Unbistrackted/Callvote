@@ -1,9 +1,7 @@
 using System;
-using System.Collections.Generic;
 using Callvote.VoteHandlers;
 using Exiled.API.Enums;
 using Exiled.API.Features;
-using MEC;
 using Server = Exiled.Events.Handlers.Server;
 
 namespace Callvote
@@ -35,7 +33,7 @@ namespace Callvote
             Server.RoundEnded -= EventHandlers.OnRoundEnded;
             Instance = null;
             EventHandlers = null;
-            VoteAPI.NullifyVariables();
+            VoteAPI.CurrentVoting = null;
         }
 
         public override void OnReloaded()

@@ -19,28 +19,31 @@ namespace Callvote.Commands
 
         public override string Command => "callvote";
 
-        public override string[] Aliases => null;
+        public override string[] Aliases => new[] { "cv"};
 
-        public override string Description => "";
+        public override string Description => "Enables player to call votings!";
 
         public override void LoadGeneratedCommands()
         {
             RegisterCommand(new KickCommand());
+            RegisterCommand(new KillCommand());
             RegisterCommand(new NukeCommand());
             RegisterCommand(new RespawnWaveCommand());
             RegisterCommand(new RestartRoundCommand());
             RegisterCommand(new RigCommand());
             RegisterCommand(new StopVoteCommand());
             RegisterCommand(new BinaryCommand());
-            RegisterCommand(new CustomVoteCommand());
+            RegisterCommand(new CustomVotingCommand());
         }
 
         protected override bool ExecuteParent(ArraySegment<string> args, ICommandSender sender, out string response)
         {
-            var player = Player.Get(sender);
+            Player player = Player.Get(sender);
+
+
             if (player.CheckPermission("cv.callvotecustom"))
             {
-                var options = new Dictionary<string, string>();
+                Dictionary<string, string> options = new Dictionary<string, string>();
                 if (args.Count == 1)
                 {
                     options.Add(Plugin.Instance.Translation.CommandYes, Plugin.Instance.Translation.OptionYes);
@@ -48,27 +51,25 @@ namespace Callvote.Commands
                 }
                 else
                 {
-                    foreach (var option in args.Skip(1))
+                    foreach (string option in args.Skip(1))
                     {
                         if (options.ContainsKey(option))
                         {
                             response = Plugin.Instance.Translation.DuplicateCommand;
-                            return true;
+                            return false;
                         }
 
                         options.Add(option, option);
                     }
                 }
 
-                VoteAPI.StartVote(
-                    Plugin.Instance.Translation.AskedCustom.Replace("%Player%", player.Nickname)
-                        .Replace("%Custom%", args.ElementAt(0)), options, null);
-                response = Plugin.Instance.Translation.VoteStarted;
+                VoteAPI.CurrentVoting = new Voting(Plugin.Instance.Translation.AskedCustom.Replace("%Player%", player.Nickname).Replace("%Custom%", args.ElementAt(0)), options, null);
+                response = VoteAPI.CurrentVoting.Response;
                 return true;
             }
 
             response = "Wrong Syntax, please use .callvote help";
-            return true;
+            return false;
         }
     }
 }

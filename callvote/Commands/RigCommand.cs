@@ -11,13 +11,13 @@ namespace Callvote.Commands
     {
         public string Command => "rig";
 
-        public string[] Aliases => null;
+        public string[] Aliases => new[] { "r" };
 
-        public string Description => "";
+        public string Description => "Rigs the system.";
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
-            var player = Player.Get(sender);
+            Player player = Player.Get(sender);
 
             if (!player.CheckPermission("cv.superadmin+"))
             {
@@ -31,7 +31,11 @@ namespace Callvote.Commands
                 return false;
             }
 
-            if (!VoteAPI.CurrentVote.Options.ContainsKey(arguments.ElementAt(0))) response = "Couldnt find Key";
+            if (!VoteAPI.CurrentVoting.Options.ContainsKey(arguments.ElementAt(0)))
+            {
+                response = "Couldn't find option";
+                return false;
+            }
 
             VoteAPI.Rigging(arguments.ElementAt(0));
             response = arguments.ElementAt(0);

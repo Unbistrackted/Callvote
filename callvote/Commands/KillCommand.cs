@@ -8,13 +8,13 @@ using Exiled.Permissions.Extensions;
 
 namespace Callvote.Commands
 {
-    public class KickCommand : ICommand
+    public class KillCommand : ICommand
     {
-        public string Command => "kick";
+        public string Command => "kill";
 
-        public string[] Aliases => new[] { "ki", "k" };
+        public string[] Aliases => new[] { "death", "kil" };
 
-        public string Description => "Calls a kick voting.";
+        public string Description => "Calls a kill voting.";
 
         public bool Execute(ArraySegment<string> args, ICommandSender sender, out string response)
         {
@@ -22,13 +22,13 @@ namespace Callvote.Commands
 
             Player player = Player.Get(sender);
 
-            if (!Plugin.Instance.Config.EnableKick)
+            if (!Plugin.Instance.Config.EnableKill)
             {
-                response = Plugin.Instance.Translation.VoteKickDisabled;
+                response = Plugin.Instance.Translation.VoteKillDisabled;
                 return false;
             }
 
-            if (!player.CheckPermission("cv.callvotekick"))
+            if (!player.CheckPermission("cv.callvotekill"))
             {
                 response = Plugin.Instance.Translation.NoPermissionToVote;
                 return false;
@@ -36,13 +36,13 @@ namespace Callvote.Commands
 
             if (args.Count == 0)
             {
-                response = "callvote Kick <player> (reason)";
+                response = "callvote Kill <player> (reason)";
                 return false;
             }
 
-            if (Round.ElapsedTime.TotalSeconds < Plugin.Instance.Config.MaxWaitKick || !player.CheckPermission("cv.bypass"))
+            if (Round.ElapsedTime.TotalSeconds < Plugin.Instance.Config.MaxWaitKill || !player.CheckPermission("cv.bypass"))
             {
-                response = Plugin.Instance.Translation.WaitToVote.Replace("%Timer%", $"{Plugin.Instance.Config.MaxWaitKick - Round.ElapsedTime.TotalSeconds}");
+                response = Plugin.Instance.Translation.WaitToVote.Replace("%Timer%", $"{Plugin.Instance.Config.MaxWaitKill - Round.ElapsedTime.TotalSeconds}");
                 return false;
             }
 
@@ -60,6 +60,7 @@ namespace Callvote.Commands
                 return false;
             }
 
+
             List<Player> playerSearch = Player.List.Where(p => p.Nickname.Contains(args.ElementAt(0))).ToList();
             if (playerSearch.Count() < 0 || playerSearch.Count() > 1)
             {
@@ -72,7 +73,7 @@ namespace Callvote.Commands
             options.Add(Plugin.Instance.Translation.CommandYes, Plugin.Instance.Translation.OptionYes);
             options.Add(Plugin.Instance.Translation.CommandNo, Plugin.Instance.Translation.OptionNo);
 
-            VoteAPI.CurrentVoting = new Voting(Plugin.Instance.Translation.AskedToKick
+            VoteAPI.CurrentVoting = new Voting(Plugin.Instance.Translation.AskedToKill
                 .Replace("%Player%", player.Nickname)
                 .Replace("%Offender%", locatedPlayer.Nickname)
                 .Replace("%Reason%", reason),
@@ -81,17 +82,18 @@ namespace Callvote.Commands
                 {
                     int yesVotePercent = (int)(vote.Counter[Plugin.Instance.Translation.CommandYes] / (float)Player.List.Count() * 100f);
                     int noVotePercent = (int)(vote.Counter[Plugin.Instance.Translation.CommandNo] / (float)Player.List.Count() * 100f); //Just so you know that it exists
-                    if (yesVotePercent >= Plugin.Instance.Config.ThresholdKick && yesVotePercent > noVotePercent)
+                    if (yesVotePercent >= Plugin.Instance.Config.ThresholdKill && yesVotePercent > noVotePercent)
                     {
                         if (!locatedPlayer.CheckPermission("cv.untouchable"))
                         {
-                            locatedPlayer.Kick(reason);
-                            Map.Broadcast(8, Plugin.Instance.Translation.PlayerKicked
+                            locatedPlayer.Kill(reason);
+                            Map.Broadcast(8, Plugin.Instance.Translation.PlayerKilled
                                 .Replace("%VotePercent%", yesVotePercent.ToString())
                                 .Replace("%Player%", player.Nickname)
                                 .Replace("%Offender%", locatedPlayer.Nickname)
                                 .Replace("%Reason%", reason));
                         }
+                        if (!locatedPlayer.CheckPermission("cv.untouchable")) locatedPlayer.Kill(reason);
                         if (locatedPlayer.CheckPermission("cv.untouchable")) locatedPlayer.Broadcast(5, Plugin.Instance.Translation.Untouchable.Replace("%VotePercent%", yesVotePercent.ToString()));
                     }
                     else

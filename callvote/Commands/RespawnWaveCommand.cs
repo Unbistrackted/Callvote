@@ -15,49 +15,44 @@ namespace Callvote.Commands
 
         public string[] Aliases => new[] { "respawn", "wave" };
 
-        public string Description => "";
+        public string Description => "Calls a respawn wave voting.";
 
         public bool Execute(ArraySegment<string> args, ICommandSender sender, out string response)
         {
-            var options = new Dictionary<string, string>();
+            Dictionary<string, string> options = new Dictionary<string, string>();
 
-            var player = Player.Get((CommandSender)sender);
+            Player player = Player.Get(sender);
 
-            if (!Plugin.Instance.Config.EnableRespawnWave || !player.CheckPermission("cv.bypass"))
+            if (!Plugin.Instance.Config.EnableRespawnWave)
             {
-                response = Plugin.Instance.Translation.VoteNukeDisabled;
-                return true;
+                response = Plugin.Instance.Translation.VoteRespawnWaveDisabled;
+                return false;
             }
 
             if (!player.CheckPermission("cv.callvoterespawnwave"))
             {
                 response = Plugin.Instance.Translation.NoPermissionToVote;
-                return true;
+                return false;
             }
 
-            if (Round.ElapsedTime.TotalSeconds < Plugin.Instance.Config.MaxWaitRespawnWave ||
-                !player.CheckPermission("cv.bypass"))
+            if (Round.ElapsedTime.TotalSeconds < Plugin.Instance.Config.MaxWaitRespawnWave || !player.CheckPermission("cv.bypass"))
             {
-                response = Plugin.Instance.Translation.WaitToVote
-                    .Replace("%Timer%", $"{Plugin.Instance.Config.MaxWaitRespawnWave - Round.ElapsedTime.TotalSeconds}");
-                return true;
+                response = Plugin.Instance.Translation.WaitToVote.Replace("%Timer%", $"{Plugin.Instance.Config.MaxWaitRespawnWave - Round.ElapsedTime.TotalSeconds}");
+                return false;
             }
-
 
             options.Add(Plugin.Instance.Translation.CommandNo, Plugin.Instance.Translation.OptionNo);
             options.Add(Plugin.Instance.Translation.CommandMobileTaskForce, Plugin.Instance.Translation.OptionMtf);
             options.Add(Plugin.Instance.Translation.CommandChaosInsurgency, Plugin.Instance.Translation.OptionCi);
 
-            VoteAPI.StartVote(Plugin.Instance.Translation.AskedToRespawn.Replace("%Player%", player.Nickname),
+            VoteAPI.CurrentVoting = new Voting(Plugin.Instance.Translation.AskedToRespawn
+                .Replace("%Player%", player.Nickname),
                 options,
-                delegate(Vote vote)
+                delegate(Voting vote)
                 {
-                    var noVotePercent = (int)(vote.Counter[Plugin.Instance.Translation.CommandNo] /
-                        (float)Player.List.Count() * 100f);
-                    var mtfVotePercent = (int)(vote.Counter[Plugin.Instance.Translation.CommandMobileTaskForce] /
-                        (float)Player.List.Count() * 100f);
-                    var ciVotePercent = (int)(vote.Counter[Plugin.Instance.Translation.CommandChaosInsurgency] /
-                        (float)Player.List.Count() * 100f);
+                    int noVotePercent = (int)(vote.Counter[Plugin.Instance.Translation.CommandNo] / (float)Player.List.Count() * 100f);
+                    int mtfVotePercent = (int)(vote.Counter[Plugin.Instance.Translation.CommandMobileTaskForce] / (float)Player.List.Count() * 100f);
+                    int ciVotePercent = (int)(vote.Counter[Plugin.Instance.Translation.CommandChaosInsurgency] / (float)Player.List.Count() * 100f);
                     if (mtfVotePercent >= Plugin.Instance.Config.ThresholdRespawnWave)
                     {
                         Map.Broadcast(5, Plugin.Instance.Translation.MtfRespawn
@@ -77,7 +72,7 @@ namespace Callvote.Commands
                             .Replace("%ThresholdRespawnWave%", Plugin.Instance.Config.ThresholdRespawnWave.ToString()));
                     }
                 });
-            response = Plugin.Instance.Translation.VoteStarted;
+            response = VoteAPI.CurrentVoting.Response;
             return true;
         }
     }

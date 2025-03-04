@@ -12,18 +12,25 @@ namespace Callvote.Commands
 
         public string[] Aliases => new[] { "stop" };
 
-        public string Description => "";
+        public string Description => "Stops a voting session.";
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
-            var player = Player.Get(sender);
-            if (!player.CheckPermission("cv.callvoterestartround") || !player.CheckPermission("cv.bypass"))
+            Player player = Player.Get(sender);
+
+            if (VoteAPI.CurrentVoting == null)
+            {
+                response = Plugin.Instance.Translation.NoVotingInProgress;
+                return false;
+            }
+
+            if (!player.CheckPermission("cv.stopvote") || !player.CheckPermission("cv.bypass"))
             {
                 response = Plugin.Instance.Translation.NoPermissionToVote;
                 return false;
             }
 
-            response = VoteAPI.StopVote();
+            response = VoteAPI.CurrentVoting.Stop();
             return true;
         }
     }

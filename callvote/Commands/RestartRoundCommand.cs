@@ -14,48 +14,44 @@ namespace Callvote.Commands
 
         public string[] Aliases => new[] { "restart", "rround" };
 
-        public string Description => "Calls a voting for restarting the round";
+        public string Description => "Calls a restart round voting.";
 
         public bool Execute(ArraySegment<string> args, ICommandSender sender, out string response)
         {
-            var options = new Dictionary<string, string>();
+            Dictionary<string, string> options = new Dictionary<string, string>();
 
-            var player = Player.Get(sender);
+            Player player = Player.Get(sender);
 
             if (!Plugin.Instance.Config.EnableRoundRestart)
             {
                 response = Plugin.Instance.Translation.VoteRestartRoundDisabled;
-                return true;
+                return false;
             }
 
             if (!player.CheckPermission("cv.callvoterestartround"))
             {
                 response = Plugin.Instance.Translation.NoPermissionToVote;
-                return true;
+                return false;
             }
 
-            if (Round.ElapsedTime.TotalSeconds < Plugin.Instance.Config.MaxWaitRestartRound ||
-                !player.CheckPermission("cv.bypass"))
+            if (Round.ElapsedTime.TotalSeconds < Plugin.Instance.Config.MaxWaitRestartRound || !player.CheckPermission("cv.bypass"))
             {
-                response = Plugin.Instance.Translation.WaitToVote
-                    .Replace("%Timer%", $"{Plugin.Instance.Config.MaxWaitRestartRound - Round.ElapsedTime.TotalSeconds}");
-                return true;
+                response = Plugin.Instance.Translation.WaitToVote.Replace("%Timer%", $"{Plugin.Instance.Config.MaxWaitRestartRound - Round.ElapsedTime.TotalSeconds}");
+                return false;
             }
 
 
             options.Add(Plugin.Instance.Translation.CommandYes, Plugin.Instance.Translation.OptionYes);
             options.Add(Plugin.Instance.Translation.CommandNo, Plugin.Instance.Translation.OptionNo);
 
-            VoteAPI.StartVote(Plugin.Instance.Translation.AskedToRestart.Replace("%Player%", player.Nickname),
+            VoteAPI.CurrentVoting = new Voting(Plugin.Instance.Translation.AskedToRestart
+                .Replace("%Player%", player.Nickname),
                 options,
-                delegate(Vote vote)
+                delegate(Voting vote)
                 {
-                    var yesVotePercent = (int)(vote.Counter[Plugin.Instance.Translation.CommandYes] /
-                        (float)Player.List.Count() * 100f);
-                    var noVotePercent = (int)(vote.Counter[Plugin.Instance.Translation.CommandNo] /
-                        (float)Player.List.Count() * 100f);
-                    if (yesVotePercent >= Plugin.Instance.Config.ThresholdRestartRound &&
-                        yesVotePercent > noVotePercent)
+                    int yesVotePercent = (int)(vote.Counter[Plugin.Instance.Translation.CommandYes] / (float)Player.List.Count() * 100f);
+                    int noVotePercent = (int)(vote.Counter[Plugin.Instance.Translation.CommandNo] / (float)Player.List.Count() * 100f);
+                    if (yesVotePercent >= Plugin.Instance.Config.ThresholdRestartRound && yesVotePercent > noVotePercent)
                     {
                         Map.Broadcast(5, Plugin.Instance.Translation.RoundRestarting
                             .Replace("%VotePercent%", yesVotePercent.ToString()));
@@ -65,11 +61,10 @@ namespace Callvote.Commands
                     {
                         Map.Broadcast(5, Plugin.Instance.Translation.NoSuccessFullRestart
                             .Replace("%VotePercent%", yesVotePercent.ToString())
-                            .Replace("%ThresholdRestartRound%",
-                                Plugin.Instance.Config.ThresholdRestartRound.ToString()));
+                            .Replace("%ThresholdRestartRound%", Plugin.Instance.Config.ThresholdRestartRound.ToString()));
                     }
                 });
-            response = Plugin.Instance.Translation.VoteStarted;
+            response = VoteAPI.CurrentVoting.Response;
             return true;
         }
     }

@@ -5,58 +5,37 @@ namespace Callvote
 {
     public class Translation : ITranslation
     {
-        [Description(
-            "%player%, %VotePercent%, %Offender%, %ThresholdKick%, %ThresholdRespawnWave%, %ThresholdNuke%, %ThresholdKill%, %ThresholdRestartRound%, %OptionKey%, %Option%, %Counter%, %Timer%, %Custom%")]
+        [Description("%player%, %VotePercent%, %Offender%, %ThresholdKick%, %ThresholdRespawnWave%, %ThresholdNuke%, %ThresholdKill%, %ThresholdRestartRound%, %OptionKey%, %Option%, %Counter%, %Timer%, %Custom%")]
         public string MaxVote { get; private set; } = "Max amounts of votes done this round";
 
-        public string InProgressVote { get; private set; } = "A vote is currently in progress.";
-
-        public string PlayersWithSameName { get; private set; } =
-            "Multiple players have a name or partial name of %Player%. Please use a different search string.";
-
+        public string VotingInProgress { get; private set; } = "A vote is currently in progress.";
+        public string PlayersWithSameName { get; private set; } = "Multiple players have a name or partial name of %Player%. Please use a different search string.";
         public string OptionYes { get; private set; } = "<color=green>YES</color>";
         public string OptionNo { get; private set; } = "<color=red>NO</color>";
-        public string PlayerGettingKicked { get; private set; } = "%Offender% was kicked for %Reason%.";
-        public string AskedToKill { get; private set; } = "%Player% Asks: Kill %Offender% ";
-        public string Untouchable { get; private set; } = "%VotePercent%% Voted to kill you.";
-
-        public string NotSuccessFullKick { get; private set; } =
-            "%VotePercent%% voted yes, but %ThresholdKick%% was required to kick %Offender%.";
-
-        public string PlayerNotFound { get; private set; } =
-            "Did not find any players with the name or partial name of %Player%";
-
+        public string PlayerKicked { get; private set; } = "%Offender% was kicked for %Reason%.";
+        public string AskedToKill { get; private set; } = "%Player% asks: Kick %Offender% for %Reason%?";
+        public string Untouchable { get; private set; } = "%VotePercent%% voted to kill or kick you.";
+        public string NotSuccessFullKick { get; private set; } = "%VotePercent%% voted yes, but %ThresholdKick%% was required to kick %Offender%.";
+        public string PlayerNotFound { get; private set; } = "Did not find any players with the name or partial name of %Player%";
         public string NoOptionAvailable { get; private set; } = "Vote does not have that option.";
         public string AlreadyVoted { get; private set; } = "You've already voted.";
         public string VoteAccepted { get; private set; } = "You voted %Reason%.";
         public string NoPermissionToVote { get; private set; } = "You do not have permission to run this command!";
-        public string CallVoteEnded { get; private set; } = "Vote stopped.";
+        public string VotingStoped { get; private set; } = "Vote stopped.";
         public string Results { get; private set; } = "Final results:\n";
         public string OptionAndCounter { get; private set; } = " %Option% (%Counter%) ";
         public string Options { get; private set; } = ".%OptionKey% for %Option% ";
         public string AskedQuestion { get; private set; } = "%Question% \n Press ~ and type \n";
         public string OptionMtf { get; private set; } = "<color=blue>MTF</color>";
         public string OptionCi { get; private set; } = "<color=green>CI</color>";
-
-        public string CiRespawn { get; private set; } =
-            "%VotePercent%% voted <color=green>YES</color>. Forcing the reappearing of CI..";
-
-        public string MtfRespawn { get; private set; } =
-            "%VotePercent%% voted <color=green>YES</color>. Forcing the reappearing of MTF..";
-
-        public string NoSuccessFullRespawn { get; private set; } =
-            "%VotePercent%% voted no. %ThresholdRespawnWave%% was required to respawn the next wave.";
-
+        public string CiRespawn { get; private set; } = "%VotePercent%% voted <color=green>YES</color>. Forcing the reappearing of CI..";
+        public string MtfRespawn { get; private set; } = "%VotePercent%% voted <color=green>YES</color>. Forcing the reappearing of MTF..";
+        public string NoSuccessFullRespawn { get; private set; } = "%VotePercent%% voted no. %ThresholdRespawnWave%% was required to respawn the next wave.";
         public string AskedToRespawn { get; private set; } = "%Player% asks: Respawn the next wave?";
         public string AskedToNuke { get; private set; } = "%Player% asks: NUKE THE FACILITY?!??";
         public string FoundationNuked { get; private set; } = "%VotePercent%% voted yes. Nuking the facility...";
-
-        public string NoSuccessFullNuke { get; private set; } =
-            "Only %VotePercent%% voted yes. %ThresholdNuke%% was required to nuke the facility.";
-
-        public string NoSuccessFullKill { get; private set; } =
-            "Only %VotePercent%% voted yes. + %ThresholdKill%% was required to kill locatedPlayerName";
-
+        public string NoSuccessFullNuke { get; private set; } = "Only %VotePercent%% voted yes. %ThresholdNuke%% was required to nuke the facility.";
+        public string NoSuccessFullKill { get; private set; } = "Only %VotePercent%% voted yes. + %ThresholdKill%% was required to kill locatedPlayerName";
         public string PlayerKilled { get; private set; } = "%VotePercent%% voted yes. Killing player %Offender%";
         public string VoteRespawnWaveDisabled { get; private set; } = "Callvote RespawnWave is disabled.";
         public string VoteKickDisabled { get; private set; } = "Callvote kick is disabled.";
@@ -66,24 +45,21 @@ namespace Callvote
         public string AskedToKick { get; private set; } = "%Player% asks: Kick %Offender% for %Reason%?";
         public string AskedToRestart { get; private set; } = "%Player% asks: Restart the round?";
         public string RoundRestarting { get; private set; } = "%VotePercent% voted yes. Restarting the round...";
-
-        public string NoSuccessFullRestart { get; private set; } =
-            "Only %VotePercent%% voted yes. %ThresholdRestartRound%% was required to restart the round.";
-
-        public string VoteStarted { get; private set; } = "Vote has been started!";
-        public string NoCallVoteInProgress { get; private set; } = "There is no vote in progress.";
+        public string NoSuccessFullRestart { get; private set; } = "Only %VotePercent%% voted yes. %ThresholdRestartRound%% was required to restart the round.";
+        public string VotingStarted { get; private set; } = "Vote has been started!";
+        public string NoVotingInProgress { get; private set; } = "There is no vote in progress.";
         public string WaitToVote { get; private set; } = "You should wait %Timer%s before using this command.";
         public string AskedCustom { get; private set; } = "%Player% asks: %Custom%";
         public string PassReason { get; private set; } = "You need to pass a reason!";
         public string LessThanTwoOptions { get; private set; } = "You cannot create a custom voting without 2 options!";
 
-        [Description("Commands:")] public string CommandYes { get; private set; } = "yes";
+        [Description("Commands:")] 
+        public string CommandYes { get; private set; } = "yes";
 
         public string CommandNo { get; private set; } = "no";
         public string CommandChaosInsurgency { get; private set; } = "ci";
         public string CommandMobileTaskForce { get; private set; } = "mtf";
 
-        public string DuplicateCommand { get; private set; } =
-            "Its not possible to create a custom command with the same name!";
+        public string DuplicateCommand { get; private set; } = "Its not possible to create a custom command with the same name!";
     }
 }
