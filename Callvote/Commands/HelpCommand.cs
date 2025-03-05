@@ -11,7 +11,7 @@ namespace Callvote.Commands
     {
         public string Command => "help";
 
-        public string[] Aliases => new[] { "r" };
+        public string[] Aliases => new[] { "help" };
 
         public string Description => "Usage of Callvote.";
 

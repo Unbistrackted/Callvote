@@ -15,7 +15,7 @@ namespace Callvote.Commands
 
         public override string Command => "callvote";
 
-        public override string[] Aliases => new[] { "cv"};
+        public override string[] Aliases => new[] { "cv" };
 
         public override string Description => "Enables player to call votings!";
 
