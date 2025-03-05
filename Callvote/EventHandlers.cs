@@ -18,10 +18,5 @@ namespace Callvote
                 VotingAPI.CurrentVoting.Stop();
             }
         }
-
-        public void OnPlayerJoined(JoinedEventArgs ev)
-        {
-            VotingAPI.ApplyCallvoteMenu(ev.Player);
-        }
     }
 }

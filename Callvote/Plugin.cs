@@ -5,6 +5,7 @@ using Exiled.API.Features;
 using UserSettings.ServerSpecific;
 using Server = Exiled.Events.Handlers.Server;
 using Player = Exiled.Events.Handlers.Player;
+using Exiled.API.Features.Core.UserSettings;
 
 namespace Callvote
 {
@@ -19,14 +20,16 @@ namespace Callvote
         public override string Prefix { get; } = AssemblyInfo.LangFile;
         public override Version RequiredExiledVersion { get; } = new Version(9, 5, 1);
         public override PluginPriority Priority { get; } = PluginPriority.Default;
+        public HeaderSetting SettingsHeader { get; set; } = new HeaderSetting("Callvote");
 
         public override void OnEnabled()
         {
             EventHandlers = new EventHandlers();
             Instance = this;
+            SettingBase.Register(new[] { SettingsHeader });
+            ServerSpecificSettings.RegisterSettings();
             Server.WaitingForPlayers += EventHandlers.OnWaitingForPlayers;
             Server.RoundEnded += EventHandlers.OnRoundEnded;
-            Player.Joined += EventHandlers.OnPlayerJoined;
             ServerSpecificSettingsSync.ServerOnSettingValueReceived += VotingAPI.ProcessUserInput;
         }
 
@@ -34,8 +37,9 @@ namespace Callvote
         {
             Server.WaitingForPlayers -= EventHandlers.OnWaitingForPlayers;
             Server.RoundEnded -= EventHandlers.OnRoundEnded;
-            Player.Joined -= EventHandlers.OnPlayerJoined;
+            ServerSpecificSettings.UnregisterSettings();
             ServerSpecificSettingsSync.ServerOnSettingValueReceived -= VotingAPI.ProcessUserInput;
+            SettingBase.Unregister(settings: new[] { SettingsHeader });
             Instance = null;
             EventHandlers = null;
             VotingAPI.CurrentVoting = null;

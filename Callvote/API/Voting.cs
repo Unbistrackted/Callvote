@@ -13,7 +13,7 @@ namespace Callvote.VoteHandlers
     {
         public Player CallVotePlayer;
         public CallvoteFunction Callback;
-        public Dictionary<string, int> Counter; 
+        public Dictionary<string, int> Counter;
         public Dictionary<string, string> Options;
         public string Question;
         public Dictionary<string, string> PlayerVote;
@@ -49,8 +49,6 @@ namespace Callvote.VoteHandlers
         public string Start()
         {
             if (VotingAPI.CurrentVoting != null) { return $"<color=red>{Plugin.Instance.Translation.VotingInProgress}</color>"; }
-            if (VotingAPI.CallvotePlayerDict[CallVotePlayer] > Plugin.Instance.Config.MaxAmountOfVotesPerRound && !CallVotePlayer.CheckPermission("cv.bypass")) { return Plugin.Instance.Translation.MaxVote; }
-                VotingCoroutine = Timing.RunCoroutine(VotingAPI.StartVotingCoroutine(this));
             foreach (KeyValuePair<string, string> kvp in this.Options)
             {
                 VoteCommand voteCommand = new VoteCommand(kvp.Key);
@@ -61,6 +59,8 @@ namespace Callvote.VoteHandlers
                 VotingAPI.CallvotePlayerDict.Add(CallVotePlayer, 1);
             }
             VotingAPI.CallvotePlayerDict[CallVotePlayer]++;
+            if (VotingAPI.CallvotePlayerDict[CallVotePlayer] > Plugin.Instance.Config.MaxAmountOfVotesPerRound && !CallVotePlayer.CheckPermission("cv.bypass")) { return Plugin.Instance.Translation.MaxVote; }
+            VotingCoroutine = Timing.RunCoroutine(VotingAPI.StartVotingCoroutine(this));
             return Plugin.Instance.Translation.VotingStarted;
         }
         public string Stop()
