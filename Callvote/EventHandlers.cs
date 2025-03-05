@@ -13,7 +13,10 @@ namespace Callvote
 
         public void OnRoundEnded(RoundEndedEventArgs ev)
         {
-            VotingAPI.CurrentVoting.Stop();
+            if (VotingAPI.CurrentVoting != null)
+            {
+                VotingAPI.CurrentVoting.Stop();
+            }
         }
 
         public void OnPlayerJoined(JoinedEventArgs ev)
