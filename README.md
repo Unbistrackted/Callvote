@@ -1,31 +1,38 @@
 # Description
 
-This is a plugin for [EXILED](https://github.com/ExMod-Team/EXILED) that allows calling Kick, RestartRound, Kill,
-RespawnWave, or custom votes using console commands in the same format as the Source Engine (Left 4 Dead
+This is a plugin for [EXILED](https://github.com/ExMod-Team/EXILED) that allows calling and voting for Kick, RestartRound, Kill,
+RespawnWave, or custom votes using **KEYBINDS** or **CONSOLE COMMANDS** in the same format as the Source Engine (Left 4 Dead
 2/Counter-Strike: Global Offensive).
+
+![image](https://github.com/user-attachments/assets/34b7522c-afad-4aa5-9e5b-34797eaee3c8)
+
+![{2D20256F-794E-4164-BCF3-1AFFAFC8CF68}](https://github.com/user-attachments/assets/16dee768-58f1-45c4-b012-5eb8443e3737)
+
 
 ## Configuration Settings
 
  Setting Key                   | Value Type | Default Value | Description                                                                                    
 -------------------------------|------------|---------------|------------------------------------------------------------------------------------------------
- vote_duration                 | integer    | 30            | Number of seconds for a vote to last for.                                                      
- vote_cooldown                 | integer    | 5             | Cooldown (in seconds) between each callvote.                                                   
+ is_enabled                    | bool       | true          | Enables or disabled the plugin                                                                                                                                             
+ enable_kick                   | boolean    | true          | Can players use **callvote kick**?                                                             
+ enable_kill                   | boolean    | true          | Can players use **callvote kill**?                                                             
+ enable_nuke                   | boolean    | true          | Can players use **callvote nuke**?                                                             
+ enable_respawn_wave           | boolean    | true          | Can players use **callvote respawnwave**?                                                      
+ enable_restart_round          | boolean    | true          | Can players use **callvote restartround**?                                                     
+ vote_duration                 | int        | 30            | Number of seconds for a vote to last for.       
+ vote_cooldown                 | int        | 5             | Cooldown (in seconds) between each callvote.       
  max_amount_of_votes_per_round | float      | 10            | Maximum amount of **callvotes** in a round                                                     
  max_wait_kill                 | float      | 0             | Time (in seconds) after the round starts to the command **callvote kill** be available         
  max_wait_kick                 | float      | 0             | Time (in seconds) after the round starts to the command **callvote kick** be available         
  max_wait_nuke                 | float      | 0             | Time (in seconds) after the round starts to the command **callvote nuke** be available         
  max_wait_respawn_wave         | float      | 0             | Time (in seconds) after the round starts to the command **callvote respawnwave** be available  
  max_wait_restart_round        | float      | 0             | Time (in seconds) after the round starts to the command **callvote restartround** be available 
- enable_kick                   | boolean    | true          | Can players use **callvote kick**?                                                             
- enable_kill                   | boolean    | true          | Can players use **callvote kill**?                                                             
- enable_nuke                   | boolean    | true          | Can players use **callvote nuke**?                                                             
- enable_respawn_wave           | boolean    | true          | Can players use **callvote respawnwave**?                                                      
- enable_restart_round          | boolean    | true          | Can players use **callvote restartround**?                                                     
  threshold_kick                | integer    | 30            | Percentage threshold required for a player to be kicked.                                       
  threshold_kill                | integer    | 30            | Percentage threshold required for a player to be killed.                                       
  threshold_nuke                | integer    | 30            | Percentage threshold required to explode ALPHA WARHEAD.                                        
  threshold_respawn_wave        | integer    | 30            | Percentage threshold required to respawn a MTF or CI wave.                                     
  threshold_restart_round       | integer    | 30            | Percentage threshold required to restart the round.                                            
+ broadcast_size                | int        | 0             | Changes the broadcast size to user's preference, leave it at 0 to use Callvote's re-size logic       
 
 ## Permissions
 
@@ -48,41 +55,31 @@ RespawnWave, or custom votes using console commands in the same format as the So
 
  Server Command        | Client Command         | Parameters                                           | Description                              
 -----------------------|------------------------|------------------------------------------------------|------------------------------------------
- callvote              | .callvote              | "Custom Question"                                    | Vote on a custom yes/no question.        
- callvote              | .callvote              | "Custom Question" "First Option" "Second Option" ... | Vote on a question with multiple options 
+ callvote              | .callvote binary       | "Custom Question"                                    | Vote on a custom yes/no question.        
+ callvote              | .callvote custom       | "Custom Question" "First Option" "Second Option" ... | Vote on a question with multiple options 
  callvote kick         | .callvote kick         | [player]                                             | Vote to kick a player.                   
  callvote kill         | .callvote kill         | [player]                                             | Vote to kill a player.                   
  callvote nuke         | .callvote nuke         | [none]                                               | Vote to nuke the facility.               
  callvote respawnwave  | .callvote respawnwave  | [none]                                               | Vote to restart a round.                 
  callvote restartround | .callvote restartround | [none]                                               | Vote to restart a round.                 
- stopvote              | .stopvote              | [none]                                               | Stops a vote currently in progress       
- yes                   | .yes                   | [none]                                               | Alias for 1                              
- no                    | .no                    | [none]                                               | Alias for 2                              
- 1                     | .1                     | [none]                                               | Vote for the 1st option                  
- 2                     | .2                     | [none]                                               | Vote for the 2nd option                  
- 3                     | .3                     | [none]                                               | Vote for the 3rd option                  
- 4                     | .4                     | [none]                                               | Vote for the 4th option                  
- 5                     | .5                     | [none]                                               | Vote for the 5th option                  
- 6                     | .6                     | [none]                                               | Vote for the 6th option                  
- 7                     | .7                     | [none]                                               | Vote for the 7th option                  
- 8                     | .8                     | [none]                                               | Vote for the 8th option                  
- 9                     | .9                     | [none]                                               | Vote for the 9th option                  
- 0                     | .0                     | [none]                                               | Vote for the 10th option                 
+ stopvote              | .callvote stopvote     | [none]                                               | Stops a vote currently in progress       
+ yes (or translation)  | .yes (or translation)  | [none]                                               | Vote option                         
+ no  (or translation)  | .no  (or translation)  | [none]                                               | Vote option                          
+ mtf (or translation)  | .mtf (or translation)  | [none]                                               | Vote option                         
+ ci  (or translation)  | .ci  (or translation)  | [none]                                               | Vote option                          
+ (custom)              | .(custom)              | [none]                                               | Vote option                          
 
 ## Config File
 
 ```
-callvote:
-# Enable or disable the plugin. Defaults to true.
+Callvote:
   is_enabled: true
   debug: false
-  # Modules:
   enable_kick: true
   enable_kill: true
   enable_nuke: true
   enable_respawn_wave: true
-  enable_restart_round: true
-  # Durations:
+  enable_round_restart: true
   vote_duration: 30
   vote_cooldown: 5
   max_amount_of_votes_per_round: 10
@@ -91,65 +88,75 @@ callvote:
   max_wait_nuke: 0
   max_wait_respawn_wave: 0
   max_wait_restart_round: 0
-  # Thresholds:
   threshold_kick: 30
   threshold_kill: 30
   threshold_nuke: 30
   threshold_respawn_wave: 30
   threshold_restart_round: 30
+  broadcast_size: 0
 ```
 
 ## Translation File
 
 ```
-callvote:
+Callvote:
 # %player%, %VotePercent%, %Offender%, %ThresholdKick%, %ThresholdRespawnWave%, %ThresholdNuke%, %ThresholdKill%, %ThresholdRestartRound%, %OptionKey%, %Option%, %Counter%, %Timer%, %Custom%
   max_vote: 'Max amounts of votes done this round'
-  in_progress_vote: 'A vote is currently in progress.'
+  voting_in_progress: 'A vote is currently in progress.'
   players_with_same_name: 'Multiple players have a name or partial name of %Player%. Please use a different search string.'
   option_yes: '<color=green>YES</color>'
   option_no: '<color=red>NO</color>'
-  player_getting_kicked: '%Player% asks: Kick %Offender% ?'
-  asked_to_kill: '%Player% Asks: Kill %Offender% '
-  untouchable: '%VotePercent%% Voted to kill you.'
-  not_success_full_kick: '%VotePercent%% voted yes. %ThresholdKick%% was required to kill. %Offender%.'
+  player_kicked: '%Offender% was kicked for %Reason%.'
+  asked_to_kill: '%Player% <color=#EEDC8A>asks</color>: Kick %Offender% for %Reason%?'
+  untouchable: '%VotePercent%% voted to kill or kick you.'
+  not_success_full_kick: '%VotePercent%% voted yes, but %ThresholdKick%% was required to kick %Offender%.'
   player_not_found: 'Did not find any players with the name or partial name of %Player%'
   no_option_available: 'Vote does not have that option.'
   already_voted: 'You''ve already voted.'
-  vote_accepted: 'Vote accepted!'
+  vote_accepted: 'You voted %Reason%.'
   no_permission_to_vote: 'You do not have permission to run this command!'
-  call_vote_ended: 'Vote stopped.'
+  voting_stoped: 'Vote stopped.'
   results: |
     Final results:
   option_and_counter: ' %Option% (%Counter%) '
-  options: '.%OptionKey% for %Option% '
+  options: '.%OptionKey% = %Option% '
   asked_question: |
     %Question% 
-     Press ~ and type 
-  mtf: '<color=blue>MTF</color>'
-  ci: '<color=green>CI</color>'
-  ci_respawn: '%VotePercent%% voted <color=green>YES</color>. Forcing the reappering of CI..'
-  mtf_respawn: '%VotePercent%% voted <color=green>YES</color>. Forcing the reappering of MTF..'
+     <color=#bce3a3>Press ~ and type</color> or <color=#939383>Set the keybind in Server-specific!</color>
+  option_mtf: '<color=blue>MTF</color>'
+  option_ci: '<color=green>CI</color>'
+  ci_respawn: '%VotePercent%% voted <color=green>YES</color>. Forcing the reappearing of CI..'
+  mtf_respawn: '%VotePercent%% voted <color=green>YES</color>. Forcing the reappearing of MTF..'
   no_success_full_respawn: '%VotePercent%% voted no. %ThresholdRespawnWave%% was required to respawn the next wave.'
-  asked_to_respawn: '%Player% asks: Respawn the next wave?'
-  asked_to_nuke: '%Player% asks: NUKE THE FACILITY?!??'
+  asked_to_respawn: '%Player% <color=#EEDC8A>asks</color>: Respawn the next wave?'
+  asked_to_nuke: '%Player% <color=#EEDC8A>asks</color>: NUKE THE FACILITY?!??'
   foundation_nuked: '%VotePercent%% voted yes. Nuking the facility...'
   no_success_full_nuke: 'Only %VotePercent%% voted yes. %ThresholdNuke%% was required to nuke the facility.'
   no_success_full_kill: 'Only %VotePercent%% voted yes. + %ThresholdKill%% was required to kill locatedPlayerName'
   player_killed: '%VotePercent%% voted yes. Killing player %Offender%'
-  vote_respawn_wave_disabled: 'callvote RespawnWave is disabled.'
-  vote_kick_disabled: 'callvote kick is disabled.'
-  vote_kill_disabled: 'callvote kill is disabled.'
-  vote_nuke_disabled: 'callvote nuke is disabled.'
-  vote_restart_round_disabled: 'callvote restartround is disabled.'
-  asked_to_kick: '%Player% Asks: Kick %Offender%? '
-  asked_to_restart: '%Player% asks: Restart the round?'
+  vote_respawn_wave_disabled: 'Callvote RespawnWave is disabled.'
+  vote_kick_disabled: 'Callvote kick is disabled.'
+  vote_kill_disabled: 'Callvote kill is disabled.'
+  vote_nuke_disabled: 'Callvote nuke is disabled.'
+  vote_restart_round_disabled: 'Callvote restartround is disabled.'
+  asked_to_kick: '%Player% <color=#EEDC8A>asks</color>: Kick %Offender% for %Reason%?'
+  asked_to_restart: '%Player% <color=#EEDC8A>asks</color>: Restart the round?'
   round_restarting: '%VotePercent% voted yes. Restarting the round...'
   no_success_full_restart: 'Only %VotePercent%% voted yes. %ThresholdRestartRound%% was required to restart the round.'
-  vote_started: 'Vote has been started!'
-  no_call_vote_in_progress: 'There is no vote in progress.'
+  voting_started: 'Vote has been started!'
+  no_voting_in_progress: 'There is no vote in progress.'
   wait_to_vote: 'You should wait %Timer%s before using this command.'
-  custom_vote: '%Player% asks: %Custom%'
+  asked_custom: '%Player% <color=#EEDC8A>asks</color>: %Custom%'
+  pass_reason: 'You need to pass a reason!'
+  less_than_two_options: 'You cannot create a custom voting without 2 options!'
+  vote_keybind: 'Vote'
+  keybind_hint: 'Set this keybind to vote'
+  # Commands:
+  command_yes: 'yes'
+  command_no: 'no'
+  command_chaos_insurgency: 'ci'
+  command_mobile_task_force: 'mtf'
+  duplicate_command: 'Its not possible to create a custom command with the same name!'
 ```
 
 # Special thanks to:
