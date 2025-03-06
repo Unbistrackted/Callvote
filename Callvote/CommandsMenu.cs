@@ -13,17 +13,17 @@ namespace Callvote
         public static KeybindSetting CiKeybindSetting { get; set; }
         public static void RegisterSettings()
         {
-            YesKeybindSetting = new KeybindSetting(id: 645, label: $"{Plugin.Instance.Translation.VoteKeybind} {Plugin.Instance.Translation.OptionYes}!", default, hintDescription: Plugin.Instance.Translation.KeybindHint);
+            YesKeybindSetting = new KeybindSetting(id: 888, label: $"{Plugin.Instance.Translation.VoteKeybind} {Plugin.Instance.Translation.OptionYes}!", UnityEngine.KeyCode.Y, hintDescription: Plugin.Instance.Translation.KeybindHint);
             SettingBase.Register(new[] { YesKeybindSetting });
-            NoKeybindSetting = new KeybindSetting(id: 646, label: $"{Plugin.Instance.Translation.VoteKeybind} {Plugin.Instance.Translation.OptionNo}!", default, hintDescription: Plugin.Instance.Translation.KeybindHint);
+            NoKeybindSetting = new KeybindSetting(id: 889, label: $"{Plugin.Instance.Translation.VoteKeybind} {Plugin.Instance.Translation.OptionNo}!", UnityEngine.KeyCode.U, hintDescription: Plugin.Instance.Translation.KeybindHint);
             SettingBase.Register(new[] { NoKeybindSetting });
 
             if (Plugin.Instance.Config.EnableRespawnWave)
             {
-                MtfKeybindSetting = new KeybindSetting(id: 643, label: $"{Plugin.Instance.Translation.VoteKeybind} {Plugin.Instance.Translation.OptionMtf}!", default, hintDescription: Plugin.Instance.Translation.KeybindHint);
+                MtfKeybindSetting = new KeybindSetting(id: 890, label: $"{Plugin.Instance.Translation.VoteKeybind} {Plugin.Instance.Translation.OptionMtf}!", UnityEngine.KeyCode.I, hintDescription: Plugin.Instance.Translation.KeybindHint);
                 SettingBase.Register(new[] { MtfKeybindSetting });
 
-                CiKeybindSetting = new KeybindSetting(id: 644, label: $"{Plugin.Instance.Translation.VoteKeybind} {Plugin.Instance.Translation.OptionCi}!", default, hintDescription: Plugin.Instance.Translation.KeybindHint);
+                CiKeybindSetting = new KeybindSetting(id: 891, label: $"{Plugin.Instance.Translation.VoteKeybind} {Plugin.Instance.Translation.OptionCi}!", UnityEngine.KeyCode.O, hintDescription: Plugin.Instance.Translation.KeybindHint);
                 SettingBase.Register(new[] { CiKeybindSetting });
             }
         }

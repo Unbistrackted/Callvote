@@ -109,22 +109,25 @@ namespace Callvote.VoteHandlers
 
         internal static void ProcessUserInput(ReferenceHub sender, ServerSpecificSettingBase settingbase)
         {
+            if (CurrentVoting == null)
+                return;
+
             if (settingbase is SSKeybindSetting keybindSetting && keybindSetting.SyncIsPressed)
             {
-                switch (keybindSetting.SettingId)
+                switch ((int)keybindSetting.SettingId)
                 {
-                    case int id when id == 643:
+                    case int id when id == 888:
                         Vote(Player.Get(sender), Plugin.Instance.Translation.CommandYes);
                         break;
 
-                    case int id when id == 644:
+                    case int id when id == 889:
                         Vote(Player.Get(sender), Plugin.Instance.Translation.CommandNo);
                         break;
 
-                    case int id when id == 654:
+                    case int id when id == 890:
                         Vote(Player.Get(sender), Plugin.Instance.Translation.CommandMobileTaskForce);
                         break;
-                    case int id when id == 656:
+                    case int id when id == 891:
                         Vote(Player.Get(sender), Plugin.Instance.Translation.CommandChaosInsurgency);
                         break;
                     default:
