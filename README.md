@@ -165,3 +165,4 @@ https://github.com/Playeroth for helping me with new logic and translations.
 
 https://github.com/PatPeter for giving the permission to continue the development of callvote.
                    
+https://github.com/vladflotsky for giving adivice and guidance while rewritting the plugin
