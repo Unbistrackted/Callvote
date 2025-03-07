@@ -56,7 +56,7 @@ RespawnWave, or custom votes using **KEYBINDS** or **CONSOLE COMMANDS** in the s
  Server Command        | Client Command         | Parameters                                           | Description                              
 -----------------------|------------------------|------------------------------------------------------|------------------------------------------
  callvote              | .callvote binary       | "Custom Question"                                    | Vote on a custom yes/no question.        
- callvote              | .callvote custom       | "Custom Question" "First Option" "Second Option" ... | Vote on a question with multiple options 
+ callvote              | .callvote custom       | "Custom Question" option(detail) option(detail)  ... | Vote on a question with multiple options 
  callvote kick         | .callvote kick         | [player]                                             | Vote to kick a player.                   
  callvote kill         | .callvote kill         | [player]                                             | Vote to kill a player.                   
  callvote nuke         | .callvote nuke         | [none]                                               | Vote to nuke the facility.               
