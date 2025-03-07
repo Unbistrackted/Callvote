@@ -21,7 +21,7 @@ RespawnWave, or custom votes using **KEYBINDS** or **CONSOLE COMMANDS** in the s
  enable_restart_round          | boolean    | true          | Can players use **callvote restartround**?                                                     
  vote_duration                 | int        | 30            | Number of seconds for a vote to last for.       
  vote_cooldown                 | int        | 5             | Cooldown (in seconds) between each callvote.       
- max_amount_of_votes_per_round | float      | 10            | Maximum amount of **callvotes** in a round                                                     
+ max_amount_of_votes_per_round | float      | 10            | Maximum amount of **callvotes** a player can do in a round                                                    
  max_wait_kill                 | float      | 0             | Time (in seconds) after the round starts to the command **callvote kill** be available         
  max_wait_kick                 | float      | 0             | Time (in seconds) after the round starts to the command **callvote kick** be available         
  max_wait_nuke                 | float      | 0             | Time (in seconds) after the round starts to the command **callvote nuke** be available         
