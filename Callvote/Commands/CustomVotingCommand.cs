@@ -39,7 +39,7 @@ namespace Callvote.Commands
                 return false;
             }
 
-            for (int i = 1; i < argsStrings.Count; i++) // args = 3
+            for (int i = 1; i < argsStrings.Count; i++)
             {
                 string optionDetail;
                 if (!optionDetailsStrings.TryGet(i-1, out optionDetail))
@@ -69,7 +69,7 @@ namespace Callvote.Commands
                 if (word.StartsWith("\""))
                 {
                     insideQuotes = true;
-                    wordsBetweenQuotes.Clear(); // Start new group
+                    wordsBetweenQuotes.Clear();
                 }
 
                 if (insideQuotes)
