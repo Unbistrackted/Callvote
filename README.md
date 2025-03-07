@@ -39,7 +39,7 @@ RespawnWave, or custom votes using **KEYBINDS** or **CONSOLE COMMANDS** in the s
  Permission              | Command                         | Description                                                 
 -------------------------|---------------------------------|-------------------------------------------------------------
  cv.callvote             | .callvote (Parameter)           | Allows players to use **.callvote**                         
- cv.bypass               | .callvote (Parameter)           | Bypasses permissions requeriments and time                  
+ cv.bypass               | .callvote (Parameter)           | Bypasses permissions requeriments, time and maxium amount of votes                  
  cv.unlimitedvotes       | .callvote (Parameter)           | Bypasses max_amount_of_votes_per_round                      
  cv.callvotekick         | .callvote kick                  | Gives permission to use **.callvote kick**                  
  cv.callvotekill         | .callvote kill                  | Gives permission to use **.callvote kill**                  
