@@ -21,7 +21,7 @@ RespawnWave, or custom votes using **KEYBINDS** or **CONSOLE COMMANDS** in the s
  enable_restart_round          | boolean    | true          | Can players use **callvote restartround**?                                                     
  vote_duration                 | int        | 30            | Number of seconds for a vote to last for.       
  vote_cooldown                 | int        | 5             | Cooldown (in seconds) between each callvote.       
- max_amount_of_votes_per_round | float      | 10            | Maximum amount of **callvotes** in a round                                                     
+ max_amount_of_votes_per_round | float      | 10            | Maximum amount of **callvotes** a player can do in a round                                                    
  max_wait_kill                 | float      | 0             | Time (in seconds) after the round starts to the command **callvote kill** be available         
  max_wait_kick                 | float      | 0             | Time (in seconds) after the round starts to the command **callvote kick** be available         
  max_wait_nuke                 | float      | 0             | Time (in seconds) after the round starts to the command **callvote nuke** be available         
@@ -39,7 +39,7 @@ RespawnWave, or custom votes using **KEYBINDS** or **CONSOLE COMMANDS** in the s
  Permission              | Command                         | Description                                                 
 -------------------------|---------------------------------|-------------------------------------------------------------
  cv.callvote             | .callvote (Parameter)           | Allows players to use **.callvote**                         
- cv.bypass               | .callvote (Parameter)           | Bypasses permissions requeriments and time                  
+ cv.bypass               | .callvote (Parameter)           | Bypasses permissions requeriments, time and maxium amount of votes                  
  cv.unlimitedvotes       | .callvote (Parameter)           | Bypasses max_amount_of_votes_per_round                      
  cv.callvotekick         | .callvote kick                  | Gives permission to use **.callvote kick**                  
  cv.callvotekill         | .callvote kill                  | Gives permission to use **.callvote kill**                  
@@ -56,7 +56,7 @@ RespawnWave, or custom votes using **KEYBINDS** or **CONSOLE COMMANDS** in the s
  Server Command        | Client Command         | Parameters                                           | Description                              
 -----------------------|------------------------|------------------------------------------------------|------------------------------------------
  callvote              | .callvote binary       | "Custom Question"                                    | Vote on a custom yes/no question.        
- callvote              | .callvote custom       | "Custom Question" "First Option" "Second Option" ... | Vote on a question with multiple options 
+ callvote              | .callvote custom       | "Custom Question" option(detail) option(detail)  ... | Vote on a question with multiple options 
  callvote kick         | .callvote kick         | [player]                                             | Vote to kick a player.                   
  callvote kill         | .callvote kill         | [player]                                             | Vote to kill a player.                   
  callvote nuke         | .callvote nuke         | [none]                                               | Vote to nuke the facility.               
@@ -165,3 +165,4 @@ https://github.com/Playeroth for helping me with new logic and translations.
 
 https://github.com/PatPeter for giving the permission to continue the development of callvote.
                    
+https://github.com/vladflotsky for giving adivice and guidance while I was rewritting the plugin
