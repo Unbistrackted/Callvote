@@ -28,14 +28,14 @@ namespace Callvote.Commands
 
             if (!player.CheckPermission("cv.callvotecustom") || !player.CheckPermission("cv.bypass"))
             {
-                response = Plugin.Instance.Translation.NoPermissionToVote;
+                response = Callvote.Instance.Translation.NoPermissionToVote;
                 return false;
             }
 
 
             if (argsStrings.Count < 2)
             {
-                response = Plugin.Instance.Translation.LessThanTwoOptions;
+                response = Callvote.Instance.Translation.LessThanTwoOptions;
                 return false;
             }
 
@@ -46,9 +46,14 @@ namespace Callvote.Commands
                 {
                     optionDetail = argsStrings[i];
                 }
+                if (options.ContainsKey(argsStrings[i]))
+                {
+                    response = Callvote.Instance.Translation.DuplicateCommand;
+                    return false;
+                }
                 options.Add(argsStrings[i], optionDetail);
             }
-            VotingAPI.CurrentVoting = new Voting(Plugin.Instance.Translation.AskedCustom.Replace("%Player%", player.Nickname).Replace("%Custom%", argsStrings.First()), options, player, null);
+            VotingAPI.CurrentVoting = new Voting(Callvote.Instance.Translation.AskedCustom.Replace("%Player%", player.Nickname).Replace("%Custom%", argsStrings.First()), options, player, null);
             response = VotingAPI.CurrentVoting.Response;
             return true;
         }

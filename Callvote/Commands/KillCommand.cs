@@ -22,15 +22,15 @@ namespace Callvote.Commands
 
             Player player = Player.Get(sender);
 
-            if (!Plugin.Instance.Config.EnableKill)
+            if (!Callvote.Instance.Config.EnableKill)
             {
-                response = Plugin.Instance.Translation.VoteKillDisabled;
+                response = Callvote.Instance.Translation.VoteKillDisabled;
                 return false;
             }
 
             if (!player.CheckPermission("cv.callvotekill"))
             {
-                response = Plugin.Instance.Translation.NoPermissionToVote;
+                response = Callvote.Instance.Translation.NoPermissionToVote;
                 return false;
             }
 
@@ -40,15 +40,15 @@ namespace Callvote.Commands
                 return false;
             }
 
-            if (Round.ElapsedTime.TotalSeconds < Plugin.Instance.Config.MaxWaitKill || !player.CheckPermission("cv.bypass"))
+            if (Round.ElapsedTime.TotalSeconds < Callvote.Instance.Config.MaxWaitKill || !player.CheckPermission("cv.bypass"))
             {
-                response = Plugin.Instance.Translation.WaitToVote.Replace("%Timer%", $"{Plugin.Instance.Config.MaxWaitKill - Round.ElapsedTime.TotalSeconds}");
+                response = Callvote.Instance.Translation.WaitToVote.Replace("%Timer%", $"{Callvote.Instance.Config.MaxWaitKill - Round.ElapsedTime.TotalSeconds}");
                 return false;
             }
 
             if (args.Count == 1)
             {
-                response = Plugin.Instance.Translation.PassReason;
+                response = Callvote.Instance.Translation.PassReason;
                 return false;
             }
 
@@ -56,7 +56,7 @@ namespace Callvote.Commands
 
             if (locatedPlayer == null)
             {
-                response = Plugin.Instance.Translation.PlayerNotFound.Replace("%Player%", args.ElementAt(0));
+                response = Callvote.Instance.Translation.PlayerNotFound.Replace("%Player%", args.ElementAt(0));
                 return false;
             }
 
@@ -64,16 +64,16 @@ namespace Callvote.Commands
             List<Player> playerSearch = Player.List.Where(p => p.Nickname.Contains(args.ElementAt(0))).ToList();
             if (playerSearch.Count() < 0 || playerSearch.Count() > 1)
             {
-                response = Plugin.Instance.Translation.PlayersWithSameName.Replace("%Player%", args.ElementAt(0));
+                response = Callvote.Instance.Translation.PlayersWithSameName.Replace("%Player%", args.ElementAt(0));
                 return false;
             }
 
             string reason = args.ElementAt(1);
 
-            options.Add(Plugin.Instance.Translation.CommandYes, Plugin.Instance.Translation.OptionYes);
-            options.Add(Plugin.Instance.Translation.CommandNo, Plugin.Instance.Translation.OptionNo);
+            options.Add(Callvote.Instance.Translation.CommandYes, Callvote.Instance.Translation.OptionYes);
+            options.Add(Callvote.Instance.Translation.CommandNo, Callvote.Instance.Translation.OptionNo);
 
-            VotingAPI.CurrentVoting = new Voting(Plugin.Instance.Translation.AskedToKill
+            VotingAPI.CurrentVoting = new Voting(Callvote.Instance.Translation.AskedToKill
                 .Replace("%Player%", player.Nickname)
                 .Replace("%Offender%", locatedPlayer.Nickname)
                 .Replace("%Reason%", reason),
@@ -81,27 +81,27 @@ namespace Callvote.Commands
                 player,
                 delegate (Voting vote)
                 {
-                    int yesVotePercent = (int)(vote.Counter[Plugin.Instance.Translation.CommandYes] / (float)Player.List.Count() * 100f);
-                    int noVotePercent = (int)(vote.Counter[Plugin.Instance.Translation.CommandNo] / (float)Player.List.Count() * 100f); //Just so you know that it exists
-                    if (yesVotePercent >= Plugin.Instance.Config.ThresholdKill && yesVotePercent > noVotePercent)
+                    int yesVotePercent = (int)(vote.Counter[Callvote.Instance.Translation.CommandYes] / (float)Player.List.Count() * 100f);
+                    int noVotePercent = (int)(vote.Counter[Callvote.Instance.Translation.CommandNo] / (float)Player.List.Count() * 100f); //Just so you know that it exists
+                    if (yesVotePercent >= Callvote.Instance.Config.ThresholdKill && yesVotePercent > noVotePercent)
                     {
                         if (!locatedPlayer.CheckPermission("cv.untouchable"))
                         {
                             locatedPlayer.Kill(reason);
-                            Map.Broadcast(8, Plugin.Instance.Translation.PlayerKilled
+                            Map.Broadcast(8, Callvote.Instance.Translation.PlayerKilled
                                 .Replace("%VotePercent%", yesVotePercent.ToString())
                                 .Replace("%Player%", player.Nickname)
                                 .Replace("%Offender%", locatedPlayer.Nickname)
                                 .Replace("%Reason%", reason));
                         }
                         if (!locatedPlayer.CheckPermission("cv.untouchable")) locatedPlayer.Kill(reason);
-                        if (locatedPlayer.CheckPermission("cv.untouchable")) locatedPlayer.Broadcast(5, Plugin.Instance.Translation.Untouchable.Replace("%VotePercent%", yesVotePercent.ToString()));
+                        if (locatedPlayer.CheckPermission("cv.untouchable")) locatedPlayer.Broadcast(5, Callvote.Instance.Translation.Untouchable.Replace("%VotePercent%", yesVotePercent.ToString()));
                     }
                     else
                     {
-                        Map.Broadcast(5, Plugin.Instance.Translation.NotSuccessFullKick
+                        Map.Broadcast(5, Callvote.Instance.Translation.NotSuccessFullKick
                             .Replace("%VotePercent%", yesVotePercent.ToString())
-                            .Replace("%ThresholdKick%", Plugin.Instance.Config.ThresholdKick.ToString())
+                            .Replace("%ThresholdKick%", Callvote.Instance.Config.ThresholdKick.ToString())
                             .Replace("%Offender%", locatedPlayer.Nickname));
                     }
                 });

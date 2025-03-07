@@ -22,46 +22,46 @@ namespace Callvote.Commands
 
             Player player = Player.Get(sender);
 
-            if (!Plugin.Instance.Config.EnableNuke)
+            if (!Callvote.Instance.Config.EnableNuke)
             {
-                response = Plugin.Instance.Translation.VoteNukeDisabled;
+                response = Callvote.Instance.Translation.VoteNukeDisabled;
                 return false;
             }
 
             if (!player.CheckPermission("cv.callvotenuke"))
             {
-                response = Plugin.Instance.Translation.NoPermissionToVote;
+                response = Callvote.Instance.Translation.NoPermissionToVote;
                 return false;
             }
 
-            if (Round.ElapsedTime.TotalSeconds < Plugin.Instance.Config.MaxWaitNuke || !player.CheckPermission("cv.bypass"))
+            if (Round.ElapsedTime.TotalSeconds < Callvote.Instance.Config.MaxWaitNuke || !player.CheckPermission("cv.bypass"))
             {
-                response = Plugin.Instance.Translation.WaitToVote.Replace("%Timer%", $"{Plugin.Instance.Config.MaxWaitNuke - Round.ElapsedTime.TotalSeconds}");
+                response = Callvote.Instance.Translation.WaitToVote.Replace("%Timer%", $"{Callvote.Instance.Config.MaxWaitNuke - Round.ElapsedTime.TotalSeconds}");
                 return false;
             }
 
-            options.Add(Plugin.Instance.Translation.CommandYes, Plugin.Instance.Translation.OptionYes);
-            options.Add(Plugin.Instance.Translation.CommandNo, Plugin.Instance.Translation.OptionNo);
+            options.Add(Callvote.Instance.Translation.CommandYes, Callvote.Instance.Translation.OptionYes);
+            options.Add(Callvote.Instance.Translation.CommandNo, Callvote.Instance.Translation.OptionNo);
 
-            VotingAPI.CurrentVoting = new Voting(Plugin.Instance.Translation.AskedToNuke
+            VotingAPI.CurrentVoting = new Voting(Callvote.Instance.Translation.AskedToNuke
                 .Replace("%Player%", player.Nickname), 
                 options,
                 player,
                 delegate(Voting vote)
                 {
-                    int yesVotePercent = (int)(vote.Counter[Plugin.Instance.Translation.CommandYes] / (float)Player.List.Count() * 100f);
-                    int noVotePercent = (int)(vote.Counter[Plugin.Instance.Translation.CommandNo] / (float)Player.List.Count() * 100f);
-                    if (yesVotePercent >= Plugin.Instance.Config.ThresholdNuke && yesVotePercent > noVotePercent)
+                    int yesVotePercent = (int)(vote.Counter[Callvote.Instance.Translation.CommandYes] / (float)Player.List.Count() * 100f);
+                    int noVotePercent = (int)(vote.Counter[Callvote.Instance.Translation.CommandNo] / (float)Player.List.Count() * 100f);
+                    if (yesVotePercent >= Callvote.Instance.Config.ThresholdNuke && yesVotePercent > noVotePercent)
                     {
-                        Map.Broadcast(5, Plugin.Instance.Translation.FoundationNuked
+                        Map.Broadcast(5, Callvote.Instance.Translation.FoundationNuked
                             .Replace("%VotePercent%", yesVotePercent.ToString()));
                         Warhead.Start();
                     }
                     else
                     {
-                        Map.Broadcast(5, Plugin.Instance.Translation.NoSuccessFullNuke
+                        Map.Broadcast(5, Callvote.Instance.Translation.NoSuccessFullNuke
                             .Replace("%VotePercent%", yesVotePercent.ToString())
-                            .Replace("%ThresholdNuke%", Plugin.Instance.Config.ThresholdNuke.ToString()));
+                            .Replace("%ThresholdNuke%", Callvote.Instance.Config.ThresholdNuke.ToString()));
                     }
                 });
             response = VotingAPI.CurrentVoting.Response;

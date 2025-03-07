@@ -20,13 +20,13 @@ namespace Callvote.Commands
 
             if (VotingAPI.CurrentVoting == null)
             {
-                response = Plugin.Instance.Translation.NoVotingInProgress;
+                response = Callvote.Instance.Translation.NoVotingInProgress;
                 return false;
             }
 
             if (!player.CheckPermission("cv.stopvote") || !player.CheckPermission("cv.bypass"))
             {
-                response = Plugin.Instance.Translation.NoPermissionToVote;
+                response = Callvote.Instance.Translation.NoPermissionToVote;
                 return false;
             }
 

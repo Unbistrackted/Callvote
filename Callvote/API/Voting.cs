@@ -48,7 +48,7 @@ namespace Callvote.VoteHandlers
 
         public string Start()
         {
-            if (VotingAPI.CurrentVoting != null) { return $"<color=red>{Plugin.Instance.Translation.VotingInProgress}</color>"; }
+            if (VotingAPI.CurrentVoting != null) { return $"<color=red>{Callvote.Instance.Translation.VotingInProgress}</color>"; }
             foreach (KeyValuePair<string, string> kvp in this.Options)
             {
                 VoteCommand voteCommand = new VoteCommand(kvp.Key);
@@ -59,13 +59,13 @@ namespace Callvote.VoteHandlers
                 VotingAPI.CallvotePlayerDict.Add(CallVotePlayer, 1);
             }
             VotingAPI.CallvotePlayerDict[CallVotePlayer]++;
-            if (VotingAPI.CallvotePlayerDict[CallVotePlayer] > Plugin.Instance.Config.MaxAmountOfVotesPerRound && !CallVotePlayer.CheckPermission("cv.bypass")) { return Plugin.Instance.Translation.MaxVote; }
+            if (VotingAPI.CallvotePlayerDict[CallVotePlayer] > Callvote.Instance.Config.MaxAmountOfVotesPerRound && !CallVotePlayer.CheckPermission("cv.bypass")) { return Callvote.Instance.Translation.MaxVote; }
             VotingCoroutine = Timing.RunCoroutine(VotingAPI.StartVotingCoroutine(this));
-            return Plugin.Instance.Translation.VotingStarted;
+            return Callvote.Instance.Translation.VotingStarted;
         }
         public string Stop()
         {
-            if (VotingAPI.CurrentVoting == null) { return $"<color=red>{Plugin.Instance.Translation.NoVotingInProgress}</color>"; }
+            if (VotingAPI.CurrentVoting == null) { return $"<color=red>{Callvote.Instance.Translation.NoVotingInProgress}</color>"; }
             Timing.KillCoroutines(VotingAPI.CurrentVoting.VotingCoroutine);
             foreach (KeyValuePair<string, string> kvp in VotingAPI.CurrentVoting.Options)
             {
@@ -73,7 +73,7 @@ namespace Callvote.VoteHandlers
                 QueryProcessor.DotCommandHandler.UnregisterCommand(voteCommand);
             }
             VotingAPI.CurrentVoting = null;
-            return Plugin.Instance.Translation.VotingStoped;
+            return Callvote.Instance.Translation.VotingStoped;
         }
 
     }

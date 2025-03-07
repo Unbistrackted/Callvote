@@ -23,7 +23,7 @@ namespace Callvote.Commands
 
             if (VotingAPI.CurrentVoting == null)
             {
-                response = Plugin.Instance.Translation.NoVotingInProgress;
+                response = Callvote.Instance.Translation.NoVotingInProgress;
                 return true;
             }
             response = VotingAPI.Vote(player, Command);
