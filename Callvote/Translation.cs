@@ -60,7 +60,6 @@ namespace Callvote
         public string CommandNo { get; private set; } = "no";
         public string CommandChaosInsurgency { get; private set; } = "ci";
         public string CommandMobileTaskForce { get; private set; } = "mtf";
-
         public string DuplicateCommand { get; private set; } = "Its not possible to create a custom command with the same name!";
     }
 }

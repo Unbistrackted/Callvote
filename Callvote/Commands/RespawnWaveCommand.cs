@@ -19,7 +19,6 @@ namespace Callvote.Commands
 
         public bool Execute(ArraySegment<string> args, ICommandSender sender, out string response)
         {
-            Dictionary<string, string> options = new Dictionary<string, string>();
 
             Player player = Player.Get(sender);
 
@@ -41,13 +40,13 @@ namespace Callvote.Commands
                 return false;
             }
 
-            options.Add(Callvote.Instance.Translation.CommandNo, Callvote.Instance.Translation.OptionNo);
-            options.Add(Callvote.Instance.Translation.CommandMobileTaskForce, Callvote.Instance.Translation.OptionMtf);
-            options.Add(Callvote.Instance.Translation.CommandChaosInsurgency, Callvote.Instance.Translation.OptionCi);
+            VotingAPI.Options.Add(Callvote.Instance.Translation.CommandNo, Callvote.Instance.Translation.OptionNo);
+            VotingAPI.Options.Add(Callvote.Instance.Translation.CommandMobileTaskForce, Callvote.Instance.Translation.OptionMtf);
+            VotingAPI.Options.Add(Callvote.Instance.Translation.CommandChaosInsurgency, Callvote.Instance.Translation.OptionCi);
 
             VotingAPI.CurrentVoting = new Voting(Callvote.Instance.Translation.AskedToRespawn
                 .Replace("%Player%", player.Nickname),
-                options,
+                VotingAPI.Options,
                 player,
                 delegate(Voting vote)
                 {

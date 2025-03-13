@@ -17,7 +17,6 @@ namespace Callvote.Commands
 
         public bool Execute(ArraySegment<string> args, ICommandSender sender, out string response)
         {
-            Dictionary<string, string> options = new Dictionary<string, string>();
 
             Player player = Player.Get(sender);
 
@@ -27,10 +26,10 @@ namespace Callvote.Commands
                 return true;
             }
 
-            options.Add(Callvote.Instance.Translation.CommandYes, Callvote.Instance.Translation.OptionYes);
-            options.Add(Callvote.Instance.Translation.CommandNo, Callvote.Instance.Translation.OptionNo);
+            VotingAPI.Options.Add(Callvote.Instance.Translation.CommandYes, Callvote.Instance.Translation.OptionYes);
+            VotingAPI.Options.Add(Callvote.Instance.Translation.CommandNo, Callvote.Instance.Translation.OptionNo);
 
-            VotingAPI.CurrentVoting = new Voting(Callvote.Instance.Translation.AskedCustom.Replace("%Player%", player.Nickname).Replace("%Custom%", string.Join(" ", args)), options, player, null);
+            VotingAPI.CurrentVoting = new Voting(Callvote.Instance.Translation.AskedCustom.Replace("%Player%", player.Nickname).Replace("%Custom%", string.Join(" ", args)), VotingAPI.Options, player, null);
             response = VotingAPI.CurrentVoting.Response;
             return true;
         }

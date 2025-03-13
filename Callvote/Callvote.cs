@@ -11,8 +11,10 @@ namespace Callvote
 {
     public class Callvote : Plugin<Config, Translation>
     {
+
         public static Callvote Instance;
         public EventHandlers EventHandlers;
+
 
         public override string Name { get; } = AssemblyInfo.Name;
         public override string Author { get; } = AssemblyInfo.Author;
@@ -37,8 +39,8 @@ namespace Callvote
         {
             Server.WaitingForPlayers -= EventHandlers.OnWaitingForPlayers;
             Server.RoundEnded -= EventHandlers.OnRoundEnded;
-            ServerSpecificSettings.UnregisterSettings();
             ServerSpecificSettingsSync.ServerOnSettingValueReceived -= VotingAPI.ProcessUserInput;
+            ServerSpecificSettings.UnregisterSettings();
             SettingBase.Unregister(settings: new[] { SettingsHeader });
             Instance = null;
             EventHandlers = null;

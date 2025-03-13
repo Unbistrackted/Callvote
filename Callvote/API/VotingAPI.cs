@@ -4,6 +4,8 @@ using System.ComponentModel;
 using System.Linq;
 using Callvote.VoteHandlers;
 using Exiled.API.Features;
+using Exiled.Events.Commands.Reload;
+using Exiled.Loader;
 using MEC;
 using UserSettings.ServerSpecific;
 
@@ -13,6 +15,7 @@ namespace Callvote.VoteHandlers
     {
         public static Voting CurrentVoting;
         public static Dictionary<Player, int> CallvotePlayerDict = new Dictionary<Player, int>();
+        public static Dictionary<string, string> Options;
         public static string Vote(Player player, string option)
         {
             string playerUserId = player.UserId;
@@ -106,6 +109,7 @@ namespace Callvote.VoteHandlers
                     Map.Broadcast(1, $"<size={52 - textsize}>{timerBroadcast}</size>");
                 }
                 timerCounter++;
+
                 yield return Timing.WaitForSeconds(1f);
             }
         }
@@ -114,7 +118,6 @@ namespace Callvote.VoteHandlers
         {
             if (CurrentVoting == null)
                 return;
-
             if (settingbase is SSKeybindSetting keybindSetting && keybindSetting.SyncIsPressed)
             {
                 switch ((int)keybindSetting.SettingId)
@@ -138,6 +141,7 @@ namespace Callvote.VoteHandlers
                 }
             }
         }
+
     }
 }
 

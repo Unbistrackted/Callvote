@@ -1,13 +1,11 @@
-﻿using System;
+﻿using Callvote.VoteHandlers;
+using CommandSystem;
+using Exiled.API.Features;
+using Exiled.Permissions.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Callvote.VoteHandlers;
-using CommandSystem;
-using Exiled.API.Extensions;
-using Exiled.API.Features;
-using Exiled.Permissions.Extensions;
-using static Exiled.API.Features.DamageHandlers.DamageHandlerBase;
 
 namespace Callvote.Commands
 {
@@ -21,9 +19,9 @@ namespace Callvote.Commands
 
         public bool Execute(ArraySegment<string> args, ICommandSender sender, out string response)
         {
-            Dictionary<string, string> options = new Dictionary<string, string>();
             List<string> argsStrings = JoinWordsBetweenQuotes(args);
             List<string> optionDetailsStrings = ExtractAndRemoveParenthesesValues(ref argsStrings);
+            optionDetailsStrings = JoinWordsBetweenQuotes(optionDetailsStrings);
             Player player = Player.Get(sender);
 
             if (!player.CheckPermission("cv.callvotecustom") || !player.CheckPermission("cv.bypass"))
@@ -42,53 +40,84 @@ namespace Callvote.Commands
             for (int i = 1; i < argsStrings.Count; i++)
             {
                 string optionDetail;
-                if (!optionDetailsStrings.TryGet(i-1, out optionDetail))
+                if (!optionDetailsStrings.TryGet(i - 1, out optionDetail))
                 {
                     optionDetail = argsStrings[i];
                 }
-                if (options.ContainsKey(argsStrings[i]))
+                if (VotingAPI.Options.ContainsKey(argsStrings[i]))
                 {
                     response = Callvote.Instance.Translation.DuplicateCommand;
                     return false;
                 }
-                options.Add(argsStrings[i], optionDetail);
+                VotingAPI.Options.Add(argsStrings[i], optionDetail);
             }
-            VotingAPI.CurrentVoting = new Voting(Callvote.Instance.Translation.AskedCustom.Replace("%Player%", player.Nickname).Replace("%Custom%", argsStrings.First()), options, player, null);
+            VotingAPI.CurrentVoting = new Voting(Callvote.Instance.Translation.AskedCustom.Replace("%Player%", player.Nickname).Replace("%Custom%", argsStrings.First()), VotingAPI.Options, player, null);
             response = VotingAPI.CurrentVoting.Response;
             return true;
         }
 
-        static List<string> JoinWordsBetweenQuotes(ArraySegment<string> words)
+        static List<string> JoinWordsBetweenQuotes(ArraySegment<string> args)
         {
-            List<string> finalList = new List<string>();
-            bool insideQuotes = false;
+            List<string> list = new List<string>();
+            bool isInsideQuotes = false;
             List<string> wordsBetweenQuotes = new List<string>();
 
-            foreach (string word in words)
+            foreach (string arg in args)
             {
-                if (word.StartsWith("\""))
+                if (arg.StartsWith("\""))
                 {
-                    insideQuotes = true;
+                    isInsideQuotes = true;
                     wordsBetweenQuotes.Clear();
                 }
 
-                if (insideQuotes)
+                if (isInsideQuotes)
                 {
-                    wordsBetweenQuotes.Add(word.Trim('"'));
+                    wordsBetweenQuotes.Add(arg.Trim('"'));
 
-                    if (word.EndsWith("\"") && word.Length > 1)
+                    if (arg.EndsWith("\"") && arg.Length > 1)
                     {
-                        finalList.Add(string.Join(" ", wordsBetweenQuotes));
-                        insideQuotes = false;
+                        list.Add(string.Join(" ", wordsBetweenQuotes));
+                        isInsideQuotes = false;
                     }
                 }
                 else
                 {
-                    finalList.Add(word);
+                    list.Add(arg);
                 }
             }
+            return list;
+        }
 
-            return finalList;
+        static List<string> JoinWordsBetweenQuotes(List<string> args)
+        {
+            List<string> list = new List<string>();
+            bool isInsideQuotes = false;
+            List<string> argsBetweenQuotes = new List<string>();
+
+            foreach (string arg in args)
+            {
+                if (arg.StartsWith("\""))
+                {
+                    isInsideQuotes = true;
+                    argsBetweenQuotes.Clear();
+                }
+
+                if (isInsideQuotes)
+                {
+                    argsBetweenQuotes.Add(arg.Trim('"'));
+
+                    if (arg.EndsWith("\"") && arg.Length > 1)
+                    {
+                        list.Add(string.Join(" ", argsBetweenQuotes));
+                        isInsideQuotes = false;
+                    }
+                }
+                else
+                {
+                    list.Add(arg);
+                }
+            }
+            return list;
         }
 
         static List<string> ExtractAndRemoveParenthesesValues(ref List<string> list)

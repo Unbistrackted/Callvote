@@ -48,30 +48,31 @@ namespace Callvote.VoteHandlers
 
         public string Start()
         {
-            if (VotingAPI.CurrentVoting != null) { return $"<color=red>{Callvote.Instance.Translation.VotingInProgress}</color>"; }
-            foreach (KeyValuePair<string, string> kvp in this.Options)
-            {
-                VoteCommand voteCommand = new VoteCommand(kvp.Key);
-                QueryProcessor.DotCommandHandler.RegisterCommand(voteCommand);
-            }
+            if (VotingAPI.CurrentVoting != null) { return Callvote.Instance.Translation.VotingInProgress; }
             if (!VotingAPI.CallvotePlayerDict.ContainsKey(CallVotePlayer))
             {
                 VotingAPI.CallvotePlayerDict.Add(CallVotePlayer, 1);
             }
             VotingAPI.CallvotePlayerDict[CallVotePlayer]++;
             if (VotingAPI.CallvotePlayerDict[CallVotePlayer] > Callvote.Instance.Config.MaxAmountOfVotesPerRound && !CallVotePlayer.CheckPermission("cv.bypass")) { return Callvote.Instance.Translation.MaxVote; }
+            foreach (KeyValuePair<string, string> kvp in this.Options)
+            {
+                VoteCommand voteCommand = new VoteCommand(kvp.Key);
+                QueryProcessor.DotCommandHandler.RegisterCommand(voteCommand);
+            }
             VotingCoroutine = Timing.RunCoroutine(VotingAPI.StartVotingCoroutine(this));
             return Callvote.Instance.Translation.VotingStarted;
         }
         public string Stop()
         {
-            if (VotingAPI.CurrentVoting == null) { return $"<color=red>{Callvote.Instance.Translation.NoVotingInProgress}</color>"; }
-            Timing.KillCoroutines(VotingAPI.CurrentVoting.VotingCoroutine);
+            if (VotingAPI.CurrentVoting == null) { return Callvote.Instance.Translation.NoVotingInProgress; }
             foreach (KeyValuePair<string, string> kvp in VotingAPI.CurrentVoting.Options)
             {
                 VoteCommand voteCommand = new VoteCommand(kvp.Key);
                 QueryProcessor.DotCommandHandler.UnregisterCommand(voteCommand);
             }
+            Timing.KillCoroutines(VotingAPI.CurrentVoting.VotingCoroutine);
+            VotingAPI.Options.Clear();
             VotingAPI.CurrentVoting = null;
             return Callvote.Instance.Translation.VotingStoped;
         }

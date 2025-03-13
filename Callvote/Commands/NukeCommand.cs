@@ -18,8 +18,6 @@ namespace Callvote.Commands
 
         public bool Execute(ArraySegment<string> args, ICommandSender sender, out string response)
         {
-            Dictionary<string, string> options = new Dictionary<string, string>();
-
             Player player = Player.Get(sender);
 
             if (!Callvote.Instance.Config.EnableNuke)
@@ -40,12 +38,12 @@ namespace Callvote.Commands
                 return false;
             }
 
-            options.Add(Callvote.Instance.Translation.CommandYes, Callvote.Instance.Translation.OptionYes);
-            options.Add(Callvote.Instance.Translation.CommandNo, Callvote.Instance.Translation.OptionNo);
+            VotingAPI.Options.Add(Callvote.Instance.Translation.CommandYes, Callvote.Instance.Translation.OptionYes);
+            VotingAPI.Options.Add(Callvote.Instance.Translation.CommandNo, Callvote.Instance.Translation.OptionNo);
 
             VotingAPI.CurrentVoting = new Voting(Callvote.Instance.Translation.AskedToNuke
                 .Replace("%Player%", player.Nickname), 
-                options,
+                VotingAPI.Options,
                 player,
                 delegate(Voting vote)
                 {
