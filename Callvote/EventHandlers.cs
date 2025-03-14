@@ -1,5 +1,4 @@
 using Callvote.VoteHandlers;
-using Exiled.Events.EventArgs.Player;
 using Exiled.Events.EventArgs.Server;
 
 namespace Callvote

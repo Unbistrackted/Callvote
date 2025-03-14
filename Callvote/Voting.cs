@@ -1,27 +1,25 @@
-﻿using Callvote.Commands;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Callvote.Commands;
+using CommandSystem;
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
 using MEC;
 using RemoteAdmin;
-using System.Collections.Generic;
-using System.Linq;
-using System.Timers;
-using System.Windows.Input;
-using UnityEngine.Assertions.Must;
 
 namespace Callvote.VoteHandlers
 {
     public class Voting
     {
-        public Player CallVotePlayer;
         public CallvoteFunction Callback;
+        public Player CallVotePlayer;
+        public List<ICommand> CommandList;
         public Dictionary<string, int> Counter;
         public Dictionary<string, string> Options;
-        public string Question;
         public Dictionary<string, string> PlayerVote;
-        public CoroutineHandle VotingCoroutine;
-        public List<CommandSystem.ICommand> CommandList;
+        public string Question;
         public string Response;
+        public CoroutineHandle VotingCoroutine;
 
         public Voting(string question, Dictionary<string, string> options, Player player, CallvoteFunction callback)
         {
@@ -32,7 +30,7 @@ namespace Callvote.VoteHandlers
             PlayerVote = new Dictionary<string, string>();
             Counter = new Dictionary<string, int>();
             VotingCoroutine = new CoroutineHandle();
-            CommandList = new List<CommandSystem.ICommand>();
+            CommandList = new List<ICommand>();
             foreach (string option in options.Keys) Counter[option] = 0;
             Response = Start();
         }
@@ -46,7 +44,7 @@ namespace Callvote.VoteHandlers
             Counter = counter;
             Callback = callback;
             VotingCoroutine = new CoroutineHandle();
-            CommandList = new List<CommandSystem.ICommand>();
+            CommandList = new List<ICommand>();
             foreach (string option in options.Keys) Counter[option] = 0;
             Response = Start();
         }
@@ -60,19 +58,19 @@ namespace Callvote.VoteHandlers
             }
             VotingAPI.CallvotePlayerDict[CallVotePlayer]++;
             if (VotingAPI.CallvotePlayerDict[CallVotePlayer] - 1 > Callvote.Instance.Config.MaxAmountOfVotesPerRound && !CallVotePlayer.CheckPermission("cv.bypass")) { return Callvote.Instance.Translation.MaxVote; }
-            foreach (KeyValuePair<string, string> kvp in this.Options.ToList())
+            foreach (KeyValuePair<string, string> kvp in Options.ToList())
             {
                 VoteCommand voteCommand = new VoteCommand(kvp.Key);
-                if (QueryProcessor.DotCommandHandler.TryGetCommand(kvp.Key, out CommandSystem.ICommand existingCommand))
+                if (QueryProcessor.DotCommandHandler.TryGetCommand(kvp.Key, out ICommand existingCommand))
                 {
-                    if (!this.Options.TryGetValue(kvp.Key, out string value))
+                    if (!Options.TryGetValue(kvp.Key, out string value))
                     {
                         return "There was a error handling your request.";
                     }
-                    this.Options.Remove(kvp.Key);
-                    this.Options.Add("cv" + kvp.Key, value);
-                    this.Counter.Remove(kvp.Key);
-                    this.Counter.Add("cv" + kvp.Key, 0);
+                    Options.Remove(kvp.Key);
+                    Options.Add("cv" + kvp.Key, value);
+                    Counter.Remove(kvp.Key);
+                    Counter.Add("cv" + kvp.Key, 0);
                     voteCommand.Command = "cv" + kvp.Key;
                 }
                 CommandList.Add(voteCommand);
@@ -85,7 +83,7 @@ namespace Callvote.VoteHandlers
         {
             if (VotingAPI.CurrentVoting == null) { return Callvote.Instance.Translation.NoVotingInProgress; }
             Timing.KillCoroutines(VotingAPI.CurrentVoting.VotingCoroutine);
-            foreach (CommandSystem.ICommand command in CommandList)
+            foreach (ICommand command in CommandList)
             {
                 QueryProcessor.DotCommandHandler.UnregisterCommand(command);
             }
@@ -93,6 +91,5 @@ namespace Callvote.VoteHandlers
             VotingAPI.CurrentVoting = null;
             return Callvote.Instance.Translation.VotingStoped;
         }
-
     }
 }

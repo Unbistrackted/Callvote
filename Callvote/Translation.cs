@@ -1,5 +1,4 @@
 using System.ComponentModel;
-using Callvote.VoteHandlers;
 using Exiled.API.Interfaces;
 
 namespace Callvote
@@ -17,7 +16,7 @@ namespace Callvote
         public string Untouchable { get; private set; } = "%VotePercent%% voted to kill or kick you.";
         public string NotSuccessFullKick { get; private set; } = "%VotePercent%% voted yes, but %ThresholdKick%% was required to kick %Offender%.";
         public string PlayerNotFound { get; private set; } = "Did not find any players with the name or partial name of %Player%";
-        public string NoOptionAvailable { get; private set; } = "Vote does not have that option.";
+        public string NoOptionAvailable { get; private set; } = "Vote does not have the option %Option%.";
         public string AlreadyVoted { get; private set; } = "You've already voted.";
         public string VoteAccepted { get; private set; } = "You voted %Reason%.";
         public string NoPermissionToVote { get; private set; } = "You do not have permission to run this command!";
@@ -54,11 +53,11 @@ namespace Callvote
         public string LessThanTwoOptions { get; private set; } = "You cannot create a custom voting without 2 options!";
         public string VoteKeybind { get; private set; } = "Vote";
         public string KeybindHint { get; private set; } = "Set this keybind to vote";
-        [Description("Commands:")] 
+        public string DuplicateCommand { get; private set; } = "It's not possible to create a custom command with the same name!";
+        [Description("Commands:")]
         public string CommandYes { get; private set; } = "yes";
         public string CommandNo { get; private set; } = "no";
         public string CommandChaosInsurgency { get; private set; } = "ci";
         public string CommandMobileTaskForce { get; private set; } = "mtf";
-        public string DuplicateCommand { get; private set; } = "Its not possible to create a custom command with the same name!";
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using Callvote.VoteHandlers;
 using CommandSystem;
@@ -45,7 +44,7 @@ namespace Callvote.Commands
             VotingAPI.Options.Add(Callvote.Instance.Translation.CommandChaosInsurgency, Callvote.Instance.Translation.OptionCi);
 
             VotingAPI.CurrentVoting = new Voting(Callvote.Instance.Translation.AskedToRespawn
-                .Replace("%Player%", player.Nickname),
+                    .Replace("%Player%", player.Nickname),
                 VotingAPI.Options,
                 player,
                 delegate(Voting vote)

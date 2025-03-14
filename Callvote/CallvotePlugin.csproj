@@ -157,7 +157,6 @@
     <Compile Include="Commands\CustomVotingCommand.cs" />
     <Compile Include="Commands\HelpCommand.cs" />
     <Compile Include="Commands\KillCommand.cs" />
-    <Compile Include="Commands\RandomYesCommand.cs" />
     <Compile Include="Commands\RigCommand.cs" />
     <Compile Include="Commands\KickCommand.cs" />
     <Compile Include="Commands\NukeCommand.cs" />

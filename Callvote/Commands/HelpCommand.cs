@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Linq;
-using Callvote.VoteHandlers;
 using CommandSystem;
-using Exiled.API.Features;
-using Exiled.Permissions.Extensions;
 
 namespace Callvote.Commands
 {
@@ -17,7 +13,7 @@ namespace Callvote.Commands
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
-            response = "callvote custom <question> <option1> <option2>...." +
+            response = "callvote custom <question(detail) <option1> <option2>(detail2)...." +
                 "\ncallvote binary <question>" +
                 "\ncallvote kick <player>" +
                 "\ncallvote kill <player>" +

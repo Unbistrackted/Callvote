@@ -1,7 +1,5 @@
 ﻿using Exiled.API.Features.Core.UserSettings;
-using System.Collections.Generic;
-using System.ComponentModel;
-using UserSettings.ServerSpecific;
+using UnityEngine;
 
 namespace Callvote
 {
@@ -13,17 +11,17 @@ namespace Callvote
         public static KeybindSetting CiKeybindSetting { get; set; }
         public static void RegisterSettings()
         {
-            YesKeybindSetting = new KeybindSetting(id: 888, label: $"{Callvote.Instance.Translation.VoteKeybind} {Callvote.Instance.Translation.OptionYes}!", UnityEngine.KeyCode.Y, hintDescription: Callvote.Instance.Translation.KeybindHint);
+            YesKeybindSetting = new KeybindSetting(888, $"{Callvote.Instance.Translation.VoteKeybind} {Callvote.Instance.Translation.OptionYes}!", KeyCode.Y, hintDescription: Callvote.Instance.Translation.KeybindHint);
             SettingBase.Register(new[] { YesKeybindSetting });
-            NoKeybindSetting = new KeybindSetting(id: 889, label: $"{Callvote.Instance.Translation.VoteKeybind} {Callvote.Instance.Translation.OptionNo}!", UnityEngine.KeyCode.U, hintDescription: Callvote.Instance.Translation.KeybindHint);
+            NoKeybindSetting = new KeybindSetting(889, $"{Callvote.Instance.Translation.VoteKeybind} {Callvote.Instance.Translation.OptionNo}!", KeyCode.U, hintDescription: Callvote.Instance.Translation.KeybindHint);
             SettingBase.Register(new[] { NoKeybindSetting });
 
             if (Callvote.Instance.Config.EnableRespawnWave)
             {
-                MtfKeybindSetting = new KeybindSetting(id: 890, label: $"{Callvote.Instance.Translation.VoteKeybind} {Callvote.Instance.Translation.OptionMtf}!", UnityEngine.KeyCode.I, hintDescription: Callvote.Instance.Translation.KeybindHint);
+                MtfKeybindSetting = new KeybindSetting(890, $"{Callvote.Instance.Translation.VoteKeybind} {Callvote.Instance.Translation.OptionMtf}!", KeyCode.I, hintDescription: Callvote.Instance.Translation.KeybindHint);
                 SettingBase.Register(new[] { MtfKeybindSetting });
 
-                CiKeybindSetting = new KeybindSetting(id: 891, label: $"{Callvote.Instance.Translation.VoteKeybind} {Callvote.Instance.Translation.OptionCi}!", UnityEngine.KeyCode.O, hintDescription: Callvote.Instance.Translation.KeybindHint);
+                CiKeybindSetting = new KeybindSetting(891, $"{Callvote.Instance.Translation.VoteKeybind} {Callvote.Instance.Translation.OptionCi}!", KeyCode.O, hintDescription: Callvote.Instance.Translation.KeybindHint);
                 SettingBase.Register(new[] { CiKeybindSetting });
             }
         }

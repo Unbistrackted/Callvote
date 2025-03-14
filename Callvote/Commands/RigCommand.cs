@@ -1,9 +1,9 @@
-﻿using Callvote.VoteHandlers;
+﻿using System;
+using System.Linq;
+using Callvote.VoteHandlers;
 using CommandSystem;
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
-using System;
-using System.Linq;
 
 namespace Callvote.Commands
 {
@@ -21,19 +21,24 @@ namespace Callvote.Commands
 
             if (!player.CheckPermission("cv.superadmin+"))
             {
-                response = "You can't rig the system :trollface:";
+                response = Callvote.Instance.Translation.NoPermissionToVote;
                 return false;
             }
+            if (VotingAPI.CurrentVoting == null)
+            {
+                response = Callvote.Instance.Translation.NoVotingInProgress;
+                return false;
 
+            }
             if (arguments.Count < 0)
             {
-                response = "No arguments passed";
+                response = "You need to pass an option.";
                 return false;
             }
 
-            if (!VotingAPI.CurrentVoting.Options.ContainsKey(arguments.ElementAt(0)))   
+            if (!VotingAPI.CurrentVoting.Options.ContainsKey(arguments.ElementAt(0)))
             {
-                response = "Couldn't find option";
+                response = Callvote.Instance.Translation.NoOptionAvailable.Replace("%Option%", arguments.ElementAt(0));
                 return false;
             }
 

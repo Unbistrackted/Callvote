@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using Callvote.VoteHandlers;
 using CommandSystem;
@@ -42,7 +41,7 @@ namespace Callvote.Commands
             VotingAPI.Options.Add(Callvote.Instance.Translation.CommandNo, Callvote.Instance.Translation.OptionNo);
 
             VotingAPI.CurrentVoting = new Voting(Callvote.Instance.Translation.AskedToNuke
-                .Replace("%Player%", player.Nickname), 
+                    .Replace("%Player%", player.Nickname),
                 VotingAPI.Options,
                 player,
                 delegate(Voting vote)

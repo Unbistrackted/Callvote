@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Callvote.VoteHandlers;
+using CommandSystem;
 using Exiled.API.Features;
-using Exiled.Events.Commands.Reload;
-using Exiled.Loader;
 using MEC;
 using RemoteAdmin;
 using UserSettings.ServerSpecific;
@@ -21,7 +17,7 @@ namespace Callvote.VoteHandlers
         {
             string playerUserId = player.UserId;
             if (VotingAPI.CurrentVoting == null) return Callvote.Instance.Translation.NoVotingInProgress;
-            if (!VotingAPI.CurrentVoting.Options.ContainsKey(option)) return Callvote.Instance.Translation.NoOptionAvailable;
+            if (!VotingAPI.CurrentVoting.Options.ContainsKey(option)) return Callvote.Instance.Translation.NoOptionAvailable.Replace("%Option%", option);
             if (VotingAPI.CurrentVoting.PlayerVote.ContainsKey(playerUserId))
             {
                 if (VotingAPI.CurrentVoting.PlayerVote[playerUserId] == option) return Callvote.Instance.Translation.AlreadyVoted;
@@ -29,13 +25,11 @@ namespace Callvote.VoteHandlers
                 VotingAPI.CurrentVoting.PlayerVote[playerUserId] = option;
             }
 
-            if (!VotingAPI.CurrentVoting.PlayerVote.ContainsKey(playerUserId))
-                VotingAPI.CurrentVoting.PlayerVote.Add(playerUserId, option);
+            if (!VotingAPI.CurrentVoting.PlayerVote.ContainsKey(playerUserId)) VotingAPI.CurrentVoting.PlayerVote.Add(playerUserId, option);
 
             VotingAPI.CurrentVoting.Counter[option]++;
 
-            return Callvote.Instance.Translation.VoteAccepted.Replace("%Reason%",
-                VotingAPI.CurrentVoting.Options[option]);
+            return Callvote.Instance.Translation.VoteAccepted.Replace("%Reason%", VotingAPI.CurrentVoting.Options[option]);
         }
         public static IEnumerator<float> StartVotingCoroutine(Voting newVote)
         {
@@ -89,7 +83,7 @@ namespace Callvote.VoteHandlers
                     {
                         VotingAPI.CurrentVoting.Callback.Invoke(VotingAPI.CurrentVoting);
                     }
-                    CurrentVoting.Stop();
+                    VotingAPI.CurrentVoting.Stop();
                     yield break;
                 }
 
@@ -116,9 +110,6 @@ namespace Callvote.VoteHandlers
         }
         public static string Rig(string argument)
         {
-            if (VotingAPI.CurrentVoting == null) return "vote not active";
-            if (!VotingAPI.CurrentVoting.Options.ContainsKey(argument))
-                return Callvote.Instance.Translation.NoOptionAvailable;
             VotingAPI.CurrentVoting.Counter[argument]++;
             return $"Rigged LMAO {argument}";
         }
@@ -126,12 +117,12 @@ namespace Callvote.VoteHandlers
         internal static void ProcessUserInput(ReferenceHub sender, ServerSpecificSettingBase settingbase)
         {
 
-            if (CurrentVoting == null)
+            if (VotingAPI.CurrentVoting == null)
                 return;
             if (settingbase is SSKeybindSetting keybindSetting && keybindSetting.SyncIsPressed)
             {
-                CommandSystem.ICommand existingCommand;
-                switch ((int)keybindSetting.SettingId)
+                ICommand existingCommand;
+                switch (keybindSetting.SettingId)
                 {
                     case int id when id == 888:
                         if (QueryProcessor.DotCommandHandler.TryGetCommand("cv" + Callvote.Instance.Translation.CommandYes, out existingCommand))
@@ -165,12 +156,9 @@ namespace Callvote.VoteHandlers
                         }
                         Vote(Player.Get(sender), Callvote.Instance.Translation.CommandChaosInsurgency);
                         break;
-                    default:
-                        break;
                 }
             }
         }
-
     }
 }
 

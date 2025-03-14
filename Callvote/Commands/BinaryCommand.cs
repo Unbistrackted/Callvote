@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Callvote.VoteHandlers;
 using CommandSystem;
 using Exiled.API.Features;

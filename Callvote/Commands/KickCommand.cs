@@ -1,10 +1,10 @@
-﻿using Callvote.VoteHandlers;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Callvote.VoteHandlers;
 using CommandSystem;
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Callvote.Commands
 {
@@ -72,12 +72,12 @@ namespace Callvote.Commands
             VotingAPI.Options.Add(Callvote.Instance.Translation.CommandNo, Callvote.Instance.Translation.OptionNo);
 
             VotingAPI.CurrentVoting = new Voting(Callvote.Instance.Translation.AskedToKick
-                .Replace("%Player%", player.Nickname)
-                .Replace("%Offender%", locatedPlayer.Nickname)
-                .Replace("%Reason%", reason),
+                    .Replace("%Player%", player.Nickname)
+                    .Replace("%Offender%", locatedPlayer.Nickname)
+                    .Replace("%Reason%", reason),
                 VotingAPI.Options,
                 player,
-                delegate (Voting vote)
+                delegate(Voting vote)
                 {
                     int yesVotePercent = (int)(vote.Counter[Callvote.Instance.Translation.CommandYes] / (float)Player.List.Count() * 100f);
                     int noVotePercent = (int)(vote.Counter[Callvote.Instance.Translation.CommandNo] / (float)Player.List.Count() * 100f); //Just so you know that it exists

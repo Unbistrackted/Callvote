@@ -2,10 +2,9 @@ using System;
 using Callvote.VoteHandlers;
 using Exiled.API.Enums;
 using Exiled.API.Features;
+using Exiled.API.Features.Core.UserSettings;
 using UserSettings.ServerSpecific;
 using Server = Exiled.Events.Handlers.Server;
-using Player = Exiled.Events.Handlers.Player;
-using Exiled.API.Features.Core.UserSettings;
 
 namespace Callvote
 {
@@ -27,7 +26,7 @@ namespace Callvote
         public override void OnEnabled()
         {
             EventHandlers = new EventHandlers();
-            Instance = this;
+            Callvote.Instance = this;
             SettingBase.Register(new[] { SettingsHeader });
             ServerSpecificSettings.RegisterSettings();
             Server.WaitingForPlayers += EventHandlers.OnWaitingForPlayers;
@@ -42,7 +41,7 @@ namespace Callvote
             ServerSpecificSettingsSync.ServerOnSettingValueReceived -= VotingAPI.ProcessUserInput;
             ServerSpecificSettings.UnregisterSettings();
             SettingBase.Unregister(settings: new[] { SettingsHeader });
-            Instance = null;
+            Callvote.Instance = null;
             EventHandlers = null;
             VotingAPI.CurrentVoting = null;
         }

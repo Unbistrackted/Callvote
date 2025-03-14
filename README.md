@@ -1,27 +1,28 @@
 # Description
 
-This is a plugin for [EXILED](https://github.com/ExMod-Team/EXILED) that allows calling and voting for Kick, RestartRound, Kill,
-RespawnWave, or custom votes using **KEYBINDS** or **CONSOLE COMMANDS** in the same format as the Source Engine (Left 4 Dead
+This is a plugin for [EXILED](https://github.com/ExMod-Team/EXILED) that allows calling and voting for Kick,
+RestartRound, Kill,
+RespawnWave, or custom votes using **KEYBINDS** or **CONSOLE COMMANDS** in the same format as the Source Engine (Left 4
+Dead
 2/Counter-Strike: Global Offensive).
 
 ![image](https://github.com/user-attachments/assets/34b7522c-afad-4aa5-9e5b-34797eaee3c8)
 
 ![{2D20256F-794E-4164-BCF3-1AFFAFC8CF68}](https://github.com/user-attachments/assets/16dee768-58f1-45c4-b012-5eb8443e3737)
 
-
 ## Configuration Settings
 
  Setting Key                   | Value Type | Default Value | Description                                                                                    
 -------------------------------|------------|---------------|------------------------------------------------------------------------------------------------
- is_enabled                    | bool       | true          | Enables or disabled the plugin                                                                                                                                             
+ is_enabled                    | bool       | true          | Enables or disabled the plugin                                                                 
  enable_kick                   | boolean    | true          | Can players use **callvote kick**?                                                             
  enable_kill                   | boolean    | true          | Can players use **callvote kill**?                                                             
  enable_nuke                   | boolean    | true          | Can players use **callvote nuke**?                                                             
  enable_respawn_wave           | boolean    | true          | Can players use **callvote respawnwave**?                                                      
  enable_restart_round          | boolean    | true          | Can players use **callvote restartround**?                                                     
- vote_duration                 | int        | 30            | Number of seconds for a vote to last for.       
- vote_cooldown                 | int        | 5             | Cooldown (in seconds) between each callvote.       
- max_amount_of_votes_per_round | float      | 10            | Maximum amount of **callvotes** a player can do in a round                                                    
+ vote_duration                 | int        | 30            | Number of seconds for a vote to last for.                                                      
+ vote_cooldown                 | int        | 5             | Cooldown (in seconds) between each callvote.                                                   
+ max_amount_of_votes_per_round | float      | 10            | Maximum amount of **callvotes** a player can do in a round                                     
  max_wait_kill                 | float      | 0             | Time (in seconds) after the round starts to the command **callvote kill** be available         
  max_wait_kick                 | float      | 0             | Time (in seconds) after the round starts to the command **callvote kick** be available         
  max_wait_nuke                 | float      | 0             | Time (in seconds) after the round starts to the command **callvote nuke** be available         
@@ -32,24 +33,24 @@ RespawnWave, or custom votes using **KEYBINDS** or **CONSOLE COMMANDS** in the s
  threshold_nuke                | integer    | 30            | Percentage threshold required to explode ALPHA WARHEAD.                                        
  threshold_respawn_wave        | integer    | 30            | Percentage threshold required to respawn a MTF or CI wave.                                     
  threshold_restart_round       | integer    | 30            | Percentage threshold required to restart the round.                                            
- broadcast_size                | int        | 0             | Changes the broadcast size to user's preference, leave it at 0 to use Callvote's re-size logic       
+ broadcast_size                | int        | 0             | Changes the broadcast size to user's preference, leave it at 0 to use Callvote's re-size logic 
 
 ## Permissions
 
- Permission              | Command                         | Description                                                 
--------------------------|---------------------------------|-------------------------------------------------------------
- cv.callvote             | .callvote (Parameter)           | Allows players to use **.callvote**                         
- cv.bypass               | .callvote (Parameter)           | Bypasses permissions requeriments, time and maxium amount of votes                  
- cv.unlimitedvotes       | .callvote (Parameter)           | Bypasses max_amount_of_votes_per_round                      
- cv.callvotekick         | .callvote kick                  | Gives permission to use **.callvote kick**                  
- cv.callvotekill         | .callvote kill                  | Gives permission to use **.callvote kill**                  
- cv.callvotenuke         | .callvote nuke                  | Gives permission to use **.callvote nuke**                  
- cv.callvoterespawnwave  | .callvote respawnwave           | Gives permission to use **.callvote respawnwave**           
- cv.callvoterestartround | .callvote restartround          | Gives permission to use **.callvote restartround**          
- cv.callvotecustom       | .callvote "Custom Question" ... | Gives permission to use **.callvote "Custom Question" ...** 
- cv.stopvote             | .stopvote                       | Stops current vote                                          
- cv.untouchable          | .callvote kick/kill             | Player cannot be kicked or killed                           
- cv.superadmin+          | .callvote (Parameter)           | Allows player to rig the system :trollface:                 
+ Permission              | Command                         | Description                                                        
+-------------------------|---------------------------------|--------------------------------------------------------------------
+ cv.callvote             | .callvote (Parameter)           | Allows players to use **.callvote**                                
+ cv.bypass               | .callvote (Parameter)           | Bypasses permissions requeriments, time and maxium amount of votes 
+ cv.unlimitedvotes       | .callvote (Parameter)           | Bypasses max_amount_of_votes_per_round                             
+ cv.callvotekick         | .callvote kick                  | Gives permission to use **.callvote kick**                         
+ cv.callvotekill         | .callvote kill                  | Gives permission to use **.callvote kill**                         
+ cv.callvotenuke         | .callvote nuke                  | Gives permission to use **.callvote nuke**                         
+ cv.callvoterespawnwave  | .callvote respawnwave           | Gives permission to use **.callvote respawnwave**                  
+ cv.callvoterestartround | .callvote restartround          | Gives permission to use **.callvote restartround**                 
+ cv.callvotecustom       | .callvote "Custom Question" ... | Gives permission to use **.callvote "Custom Question" ...**        
+ cv.stopvote             | .stopvote                       | Stops current vote                                                 
+ cv.untouchable          | .callvote kick/kill             | Player cannot be kicked or killed                                  
+ cv.superadmin+          | .callvote (Parameter)           | Allows player to rig the system :trollface:                        
 
 ## Commands
 
@@ -63,11 +64,11 @@ RespawnWave, or custom votes using **KEYBINDS** or **CONSOLE COMMANDS** in the s
  callvote respawnwave  | .callvote respawnwave  | [none]                                               | Vote to restart a round.                 
  callvote restartround | .callvote restartround | [none]                                               | Vote to restart a round.                 
  stopvote              | .callvote stopvote     | [none]                                               | Stops a vote currently in progress       
- yes (or translation)  | .yes (or translation)  | [none]                                               | Vote option                         
- no  (or translation)  | .no  (or translation)  | [none]                                               | Vote option                          
- mtf (or translation)  | .mtf (or translation)  | [none]                                               | Vote option                         
- ci  (or translation)  | .ci  (or translation)  | [none]                                               | Vote option                          
- (custom)              | .(custom)              | [none]                                               | Vote option                          
+ yes (or translation)  | .yes (or translation)  | [none]                                               | Vote option                              
+ no  (or translation)  | .no  (or translation)  | [none]                                               | Vote option                              
+ mtf (or translation)  | .mtf (or translation)  | [none]                                               | Vote option                              
+ ci  (or translation)  | .ci  (or translation)  | [none]                                               | Vote option                              
+ (custom)              | .(custom)              | [none]                                               | Vote option                              
 
 ## Config File
 
@@ -164,5 +165,5 @@ Callvote:
 https://github.com/Playeroth for helping me with new logic and translations.
 
 https://github.com/PatPeter for giving the permission to continue the development of callvote.
-                   
+
 https://github.com/vladflotsky for giving adivice and guidance while I was rewritting the plugin
