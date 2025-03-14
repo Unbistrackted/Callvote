@@ -7,6 +7,7 @@ using Exiled.API.Features;
 using Exiled.Events.Commands.Reload;
 using Exiled.Loader;
 using MEC;
+using RemoteAdmin;
 using UserSettings.ServerSpecific;
 
 namespace Callvote.VoteHandlers
@@ -15,7 +16,7 @@ namespace Callvote.VoteHandlers
     {
         public static Voting CurrentVoting;
         public static Dictionary<Player, int> CallvotePlayerDict = new Dictionary<Player, int>();
-        public static Dictionary<string, string> Options;
+        public static Dictionary<string, string> Options = new Dictionary<string, string>();
         public static string Vote(Player player, string option)
         {
             string playerUserId = player.UserId;
@@ -36,15 +37,6 @@ namespace Callvote.VoteHandlers
             return Callvote.Instance.Translation.VoteAccepted.Replace("%Reason%",
                 VotingAPI.CurrentVoting.Options[option]);
         }
-        public static string Rig(string argument)
-        {
-            if (VotingAPI.CurrentVoting == null) return "vote not active";
-            if (!VotingAPI.CurrentVoting.Options.ContainsKey(argument))
-                return Callvote.Instance.Translation.NoOptionAvailable;
-            VotingAPI.CurrentVoting.Counter[argument]++;
-            return $"Rigged LMAO {argument}";
-        }
-
         public static IEnumerator<float> StartVotingCoroutine(Voting newVote)
         {
             int timerCounter = 0;
@@ -54,9 +46,13 @@ namespace Callvote.VoteHandlers
             foreach (KeyValuePair<string, string> kvp in VotingAPI.CurrentVoting.Options)
             {
                 if (counter == 0)
+                {
                     firstBroadcast += $"|  {Callvote.Instance.Translation.Options.Replace("%OptionKey%", kvp.Key).Replace("%Option%", kvp.Value)}  |";
+                }
                 else
+                {
                     firstBroadcast += $"  {Callvote.Instance.Translation.Options.Replace("%OptionKey%", kvp.Key).Replace("%Option%", kvp.Value)} |";
+                }
                 counter++;
             }
 
@@ -64,11 +60,11 @@ namespace Callvote.VoteHandlers
             int textsize = firstBroadcast.Length / 10;
             if (Callvote.Instance.Config.BroadcastSize != 0)
             {
-                textsize = 52 + Callvote.Instance.Config.BroadcastSize;
+                textsize = 52 - Callvote.Instance.Config.BroadcastSize;
             }
             Map.Broadcast(5, $"<size={52 - textsize}>{firstBroadcast}</size>");
             yield return Timing.WaitForSeconds(5f);
-            for (; ; )
+            while (true)
             {
                 if (timerCounter >= Callvote.Instance.Config.VoteDuration + 1)
                 {
@@ -84,7 +80,7 @@ namespace Callvote.VoteHandlers
                             textsize = resultsBroadcast.Length / 10;
                             if (Callvote.Instance.Config.BroadcastSize != 0)
                             {
-                                textsize = 52 + Callvote.Instance.Config.BroadcastSize;
+                                textsize = 48 - Callvote.Instance.Config.BroadcastSize;
                             }
                         }
                         Map.Broadcast(5, $"<size={48 - textsize}>{resultsBroadcast}</size>");
@@ -101,10 +97,15 @@ namespace Callvote.VoteHandlers
                     string timerBroadcast = firstBroadcast + "\n";
                     foreach (KeyValuePair<string, string> kvp in VotingAPI.CurrentVoting.Options)
                     {
-                        timerBroadcast += Callvote.Instance.Translation.OptionAndCounter.Replace("%Option%", kvp.Value)
+                        timerBroadcast += Callvote.Instance.Translation.OptionAndCounter
+                            .Replace("%Option%", kvp.Value)
                             .Replace("%OptionKey%", kvp.Key)
                             .Replace("%Counter%", VotingAPI.CurrentVoting.Counter[kvp.Key].ToString());
                         textsize = timerBroadcast.Length / 10;
+                        if (Callvote.Instance.Config.BroadcastSize != 0)
+                        {
+                            textsize = 52 - Callvote.Instance.Config.BroadcastSize;
+                        }
                     }
                     Map.Broadcast(1, $"<size={52 - textsize}>{timerBroadcast}</size>");
                 }
@@ -113,27 +114,55 @@ namespace Callvote.VoteHandlers
                 yield return Timing.WaitForSeconds(1f);
             }
         }
+        public static string Rig(string argument)
+        {
+            if (VotingAPI.CurrentVoting == null) return "vote not active";
+            if (!VotingAPI.CurrentVoting.Options.ContainsKey(argument))
+                return Callvote.Instance.Translation.NoOptionAvailable;
+            VotingAPI.CurrentVoting.Counter[argument]++;
+            return $"Rigged LMAO {argument}";
+        }
 
         internal static void ProcessUserInput(ReferenceHub sender, ServerSpecificSettingBase settingbase)
         {
+
             if (CurrentVoting == null)
                 return;
             if (settingbase is SSKeybindSetting keybindSetting && keybindSetting.SyncIsPressed)
             {
+                CommandSystem.ICommand existingCommand;
                 switch ((int)keybindSetting.SettingId)
                 {
                     case int id when id == 888:
+                        if (QueryProcessor.DotCommandHandler.TryGetCommand("cv" + Callvote.Instance.Translation.CommandYes, out existingCommand))
+                        {
+                            Vote(Player.Get(sender), existingCommand.Command);
+                            break;
+                        }
                         Vote(Player.Get(sender), Callvote.Instance.Translation.CommandYes);
                         break;
-
                     case int id when id == 889:
+                        if (QueryProcessor.DotCommandHandler.TryGetCommand("cv" + Callvote.Instance.Translation.CommandNo, out existingCommand))
+                        {
+                            Vote(Player.Get(sender), existingCommand.Command);
+                            break;
+                        }
                         Vote(Player.Get(sender), Callvote.Instance.Translation.CommandNo);
                         break;
-
                     case int id when id == 890:
+                        if (QueryProcessor.DotCommandHandler.TryGetCommand("cv" + Callvote.Instance.Translation.CommandMobileTaskForce, out existingCommand))
+                        {
+                            Vote(Player.Get(sender), existingCommand.Command);
+                            break;
+                        }
                         Vote(Player.Get(sender), Callvote.Instance.Translation.CommandMobileTaskForce);
                         break;
                     case int id when id == 891:
+                        if (QueryProcessor.DotCommandHandler.TryGetCommand("cv" + Callvote.Instance.Translation.CommandChaosInsurgency, out existingCommand))
+                        {
+                            Vote(Player.Get(sender), existingCommand.Command);
+                            break;
+                        }
                         Vote(Player.Get(sender), Callvote.Instance.Translation.CommandChaosInsurgency);
                         break;
                     default:

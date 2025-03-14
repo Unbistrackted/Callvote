@@ -54,7 +54,6 @@ namespace Callvote
         public string LessThanTwoOptions { get; private set; } = "You cannot create a custom voting without 2 options!";
         public string VoteKeybind { get; private set; } = "Vote";
         public string KeybindHint { get; private set; } = "Set this keybind to vote";
-
         [Description("Commands:")] 
         public string CommandYes { get; private set; } = "yes";
         public string CommandNo { get; private set; } = "no";

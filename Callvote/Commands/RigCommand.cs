@@ -31,7 +31,7 @@ namespace Callvote.Commands
                 return false;
             }
 
-            if (!VotingAPI.CurrentVoting.Options.ContainsKey(arguments.ElementAt(0)))
+            if (!VotingAPI.CurrentVoting.Options.ContainsKey(arguments.ElementAt(0)))   
             {
                 response = "Couldn't find option";
                 return false;
@@ -40,6 +40,8 @@ namespace Callvote.Commands
             VotingAPI.Rig(arguments.ElementAt(0));
             response = arguments.ElementAt(0);
             return true;
+
+
         }
     }
 }
