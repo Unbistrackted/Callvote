@@ -76,24 +76,29 @@ Dead
 Callvote:
   is_enabled: true
   debug: false
+  # Enable or disable Modules.
   enable_kick: true
   enable_kill: true
   enable_nuke: true
   enable_respawn_wave: true
   enable_round_restart: true
+  # Changes the voting duration.
   vote_duration: 30
-  vote_cooldown: 5
+  # Changes the maximum amount of voting each player can call in a match.
   max_amount_of_votes_per_round: 10
+  # Changes the amount of time it needs to start voting after the round starts for each module.
   max_wait_kill: 0
   max_wait_kick: 0
   max_wait_nuke: 0
   max_wait_respawn_wave: 0
   max_wait_restart_round: 0
+  # Changes the threshold to pass the voting for each module.
   threshold_kick: 30
   threshold_kill: 30
   threshold_nuke: 30
   threshold_respawn_wave: 30
   threshold_restart_round: 30
+  # Changes Callvote's broadcast size. (0 = Callvote's default size calculation algorithm)
   broadcast_size: 0
 ```
 
@@ -112,7 +117,7 @@ Callvote:
   untouchable: '%VotePercent%% voted to kill or kick you.'
   not_success_full_kick: '%VotePercent%% voted yes, but %ThresholdKick%% was required to kick %Offender%.'
   player_not_found: 'Did not find any players with the name or partial name of %Player%'
-  no_option_available: 'Vote does not have that option.'
+  no_option_available: 'Vote does not have the option %Option%.'
   already_voted: 'You''ve already voted.'
   vote_accepted: 'You voted %Reason%.'
   no_permission_to_vote: 'You do not have permission to run this command!'
@@ -152,12 +157,13 @@ Callvote:
   less_than_two_options: 'You cannot create a custom voting without 2 options!'
   vote_keybind: 'Vote'
   keybind_hint: 'Set this keybind to vote'
+  duplicate_command: 'It''s not possible to create a custom command with the same name!'
   # Commands:
   command_yes: 'yes'
   command_no: 'no'
   command_chaos_insurgency: 'ci'
   command_mobile_task_force: 'mtf'
-  duplicate_command: 'Its not possible to create a custom command with the same name!'
+
 ```
 
 # Special thanks to:
