@@ -55,9 +55,9 @@ namespace Callvote
         public string KeybindHint { get; private set; } = "Set this keybind to vote";
         public string DuplicateCommand { get; private set; } = "It's not possible to create a custom command with the same name!";
         [Description("Commands:")]
-        public string CommandYes { get; private set; } = "yes";
-        public string CommandNo { get; private set; } = "no";
-        public string CommandChaosInsurgency { get; private set; } = "ci";
-        public string CommandMobileTaskForce { get; private set; } = "mtf";
+        public string CommandYes { get; set; } = "yes";
+        public string CommandNo { get; set; } = "no";
+        public string CommandChaosInsurgency { get; set; } = "ci";
+        public string CommandMobileTaskForce { get; set; } = "mtf";
     }
 }

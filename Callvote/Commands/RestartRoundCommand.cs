@@ -17,7 +17,6 @@ namespace Callvote.Commands
 
         public bool Execute(ArraySegment<string> args, ICommandSender sender, out string response)
         {
-
             Player player = Player.Get(sender);
 
             if (!Callvote.Instance.Config.EnableRoundRestart)
@@ -37,7 +36,6 @@ namespace Callvote.Commands
                 response = Callvote.Instance.Translation.WaitToVote.Replace("%Timer%", $"{Callvote.Instance.Config.MaxWaitRestartRound - Round.ElapsedTime.TotalSeconds}");
                 return false;
             }
-
 
             VotingAPI.Options.Add(Callvote.Instance.Translation.CommandYes, Callvote.Instance.Translation.OptionYes);
             VotingAPI.Options.Add(Callvote.Instance.Translation.CommandNo, Callvote.Instance.Translation.OptionNo);

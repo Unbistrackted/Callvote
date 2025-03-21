@@ -52,12 +52,12 @@ namespace Callvote.VoteHandlers
         public string Start()
         {
             if (VotingAPI.CurrentVoting != null) { return Callvote.Instance.Translation.VotingInProgress; }
-            if (!VotingAPI.CallvotePlayerDict.ContainsKey(CallVotePlayer))
+            if (!VotingAPI.PlayerCallVotingAmount.ContainsKey(CallVotePlayer))
             {
-                VotingAPI.CallvotePlayerDict.Add(CallVotePlayer, 1);
+                VotingAPI.PlayerCallVotingAmount.Add(CallVotePlayer, 1);
             }
-            VotingAPI.CallvotePlayerDict[CallVotePlayer]++;
-            if (VotingAPI.CallvotePlayerDict[CallVotePlayer] - 1 > Callvote.Instance.Config.MaxAmountOfVotesPerRound && !CallVotePlayer.CheckPermission("cv.bypass")) { return Callvote.Instance.Translation.MaxVote; }
+            VotingAPI.PlayerCallVotingAmount[CallVotePlayer]++;
+            if (VotingAPI.PlayerCallVotingAmount[CallVotePlayer] - 1 > Callvote.Instance.Config.MaxAmountOfVotesPerRound && !CallVotePlayer.CheckPermission("cv.bypass")) { return Callvote.Instance.Translation.MaxVote; }
             foreach (KeyValuePair<string, string> kvp in Options.ToList())
             {
                 VoteCommand voteCommand = new VoteCommand(kvp.Key);

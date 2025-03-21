@@ -29,7 +29,7 @@ namespace Callvote
         public int ThresholdNuke { get; set; } = 30;
         public int ThresholdRespawnWave { get; set; } = 30;
         public int ThresholdRestartRound { get; set; } = 30;
-        [Description("Changes Callvote's broadcast size.")]
+        [Description("Changes Callvote's broadcast size. (0 = Callvote's default size calculation algorithm)")]
         public int BroadcastSize { get; set; } = 0;
     }
 }

@@ -11,7 +11,7 @@ namespace Callvote.VoteHandlers
     public class VotingAPI
     {
         public static Voting CurrentVoting;
-        public static Dictionary<Player, int> CallvotePlayerDict = new Dictionary<Player, int>();
+        public static Dictionary<Player, int> PlayerCallVotingAmount = new Dictionary<Player, int>();
         public static Dictionary<string, string> Options = new Dictionary<string, string>();
         public static string Vote(Player player, string option)
         {
