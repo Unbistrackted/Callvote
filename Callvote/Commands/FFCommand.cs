@@ -31,7 +31,7 @@ namespace Callvote.Commands
                 return false;
             }
 
-            if (Round.ElapsedTime.TotalSeconds < Callvote.Instance.Config.MaxWaitRestartRound || !player.CheckPermission("cv.bypass"))
+            if (Round.ElapsedTime.TotalSeconds < Callvote.Instance.Config.MaxWaitFf || !player.CheckPermission("cv.bypass"))
             {
                 response = Callvote.Instance.Translation.WaitToVote.Replace("%Timer%", $"{Callvote.Instance.Config.MaxWaitRestartRound - Round.ElapsedTime.TotalSeconds}");
                 return false;
@@ -59,7 +59,7 @@ namespace Callvote.Commands
                 {
                     int yesVotePercent = (int)(vote.Counter[Callvote.Instance.Translation.CommandYes] / (float)Player.List.Count() * 100f);
                     int noVotePercent = (int)(vote.Counter[Callvote.Instance.Translation.CommandNo] / (float)Player.List.Count() * 100f);
-                    if (yesVotePercent >= Callvote.Instance.Config.ThresholdFF && yesVotePercent > noVotePercent)
+                    if (yesVotePercent >= Callvote.Instance.Config.ThresholdFf && yesVotePercent > noVotePercent)
                     {
                         switch (Server.FriendlyFire)
                         {

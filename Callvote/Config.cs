@@ -19,6 +19,7 @@ namespace Callvote
         [Description("Changes the maximum amount of voting each player can call in a match.")]
         public int MaxAmountOfVotesPerRound { get; set; } = 10;
         [Description("Changes the amount of time it needs to start voting after the round starts for each module.")]
+        public float MaxWaitFf { get; set; } = 0;
         public float MaxWaitKill { get; set; } = 0;
         public float MaxWaitKick { get; set; } = 0;
         public float MaxWaitNuke { get; set; } = 0;
@@ -26,7 +27,7 @@ namespace Callvote
         public float MaxWaitRestartRound { get; set; } = 0;
         [Description("Changes the threshold to pass the voting for each module.")]
         public int ThresholdKick { get; set; } = 30;
-        public int ThresholdFF { get; set; } = 30;
+        public int ThresholdFf { get; set; } = 30;
         public int ThresholdKill { get; set; } = 30;
         public int ThresholdNuke { get; set; } = 30;
         public int ThresholdRespawnWave { get; set; } = 30;
