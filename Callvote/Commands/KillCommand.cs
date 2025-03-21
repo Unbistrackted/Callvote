@@ -97,7 +97,7 @@ namespace Callvote.Commands
                     }
                     else
                     {
-                        Map.Broadcast(5, Callvote.Instance.Translation.NotSuccessFullKick
+                        Map.Broadcast(5, Callvote.Instance.Translation.NoSuccessFullKill
                             .Replace("%VotePercent%", yesVotePercent.ToString())
                             .Replace("%ThresholdKick%", Callvote.Instance.Config.ThresholdKick.ToString())
                             .Replace("%Offender%", locatedPlayer.Nickname));

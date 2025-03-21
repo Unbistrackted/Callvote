@@ -25,6 +25,7 @@ namespace Callvote
         public float MaxWaitRestartRound { get; set; } = 0;
         [Description("Changes the threshold to pass the voting for each module.")]
         public int ThresholdKick { get; set; } = 30;
+        public int ThresholdFF { get; set; } = 30;
         public int ThresholdKill { get; set; } = 30;
         public int ThresholdNuke { get; set; } = 30;
         public int ThresholdRespawnWave { get; set; } = 30;

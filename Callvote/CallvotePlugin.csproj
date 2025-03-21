@@ -155,6 +155,7 @@
     <Compile Include="Commands\BinaryCommand.cs" />
     <Compile Include="Commands\CallVoteCommand.cs" />
     <Compile Include="Commands\CustomVotingCommand.cs" />
+    <Compile Include="Commands\FFCommand.cs" />
     <Compile Include="Commands\HelpCommand.cs" />
     <Compile Include="Commands\KillCommand.cs" />
     <Compile Include="Commands\RigCommand.cs" />
