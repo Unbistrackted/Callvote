@@ -19,7 +19,7 @@ namespace Callvote.Commands
         {
             Player player = Player.Get(sender);
 
-            if (!Callvote.Instance.Config.EnableRoundRestart)
+            if (!Callvote.Instance.Config.EnableFf)
             {
                 response = Callvote.Instance.Translation.VoteFFDisabled;
                 return false;
@@ -44,11 +44,11 @@ namespace Callvote.Commands
 
             if (!Server.FriendlyFire) 
             {
-                question = Callvote.Instance.Translation.AskedToDisableFF; 
+                question = Callvote.Instance.Translation.AskedToDisableFf; 
             } 
             else 
             { 
-                question = Callvote.Instance.Translation.AskedToEnableFF;
+                question = Callvote.Instance.Translation.AskedToEnableFf;
             }
 
             VotingAPI.CurrentVoting = new Voting(question
@@ -85,14 +85,14 @@ namespace Callvote.Commands
                         {
                             case true:
                                 {
-                                    Map.Broadcast(5, Callvote.Instance.Translation.NoSuccessFullEnableFF
+                                    Map.Broadcast(5, Callvote.Instance.Translation.NoSuccessFullEnableFf
                                         .Replace("%VotePercent%", yesVotePercent.ToString())
                                         .Replace("%ThresholdRestartRound%", Callvote.Instance.Config.ThresholdRestartRound.ToString()));
                                     break;
                                 }
                             case false:
                                 {
-                                    Map.Broadcast(5, Callvote.Instance.Translation.NoSuccessFullDisableFF
+                                    Map.Broadcast(5, Callvote.Instance.Translation.NoSuccessFullDisableFf
                                          .Replace("%VotePercent%", yesVotePercent.ToString())
                                          .Replace("%ThresholdRestartRound%", Callvote.Instance.Config.ThresholdRestartRound.ToString()));
                                     break;

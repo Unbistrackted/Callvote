@@ -9,6 +9,7 @@ namespace Callvote
         public bool Debug { get; set; } = false;
         [Description("Enable or disable Modules.")]
         public bool EnableKick { get; set; } = true;
+        public bool EnableFf { get; set; } = true;
         public bool EnableKill { get; set; } = true;
         public bool EnableNuke { get; set; } = true;
         public bool EnableRespawnWave { get; set; } = true;
