@@ -49,8 +49,6 @@ namespace Callvote.VoteHandlers
                 }
                 counter++;
             }
-
-
             int textsize = firstBroadcast.Length / 10;
             if (Callvote.Instance.Config.BroadcastSize != 0)
             {
