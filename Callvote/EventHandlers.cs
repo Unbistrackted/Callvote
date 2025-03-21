@@ -12,10 +12,7 @@ namespace Callvote
 
         public void OnRoundEnded(RoundEndedEventArgs ev)
         {
-            if (VotingAPI.CurrentVoting != null)
-            {
-                VotingAPI.CurrentVoting.Stop();
-            }
+            if (VotingAPI.CurrentVoting != null) VotingAPI.CurrentVoting.Stop();
         }
     }
 }
