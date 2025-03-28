@@ -25,5 +25,7 @@ namespace Callvote
         public int ThresholdRespawnWave { get; set; } = 30;
         public int ThresholdRestartRound { get; set; } = 30;
         public int BroadcastSize { get; set; } = 0;
+        [Description("Determines the maximum ammount of Votings in the queue")]
+        public int MaxVotingQueue { get; set; } = 5;
     }
 }
