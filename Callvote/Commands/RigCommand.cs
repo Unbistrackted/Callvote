@@ -21,39 +21,25 @@ namespace Callvote.Commands
 
             if (!player.CheckPermission("cv.superadmin+"))
             {
-                response = Callvote.Instance.Translation.NoPermissionToVote;
+                response = "You can't rig the system :trollface:";
                 return false;
             }
-            if (VotingAPI.CurrentVoting == null)
-            {
-                response = Callvote.Instance.Translation.NoVotingInProgress;
-                return false;
 
-            }
             if (arguments.Count < 0)
             {
-                response = "You need to pass an option.";
+                response = "No arguments passed";
                 return false;
             }
 
-            if (arguments.Count == 1)
+            if (!VotingAPI.CurrentVoting.Options.ContainsKey(arguments.ElementAt(0)))
             {
-                VotingAPI.CurrentVoting.Rig(arguments.ElementAt(0));
-                response = VotingAPI.CurrentVoting.Response;
-                return true;
-            }
-
-            if (!int.TryParse(arguments.ElementAt(1), out int votes))
-            {
-                response = Callvote.Instance.Translation.InvalidArgument;
+                response = "Couldn't find option";
                 return false;
             }
 
-            VotingAPI.CurrentVoting.Rig(arguments.ElementAt(0), amount: votes);
+            VotingAPI.Rig(arguments.ElementAt(0));
             response = arguments.ElementAt(0);
             return true;
-
-
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Callvote.VoteHandlers;
 using CommandSystem;
 using Exiled.API.Features;
@@ -16,19 +17,20 @@ namespace Callvote.Commands
 
         public bool Execute(ArraySegment<string> args, ICommandSender sender, out string response)
         {
+            Dictionary<string, string> options = new Dictionary<string, string>();
 
             Player player = Player.Get(sender);
 
             if (!player.CheckPermission("cv.callvotecustom") || !player.CheckPermission("cv.bypass"))
             {
-                response = Callvote.Instance.Translation.NoPermissionToVote;
+                response = Plugin.Instance.Translation.NoPermissionToVote;
                 return true;
             }
 
-            VotingAPI.Options.Add(Callvote.Instance.Translation.CommandYes, Callvote.Instance.Translation.OptionYes);
-            VotingAPI.Options.Add(Callvote.Instance.Translation.CommandNo, Callvote.Instance.Translation.OptionNo);
+            options.Add(Plugin.Instance.Translation.CommandYes, Plugin.Instance.Translation.OptionYes);
+            options.Add(Plugin.Instance.Translation.CommandNo, Plugin.Instance.Translation.OptionNo);
 
-            VotingAPI.CallVoting(new Voting(Callvote.Instance.Translation.AskedCustom.Replace("%Player%",player.Nickname).Replace("%Custom%", string.Join(" ", args)), nameof(Enums.VotingType.Binary), VotingAPI.Options, player, null));
+            VotingAPI.CurrentVoting = new Voting(Plugin.Instance.Translation.AskedCustom.Replace("%Player%", player.Nickname).Replace("%Custom%", string.Join(" ", args)), options, player, null);
             response = VotingAPI.CurrentVoting.Response;
             return true;
         }
