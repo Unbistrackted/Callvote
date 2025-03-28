@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
-using Callvote.VoteHandlers;
+﻿using Callvote.VoteHandlers;
 using CommandSystem;
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Callvote.Commands
 {
@@ -26,7 +26,7 @@ namespace Callvote.Commands
 
             if (!player.CheckPermission("cv.callvotecustom") || !player.CheckPermission("cv.bypass"))
             {
-                response = Callvote.Instance.Translation.NoPermissionToVote;
+                response = Callvote.Instance.Translation.NoPermission;
                 return false;
             }
 
@@ -44,15 +44,21 @@ namespace Callvote.Commands
                 {
                     optionDetail = argsStrings[i];
                 }
-                if (VotingAPI.Options.ContainsKey(argsStrings[i]))
+                if (CallvoteAPI.Options.ContainsKey(argsStrings[i]))
                 {
                     response = Callvote.Instance.Translation.DuplicateCommand;
                     return false;
                 }
-                VotingAPI.Options.Add(argsStrings[i], optionDetail);
+                CallvoteAPI.AddOptionToVoting(argsStrings[i], optionDetail);
             }
-            VotingAPI.CurrentVoting = new Voting(Callvote.Instance.Translation.AskedCustom.Replace("%Player%", player.Nickname).Replace("%Custom%", argsStrings.First()), VotingAPI.Options, player, null);
-            response = VotingAPI.CurrentVoting.Response;
+            CallvoteAPI.CallVoting(
+                Callvote.Instance.Translation.AskedCustom
+                    .Replace("%Player%", player.Nickname)
+                    .Replace("%Custom%", argsStrings.First()),
+                nameof(Enums.VotingType.Custom),
+                player,
+                null);
+            response = CallvoteAPI.Response;
             return true;
         }
 

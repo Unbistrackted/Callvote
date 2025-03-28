@@ -1,10 +1,10 @@
-﻿using System;
-using System.Linq;
-using Callvote.VoteHandlers;
+﻿using Callvote.VoteHandlers;
 using CommandSystem;
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
 using Respawning;
+using System;
+using System.Linq;
 
 namespace Callvote.Commands
 {
@@ -29,7 +29,7 @@ namespace Callvote.Commands
 
             if (!player.CheckPermission("cv.callvoterespawnwave"))
             {
-                response = Callvote.Instance.Translation.NoPermissionToVote;
+                response = Callvote.Instance.Translation.NoPermission;
                 return false;
             }
 
@@ -39,15 +39,16 @@ namespace Callvote.Commands
                 return false;
             }
 
-            VotingAPI.Options.Add(Callvote.Instance.Translation.CommandNo, Callvote.Instance.Translation.OptionNo);
-            VotingAPI.Options.Add(Callvote.Instance.Translation.CommandMobileTaskForce, Callvote.Instance.Translation.OptionMtf);
-            VotingAPI.Options.Add(Callvote.Instance.Translation.CommandChaosInsurgency, Callvote.Instance.Translation.OptionCi);
+            CallvoteAPI.AddOptionToVoting(Callvote.Instance.Translation.CommandNo, Callvote.Instance.Translation.OptionNo);
+            CallvoteAPI.AddOptionToVoting(Callvote.Instance.Translation.CommandMobileTaskForce, Callvote.Instance.Translation.OptionMtf);
+            CallvoteAPI.AddOptionToVoting(Callvote.Instance.Translation.CommandChaosInsurgency, Callvote.Instance.Translation.OptionCi);
 
-            VotingAPI.CurrentVoting = new Voting(Callvote.Instance.Translation.AskedToRespawn
+            CallvoteAPI.CallVoting(
+                Callvote.Instance.Translation.AskedToRespawn
                     .Replace("%Player%", player.Nickname),
-                VotingAPI.Options,
+                nameof(Enums.VotingType.RespawnWave),
                 player,
-                delegate(Voting vote)
+                delegate (Voting vote)
                 {
                     int noVotePercent = (int)(vote.Counter[Callvote.Instance.Translation.CommandNo] / (float)Player.List.Count() * 100f);
                     int mtfVotePercent = (int)(vote.Counter[Callvote.Instance.Translation.CommandMobileTaskForce] / (float)Player.List.Count() * 100f);
@@ -71,7 +72,7 @@ namespace Callvote.Commands
                             .Replace("%ThresholdRespawnWave%", Callvote.Instance.Config.ThresholdRespawnWave.ToString()));
                     }
                 });
-            response = VotingAPI.CurrentVoting.Response;
+            response = CallvoteAPI.Response;
             return true;
         }
     }

@@ -1,6 +1,6 @@
-﻿using System.Reflection;
+﻿using Callvote;
+using System.Reflection;
 using System.Runtime.InteropServices;
-using Callvote;
 
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
@@ -52,6 +52,6 @@ namespace Callvote
         internal const string Id = "unbistrackted.Callvote";
         internal const string ConfigPrefix = "Callvote";
         internal const string LangFile = "Callvote";
-        internal const string Version = "5.4.0";
+        internal const string Version = "6.0.0";
     }
 }

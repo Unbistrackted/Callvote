@@ -1,9 +1,9 @@
-﻿using System;
-using System.Linq;
-using Callvote.VoteHandlers;
+﻿using Callvote.VoteHandlers;
 using CommandSystem;
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
+using System;
+using System.Linq;
 
 namespace Callvote.Commands
 {
@@ -27,7 +27,7 @@ namespace Callvote.Commands
 
             if (!player.CheckPermission("cv.callvoteff"))
             {
-                response = Callvote.Instance.Translation.NoPermissionToVote;
+                response = Callvote.Instance.Translation.NoPermission;
                 return false;
             }
 
@@ -37,23 +37,24 @@ namespace Callvote.Commands
                 return false;
             }
 
-            VotingAPI.Options.Add(Callvote.Instance.Translation.CommandYes, Callvote.Instance.Translation.OptionYes);
-            VotingAPI.Options.Add(Callvote.Instance.Translation.CommandNo, Callvote.Instance.Translation.OptionNo);
+            CallvoteAPI.AddOptionToVoting(Callvote.Instance.Translation.CommandYes, Callvote.Instance.Translation.OptionYes);
+            CallvoteAPI.AddOptionToVoting(Callvote.Instance.Translation.CommandNo, Callvote.Instance.Translation.OptionNo);
 
             string question;
 
-            if (!Server.FriendlyFire) 
+            if (!Server.FriendlyFire)
             {
-                question = Callvote.Instance.Translation.AskedToDisableFf; 
-            } 
-            else 
-            { 
+                question = Callvote.Instance.Translation.AskedToDisableFf;
+            }
+            else
+            {
                 question = Callvote.Instance.Translation.AskedToEnableFf;
             }
 
-            VotingAPI.CurrentVoting = new Voting(question
+            CallvoteAPI.CallVoting(
+                question
                     .Replace("%Player%", player.Nickname),
-                VotingAPI.Options,
+                nameof(Enums.VotingType.FF),
                 player,
                 delegate (Voting vote)
                 {
@@ -100,7 +101,7 @@ namespace Callvote.Commands
                         }
                     }
                 });
-            response = VotingAPI.CurrentVoting.Response;
+            response = CallvoteAPI.Response;
             return true;
         }
     }

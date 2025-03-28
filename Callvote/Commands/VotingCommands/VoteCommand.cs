@@ -1,7 +1,7 @@
-﻿using System;
-using Callvote.VoteHandlers;
+﻿using Callvote.VoteHandlers;
 using CommandSystem;
 using Exiled.API.Features;
+using System;
 
 namespace Callvote.Commands
 {
@@ -21,12 +21,12 @@ namespace Callvote.Commands
         {
             Player player = Player.Get(sender);
 
-            if (VotingAPI.CurrentVoting == null)
+            if (CallvoteAPI.CurrentVoting == null)
             {
                 response = Callvote.Instance.Translation.NoVotingInProgress;
                 return true;
             }
-            response = VotingAPI.Vote(player, Command);
+            response = CallvoteAPI.CurrentVoting.Vote(player, Command);
             return true;
         }
     }

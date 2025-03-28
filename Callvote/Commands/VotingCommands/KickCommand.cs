@@ -1,46 +1,47 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Callvote.VoteHandlers;
+﻿using Callvote.VoteHandlers;
 using CommandSystem;
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Callvote.Commands
 {
-    public class KillCommand : ICommand
+    public class KickCommand : ICommand
     {
-        public string Command => "kill";
+        public string Command => "kick";
 
-        public string[] Aliases => new[] { "death", "kil" };
+        public string[] Aliases => new[] { "ki", "k" };
 
-        public string Description => "Calls a kill voting.";
+        public string Description => "Calls a kick voting.";
 
         public bool Execute(ArraySegment<string> args, ICommandSender sender, out string response)
         {
+
             Player player = Player.Get(sender);
 
-            if (!Callvote.Instance.Config.EnableKill)
+            if (!Callvote.Instance.Config.EnableKick)
             {
-                response = Callvote.Instance.Translation.VoteKillDisabled;
+                response = Callvote.Instance.Translation.VoteKickDisabled;
                 return false;
             }
 
-            if (!player.CheckPermission("cv.callvotekill"))
+            if (!player.CheckPermission("cv.callvotekick"))
             {
-                response = Callvote.Instance.Translation.NoPermissionToVote;
+                response = Callvote.Instance.Translation.NoPermission;
                 return false;
             }
 
             if (args.Count == 0)
             {
-                response = "callvote Kill <player> (reason)";
+                response = "callvote Kick <player> (reason)";
                 return false;
             }
 
-            if (Round.ElapsedTime.TotalSeconds < Callvote.Instance.Config.MaxWaitKill || !player.CheckPermission("cv.bypass"))
+            if (Round.ElapsedTime.TotalSeconds < Callvote.Instance.Config.MaxWaitKick || !player.CheckPermission("cv.bypass"))
             {
-                response = Callvote.Instance.Translation.WaitToVote.Replace("%Timer%", $"{Callvote.Instance.Config.MaxWaitKill - Round.ElapsedTime.TotalSeconds}");
+                response = Callvote.Instance.Translation.WaitToVote.Replace("%Timer%", $"{Callvote.Instance.Config.MaxWaitKick - Round.ElapsedTime.TotalSeconds}");
                 return false;
             }
 
@@ -58,7 +59,6 @@ namespace Callvote.Commands
                 return false;
             }
 
-
             List<Player> playerSearch = Player.List.Where(p => p.Nickname.Contains(args.ElementAt(0))).ToList();
             if (playerSearch.Count() < 0 || playerSearch.Count() > 1)
             {
@@ -68,42 +68,42 @@ namespace Callvote.Commands
 
             string reason = args.ElementAt(1);
 
-            VotingAPI.Options.Add(Callvote.Instance.Translation.CommandYes, Callvote.Instance.Translation.OptionYes);
-            VotingAPI.Options.Add(Callvote.Instance.Translation.CommandNo, Callvote.Instance.Translation.OptionNo);
+            CallvoteAPI.AddOptionToVoting(Callvote.Instance.Translation.CommandYes, Callvote.Instance.Translation.OptionYes);
+            CallvoteAPI.AddOptionToVoting(Callvote.Instance.Translation.CommandNo, Callvote.Instance.Translation.OptionNo);
 
-            VotingAPI.CurrentVoting = new Voting(Callvote.Instance.Translation.AskedToKill
+            CallvoteAPI.CallVoting(
+                Callvote.Instance.Translation.AskedToKick
                     .Replace("%Player%", player.Nickname)
                     .Replace("%Offender%", locatedPlayer.Nickname)
                     .Replace("%Reason%", reason),
-                VotingAPI.Options,
+                nameof(Enums.VotingType.Kick),
                 player,
-                delegate(Voting vote)
+                delegate (Voting vote)
                 {
                     int yesVotePercent = (int)(vote.Counter[Callvote.Instance.Translation.CommandYes] / (float)Player.List.Count() * 100f);
                     int noVotePercent = (int)(vote.Counter[Callvote.Instance.Translation.CommandNo] / (float)Player.List.Count() * 100f); //Just so you know that it exists
-                    if (yesVotePercent >= Callvote.Instance.Config.ThresholdKill && yesVotePercent > noVotePercent)
+                    if (yesVotePercent >= Callvote.Instance.Config.ThresholdKick && yesVotePercent > noVotePercent)
                     {
                         if (!locatedPlayer.CheckPermission("cv.untouchable"))
                         {
-                            locatedPlayer.Kill(reason);
-                            Map.Broadcast(8, Callvote.Instance.Translation.PlayerKilled
+                            locatedPlayer.Kick(reason);
+                            Map.Broadcast(8, Callvote.Instance.Translation.PlayerKicked
                                 .Replace("%VotePercent%", yesVotePercent.ToString())
                                 .Replace("%Player%", player.Nickname)
                                 .Replace("%Offender%", locatedPlayer.Nickname)
                                 .Replace("%Reason%", reason));
                         }
-                        if (!locatedPlayer.CheckPermission("cv.untouchable")) locatedPlayer.Kill(reason);
                         if (locatedPlayer.CheckPermission("cv.untouchable")) locatedPlayer.Broadcast(5, Callvote.Instance.Translation.Untouchable.Replace("%VotePercent%", yesVotePercent.ToString()));
                     }
                     else
                     {
-                        Map.Broadcast(5, Callvote.Instance.Translation.NoSuccessFullKill
+                        Map.Broadcast(5, Callvote.Instance.Translation.NotSuccessFullKick
                             .Replace("%VotePercent%", yesVotePercent.ToString())
                             .Replace("%ThresholdKick%", Callvote.Instance.Config.ThresholdKick.ToString())
                             .Replace("%Offender%", locatedPlayer.Nickname));
                     }
                 });
-            response = VotingAPI.CurrentVoting.Response;
+            response = CallvoteAPI.Response;
             return true;
         }
     }

@@ -1,11 +1,11 @@
-using System.ComponentModel;
 using Exiled.API.Interfaces;
+using System.ComponentModel;
 
 namespace Callvote
 {
     public class Translation : ITranslation
     {
-        [Description("%player%, %VotePercent%, %Offender%, %ThresholdKick%, %ThresholdRespawnWave%, %ThresholdNuke%, %ThresholdKill%, %ThresholdRestartRound%, %OptionKey%, %Option%, %Counter%, %Timer%, %Custom%")]
+        [Description("%player%, %VotePercent%, %Offender%, %ThresholdKick%, %ThresholdRespawnWave%, %ThresholdNuke%, %ThresholdKill%, %ThresholdRestartRound%, %OptionKey%, %Option%, %Counter%, %Timer%, %Custom%, %Type%, %Number%")]
         public string MaxVote { get; private set; } = "Max amounts of votes done this round";
         public string VotingInProgress { get; private set; } = "A vote is currently in progress.";
         public string PlayersWithSameName { get; private set; } = "Multiple players have a name or partial name of %Player%. Please use a different search string.";
@@ -19,7 +19,7 @@ namespace Callvote
         public string NoOptionAvailable { get; private set; } = "Vote does not have the option %Option%.";
         public string AlreadyVoted { get; private set; } = "You've already voted.";
         public string VoteAccepted { get; private set; } = "You voted %Reason%.";
-        public string NoPermissionToVote { get; private set; } = "You do not have permission to run this command!";
+        public string NoPermission { get; private set; } = "You do not have permission to run this command!";
         public string VotingStoped { get; private set; } = "Vote stopped.";
         public string Results { get; private set; } = "Final results:\n";
         public string OptionAndCounter { get; private set; } = " %Option% (%Counter%) ";
@@ -61,6 +61,14 @@ namespace Callvote
         public string VoteKeybind { get; private set; } = "Vote";
         public string KeybindHint { get; private set; } = "Set this keybind to vote";
         public string DuplicateCommand { get; private set; } = "It's not possible to create a custom command with the same name!";
+        public string QueueDisabled { get; private set; } = "Callvote queue disabled.";
+        public string QueueCleared { get; private set; } = "Votings Queue Cleared.";
+        public string QueuePaused { get; private set; } = "Queue Paused";
+        public string QueueResumed { get; private set; } = "Votings Queue resumed.";
+        public string RemovedFromQueue { get; private set; } = "Removed %Number% Voting(s)";
+        public string NoVotingInQueue { get; private set; } = "There's no voting in the queue.";
+        public string TypeNotFound { get; private set; } = "Did not find any Voting with the type <color=red>%Type%</color>";
+        public string InvalidArgument { get; private set; } = "Invalid argument.";
         [Description("Commands:")]
         public string CommandYes { get; set; } = "yes";
         public string CommandNo { get; set; } = "no";

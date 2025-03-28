@@ -1,9 +1,9 @@
-﻿using System;
-using System.Linq;
-using Callvote.VoteHandlers;
+﻿using Callvote.VoteHandlers;
 using CommandSystem;
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
+using System;
+using System.Linq;
 
 namespace Callvote.Commands
 {
@@ -21,10 +21,10 @@ namespace Callvote.Commands
 
             if (!player.CheckPermission("cv.superadmin+"))
             {
-                response = Callvote.Instance.Translation.NoPermissionToVote;
+                response = Callvote.Instance.Translation.NoPermission;
                 return false;
             }
-            if (VotingAPI.CurrentVoting == null)
+            if (CallvoteAPI.CurrentVoting == null)
             {
                 response = Callvote.Instance.Translation.NoVotingInProgress;
                 return false;
@@ -36,13 +36,20 @@ namespace Callvote.Commands
                 return false;
             }
 
-            if (!VotingAPI.CurrentVoting.Options.ContainsKey(arguments.ElementAt(0)))
+            if (arguments.Count == 1)
             {
-                response = Callvote.Instance.Translation.NoOptionAvailable.Replace("%Option%", arguments.ElementAt(0));
+                CallvoteAPI.CurrentVoting.Rig(arguments.ElementAt(0));
+                response = CallvoteAPI.Response;
+                return true;
+            }
+
+            if (!int.TryParse(arguments.ElementAt(1), out int votes))
+            {
+                response = "Invalid Argument"; //Callvote.Instance.Translation.InvalidArgument;
                 return false;
             }
 
-            VotingAPI.Rig(arguments.ElementAt(0));
+            CallvoteAPI.CurrentVoting.Rig(arguments.ElementAt(0), amount: votes);
             response = arguments.ElementAt(0);
             return true;
 

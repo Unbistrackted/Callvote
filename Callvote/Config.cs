@@ -8,6 +8,7 @@ namespace Callvote
         public bool IsEnabled { get; set; } = true;
         public bool Debug { get; set; } = false;
         [Description("Enable or disable Modules.")]
+        public bool EnableQueue { get; set; } = true;
         public bool EnableKick { get; set; } = true;
         public bool EnableFf { get; set; } = true;
         public bool EnableKill { get; set; } = true;
@@ -34,5 +35,7 @@ namespace Callvote
         public int ThresholdRestartRound { get; set; } = 30;
         [Description("Changes Callvote's broadcast size. (0 = Callvote's default size calculation algorithm)")]
         public int BroadcastSize { get; set; } = 0;
+        [Description("Changes Callvote's Queue size.")]
+        public int QueueSize { get; set; } = 5;
     }
 }

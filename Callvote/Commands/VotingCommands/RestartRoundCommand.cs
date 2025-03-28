@@ -1,9 +1,9 @@
-﻿using System;
-using System.Linq;
-using Callvote.VoteHandlers;
+﻿using Callvote.VoteHandlers;
 using CommandSystem;
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
+using System;
+using System.Linq;
 
 namespace Callvote.Commands
 {
@@ -27,7 +27,7 @@ namespace Callvote.Commands
 
             if (!player.CheckPermission("cv.callvoterestartround"))
             {
-                response = Callvote.Instance.Translation.NoPermissionToVote;
+                response = Callvote.Instance.Translation.NoPermission;
                 return false;
             }
 
@@ -37,14 +37,15 @@ namespace Callvote.Commands
                 return false;
             }
 
-            VotingAPI.Options.Add(Callvote.Instance.Translation.CommandYes, Callvote.Instance.Translation.OptionYes);
-            VotingAPI.Options.Add(Callvote.Instance.Translation.CommandNo, Callvote.Instance.Translation.OptionNo);
+            CallvoteAPI.AddOptionToVoting(Callvote.Instance.Translation.CommandYes, Callvote.Instance.Translation.OptionYes);
+            CallvoteAPI.AddOptionToVoting(Callvote.Instance.Translation.CommandNo, Callvote.Instance.Translation.OptionNo);
 
-            VotingAPI.CurrentVoting = new Voting(Callvote.Instance.Translation.AskedToRestart
+            CallvoteAPI.CallVoting(
+                Callvote.Instance.Translation.AskedToRestart
                     .Replace("%Player%", player.Nickname),
-                VotingAPI.Options,
+                nameof(Enums.VotingType.RestartRound),
                 player,
-                delegate(Voting vote)
+                delegate (Voting vote)
                 {
                     int yesVotePercent = (int)(vote.Counter[Callvote.Instance.Translation.CommandYes] / (float)Player.List.Count() * 100f);
                     int noVotePercent = (int)(vote.Counter[Callvote.Instance.Translation.CommandNo] / (float)Player.List.Count() * 100f);
@@ -61,7 +62,7 @@ namespace Callvote.Commands
                             .Replace("%ThresholdRestartRound%", Callvote.Instance.Config.ThresholdRestartRound.ToString()));
                     }
                 });
-            response = VotingAPI.CurrentVoting.Response;
+            response = CallvoteAPI.Response;
             return true;
         }
     }

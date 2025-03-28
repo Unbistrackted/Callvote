@@ -7,12 +7,14 @@ namespace Callvote
     {
         public void OnWaitingForPlayers()
         {
-            if (VotingAPI.CurrentVoting != null) VotingAPI.CurrentVoting.Stop();
+            if (Callvote.Instance.Config.EnableQueue) { CallvoteAPI.VotingQueue.Clear(); }
+            CallvoteAPI.FinishVoting();
         }
 
         public void OnRoundEnded(RoundEndedEventArgs ev)
         {
-            if (VotingAPI.CurrentVoting != null) VotingAPI.CurrentVoting.Stop();
+            if (Callvote.Instance.Config.EnableQueue) { CallvoteAPI.VotingQueue.Clear(); }
+            CallvoteAPI.FinishVoting();
         }
     }
 }
