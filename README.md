@@ -14,7 +14,8 @@ Dead
 
  Setting Key                   | Value Type | Default Value | Description                                                                                    
 -------------------------------|------------|---------------|------------------------------------------------------------------------------------------------
- is_enabled                    | bool       | true          | Enables or disabled the plugin                                                                 
+ is_enabled                    | bool       | true          | Enables or disables the plugin     
+ enable_queue                  | boolean    | true          | Enables or disables Callvote's queue system
  enable_kick                   | boolean    | true          | Can players use **callvote kick**?                                                             
  enable_kill                   | boolean    | true          | Can players use **callvote kill**?     
  enable_Ff                     | boolean    | true          | Can players use **callvote ff**?  
@@ -37,12 +38,14 @@ Dead
  threshold_respawn_wave        | integer    | 30            | Percentage threshold required to respawn a MTF or CI wave.                                     
  threshold_restart_round       | integer    | 30            | Percentage threshold required to restart the round.                                            
  broadcast_size                | int        | 0             | Changes the broadcast size to user's preference, leave it at 0 to use Callvote's re-size logic 
+ queue_size                    | int        | 5             | Changes Callvote's Queue size if enabled. 
 
 ## Permissions
 
  Permission              | Command                         | Description                                                        
 -------------------------|---------------------------------|--------------------------------------------------------------------
- cv.callvote             | .callvote (Parameter)           | Allows players to use **.callvote**                                
+ cv.callvote             | .callvote (Parameter)           | Allows players to use **.callvote**          
+ cv.managequeue          | .callvote queue (Parameter)     | Allows players to manage Callvote's queue system using **.callvote queue (Parameter)**      
  cv.bypass               | .callvote (Parameter)           | Bypasses permissions requeriments, time and maxium amount of votes 
  cv.unlimitedvotes       | .callvote (Parameter)           | Bypasses max_amount_of_votes_per_round                             
  cv.callvotekick         | .callvote kick                  | Gives permission to use **.callvote kick**                         
@@ -68,6 +71,13 @@ Dead
  callvote respawnwave  | .callvote respawnwave  | [none]                                               | Call a voting to respawn a MTF or CI wave.                 
  callvote restartround | .callvote restartround | [none]                                               | Call a voting to restart a round.                 
  callvote ff           | .callvote ff           | [none]                                               | Call a voting to enable or disable Friendly Fire  
+ callvote queue        | .callvote queue        | [none]                                               | List all votings in the Queue (index, votingType, player, Question)
+ callvote queue check  | .callvote queue check  | [none]                                               | List all votings in the Queue (index, votingType, player, Question)
+ callvote queue clear  | .callvote queue clear  | [none]                                               | Removes all votings from the Queue
+ callvote queue pause  | .callvote queue pause  | [none]                                               | Pauses the Queue system
+ callvote queue rp     | .callvote queue rp     | [player]                                             | Removes all votings by a Player from the Queue
+ callvote queue rt     | .callvote queue rt     | [votingType]                                         | Removes all votings of votingType X from the Queue 
+ callvote queue ri     | .callvote queue ri     | [index]                                              | Removes a voting with index X from the Queue
  stopvote              | .callvote stopvote     | [none]                                               | Stops a vote currently in progress       
  yes (or translation)  | .yes (or translation)  | [none]                                               | Vote option                              
  no  (or translation)  | .no  (or translation)  | [none]                                               | Vote option                              
@@ -82,6 +92,7 @@ Callvote:
   is_enabled: true
   debug: false
   # Enable or disable Modules.
+  enable_queue: true
   enable_kick: true
   enable_ff: true
   enable_kill: true
@@ -108,13 +119,15 @@ Callvote:
   threshold_restart_round: 30
   # Changes Callvote's broadcast size. (0 = Callvote's default size calculation algorithm)
   broadcast_size: 0
+  # Changes Callvote's Queue size if enabled.
+  queue_size: 5
 ```
 
 ## Translation File
 
 ```
 Callvote:
-# %player%, %VotePercent%, %Offender%, %ThresholdKick%, %ThresholdRespawnWave%, %ThresholdNuke%, %ThresholdKill%, %ThresholdRestartRound%, %OptionKey%, %Option%, %Counter%, %Timer%, %Custom%
+# %player%, %VotePercent%, %Offender%, %ThresholdKick%, %ThresholdRespawnWave%, %ThresholdNuke%, %ThresholdKill%, %ThresholdRestartRound%, %OptionKey%, %Option%, %Counter%, %Timer%, %Custom%, %Type%, %Number%
   max_vote: 'Max amounts of votes done this round'
   voting_in_progress: 'A vote is currently in progress.'
   players_with_same_name: 'Multiple players have a name or partial name of %Player%. Please use a different search string.'
@@ -128,7 +141,7 @@ Callvote:
   no_option_available: 'Vote does not have the option %Option%.'
   already_voted: 'You''ve already voted.'
   vote_accepted: 'You voted %Reason%.'
-  no_permission_to_vote: 'You do not have permission to run this command!'
+  no_permission: 'You do not have permission to run this command!'
   voting_stoped: 'Vote stopped.'
   results: |
     Final results:
@@ -173,6 +186,14 @@ Callvote:
   vote_keybind: 'Vote'
   keybind_hint: 'Set this keybind to vote'
   duplicate_command: 'It''s not possible to create a custom command with the same name!'
+  queue_disabled: 'Callvote queue disabled.'
+  queue_cleared: 'Votings Queue Cleared.'
+  queue_paused: 'Queue Paused'
+  queue_resumed: 'Votings Queue resumed.'
+  removed_from_queue: 'Removed %Number% Voting(s)'
+  no_voting_in_queue: 'There''s no voting in the queue.'
+  type_not_found: 'Did not find any Voting with the type <color=red>%Type%</color>'
+  invalid_argument: 'Invalid argument.'
   # Commands:
   command_yes: 'yes'
   command_no: 'no'
