@@ -18,7 +18,7 @@ namespace Callvote.Commands
         {
             Player player = Player.Get(sender);
 
-            if (CallvoteAPI.CurrentVoting == null)
+            if (VotingHandler.CurrentVoting == null)
             {
                 response = Callvote.Instance.Translation.NoVotingInProgress;
                 return false;
@@ -30,7 +30,7 @@ namespace Callvote.Commands
                 return false;
             }
 
-            CallvoteAPI.FinishVoting();
+            VotingHandler.FinishVoting();
             response = Callvote.Instance.Translation.VotingStoped;
             return true;
         }

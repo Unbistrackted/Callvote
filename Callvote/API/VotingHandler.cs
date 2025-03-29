@@ -1,20 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using Callvote.API;
 using Callvote.VoteHandlers;
-using CommandSystem;
 using Exiled.API.Features;
 using HarmonyLib;
 using MEC;
-using RemoteAdmin;
-using RueI.Displays.Scheduling;
+using System;
+using System.Collections.Generic;
 using UserSettings.ServerSpecific;
-using YamlDotNet.Serialization;
 
 namespace Callvote.VoteHandlers
 {
-    public static class CallvoteAPI
+    public static class VotingHandler
     {
         public static Voting CurrentVoting;
-        public static Queue<Voting> VotingQueue;
+        public static Queue<Voting> VotingQueue = new Queue<Voting>();
         public static Dictionary<Player, int> PlayerCallVotingAmount = new Dictionary<Player, int>();
         public static Dictionary<string, string> Options = new Dictionary<string, string>();
         public static bool IsQueuePaused = false;
@@ -22,25 +20,25 @@ namespace Callvote.VoteHandlers
 
         public static void CallVoting(string question, string votingType, Player player, CallvoteFunction callback, Dictionary<string, string> options = null)
         {
-            Voting _voting = options == null ? new Voting(question, votingType, player, callback) : new Voting(question, votingType, options, player, callback);
-            CallvoteAPI.Options.Clear();
+            Voting voting = options == null ? new Voting(question, votingType, player, callback) : new Voting(question, votingType, options, player, callback);
+            VotingHandler.Options.Clear();
 
             if (Callvote.Instance.Config.EnableQueue)
             {
-                VotingQueue = new Queue<Voting>();
                 if (VotingQueue.Count >= Callvote.Instance.Config.QueueSize)
                 {
                     Response = "<color=red>Queue is full.</color>";
                     return;
+
                 }
-                VotingQueue.Enqueue(_voting);
+                VotingQueue.Enqueue(voting);
                 TryStartNextVoting();
                 return;
             }
 
-            if (CurrentVoting == null) 
+            if (CurrentVoting == null)
             {
-                CurrentVoting = _voting;
+                CurrentVoting = voting;
                 CurrentVoting.Start();
             }
         }
@@ -74,10 +72,10 @@ namespace Callvote.VoteHandlers
         public static IEnumerator<float> StartVotingCoroutine(Voting newVote)
         {
             int timerCounter = 0;
-            CallvoteAPI.CurrentVoting = newVote;
-            string firstBroadcast = Callvote.Instance.Translation.AskedQuestion.Replace("%Question%", CallvoteAPI.CurrentVoting.Question);
+            VotingHandler.CurrentVoting = newVote;
+            string firstBroadcast = Callvote.Instance.Translation.AskedQuestion.Replace("%Question%", VotingHandler.CurrentVoting.Question);
             int counter = 0;
-            foreach (KeyValuePair<string, string> kvp in CallvoteAPI.CurrentVoting.Options)
+            foreach (KeyValuePair<string, string> kvp in VotingHandler.CurrentVoting.Options)
             {
                 if (counter == 0)
                 {
@@ -94,32 +92,33 @@ namespace Callvote.VoteHandlers
             {
                 textsize = 52 - Callvote.Instance.Config.BroadcastSize;
             }
-            Map.ShowHint($"<size={52 - textsize}>{firstBroadcast}</size>", 5);
+            HintProvider.Provider.ShowString(TimeSpan.FromSeconds(5), $"<size={52 - textsize}>{firstBroadcast}</size>");
             yield return Timing.WaitForSeconds(5f);
             while (true)
             {
                 if (timerCounter >= Callvote.Instance.Config.VoteDuration + 1)
                 {
-                    if (CallvoteAPI.CurrentVoting.Callback == null)
+                    if (VotingHandler.CurrentVoting.Callback == null)
                     {
                         string resultsBroadcast = Callvote.Instance.Translation.Results;
-                        foreach (KeyValuePair<string, string> kvp in CallvoteAPI.CurrentVoting.Options)
+                        foreach (KeyValuePair<string, string> kvp in VotingHandler.CurrentVoting.Options)
                         {
                             resultsBroadcast += Callvote.Instance.Translation.OptionAndCounter
                                 .Replace("%Option%", kvp.Value)
                                 .Replace("%OptionKey%", kvp.Key)
-                                .Replace("%Counter%", CallvoteAPI.CurrentVoting.Counter[kvp.Key].ToString());
+                                .Replace("%Counter%", VotingHandler.CurrentVoting.Counter[kvp.Key].ToString());
                             textsize = resultsBroadcast.Length / 10;
                             if (Callvote.Instance.Config.BroadcastSize != 0)
                             {
                                 textsize = 48 - Callvote.Instance.Config.BroadcastSize;
                             }
                         }
-                        Map.ShowHint($"<size={48 - textsize}>{resultsBroadcast}</size>", 5);
+
+                        HintProvider.Provider.ShowString(TimeSpan.FromSeconds(5), $"<size={48 - textsize}>{resultsBroadcast}</size>");
                     }
                     else
                     {
-                        CallvoteAPI.CurrentVoting.Callback.Invoke(CallvoteAPI.CurrentVoting);
+                        VotingHandler.CurrentVoting.Callback.Invoke(VotingHandler.CurrentVoting);
                     }
                     FinishVoting();
                     yield break;
@@ -127,31 +126,30 @@ namespace Callvote.VoteHandlers
 
                 {
                     string timerBroadcast = firstBroadcast + "\n";
-                    foreach (KeyValuePair<string, string> kvp in CallvoteAPI.CurrentVoting.Options)
+                    foreach (KeyValuePair<string, string> kvp in VotingHandler.CurrentVoting.Options)
                     {
                         timerBroadcast += Callvote.Instance.Translation.OptionAndCounter
                             .Replace("%Option%", kvp.Value)
                             .Replace("%OptionKey%", kvp.Key)
-                            .Replace("%Counter%", CallvoteAPI.CurrentVoting.Counter[kvp.Key].ToString());
+                            .Replace("%Counter%", VotingHandler.CurrentVoting.Counter[kvp.Key].ToString());
                         textsize = timerBroadcast.Length / 10;
                         if (Callvote.Instance.Config.BroadcastSize != 0)
                         {
                             textsize = 52 - Callvote.Instance.Config.BroadcastSize;
                         }
                     }
-                    Map.ShowHint($"<size={52 - textsize}>{timerBroadcast}</size>", 1f);
+                    HintProvider.Provider.ShowString(TimeSpan.FromSeconds(1), $"<size={52 - textsize}>{timerBroadcast}</size>");
                 }
                 timerCounter++;
                 yield return Timing.WaitForSeconds(1f);
             }
         }
-
-        internal static void ProcessUserInput(ReferenceHub sender, ServerSpecificSettingBase settingbase)
+        internal static void ProcessUserInput(ReferenceHub sender, ServerSpecificSettingBase settingBase)
         {
 
-            if (CallvoteAPI.CurrentVoting == null)
+            if (VotingHandler.CurrentVoting == null)
                 return;
-            if (settingbase is SSKeybindSetting keybindSetting && keybindSetting.SyncIsPressed)
+            if (settingBase is SSKeybindSetting keybindSetting && keybindSetting.SyncIsPressed)
             {
                 switch (keybindSetting.SettingId)
                 {

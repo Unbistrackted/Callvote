@@ -35,7 +35,7 @@ namespace Callvote
         public int ThresholdRestartRound { get; set; } = 30;
         [Description("Changes Callvote's broadcast size. (0 = Callvote's default size calculation algorithm)")]
         public int BroadcastSize { get; set; } = 0;
-        [Description("Changes Callvote's Queue size.")]
+        [Description("Changes Callvote's Queue size if enabled.")]
         public int QueueSize { get; set; } = 5;
     }
 }

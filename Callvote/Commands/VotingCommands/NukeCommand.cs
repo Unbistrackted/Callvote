@@ -37,11 +37,11 @@ namespace Callvote.Commands
                 return false;
             }
 
-            CallvoteAPI.AddOptionToVoting(Callvote.Instance.Translation.CommandYes, Callvote.Instance.Translation.OptionYes);
-            CallvoteAPI.AddOptionToVoting(Callvote.Instance.Translation.CommandNo, Callvote.Instance.Translation.OptionNo);
+            VotingHandler.AddOptionToVoting(Callvote.Instance.Translation.CommandYes, Callvote.Instance.Translation.OptionYes);
+            VotingHandler.AddOptionToVoting(Callvote.Instance.Translation.CommandNo, Callvote.Instance.Translation.OptionNo);
 
 
-            CallvoteAPI.CallVoting(
+            VotingHandler.CallVoting(
                 Callvote.Instance.Translation.AskedToNuke
                     .Replace("%Player%", player.Nickname),
                 nameof(Enums.VotingType.Nuke),
@@ -63,7 +63,7 @@ namespace Callvote.Commands
                             .Replace("%ThresholdNuke%", Callvote.Instance.Config.ThresholdNuke.ToString()));
                     }
                 });
-            response = CallvoteAPI.Response;
+            response = VotingHandler.Response;
             return true;
         }
     }

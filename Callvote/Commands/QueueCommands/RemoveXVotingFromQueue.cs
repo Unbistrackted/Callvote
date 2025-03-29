@@ -25,7 +25,7 @@ namespace Callvote.Commands
 
             Player player = Player.Get(sender);
 
-            if (CallvoteAPI.CurrentVoting == null)
+            if (VotingHandler.CurrentVoting == null)
             {
                 response = Callvote.Instance.Translation.NoVotingInProgress;
                 return false;
@@ -42,11 +42,11 @@ namespace Callvote.Commands
                 return false;
             }
 
-            int size = CallvoteAPI.VotingQueue.Count;
+            int size = VotingHandler.VotingQueue.Count;
 
-            CallvoteAPI.VotingQueue.RemoveFromQueue(number);
+            VotingHandler.VotingQueue.RemoveFromQueue(number);
 
-            response = Callvote.Instance.Translation.RemovedFromQueue.Replace("%Number%", (size - CallvoteAPI.VotingQueue.Count).ToString());
+            response = Callvote.Instance.Translation.RemovedFromQueue.Replace("%Number%", (size - VotingHandler.VotingQueue.Count).ToString());
             return true;
         }
     }

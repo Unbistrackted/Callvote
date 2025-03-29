@@ -21,12 +21,12 @@ namespace Callvote.Commands
         {
             Player player = Player.Get(sender);
 
-            if (CallvoteAPI.CurrentVoting == null)
+            if (VotingHandler.CurrentVoting == null)
             {
                 response = Callvote.Instance.Translation.NoVotingInProgress;
                 return true;
             }
-            response = CallvoteAPI.CurrentVoting.Vote(player, Command);
+            response = VotingHandler.CurrentVoting.Vote(player, Command);
             return true;
         }
     }

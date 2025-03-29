@@ -25,17 +25,17 @@ namespace Callvote.Commands
                 return true;
             }
 
-            CallvoteAPI.AddOptionToVoting(Callvote.Instance.Translation.CommandYes, Callvote.Instance.Translation.OptionYes);
-            CallvoteAPI.AddOptionToVoting(Callvote.Instance.Translation.CommandNo, Callvote.Instance.Translation.OptionNo);
+            VotingHandler.AddOptionToVoting(Callvote.Instance.Translation.CommandYes, Callvote.Instance.Translation.OptionYes);
+            VotingHandler.AddOptionToVoting(Callvote.Instance.Translation.CommandNo, Callvote.Instance.Translation.OptionNo);
 
-            CallvoteAPI.CallVoting(
+            VotingHandler.CallVoting(
                 Callvote.Instance.Translation.AskedCustom
                     .Replace("%Player%", player.Nickname)
                     .Replace("%Custom%", string.Join(" ", args)),
                 nameof(Enums.VotingType.Binary),
                 player,
                 null);
-            response = CallvoteAPI.Response;
+            response = VotingHandler.Response;
             return true;
         }
     }

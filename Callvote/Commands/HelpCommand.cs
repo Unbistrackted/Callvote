@@ -13,7 +13,7 @@ namespace Callvote.Commands
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
-            response = "callvote custom <question(detail) <option1> <option2>(detail2)...." +
+            response = "\ncallvote custom <question(detail) <option1> <option2>(detail2)...." +
                 "\ncallvote binary <question>" +
                 "\ncallvote kick <player>" +
                 "\ncallvote kill <player>" +
@@ -21,6 +21,8 @@ namespace Callvote.Commands
                 "\ncallvote respawnwave" +
                 "\ncallvote restartround" +
                 "\ncallvote stopvote" +
+                "\ncallvote ff" +
+                "\ncallvote queue <check/clear/pause/removeplayer (player)/removetype (type)/removeindex (index)>" +
                 "\ncallvote rig <option>";
             return true;
         }

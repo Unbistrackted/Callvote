@@ -44,21 +44,21 @@ namespace Callvote.Commands
                 {
                     optionDetail = argsStrings[i];
                 }
-                if (CallvoteAPI.Options.ContainsKey(argsStrings[i]))
+                if (VotingHandler.Options.ContainsKey(argsStrings[i]))
                 {
                     response = Callvote.Instance.Translation.DuplicateCommand;
                     return false;
                 }
-                CallvoteAPI.AddOptionToVoting(argsStrings[i], optionDetail);
+                VotingHandler.AddOptionToVoting(argsStrings[i], optionDetail);
             }
-            CallvoteAPI.CallVoting(
+            VotingHandler.CallVoting(
                 Callvote.Instance.Translation.AskedCustom
                     .Replace("%Player%", player.Nickname)
                     .Replace("%Custom%", argsStrings.First()),
                 nameof(Enums.VotingType.Custom),
                 player,
                 null);
-            response = CallvoteAPI.Response;
+            response = VotingHandler.Response;
             return true;
         }
 

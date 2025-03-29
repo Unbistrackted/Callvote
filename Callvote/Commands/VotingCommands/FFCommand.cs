@@ -37,8 +37,8 @@ namespace Callvote.Commands
                 return false;
             }
 
-            CallvoteAPI.AddOptionToVoting(Callvote.Instance.Translation.CommandYes, Callvote.Instance.Translation.OptionYes);
-            CallvoteAPI.AddOptionToVoting(Callvote.Instance.Translation.CommandNo, Callvote.Instance.Translation.OptionNo);
+            VotingHandler.AddOptionToVoting(Callvote.Instance.Translation.CommandYes, Callvote.Instance.Translation.OptionYes);
+            VotingHandler.AddOptionToVoting(Callvote.Instance.Translation.CommandNo, Callvote.Instance.Translation.OptionNo);
 
             string question;
 
@@ -51,7 +51,7 @@ namespace Callvote.Commands
                 question = Callvote.Instance.Translation.AskedToEnableFf;
             }
 
-            CallvoteAPI.CallVoting(
+            VotingHandler.CallVoting(
                 question
                     .Replace("%Player%", player.Nickname),
                 nameof(Enums.VotingType.FF),
@@ -101,7 +101,7 @@ namespace Callvote.Commands
                         }
                     }
                 });
-            response = CallvoteAPI.Response;
+            response = VotingHandler.Response;
             return true;
         }
     }

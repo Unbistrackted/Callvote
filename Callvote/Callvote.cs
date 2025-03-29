@@ -30,18 +30,20 @@ namespace Callvote
             ServerSpecificSettings.RegisterSettings();
             Server.WaitingForPlayers += EventHandlers.OnWaitingForPlayers;
             Server.RoundEnded += EventHandlers.OnRoundEnded;
-            ServerSpecificSettingsSync.ServerOnSettingValueReceived += CallvoteAPI.ProcessUserInput;
+            ServerSpecificSettingsSync.ServerOnSettingValueReceived += VotingHandler.ProcessUserInput;
+            base.OnEnabled();
         }
 
         public override void OnDisabled()
         {
             Server.WaitingForPlayers -= EventHandlers.OnWaitingForPlayers;
             Server.RoundEnded -= EventHandlers.OnRoundEnded;
-            ServerSpecificSettingsSync.ServerOnSettingValueReceived -= CallvoteAPI.ProcessUserInput;
+            ServerSpecificSettingsSync.ServerOnSettingValueReceived -= VotingHandler.ProcessUserInput;
             ServerSpecificSettings.UnregisterSettings();
             SettingBase.Unregister(settings: new[] { SettingsHeader });
             Callvote.Instance = null;
             EventHandlers = null;
+            base.OnDisabled();
         }
     }
 }

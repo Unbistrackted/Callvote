@@ -80,13 +80,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Downloads\steamcmd\steamapps\common\SCP Secret Laboratory Dedicated Server\SCPSL_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
-    <Reference Include="Assembly-CSharp-Publicized, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ExMod.Exiled.9.5.1\lib\net48\Assembly-CSharp-Publicized.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Assembly-CSharp_publicized">
-      <HintPath>..\..\References\Assembly-CSharp_publicized.dll</HintPath>
-    </Reference>
     <Reference Include="CommandSystem.Core, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ExMod.Exiled.9.5.1\lib\net48\CommandSystem.Core.dll</HintPath>
     </Reference>
@@ -111,9 +104,6 @@
     <Reference Include="Exiled.Permissions, Version=9.5.1.0, Culture=neutral, processorArchitecture=AMD64">
       <HintPath>..\packages\ExMod.Exiled.9.5.1\lib\net48\Exiled.Permissions.dll</HintPath>
     </Reference>
-    <Reference Include="Exiled.Updater, Version=3.1.2.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\EXILED.7.2.0\lib\net48\Exiled.Updater.dll</HintPath>
-    </Reference>
     <Reference Include="Mirror, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Downloads\steamcmd\steamapps\common\SCP Secret Laboratory Dedicated Server\SCPSL_Data\Managed\Mirror.dll</HintPath>
@@ -125,7 +115,8 @@
       <HintPath>..\packages\ExMod.Exiled.9.5.1\lib\net48\PluginAPI.dll</HintPath>
     </Reference>
     <Reference Include="RueI, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RueI.2.1.1\lib\net48\RueI.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Downloads\RueI.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -154,7 +145,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Objects\CommandsMenu.cs" />
+    <Compile Include="API\Objects\CommandsMenu.cs" />
     <Compile Include="Commands\HelpCommand.cs" />
     <Compile Include="Commands\ParentCommands\CallVoteCommand.cs" />
     <Compile Include="Commands\ParentCommands\CallVoteQueueCommand.cs" />
@@ -177,17 +168,21 @@
     <Compile Include="Commands\VotingCommands\VoteCommand.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Callvote.cs" />
-    <Compile Include="Enums\VotingType.cs" />
+    <Compile Include="API\Enums\VotingType.cs" />
     <Compile Include="EventHandlers.cs" />
-    <Compile Include="Extensions\QueueExtensions.cs" />
-    <Compile Include="Objects\Voting.cs" />
+    <Compile Include="API\Extensions\QueueExtensions.cs" />
+    <Compile Include="API\Objects\Voting.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="API\SoftDependency.cs" />
     <Compile Include="Translation.cs" />
-    <Compile Include="API\CallvoteAPI.cs" />
+    <Compile Include="API\VotingHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="HintServiceMeow-Exiled.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

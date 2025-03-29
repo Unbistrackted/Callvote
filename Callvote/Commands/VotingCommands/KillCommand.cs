@@ -68,11 +68,11 @@ namespace Callvote.Commands
 
             string reason = args.ElementAt(1);
 
-            CallvoteAPI.AddOptionToVoting(Callvote.Instance.Translation.CommandYes, Callvote.Instance.Translation.OptionYes);
-            CallvoteAPI.AddOptionToVoting(Callvote.Instance.Translation.CommandNo, Callvote.Instance.Translation.OptionNo);
+            VotingHandler.AddOptionToVoting(Callvote.Instance.Translation.CommandYes, Callvote.Instance.Translation.OptionYes);
+            VotingHandler.AddOptionToVoting(Callvote.Instance.Translation.CommandNo, Callvote.Instance.Translation.OptionNo);
 
 
-            CallvoteAPI.CallVoting(
+            VotingHandler.CallVoting(
                 Callvote.Instance.Translation.AskedToKill
                     .Replace("%Player%", player.Nickname)
                     .Replace("%Offender%", locatedPlayer.Nickname)
@@ -105,7 +105,7 @@ namespace Callvote.Commands
                             .Replace("%Offender%", locatedPlayer.Nickname));
                     }
                 });
-            response = CallvoteAPI.Response;
+            response = VotingHandler.Response;
             return true;
         }
     }

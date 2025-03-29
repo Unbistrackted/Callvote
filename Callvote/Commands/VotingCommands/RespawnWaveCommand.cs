@@ -39,11 +39,11 @@ namespace Callvote.Commands
                 return false;
             }
 
-            CallvoteAPI.AddOptionToVoting(Callvote.Instance.Translation.CommandNo, Callvote.Instance.Translation.OptionNo);
-            CallvoteAPI.AddOptionToVoting(Callvote.Instance.Translation.CommandMobileTaskForce, Callvote.Instance.Translation.OptionMtf);
-            CallvoteAPI.AddOptionToVoting(Callvote.Instance.Translation.CommandChaosInsurgency, Callvote.Instance.Translation.OptionCi);
+            VotingHandler.AddOptionToVoting(Callvote.Instance.Translation.CommandNo, Callvote.Instance.Translation.OptionNo);
+            VotingHandler.AddOptionToVoting(Callvote.Instance.Translation.CommandMobileTaskForce, Callvote.Instance.Translation.OptionMtf);
+            VotingHandler.AddOptionToVoting(Callvote.Instance.Translation.CommandChaosInsurgency, Callvote.Instance.Translation.OptionCi);
 
-            CallvoteAPI.CallVoting(
+            VotingHandler.CallVoting(
                 Callvote.Instance.Translation.AskedToRespawn
                     .Replace("%Player%", player.Nickname),
                 nameof(Enums.VotingType.RespawnWave),
@@ -72,7 +72,7 @@ namespace Callvote.Commands
                             .Replace("%ThresholdRespawnWave%", Callvote.Instance.Config.ThresholdRespawnWave.ToString()));
                     }
                 });
-            response = CallvoteAPI.Response;
+            response = VotingHandler.Response;
             return true;
         }
     }

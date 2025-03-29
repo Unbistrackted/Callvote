@@ -35,7 +35,7 @@ namespace Callvote.Commands
 
             Player playerToRemove = Player.Get(arguments.At(0));
 
-            List<Voting> votingsToRemove = CallvoteAPI.VotingQueue.Where(voting => voting.CallVotePlayer.Equals(playerToRemove)).ToList();
+            List<Voting> votingsToRemove = VotingHandler.VotingQueue.Where(voting => voting.CallVotePlayer.Equals(playerToRemove)).ToList();
 
             if (votingsToRemove.Count() == 0)
             {
@@ -45,7 +45,7 @@ namespace Callvote.Commands
 
             foreach (Voting vote in votingsToRemove)
             {
-                CallvoteAPI.VotingQueue.RemoveFromQueuePatch(vote);
+                VotingHandler.VotingQueue.RemoveFromQueuePatch(vote);
             }
             response = Callvote.Instance.Translation.RemovedFromQueue.Replace("%Number%", votingsToRemove.Count.ToString());
             return true;

@@ -44,7 +44,7 @@ namespace Callvote.VoteHandlers
         {
             CallVotePlayer = player;
             Question = question;
-            Options = new Dictionary<string, string>(CallvoteAPI.Options);
+            Options = new Dictionary<string, string>(VotingHandler.Options);
             Callback = callback;
             PlayerVote = new Dictionary<string, string>();
             Counter = new ConcurrentDictionary<string, int>();
@@ -60,14 +60,14 @@ namespace Callvote.VoteHandlers
             if (!IsCallVotingAllowed()) { return; }
             RegisterVoteCommands();
             StartVotingCourotine();
-            CallvoteAPI.Response = Callvote.Instance.Translation.VotingStarted;
+            VotingHandler.Response = Callvote.Instance.Translation.VotingStarted;
             return;
         }
         public void Stop()
         {
             UnregisterVoteCommands();
             StopVotingCourotine();
-            CallvoteAPI.Response = Callvote.Instance.Translation.VotingStoped;
+            VotingHandler.Response = Callvote.Instance.Translation.VotingStoped;
             return;
         }
 
@@ -96,29 +96,29 @@ namespace Callvote.VoteHandlers
         {
             if (!Counter.ContainsKey(argument))
             {
-                CallvoteAPI.Response = Callvote.Instance.Translation.NoOptionAvailable.Replace("%Option%", argument);
+                VotingHandler.Response = Callvote.Instance.Translation.NoOptionAvailable.Replace("%Option%", argument);
                 return;
             }
             Counter.AddOrUpdate(argument, amount, (key, value) => value + amount);
-            CallvoteAPI.Response = $"Rigged {amount} votes for {argument}!";
+            VotingHandler.Response = $"Rigged {amount} votes for {argument}!";
             return;
         }
 
         private bool IsCallVotingAllowed()
         {
-            if (CallvoteAPI.CurrentVoting != null && !Callvote.Instance.Config.EnableQueue)
+            if (VotingHandler.CurrentVoting != null && !Callvote.Instance.Config.EnableQueue)
             {
-                CallvoteAPI.Response = Callvote.Instance.Translation.VotingInProgress;
+                VotingHandler.Response = Callvote.Instance.Translation.VotingInProgress;
                 return false;
             }
-            if (!CallvoteAPI.PlayerCallVotingAmount.ContainsKey(CallVotePlayer))
+            if (!VotingHandler.PlayerCallVotingAmount.ContainsKey(CallVotePlayer))
             {
-                CallvoteAPI.PlayerCallVotingAmount.Add(CallVotePlayer, 1);
+                VotingHandler.PlayerCallVotingAmount.Add(CallVotePlayer, 1);
             }
-            CallvoteAPI.PlayerCallVotingAmount[CallVotePlayer]++;
-            if (CallvoteAPI.PlayerCallVotingAmount[CallVotePlayer] - 1 > Callvote.Instance.Config.MaxAmountOfVotesPerRound && !CallVotePlayer.CheckPermission("cv.bypass"))
+            VotingHandler.PlayerCallVotingAmount[CallVotePlayer]++;
+            if (VotingHandler.PlayerCallVotingAmount[CallVotePlayer] - 1 > Callvote.Instance.Config.MaxAmountOfVotesPerRound && !CallVotePlayer.CheckPermission("cv.bypass"))
             {
-                CallvoteAPI.Response = Callvote.Instance.Translation.MaxVote;
+                VotingHandler.Response = Callvote.Instance.Translation.MaxVote;
                 return false;
             }
             return true;
@@ -162,7 +162,7 @@ namespace Callvote.VoteHandlers
 
         private void StartVotingCourotine()
         {
-            VotingCoroutine = Timing.RunCoroutine(CallvoteAPI.StartVotingCoroutine(this));
+            VotingCoroutine = Timing.RunCoroutine(VotingHandler.StartVotingCoroutine(this));
         }
 
         private long RandomNumber()

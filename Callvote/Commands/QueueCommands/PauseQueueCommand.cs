@@ -30,15 +30,15 @@ namespace Callvote.Commands
                 return false;
             }
 
-            if (!CallvoteAPI.IsQueuePaused)
+            if (!VotingHandler.IsQueuePaused)
             {
-                CallvoteAPI.IsQueuePaused = true;
+                VotingHandler.IsQueuePaused = true;
                 response = Callvote.Instance.Translation.QueuePaused;
                 return true;
             }
 
-            CallvoteAPI.IsQueuePaused = false;
-            CallvoteAPI.TryStartNextVoting();
+            VotingHandler.IsQueuePaused = false;
+            VotingHandler.TryStartNextVoting();
 
             response = Callvote.Instance.Translation.QueueResumed;
             return true;

@@ -30,7 +30,7 @@ namespace Callvote.Commands
                 return false;
             }
 
-            CallvoteAPI.VotingQueue.Clear();
+            VotingHandler.VotingQueue.Clear();
             response = Callvote.Instance.Translation.QueueCleared;
             return true;
         }

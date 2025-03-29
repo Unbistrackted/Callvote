@@ -58,8 +58,8 @@ namespace Callvote
         public string AskedCustom { get; private set; } = "%Player% <color=#EEDC8A>asks</color>: %Custom%";
         public string PassReason { get; private set; } = "You need to pass a reason!";
         public string LessThanTwoOptions { get; private set; } = "You cannot create a custom voting without 2 options!";
-        public string VoteKeybind { get; private set; } = "Vote";
-        public string KeybindHint { get; private set; } = "Set this keybind to vote";
+        public string VoteKeybind { get; private set; } = "Vote %Option%!";
+        public string KeybindHint { get; private set; } = "Set this keybind to vote %Option%.";
         public string DuplicateCommand { get; private set; } = "It's not possible to create a custom command with the same name!";
         public string QueueDisabled { get; private set; } = "Callvote queue disabled.";
         public string QueueCleared { get; private set; } = "Votings Queue Cleared.";

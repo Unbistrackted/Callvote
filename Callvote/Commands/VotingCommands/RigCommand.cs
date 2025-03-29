@@ -24,7 +24,7 @@ namespace Callvote.Commands
                 response = Callvote.Instance.Translation.NoPermission;
                 return false;
             }
-            if (CallvoteAPI.CurrentVoting == null)
+            if (VotingHandler.CurrentVoting == null)
             {
                 response = Callvote.Instance.Translation.NoVotingInProgress;
                 return false;
@@ -38,8 +38,8 @@ namespace Callvote.Commands
 
             if (arguments.Count == 1)
             {
-                CallvoteAPI.CurrentVoting.Rig(arguments.ElementAt(0));
-                response = CallvoteAPI.Response;
+                VotingHandler.CurrentVoting.Rig(arguments.ElementAt(0));
+                response = VotingHandler.Response;
                 return true;
             }
 
@@ -49,7 +49,7 @@ namespace Callvote.Commands
                 return false;
             }
 
-            CallvoteAPI.CurrentVoting.Rig(arguments.ElementAt(0), amount: votes);
+            VotingHandler.CurrentVoting.Rig(arguments.ElementAt(0), amount: votes);
             response = arguments.ElementAt(0);
             return true;
 
