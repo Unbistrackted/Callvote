@@ -1,8 +1,9 @@
-using Callvote.VoteHandlers;
+using Callvote.API;
 using Exiled.API.Enums;
 using Exiled.API.Features;
 using Exiled.API.Features.Core.UserSettings;
 using System;
+using Callvote.API.Objects;
 using UserSettings.ServerSpecific;
 using Server = Exiled.Events.Handlers.Server;
 
@@ -25,25 +26,39 @@ namespace Callvote
         public override void OnEnabled()
         {
             EventHandlers = new EventHandlers();
-            Callvote.Instance = this;
-            SettingBase.Register(new[] { SettingsHeader });
-            ServerSpecificSettings.RegisterSettings();
-            Server.WaitingForPlayers += EventHandlers.OnWaitingForPlayers;
-            Server.RoundEnded += EventHandlers.OnRoundEnded;
-            ServerSpecificSettingsSync.ServerOnSettingValueReceived += VotingHandler.ProcessUserInput;
+            Instance = this;
+            VotingHandler.Init();
+            RegisterEvents();
             base.OnEnabled();
         }
 
         public override void OnDisabled()
         {
-            Server.WaitingForPlayers -= EventHandlers.OnWaitingForPlayers;
-            Server.RoundEnded -= EventHandlers.OnRoundEnded;
-            ServerSpecificSettingsSync.ServerOnSettingValueReceived -= VotingHandler.ProcessUserInput;
-            ServerSpecificSettings.UnregisterSettings();
-            SettingBase.Unregister(settings: new[] { SettingsHeader });
-            Callvote.Instance = null;
+            UnregisterEvents();
+            VotingHandler.Clean();
+            Instance = null;
             EventHandlers = null;
             base.OnDisabled();
+        }
+
+        private void RegisterEvents()
+        {
+            SettingBase.Register(new[] { SettingsHeader });
+            ServerSpecificSettings.RegisterSettings();
+            Server.WaitingForPlayers += EventHandlers.OnWaitingForPlayers;
+            Server.RoundEnded += EventHandlers.OnRoundEnded;
+            Server.RestartingRound += EventHandlers.OnRoundRestarting;
+            ServerSpecificSettingsSync.ServerOnSettingValueReceived += EventHandlers.OnUserInput;
+        }
+
+        private void UnregisterEvents()
+        {
+            ServerSpecificSettings.UnregisterSettings();
+            SettingBase.Unregister(settings: new[] { SettingsHeader });
+            Server.WaitingForPlayers -= EventHandlers.OnWaitingForPlayers;
+            Server.RoundEnded -= EventHandlers.OnRoundEnded;
+            Server.RestartingRound -= EventHandlers.OnRoundRestarting;
+            ServerSpecificSettingsSync.ServerOnSettingValueReceived -= EventHandlers.OnUserInput;
         }
     }
 }

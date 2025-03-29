@@ -1,10 +1,11 @@
-﻿using Callvote.VoteHandlers;
+﻿using Callvote.API;
 using CommandSystem;
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
 using System;
+using Callvote.API.Enums;
 
-namespace Callvote.Commands
+namespace Callvote.Commands.VotingCommands
 {
     public class BinaryCommand : ICommand
     {
@@ -32,7 +33,7 @@ namespace Callvote.Commands
                 Callvote.Instance.Translation.AskedCustom
                     .Replace("%Player%", player.Nickname)
                     .Replace("%Custom%", string.Join(" ", args)),
-                nameof(Enums.VotingType.Binary),
+                nameof(VotingType.Binary),
                 player,
                 null);
             response = VotingHandler.Response;

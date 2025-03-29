@@ -1,11 +1,13 @@
-﻿using Callvote.VoteHandlers;
+﻿using Callvote.API;
+using Callvote.API.Objects;
 using CommandSystem;
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
 using System;
 using System.Linq;
+using Callvote.API.Enums;
 
-namespace Callvote.Commands
+namespace Callvote.Commands.VotingCommands
 {
     public class RestartRoundCommand : ICommand
     {
@@ -43,7 +45,7 @@ namespace Callvote.Commands
             VotingHandler.CallVoting(
                 Callvote.Instance.Translation.AskedToRestart
                     .Replace("%Player%", player.Nickname),
-                nameof(Enums.VotingType.RestartRound),
+                nameof(VotingType.RestartRound),
                 player,
                 delegate (Voting vote)
                 {

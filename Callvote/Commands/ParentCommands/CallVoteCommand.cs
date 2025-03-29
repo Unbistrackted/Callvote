@@ -1,11 +1,12 @@
 ﻿using CommandSystem;
 using System;
+using Callvote.Commands.VotingCommands;
 
 namespace Callvote.Commands
 {
     [CommandHandler(typeof(ClientCommandHandler))]
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
-    internal class ParentCallVoteCommand : ParentCommand
+    internal class CallVoteCommand : ParentCommand
     {
         public override string Command => "callvote";
 
@@ -13,11 +14,11 @@ namespace Callvote.Commands
 
         public override string Description => "Enables player to call votings!";
 
-        public ParentCallVoteCommand() => LoadGeneratedCommands();
+        public CallVoteCommand() => LoadGeneratedCommands();
 
         public override void LoadGeneratedCommands()
         {
-            RegisterCommand(new ParentCallVoteQueueCommand());
+            RegisterCommand(new CallVoteQueueCommand());
             RegisterCommand(new KickCommand());
             RegisterCommand(new KillCommand());
             RegisterCommand(new NukeCommand());

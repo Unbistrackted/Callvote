@@ -1,12 +1,14 @@
-﻿using Callvote.VoteHandlers;
+﻿using Callvote.API;
+using Callvote.API.Objects;
 using CommandSystem;
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Callvote.API.Enums;
 
-namespace Callvote.Commands
+namespace Callvote.Commands.VotingCommands
 {
     public class KickCommand : ICommand
     {
@@ -76,7 +78,7 @@ namespace Callvote.Commands
                     .Replace("%Player%", player.Nickname)
                     .Replace("%Offender%", locatedPlayer.Nickname)
                     .Replace("%Reason%", reason),
-                nameof(Enums.VotingType.Kick),
+                nameof(VotingType.Kick),
                 player,
                 delegate (Voting vote)
                 {

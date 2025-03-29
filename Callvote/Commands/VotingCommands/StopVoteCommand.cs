@@ -1,10 +1,10 @@
-﻿using Callvote.VoteHandlers;
+﻿using Callvote.API;
 using CommandSystem;
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
 using System;
 
-namespace Callvote.Commands
+namespace Callvote.Commands.VotingCommands
 {
     internal class StopVoteCommand : ICommand
     {

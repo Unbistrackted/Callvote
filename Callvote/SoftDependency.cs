@@ -1,4 +1,4 @@
-﻿namespace Callvote.API
+﻿namespace Callvote
 {
     using Exiled.API.Features;
     using RueI;
@@ -50,8 +50,6 @@
             {
                 SetElement element = new SetElement(300, content);
                 DisplayCore core = DisplayCore.Get(player.ReferenceHub);
-                Display display = new Display(core);
-
                 core.AddTemp(element, timer, elemRef);
             }
         }

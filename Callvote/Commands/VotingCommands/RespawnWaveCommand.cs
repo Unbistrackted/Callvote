@@ -1,12 +1,14 @@
-﻿using Callvote.VoteHandlers;
+﻿using Callvote.API;
+using Callvote.API.Objects;
 using CommandSystem;
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
 using Respawning;
 using System;
 using System.Linq;
+using Callvote.API.Enums;
 
-namespace Callvote.Commands
+namespace Callvote.Commands.VotingCommands
 {
     public class RespawnWaveCommand : ICommand
     {
@@ -46,7 +48,7 @@ namespace Callvote.Commands
             VotingHandler.CallVoting(
                 Callvote.Instance.Translation.AskedToRespawn
                     .Replace("%Player%", player.Nickname),
-                nameof(Enums.VotingType.RespawnWave),
+                nameof(VotingType.RespawnWave),
                 player,
                 delegate (Voting vote)
                 {

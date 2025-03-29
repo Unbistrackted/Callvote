@@ -1,7 +1,7 @@
 ﻿using Exiled.API.Features.Core.UserSettings;
 using UnityEngine;
 
-namespace Callvote
+namespace Callvote.API.Objects
 {
     public static class ServerSpecificSettings
     {

@@ -1,9 +1,9 @@
-﻿namespace Callvote.Enums
+﻿namespace Callvote.API.Enums
 {
     public enum VotingType
     {
         Binary,
-        FF,
+        Ff,
         Kick,
         Kill,
         Nuke,

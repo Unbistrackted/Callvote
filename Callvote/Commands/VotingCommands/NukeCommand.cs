@@ -1,11 +1,13 @@
-﻿using Callvote.VoteHandlers;
+﻿using Callvote.API;
+using Callvote.API.Objects;
 using CommandSystem;
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
 using System;
 using System.Linq;
+using Callvote.API.Enums;
 
-namespace Callvote.Commands
+namespace Callvote.Commands.VotingCommands
 {
     public class NukeCommand : ICommand
     {
@@ -44,7 +46,7 @@ namespace Callvote.Commands
             VotingHandler.CallVoting(
                 Callvote.Instance.Translation.AskedToNuke
                     .Replace("%Player%", player.Nickname),
-                nameof(Enums.VotingType.Nuke),
+                nameof(VotingType.Nuke),
                 player,
                 delegate (Voting vote)
                 {

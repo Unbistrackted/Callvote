@@ -1,11 +1,11 @@
-﻿using Callvote.VoteHandlers;
+﻿using Callvote.API;
 using CommandSystem;
 using Exiled.API.Extensions;
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
 using System;
 
-namespace Callvote.Commands
+namespace Callvote.Commands.QueueCommands
 {
     internal class RemoveXFromQueueCommand : ICommand
     {

@@ -1,27 +1,24 @@
-﻿using Callvote.API;
-using Callvote.VoteHandlers;
+﻿using Callvote.API.Objects;
 using Exiled.API.Features;
-using HarmonyLib;
 using MEC;
 using System;
 using System.Collections.Generic;
-using UserSettings.ServerSpecific;
 
-namespace Callvote.VoteHandlers
+namespace Callvote.API
 {
     public static class VotingHandler
     {
         public static Voting CurrentVoting;
-        public static Queue<Voting> VotingQueue = new Queue<Voting>();
-        public static Dictionary<Player, int> PlayerCallVotingAmount = new Dictionary<Player, int>();
-        public static Dictionary<string, string> Options = new Dictionary<string, string>();
-        public static bool IsQueuePaused = false;
-        public static string Response = string.Empty;
+        public static Queue<Voting> VotingQueue;
+        public static Dictionary<Player, int> PlayerCallVotingAmount;
+        public static Dictionary<string, string> Options;
+        public static bool IsQueuePaused;
+        public static string Response;
 
         public static void CallVoting(string question, string votingType, Player player, CallvoteFunction callback, Dictionary<string, string> options = null)
         {
             Voting voting = options == null ? new Voting(question, votingType, player, callback) : new Voting(question, votingType, player, callback, options);
-            VotingHandler.Options.Clear();
+            Options.Clear();
 
             if (Callvote.Instance.Config.EnableQueue)
             {
@@ -72,7 +69,7 @@ namespace Callvote.VoteHandlers
             }
         }
 
-        public static IEnumerator<float> StartVotingCoroutine(Voting newVote)
+        public static IEnumerator<float> VotingCoroutine(Voting newVote)
         {
             int timerCounter = 0;
             VotingHandler.CurrentVoting = newVote;
@@ -147,28 +144,27 @@ namespace Callvote.VoteHandlers
                 yield return Timing.WaitForSeconds(1f);
             }
         }
-        internal static void ProcessUserInput(ReferenceHub sender, ServerSpecificSettingBase settingBase)
+
+
+        public static void Init()
         {
-            if (VotingHandler.CurrentVoting == null)
-                return;
-            if (settingBase is SSKeybindSetting keybindSetting && keybindSetting.SyncIsPressed)
+            PlayerCallVotingAmount = new Dictionary<Player, int>();
+            Options = new Dictionary<string, string>();
+            Response = string.Empty;
+            if (Callvote.Instance.Config.EnableQueue)
             {
-                switch (keybindSetting.SettingId)
-                {
-                    case int id when id == 888:
-                        CurrentVoting.Vote(Player.Get(sender), CurrentVoting.CommandList.GetValueSafe(Callvote.Instance.Translation.OptionYes).Command);
-                        break;
-                    case int id when id == 889:
-                        CurrentVoting.Vote(Player.Get(sender), CurrentVoting.CommandList.GetValueSafe(Callvote.Instance.Translation.OptionNo).Command);
-                        break;
-                    case int id when id == 890:
-                        CurrentVoting.Vote(Player.Get(sender), CurrentVoting.CommandList.GetValueSafe(Callvote.Instance.Translation.OptionMtf).Command);
-                        break;
-                    case int id when id == 891:
-                        CurrentVoting.Vote(Player.Get(sender), CurrentVoting.CommandList.GetValueSafe(Callvote.Instance.Translation.OptionCi).Command);
-                        break;
-                }
+                VotingQueue = new Queue<Voting>();
+                IsQueuePaused = false;
             }
+        }
+
+        public static void Clean()
+        {
+            PlayerCallVotingAmount = null;
+            Options = null;
+            Response = null;
+            VotingQueue = null;
+            CurrentVoting = null;
         }
     }
 }

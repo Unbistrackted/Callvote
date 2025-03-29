@@ -1,4 +1,4 @@
-﻿using Callvote.Commands;
+﻿using Callvote.Commands.VotingCommands;
 using CommandSystem;
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
@@ -9,7 +9,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Callvote.VoteHandlers
+namespace Callvote.API.Objects
 {
     public class Voting
     {
@@ -26,7 +26,7 @@ namespace Callvote.VoteHandlers
         private CoroutineHandle _votingCoroutine;
 
         public Voting(string question, string votingType, Player player, CallvoteFunction callback, Dictionary<string, string> options = null)
-        {   
+        {
             CallVotePlayer = player;
             Question = question;
             Options = new Dictionary<string, string>(options ?? VotingHandler.Options);
@@ -84,7 +84,6 @@ namespace Callvote.VoteHandlers
             }
             Counter.AddOrUpdate(argument, amount, (key, value) => value + amount);
             VotingHandler.Response = $"Rigged {amount} votes for {argument}!";
-            return;
         }
 
         private bool IsCallVotingAllowed()
@@ -109,15 +108,18 @@ namespace Callvote.VoteHandlers
 
         private void RegisterVoteCommands()
         {
+            bool alreadyRegistered = false;
             foreach (KeyValuePair<string, string> kvp in Options.ToList())
             {
-                bool commandAlreadyRegistered = false;
-                VoteCommand voteCommand = new VoteCommand(kvp.Key);
                 if (QueryProcessor.DotCommandHandler.TryGetCommand(kvp.Key, out ICommand existingCommand))
                 {
-                    commandAlreadyRegistered = true;
+                    alreadyRegistered = true;
                 }
-                if (commandAlreadyRegistered)
+            }
+            foreach (KeyValuePair<string, string> kvp in Options.ToList())
+            {
+                VoteCommand voteCommand = new VoteCommand(kvp.Key);
+                if (alreadyRegistered)
                 {
                     Options.Remove(kvp.Key);
                     Options.Add("cv" + kvp.Key, kvp.Value);
@@ -145,7 +147,7 @@ namespace Callvote.VoteHandlers
 
         private void StartVotingCourotine()
         {
-            _votingCoroutine = Timing.RunCoroutine(VotingHandler.StartVotingCoroutine(this));
+            _votingCoroutine = Timing.RunCoroutine(VotingHandler.VotingCoroutine(this));
         }
 
         private long RandomNumber()

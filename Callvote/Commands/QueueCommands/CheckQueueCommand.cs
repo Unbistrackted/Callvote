@@ -1,9 +1,10 @@
-﻿using Callvote.VoteHandlers;
+﻿using Callvote.API;
+using Callvote.API.Objects;
 using CommandSystem;
 using Exiled.API.Features;
 using System;
 
-namespace Callvote.Commands
+namespace Callvote.Commands.QueueCommands
 {
     internal class CheckQueueCommand : ICommand
     {

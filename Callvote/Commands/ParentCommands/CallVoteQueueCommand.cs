@@ -1,11 +1,13 @@
-﻿using Callvote.VoteHandlers;
+﻿using Callvote.API;
+using Callvote.API.Objects;
 using CommandSystem;
 using Exiled.API.Features;
 using System;
+using Callvote.Commands.QueueCommands;
 
 namespace Callvote.Commands
 {
-    internal class ParentCallVoteQueueCommand : ParentCommand
+    internal class CallVoteQueueCommand : ParentCommand
     {
 
         public override string Command => "queue";
@@ -14,7 +16,7 @@ namespace Callvote.Commands
 
         public override string Description => "Commands related to Callvote queue.";
 
-        public ParentCallVoteQueueCommand() => LoadGeneratedCommands();
+        public CallVoteQueueCommand() => LoadGeneratedCommands();
 
         public override void LoadGeneratedCommands()
         {
@@ -42,11 +44,11 @@ namespace Callvote.Commands
                 return false;
             }
             string votingsInfo = string.Empty;
-            int _counter = 0;
+            int counter = 0;
             foreach (Voting voting in VotingHandler.VotingQueue)
             {
-                votingsInfo += $"\nVoting {_counter} ----- Type {voting.VotingType} ----- {voting.Question}\n";
-                _counter++;
+                votingsInfo += $"\nVoting {counter} ----- Type {voting.VotingType} ----- {voting.Question}\n";
+                counter++;
             }
             response = votingsInfo;
             return true;
