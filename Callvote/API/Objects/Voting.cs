@@ -15,40 +15,25 @@ namespace Callvote.VoteHandlers
     {
         public CallvoteFunction Callback { get; private set; }
         public string Question { get; private set; }
-        public ConcurrentDictionary<string, int> Counter { get; private set; }
-        public Dictionary<string, string> Options { get; private set; }
         public string VotingType { get; private set; }
-        public Player CallVotePlayer { get; private set; }
         public long CallVoteId { get; private set; }
-        public Dictionary<string, ICommand> CommandList { get; private set; }
+        public ConcurrentDictionary<string, int> Counter { get; }
+        public Dictionary<string, string> Options { get; }
+        public Dictionary<string, ICommand> CommandList { get; }
+        public Player CallVotePlayer { get; }
 
-        private Dictionary<string, string> PlayerVote;
-        private CoroutineHandle VotingCoroutine;
+        private Dictionary<string, string> _playerVote;
+        private CoroutineHandle _votingCoroutine;
 
-        public Voting(string question, string votingType, Dictionary<string, string> options, Player player, CallvoteFunction callback)
-        {
+        public Voting(string question, string votingType, Player player, CallvoteFunction callback, Dictionary<string, string> options = null)
+        {   
             CallVotePlayer = player;
             Question = question;
-            Options = new Dictionary<string, string>(options);
+            Options = new Dictionary<string, string>(options ?? VotingHandler.Options);
             Callback = callback;
-            PlayerVote = new Dictionary<string, string>();
+            _playerVote = new Dictionary<string, string>();
             Counter = new ConcurrentDictionary<string, int>();
-            VotingCoroutine = new CoroutineHandle();
-            CommandList = new Dictionary<string, ICommand>();
-            foreach (string option in options.Keys) Counter[option] = 0;
-            VotingType = votingType;
-            CallVoteId = DateTime.Now.ToBinary() + RandomNumber();
-        }
-
-        public Voting(string question, string votingType, Player player, CallvoteFunction callback)
-        {
-            CallVotePlayer = player;
-            Question = question;
-            Options = new Dictionary<string, string>(VotingHandler.Options);
-            Callback = callback;
-            PlayerVote = new Dictionary<string, string>();
-            Counter = new ConcurrentDictionary<string, int>();
-            VotingCoroutine = new CoroutineHandle();
+            _votingCoroutine = new CoroutineHandle();
             CommandList = new Dictionary<string, ICommand>();
             foreach (string option in Options.Keys) Counter[option] = 0;
             VotingType = votingType;
@@ -61,14 +46,12 @@ namespace Callvote.VoteHandlers
             RegisterVoteCommands();
             StartVotingCourotine();
             VotingHandler.Response = Callvote.Instance.Translation.VotingStarted;
-            return;
         }
         public void Stop()
         {
             UnregisterVoteCommands();
             StopVotingCourotine();
             VotingHandler.Response = Callvote.Instance.Translation.VotingStoped;
-            return;
         }
 
         public string Vote(Player player, string option)
@@ -76,15 +59,15 @@ namespace Callvote.VoteHandlers
             string playerUserId = player.UserId;
             if (!Options.ContainsKey(option)) return Callvote.Instance.Translation.NoOptionAvailable.Replace("%Option%", option);
 
-            if (PlayerVote.ContainsKey(playerUserId))
+            if (_playerVote.ContainsKey(playerUserId))
             {
-                if (PlayerVote[playerUserId] == option) return Callvote.Instance.Translation.AlreadyVoted;
-                Counter.AddOrUpdate(PlayerVote[playerUserId], 0, (key, value) => Math.Max(0, value - 1));
-                PlayerVote[playerUserId] = option;
+                if (_playerVote[playerUserId] == option) return Callvote.Instance.Translation.AlreadyVoted;
+                Counter.AddOrUpdate(_playerVote[playerUserId], 0, (key, value) => Math.Max(0, value - 1));
+                _playerVote[playerUserId] = option;
             }
             else
             {
-                PlayerVote.Add(playerUserId, option);
+                _playerVote.Add(playerUserId, option);
             }
 
             Counter.AddOrUpdate(option, 1, (key, value) => value + 1);
@@ -157,12 +140,12 @@ namespace Callvote.VoteHandlers
 
         private void StopVotingCourotine()
         {
-            Timing.KillCoroutines(VotingCoroutine);
+            Timing.KillCoroutines(_votingCoroutine);
         }
 
         private void StartVotingCourotine()
         {
-            VotingCoroutine = Timing.RunCoroutine(VotingHandler.StartVotingCoroutine(this));
+            _votingCoroutine = Timing.RunCoroutine(VotingHandler.StartVotingCoroutine(this));
         }
 
         private long RandomNumber()

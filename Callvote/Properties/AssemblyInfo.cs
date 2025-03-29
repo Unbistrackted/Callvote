@@ -48,7 +48,6 @@ namespace Callvote
 
         internal const string Description =
             "Callvote command like in the Source engine. Vote to kick users, restart round, or make your own custom votes.";
-
         internal const string Id = "unbistrackted.Callvote";
         internal const string ConfigPrefix = "Callvote";
         internal const string LangFile = "Callvote";

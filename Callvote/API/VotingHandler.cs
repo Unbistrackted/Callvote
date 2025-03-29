@@ -20,7 +20,7 @@ namespace Callvote.VoteHandlers
 
         public static void CallVoting(string question, string votingType, Player player, CallvoteFunction callback, Dictionary<string, string> options = null)
         {
-            Voting voting = options == null ? new Voting(question, votingType, player, callback) : new Voting(question, votingType, options, player, callback);
+            Voting voting = options == null ? new Voting(question, votingType, player, callback) : new Voting(question, votingType, player, callback, options);
             VotingHandler.Options.Clear();
 
             if (Callvote.Instance.Config.EnableQueue)
@@ -31,16 +31,19 @@ namespace Callvote.VoteHandlers
                     return;
 
                 }
+
                 VotingQueue.Enqueue(voting);
                 TryStartNextVoting();
                 return;
             }
 
-            if (CurrentVoting == null)
+            if (CurrentVoting != null)
             {
-                CurrentVoting = voting;
-                CurrentVoting.Start();
+                return;
             }
+
+            CurrentVoting = voting;
+            CurrentVoting.Start();
         }
 
         public static void FinishVoting()
@@ -146,7 +149,6 @@ namespace Callvote.VoteHandlers
         }
         internal static void ProcessUserInput(ReferenceHub sender, ServerSpecificSettingBase settingBase)
         {
-
             if (VotingHandler.CurrentVoting == null)
                 return;
             if (settingBase is SSKeybindSetting keybindSetting && keybindSetting.SyncIsPressed)
