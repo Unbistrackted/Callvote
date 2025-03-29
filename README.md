@@ -6,6 +6,9 @@ RespawnWave, FF, or custom votes using **KEYBINDS** or **CONSOLE COMMANDS** in t
 Dead
 2/Counter-Strike: Global Offensive).
 
+This plugin uses [RueI](https://github.com/pawslee/RueI) as a Soft Dependency, which means it is not required, but we highly
+suggest installing it since we plan on moving away from Broadcasts.
+
 ![image](https://github.com/user-attachments/assets/34b7522c-afad-4aa5-9e5b-34797eaee3c8)
 
 ![{2D20256F-794E-4164-BCF3-1AFFAFC8CF68}](https://github.com/user-attachments/assets/16dee768-58f1-45c4-b012-5eb8443e3737)
