@@ -1,13 +1,13 @@
 # Description
 
-This is a plugin for [EXILED](https://github.com/ExMod-Team/EXILED) that allows calling and voting for Kick,
+This plugin is the sucessor of [callvote](https://github.com/PatPeter/callvote), which allows calling and voting for Kick,
 RestartRound, Kill,
 RespawnWave, FF, or custom votes using **KEYBINDS** or **CONSOLE COMMANDS** in the same format as the Source Engine (Left 4
 Dead
 2/Counter-Strike: Global Offensive).
 
-This plugin uses [RueI](https://github.com/pawslee/RueI) as a Soft Dependency, which means it is not required, but we highly
-suggest installing it since we plan on moving away from Broadcasts.
+Callvote uses [RueI](https://github.com/pawslee/RueI) as a Soft Dependency, which replaces Broadcasts with Hints. We 
+**highly suggest** installing it since we plan on moving away from Broadcasts.
 
 ![image](https://github.com/user-attachments/assets/34b7522c-afad-4aa5-9e5b-34797eaee3c8)
 
@@ -208,6 +208,6 @@ Callvote:
 
 https://github.com/Playeroth for helping me with new logic and translations.
 
-https://github.com/PatPeter for giving the permission to continue the development of callvote.
+https://github.com/PatPeter for giving the permission to continue the development of [callvote](PatPeter/callvote).
 
-https://github.com/vladflotsky for giving adivice and guidance while I was rewritting the plugin
+https://github.com/vladflotsky for giving adivice and guidance while I was rewritting the plugin.
