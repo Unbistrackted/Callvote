@@ -44,13 +44,13 @@ namespace Callvote.API.Objects
         {
             if (!IsCallVotingAllowed()) { return; }
             RegisterVoteCommands();
-            StartVotingCourotine();
+            StartVotingCoroutine();
             VotingHandler.Response = Callvote.Instance.Translation.VotingStarted;
         }
         public void Stop()
         {
             UnregisterVoteCommands();
-            StopVotingCourotine();
+            StopVotingCoroutine();
             VotingHandler.Response = Callvote.Instance.Translation.VotingStoped;
         }
 
@@ -72,7 +72,7 @@ namespace Callvote.API.Objects
 
             Counter.AddOrUpdate(option, 1, (key, value) => value + 1);
 
-            return Callvote.Instance.Translation.VoteAccepted.Replace("%Reason%", Options[option]);
+            return Callvote.Instance.Translation.VoteAccepted.Replace("%Option%", Options[option]);
         }
 
         public void Rig(string argument, int amount = 1)
@@ -140,14 +140,14 @@ namespace Callvote.API.Objects
             }
         }
 
-        private void StopVotingCourotine()
-        {
-            Timing.KillCoroutines(_votingCoroutine);
-        }
-
-        private void StartVotingCourotine()
+        private void StartVotingCoroutine()
         {
             _votingCoroutine = Timing.RunCoroutine(VotingHandler.VotingCoroutine(this));
+        }
+
+        private void StopVotingCoroutine()
+        {
+            Timing.KillCoroutines(_votingCoroutine);
         }
 
         private long RandomNumber()

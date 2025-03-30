@@ -21,7 +21,7 @@
             }
             catch (Exception)
             {
-                return new VanillaHintProvider();
+                return new BroadcastProvider();
             }
         }
 
@@ -34,7 +34,7 @@
         void ShowString(TimeSpan duration, string content);
     }
 
-    public class VanillaHintProvider : IHintProvider
+    public class BroadcastProvider : IHintProvider
     {
         public void ShowString(TimeSpan duration1, string content)
         {

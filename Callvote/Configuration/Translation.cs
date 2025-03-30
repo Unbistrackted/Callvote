@@ -18,7 +18,7 @@ namespace Callvote
         public string PlayerNotFound { get; private set; } = "Did not find any players with the name or partial name of %Player%";
         public string NoOptionAvailable { get; private set; } = "Vote does not have the option %Option%.";
         public string AlreadyVoted { get; private set; } = "You've already voted.";
-        public string VoteAccepted { get; private set; } = "You voted %Reason%.";
+        public string VoteAccepted { get; private set; } = "You voted %Option%.";
         public string NoPermission { get; private set; } = "You do not have permission to run this command!";
         public string VotingStoped { get; private set; } = "Vote stopped.";
         public string Results { get; private set; } = "Final results:\n";
