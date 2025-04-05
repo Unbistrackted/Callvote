@@ -1,8 +1,8 @@
 ﻿using Callvote.API;
 using Callvote.API.Objects;
 using CommandSystem;
-using Exiled.API.Features;
-using Exiled.Permissions.Extensions;
+using LabApi.Features.Wrappers;
+using LabApi.Features.Permissions;
 using System;
 using System.Linq;
 using Callvote.API.Enums;
@@ -27,15 +27,15 @@ namespace Callvote.Commands.VotingCommands
                 return false;
             }
 
-            if (!player.CheckPermission("cv.callvoterestartround"))
+            if (!player.HasPermissions("cv.callvoterestartround"))
             {
                 response = Callvote.Instance.Translation.NoPermission;
                 return false;
             }
 
-            if (Round.ElapsedTime.TotalSeconds < Callvote.Instance.Config.MaxWaitRestartRound || !player.CheckPermission("cv.bypass"))
+            if (Round.Duration.TotalSeconds < Callvote.Instance.Config.MaxWaitRestartRound || !player.HasPermissions("cv.bypass"))
             {
-                response = Callvote.Instance.Translation.WaitToVote.Replace("%Timer%", $"{Callvote.Instance.Config.MaxWaitRestartRound - Round.ElapsedTime.TotalSeconds}");
+                response = Callvote.Instance.Translation.WaitToVote.Replace("%Timer%", $"{Callvote.Instance.Config.MaxWaitRestartRound - Round.Duration.TotalSeconds}");
                 return false;
             }
 
@@ -53,15 +53,15 @@ namespace Callvote.Commands.VotingCommands
                     int noVotePercent = (int)(vote.Counter[Callvote.Instance.Translation.CommandNo] / (float)Player.List.Count() * 100f);
                     if (yesVotePercent >= Callvote.Instance.Config.ThresholdRestartRound && yesVotePercent > noVotePercent)
                     {
-                        Map.Broadcast(5, Callvote.Instance.Translation.RoundRestarting
-                            .Replace("%VotePercent%", yesVotePercent.ToString()));
+                        Server.SendBroadcast(Callvote.Instance.Translation.RoundRestarting
+                            .Replace("%VotePercent%", yesVotePercent.ToString()), 5);
                         Round.Restart();
                     }
                     else
                     {
-                        Map.Broadcast(5, Callvote.Instance.Translation.NoSuccessFullRestart
+                        Server.SendBroadcast(Callvote.Instance.Translation.NoSuccessFullRestart
                             .Replace("%VotePercent%", yesVotePercent.ToString())
-                            .Replace("%ThresholdRestartRound%", Callvote.Instance.Config.ThresholdRestartRound.ToString()));
+                            .Replace("%ThresholdRestartRound%", Callvote.Instance.Config.ThresholdRestartRound.ToString()), 5);
                     }
                 });
             response = VotingHandler.Response;

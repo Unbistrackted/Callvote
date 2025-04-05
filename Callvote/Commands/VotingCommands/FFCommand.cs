@@ -1,11 +1,12 @@
 ﻿using Callvote.API;
 using Callvote.API.Objects;
 using CommandSystem;
-using Exiled.API.Features;
-using Exiled.Permissions.Extensions;
 using System;
 using System.Linq;
 using Callvote.API.Enums;
+using LabApi.Features.Wrappers;
+using LabApi.Features.Permissions;
+using CommandSystem.Commands.RemoteAdmin.Broadcasts;
 
 namespace Callvote.Commands.VotingCommands
 {
@@ -27,15 +28,15 @@ namespace Callvote.Commands.VotingCommands
                 return false;
             }
 
-            if (!player.CheckPermission("cv.callvoteff"))
+            if (!player.HasPermissions("cv.callvoteff"))
             {
                 response = Callvote.Instance.Translation.NoPermission;
                 return false;
             }
 
-            if (Round.ElapsedTime.TotalSeconds < Callvote.Instance.Config.MaxWaitFf || !player.CheckPermission("cv.bypass"))
+            if (Round.Duration.TotalSeconds < Callvote.Instance.Config.MaxWaitFf || !player.HasPermissions("cv.bypass"))
             {
-                response = Callvote.Instance.Translation.WaitToVote.Replace("%Timer%", $"{Callvote.Instance.Config.MaxWaitRestartRound - Round.ElapsedTime.TotalSeconds}");
+                response = Callvote.Instance.Translation.WaitToVote.Replace("%Timer%", $"{Callvote.Instance.Config.MaxWaitRestartRound - Round.Duration.TotalSeconds}");
                 return false;
             }
 
@@ -68,15 +69,15 @@ namespace Callvote.Commands.VotingCommands
                         {
                             case true:
                                 {
-                                    Map.Broadcast(5, Callvote.Instance.Translation.EnablingFriendlyFire
-                                         .Replace("%VotePercent%", yesVotePercent.ToString()));
+                                    Server.SendBroadcast(Callvote.Instance.Translation.EnablingFriendlyFire
+                                         .Replace("%VotePercent%", yesVotePercent.ToString()), 5);
                                     Server.FriendlyFire = false;
                                     break;
                                 }
                             case false:
                                 {
-                                    Map.Broadcast(5, Callvote.Instance.Translation.DisablingFriendlyFire
-                                         .Replace("%VotePercent%", yesVotePercent.ToString()));
+                                    Server.SendBroadcast(Callvote.Instance.Translation.DisablingFriendlyFire
+                                         .Replace("%VotePercent%", yesVotePercent.ToString()), 5);
                                     Server.FriendlyFire = true;
                                     break;
                                 }
@@ -88,16 +89,16 @@ namespace Callvote.Commands.VotingCommands
                         {
                             case true:
                                 {
-                                    Map.Broadcast(5, Callvote.Instance.Translation.NoSuccessFullEnableFf
+                                    Server.SendBroadcast(Callvote.Instance.Translation.NoSuccessFullEnableFf
                                         .Replace("%VotePercent%", yesVotePercent.ToString())
-                                        .Replace("%ThresholdRestartRound%", Callvote.Instance.Config.ThresholdRestartRound.ToString()));
+                                        .Replace("%ThresholdRestartRound%", Callvote.Instance.Config.ThresholdRestartRound.ToString()), 5);
                                     break;
                                 }
                             case false:
                                 {
-                                    Map.Broadcast(5, Callvote.Instance.Translation.NoSuccessFullDisableFf
+                                    Server.SendBroadcast(Callvote.Instance.Translation.NoSuccessFullDisableFf
                                          .Replace("%VotePercent%", yesVotePercent.ToString())
-                                         .Replace("%ThresholdRestartRound%", Callvote.Instance.Config.ThresholdRestartRound.ToString()));
+                                         .Replace("%ThresholdRestartRound%", Callvote.Instance.Config.ThresholdRestartRound.ToString()), 5);
                                     break;
                                 }
                         }

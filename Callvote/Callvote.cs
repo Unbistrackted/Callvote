@@ -12,6 +12,7 @@ namespace Callvote
     {
         public static Callvote Instance;
         public new Config Config;
+        public new Translation Translation;
         public EventHandlers EventHandlers;
 
         public override string Name { get; } = AssemblyInfo.Name;

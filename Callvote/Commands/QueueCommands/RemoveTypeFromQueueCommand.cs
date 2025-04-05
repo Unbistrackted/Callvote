@@ -2,8 +2,8 @@
 using Callvote.API.Objects;
 using CommandSystem;
 using Exiled.API.Extensions;
-using Exiled.API.Features;
-using Exiled.Permissions.Extensions;
+using LabApi.Features.Permissions;
+using LabApi.Features.Wrappers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +28,7 @@ namespace Callvote.Commands.QueueCommands
 
             Player player = Player.Get(sender);
 
-            if (!player.CheckPermission("cv.managequeue"))
+            if (!player.HasPermissions("cv.managequeue"))
             {
                 response = Callvote.Instance.Translation.NoPermission;
                 return false;

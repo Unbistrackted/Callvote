@@ -1,7 +1,7 @@
 ﻿using Callvote.API;
 using Callvote.API.Objects;
 using CommandSystem;
-using Exiled.API.Features;
+using LabApi.Features.Wrappers;
 using System;
 
 namespace Callvote.Commands.QueueCommands

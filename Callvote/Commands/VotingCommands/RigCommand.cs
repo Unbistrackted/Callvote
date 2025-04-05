@@ -1,7 +1,7 @@
 ﻿using Callvote.API;
 using CommandSystem;
-using Exiled.API.Features;
-using Exiled.Permissions.Extensions;
+using LabApi.Features.Wrappers;
+using LabApi.Features.Permissions;
 using System;
 using System.Linq;
 
@@ -19,7 +19,7 @@ namespace Callvote.Commands.VotingCommands
         {
             Player player = Player.Get(sender);
 
-            if (!player.CheckPermission("cv.superadmin+"))
+            if (!player.HasPermissions("cv.superadmin+"))
             {
                 response = Callvote.Instance.Translation.NoPermission;
                 return false;

@@ -1,8 +1,8 @@
 ﻿using Callvote.API;
 using Callvote.API.Objects;
 using CommandSystem;
-using Exiled.API.Features;
-using Exiled.Permissions.Extensions;
+using LabApi.Features.Wrappers;
+using LabApi.Features.Permissions;
 using Respawning;
 using System;
 using System.Linq;
@@ -29,15 +29,15 @@ namespace Callvote.Commands.VotingCommands
                 return false;
             }
 
-            if (!player.CheckPermission("cv.callvoterespawnwave"))
+            if (!player.HasPermissions("cv.callvoterespawnwave"))
             {
                 response = Callvote.Instance.Translation.NoPermission;
                 return false;
             }
 
-            if (Round.ElapsedTime.TotalSeconds < Callvote.Instance.Config.MaxWaitRespawnWave || !player.CheckPermission("cv.bypass"))
+            if (Round.Duration.TotalSeconds < Callvote.Instance.Config.MaxWaitRespawnWave || !player.HasPermissions("cv.bypass"))
             {
-                response = Callvote.Instance.Translation.WaitToVote.Replace("%Timer%", $"{Callvote.Instance.Config.MaxWaitRespawnWave - Round.ElapsedTime.TotalSeconds}");
+                response = Callvote.Instance.Translation.WaitToVote.Replace("%Timer%", $"{Callvote.Instance.Config.MaxWaitRespawnWave - Round.Duration.TotalSeconds}");
                 return false;
             }
 

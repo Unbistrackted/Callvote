@@ -1,7 +1,7 @@
 ﻿using Callvote.API;
 using CommandSystem;
-using Exiled.API.Features;
-using Exiled.Permissions.Extensions;
+using LabApi.Features.Wrappers;
+using LabApi.Features.Permissions;
 using System;
 
 namespace Callvote.Commands.VotingCommands
@@ -24,7 +24,7 @@ namespace Callvote.Commands.VotingCommands
                 return false;
             }
 
-            if (!player.CheckPermission("cv.stopvote") || !player.CheckPermission("cv.bypass"))
+            if (!player.HasPermissions("cv.stopvote") || !player.HasPermissions("cv.bypass"))
             {
                 response = Callvote.Instance.Translation.NoPermission;
                 return false;

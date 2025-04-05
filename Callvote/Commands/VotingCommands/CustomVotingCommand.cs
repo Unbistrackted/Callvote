@@ -1,14 +1,12 @@
 ﻿using Callvote.API;
 using CommandSystem;
-using Exiled.API.Features;
-using Exiled.Permissions.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Windows.Input;
 using Callvote.API.Enums;
 using LabApi.Features.Wrappers;
+using LabApi.Features.Permissions;
 
 namespace Callvote.Commands.VotingCommands
 {
@@ -27,7 +25,7 @@ namespace Callvote.Commands.VotingCommands
             optionDetailsStrings = JoinWordsBetweenQuotes(optionDetailsStrings);
             Player player = Player.Get(sender);
 
-            if (!player.CheckPermission("cv.callvotecustom") || !player.CheckPermission("cv.bypass"))
+            if (!player.HasPermissions("cv.callvotecustom") || !player.HasPermissions("cv.bypass"))
             {
                 response = Callvote.Instance.Translation.NoPermission;
                 return false;

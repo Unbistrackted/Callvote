@@ -2,7 +2,7 @@ using System.ComponentModel;
 
 namespace Callvote
 {
-    public class Translation : ITranslation
+    public class Translation
     {
         [Description("%player%, %VotePercent%, %Offender%, %ThresholdKick%, %ThresholdRespawnWave%, %ThresholdNuke%, %ThresholdKill%, %ThresholdRestartRound%, %OptionKey%, %Option%, %Counter%, %Timer%, %Custom%, %Type%, %Number%")]
         public string MaxVote { get; private set; } = "Max amounts of votes done this round";

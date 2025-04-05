@@ -1,12 +1,12 @@
 ﻿using Callvote.API;
 using Callvote.API.Objects;
 using CommandSystem;
-using Exiled.API.Features;
-using Exiled.Permissions.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Callvote.API.Enums;
+using LabApi.Features.Wrappers;
+using LabApi.Features.Permissions;
 
 namespace Callvote.Commands.VotingCommands
 {
@@ -28,7 +28,7 @@ namespace Callvote.Commands.VotingCommands
                 return false;
             }
 
-            if (!player.CheckPermission("cv.callvotekill"))
+            if (!player.HasPermissions("cv.callvotekill"))
             {
                 response = Callvote.Instance.Translation.NoPermission;
                 return false;
@@ -40,9 +40,9 @@ namespace Callvote.Commands.VotingCommands
                 return false;
             }
 
-            if (Round.ElapsedTime.TotalSeconds < Callvote.Instance.Config.MaxWaitKill || !player.CheckPermission("cv.bypass"))
+            if (Round.Duration.TotalSeconds < Callvote.Instance.Config.MaxWaitKill || !player.HasPermissions("cv.bypass"))
             {
-                response = Callvote.Instance.Translation.WaitToVote.Replace("%Timer%", $"{Callvote.Instance.Config.MaxWaitKill - Round.ElapsedTime.TotalSeconds}");
+                response = Callvote.Instance.Translation.WaitToVote.Replace("%Timer%", $"{Callvote.Instance.Config.MaxWaitKill - Round.Duration.TotalSeconds}");
                 return false;
             }
 
@@ -87,24 +87,24 @@ namespace Callvote.Commands.VotingCommands
                     int noVotePercent = (int)(vote.Counter[Callvote.Instance.Translation.CommandNo] / (float)Player.List.Count() * 100f); //Just so you know that it exists
                     if (yesVotePercent >= Callvote.Instance.Config.ThresholdKill && yesVotePercent > noVotePercent)
                     {
-                        if (!locatedPlayer.CheckPermission("cv.untouchable"))
+                        if (!locatedPlayer.HasPermissions("cv.untouchable"))
                         {
                             locatedPlayer.Kill(reason);
-                            Map.Broadcast(8, Callvote.Instance.Translation.PlayerKilled
+                            Server.SendBroadcast(Callvote.Instance.Translation.PlayerKilled
                                 .Replace("%VotePercent%", yesVotePercent.ToString())
                                 .Replace("%Player%", player.Nickname)
                                 .Replace("%Offender%", locatedPlayer.Nickname)
-                                .Replace("%Reason%", reason));
+                                .Replace("%Reason%", reason), 5);
                         }
-                        if (!locatedPlayer.CheckPermission("cv.untouchable")) locatedPlayer.Kill(reason);
-                        if (locatedPlayer.CheckPermission("cv.untouchable")) locatedPlayer.Broadcast(5, Callvote.Instance.Translation.Untouchable.Replace("%VotePercent%", yesVotePercent.ToString()));
+                        if (!locatedPlayer.HasPermissions("cv.untouchable")) locatedPlayer.Kill(reason);
+                        if (locatedPlayer.HasPermissions("cv.untouchable")) locatedPlayer.SendBroadcast(Callvote.Instance.Translation.Untouchable.Replace("%VotePercent%", yesVotePercent.ToString()), 5);
                     }
                     else
                     {
-                        Map.Broadcast(5, Callvote.Instance.Translation.NoSuccessFullKill
+                        Server.SendBroadcast(Callvote.Instance.Translation.NoSuccessFullKill
                             .Replace("%VotePercent%", yesVotePercent.ToString())
                             .Replace("%ThresholdKick%", Callvote.Instance.Config.ThresholdKick.ToString())
-                            .Replace("%Offender%", locatedPlayer.Nickname));
+                            .Replace("%Offender%", locatedPlayer.Nickname), 5);
                     }
                 });
             response = VotingHandler.Response;
