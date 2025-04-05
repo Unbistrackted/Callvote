@@ -12,7 +12,7 @@ namespace Callvote
     {
         public static Callvote Instance;
         public new Config Config;
-        public new Translation Translation;
+        public Translation Translation;
         public EventHandlers EventHandlers;
 
         public override string Name { get; } = AssemblyInfo.Name;
@@ -20,23 +20,31 @@ namespace Callvote
         public override string Description { get; } = AssemblyInfo.Description;
         public override Version Version { get; } = Version.Parse(AssemblyInfo.Version);
         public override Version RequiredApiVersion { get; } = new Version(0, 5, 0);
-        public override string ConfigFileName { get; set; } = "Callvote.yml";
+        public string ConfigFileName { get; set; } = "config.yml";
+        public string TranslationFileName { get; set; } = "translation.yml";
         public override LoadPriority Priority { get; } = LoadPriority.Medium;
         //public HeaderSetting SettingsHeader { get; set; } = new HeaderSetting(AssemblyInfo.Name);
 
 
-        private bool _hasIncorrectSettings = false;
+        private bool _configHasIncorrectSettings = false;
+        private bool _translationHasIncorrectSettings = false;
 
         public override void Enable()
         {
-            if (_hasIncorrectSettings)
+            if (_configHasIncorrectSettings)
             {
                 Logger.Error("Detected incorrect settings, not loading");
                 return;
             }
+            if (_translationHasIncorrectSettings)
+            {
+                Logger.Error("Detected incorrect settings, not loading");
+                return;
+            }
+            this.SaveConfig(Config, ConfigFileName);
+            this.SaveConfig(Translation, TranslationFileName);
             EventHandlers = new EventHandlers();
             Instance = this;
-            this.SaveConfig(Config, ConfigFileName);
             VotingHandler.Init();
             CustomHandlersManager.RegisterEventsHandler(EventHandlers);
         }
@@ -52,7 +60,10 @@ namespace Callvote
         public override void LoadConfigs()
         {
             base.LoadConfigs();
-            _hasIncorrectSettings = !this.TryLoadConfig(ConfigFileName, out Config);
+            //_configHasIncorrectSettings = !this.TryLoadConfig(ConfigFileName, out Config);
+            //_translationHasIncorrectSettings = !this.TryLoadConfig(TranslationFileName, out Translation);
+            Translation = this.LoadConfig<Translation>(TranslationFileName);
+            Config = this.LoadConfig<Config>(ConfigFileName);
         }
     }
 }

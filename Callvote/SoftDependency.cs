@@ -39,7 +39,7 @@ namespace Callvote
     {
         public void ShowString(TimeSpan duration1, string content)
         {
-            Broadcast(message: content, duration: (ushort)duration1.TotalSeconds);
+            Server.SendBroadcast(message: content, duration: (ushort)duration1.TotalSeconds);
         }
     }
     public class RueIHintProvider : IHintProvider

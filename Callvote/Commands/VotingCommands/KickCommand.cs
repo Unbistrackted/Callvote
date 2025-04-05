@@ -7,6 +7,7 @@ using System.Linq;
 using Callvote.API.Enums;
 using LabApi.Features.Wrappers;
 using LabApi.Features.Permissions;
+using LabApi.Features.Console;
 
 namespace Callvote.Commands.VotingCommands
 {
@@ -41,8 +42,9 @@ namespace Callvote.Commands.VotingCommands
                 return false;
             }
 
-            if (Round.Duration.TotalSeconds < Callvote.Instance.Config.MaxWaitKick || !player.HasPermissions("cv.bypass"))
+            if (Round.Duration.TotalSeconds < Callvote.Instance.Config.MaxWaitKick) //|| !player.HasPermissions("cv.bypass"))
             {
+                Logger.Info(Round.Duration.TotalSeconds);
                 response = Callvote.Instance.Translation.WaitToVote.Replace("%Timer%", $"{Callvote.Instance.Config.MaxWaitKick - Round.Duration.TotalSeconds}");
                 return false;
             }
@@ -53,13 +55,16 @@ namespace Callvote.Commands.VotingCommands
                 return false;
             }
 
-            Player locatedPlayer = Player.Get(args.ElementAt(0));
+            Player locatedPlayer;
 
-            if (locatedPlayer == null)
+            if (!Player.TryGetPlayersByName(args.ElementAt(0), out List<Player> locatedPlayerList))
             {
                 response = Callvote.Instance.Translation.PlayerNotFound.Replace("%Player%", args.ElementAt(0));
                 return false;
             }
+
+            Logger.Info(locatedPlayerList.First().Nickname);
+            locatedPlayer = locatedPlayerList.First();
 
             List<Player> playerSearch = Player.List.Where(p => p.Nickname.Contains(args.ElementAt(0))).ToList();
             if (playerSearch.Count() < 0 || playerSearch.Count() > 1)

@@ -1,4 +1,6 @@
-﻿using Exiled.API.Features.Core.UserSettings;
+﻿/*
+
+using Exiled.API.Features.Core.UserSettings;
 using UnityEngine;
 
 namespace Callvote.API.Objects
@@ -37,3 +39,4 @@ namespace Callvote.API.Objects
         }
     }
 }
+*/

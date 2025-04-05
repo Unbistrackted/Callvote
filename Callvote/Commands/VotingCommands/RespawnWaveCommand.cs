@@ -57,21 +57,21 @@ namespace Callvote.Commands.VotingCommands
                     int ciVotePercent = (int)(vote.Counter[Callvote.Instance.Translation.CommandChaosInsurgency] / (float)Player.List.Count() * 100f);
                     if (mtfVotePercent >= Callvote.Instance.Config.ThresholdRespawnWave)
                     {
-                        Map.Broadcast(5, Callvote.Instance.Translation.MtfRespawn
-                            .Replace("%VotePercent%", mtfVotePercent + "%"));
+                        Server.SendBroadcast(Callvote.Instance.Translation.MtfRespawn
+                            .Replace("%VotePercent%", mtfVotePercent + "%") , 5);
                         WaveManager.Spawn(WaveManager.Waves[0]);
                     }
                     else if (ciVotePercent >= Callvote.Instance.Config.ThresholdRespawnWave)
                     {
-                        Map.Broadcast(5, Callvote.Instance.Translation.CiRespawn
-                            .Replace("%VotePercent%", ciVotePercent.ToString()));
+                        Server.SendBroadcast(Callvote.Instance.Translation.CiRespawn
+                            .Replace("%VotePercent%", ciVotePercent.ToString()), 5);
                         WaveManager.Spawn(WaveManager.Waves[1]);
                     }
                     else
                     {
-                        Map.Broadcast(5, Callvote.Instance.Translation.NoSuccessFullRespawn
+                        Server.SendBroadcast(Callvote.Instance.Translation.NoSuccessFullRespawn
                             .Replace("%VotePercent%", noVotePercent.ToString())
-                            .Replace("%ThresholdRespawnWave%", Callvote.Instance.Config.ThresholdRespawnWave.ToString()));
+                            .Replace("%ThresholdRespawnWave%", Callvote.Instance.Config.ThresholdRespawnWave.ToString()), 5);
                     }
                 });
             response = VotingHandler.Response;
