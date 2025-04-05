@@ -30,12 +30,20 @@ namespace Callvote.API.Extensions
         {
             try
             {
+                Dictionary<string, Player> UserIdsCache = new Dictionary<string, Player>();
+
+                foreach(Player p in Player.List)
+                {
+                    UserIdsCache.Add(p.UserId, p);
+                }
+
+
                 if (string.IsNullOrWhiteSpace(args))
                 {
                     return null;
                 }
 
-                if (Player.List..TryGetValue(args, out var value) && value.IsConnected)
+                if (UserIdsCache.TryGetValue(args, out var value) && value.IsOnline)
                 {
                     return value;
                 }
@@ -47,7 +55,7 @@ namespace Callvote.API.Extensions
 
                 if (args.EndsWith("@steam") || args.EndsWith("@discord") || args.EndsWith("@northwood") || args.EndsWith("@offline"))
                 {
-                    foreach (Player value2 in Dictionary.Values)
+                    foreach (Player value2 in Player.List)
                     {
                         if (value2.UserId == args)
                         {
@@ -60,9 +68,9 @@ namespace Callvote.API.Extensions
                 {
                     int num = 31;
                     string text = args.ToLower();
-                    foreach (Player value3 in Dictionary.Values)
+                    foreach (Player value3 in Player.List)
                     {
-                        if (value3.IsOffline && value3.Nickname != null && value3.Nickname.ToLower().Contains(args.ToLower()))
+                        if (value3.IsOnline && value3.Nickname != null && value3.Nickname.ToLower().Contains(args.ToLower()))
                         {
                             int num2 = value3.Nickname.Length - text.Length;
                             if (num2 < num)
