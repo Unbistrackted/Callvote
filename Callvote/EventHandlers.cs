@@ -1,28 +1,28 @@
 using Callvote.API;
-using Exiled.API.Features;
-using Exiled.Events.EventArgs.Server;
 using HarmonyLib;
-using UserSettings.ServerSpecific;
+using LabApi.Events.Arguments.ServerEvents;
+using LabApi.Events.CustomHandlers;
+using LabApi.Events.Handlers;
 
 namespace Callvote
 {
-    public class EventHandlers
+    public class EventHandlers : CustomEventsHandler
     {
-        public void OnWaitingForPlayers()
+        public override void OnServerWaitingForPlayers()
         {
             ClearVotings();
         }
 
-        public void OnRoundEnded(RoundEndedEventArgs ev)
+        public override void OnServerRoundEnded(RoundEndedEventArgs ev)
         {
             ClearVotings();
         }
 
-        public void OnRoundRestarting()
+        public override void OnServerRoundRestarted()
         {
             ClearVotings();
         }
-
+        /*
         public void OnUserInput(ReferenceHub sender, ServerSpecificSettingBase settingBase)
         {
             if (VotingHandler.CurrentVoting == null)
@@ -45,7 +45,7 @@ namespace Callvote
                         break;
                 }
             }
-        }
+        } */
 
         private static void ClearVotings()
         {

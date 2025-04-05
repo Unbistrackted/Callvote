@@ -1,64 +1,57 @@
 using Callvote.API;
-using Exiled.API.Enums;
-using Exiled.API.Features;
-using Exiled.API.Features.Core.UserSettings;
 using System;
-using Callvote.API.Objects;
-using UserSettings.ServerSpecific;
-using Server = Exiled.Events.Handlers.Server;
+using LabApi.Features.Console;
+using LabApi.Loader.Features.Plugins;
+using LabApi.Loader.Features.Plugins.Enums;
+using LabApi.Loader;
+using LabApi.Events.CustomHandlers;
 
 namespace Callvote
 {
-    public class Callvote : Plugin<Config, Translation>
+    public class Callvote : Plugin<Config>
     {
-
         public static Callvote Instance;
+        public new Config Config;
         public EventHandlers EventHandlers;
 
         public override string Name { get; } = AssemblyInfo.Name;
         public override string Author { get; } = AssemblyInfo.Author;
+        public override string Description { get; } = AssemblyInfo.Description;
         public override Version Version { get; } = Version.Parse(AssemblyInfo.Version);
-        public override string Prefix { get; } = AssemblyInfo.LangFile;
-        public override Version RequiredExiledVersion { get; } = new Version(9, 5, 1);
-        public override PluginPriority Priority { get; } = PluginPriority.Default;
-        public HeaderSetting SettingsHeader { get; set; } = new HeaderSetting(AssemblyInfo.Name);
+        public override Version RequiredApiVersion { get; } = new Version(0, 5, 0);
+        public override string ConfigFileName { get; set; } = "Callvote.yml";
+        public override LoadPriority Priority { get; } = LoadPriority.Medium;
+        //public HeaderSetting SettingsHeader { get; set; } = new HeaderSetting(AssemblyInfo.Name);
 
-        public override void OnEnabled()
+
+        private bool _hasIncorrectSettings = false;
+
+        public override void Enable()
         {
+            if (_hasIncorrectSettings)
+            {
+                Logger.Error("Detected incorrect settings, not loading");
+                return;
+            }
             EventHandlers = new EventHandlers();
             Instance = this;
+            this.SaveConfig(Config, ConfigFileName);
             VotingHandler.Init();
-            RegisterEvents();
-            base.OnEnabled();
+            CustomHandlersManager.RegisterEventsHandler(EventHandlers);
         }
 
-        public override void OnDisabled()
+        public override void Disable()
         {
-            UnregisterEvents();
+            CustomHandlersManager.UnregisterEventsHandler(EventHandlers);
             VotingHandler.Clean();
             Instance = null;
             EventHandlers = null;
-            base.OnDisabled();
         }
 
-        private void RegisterEvents()
+        public override void LoadConfigs()
         {
-            SettingBase.Register(new[] { SettingsHeader });
-            ServerSpecificSettings.RegisterSettings();
-            Server.WaitingForPlayers += EventHandlers.OnWaitingForPlayers;
-            Server.RoundEnded += EventHandlers.OnRoundEnded;
-            Server.RestartingRound += EventHandlers.OnRoundRestarting;
-            ServerSpecificSettingsSync.ServerOnSettingValueReceived += EventHandlers.OnUserInput;
-        }
-
-        private void UnregisterEvents()
-        {
-            ServerSpecificSettings.UnregisterSettings();
-            SettingBase.Unregister(settings: new[] { SettingsHeader });
-            Server.WaitingForPlayers -= EventHandlers.OnWaitingForPlayers;
-            Server.RoundEnded -= EventHandlers.OnRoundEnded;
-            Server.RestartingRound -= EventHandlers.OnRoundRestarting;
-            ServerSpecificSettingsSync.ServerOnSettingValueReceived -= EventHandlers.OnUserInput;
+            base.LoadConfigs();
+            _hasIncorrectSettings = !this.TryLoadConfig(ConfigFileName, out Config);
         }
     }
 }

@@ -1,6 +1,7 @@
-﻿namespace Callvote
+﻿using LabApi.Features.Wrappers;
+
+namespace Callvote
 {
-    using Exiled.API.Features;
     using RueI;
     using RueI.Displays;
     using RueI.Displays.Scheduling;
@@ -38,7 +39,7 @@
     {
         public void ShowString(TimeSpan duration1, string content)
         {
-            Map.Broadcast(message: content, duration: (ushort)duration1.TotalSeconds);
+            Broadcast(message: content, duration: (ushort)duration1.TotalSeconds);
         }
     }
     public class RueIHintProvider : IHintProvider
