@@ -1,8 +1,8 @@
 # Description
 
-This plugin is the sucessor of [callvote](https://github.com/PatPeter/callvote), which allows calling and voting for Kick,
-RestartRound, Kill,
-RespawnWave, FF, or custom votes using **KEYBINDS** or **CONSOLE COMMANDS** in the same format as the Source Engine (Left 4
+This plugin is the sucessor of [callvote](https://github.com/PatPeter/callvote), which allows calling for **Kick**,
+ **RestartRound**,  **Kill**,
+**RespawnWave**, **FriendlyFire**, or **Custom** Votes using **KEYBINDS** or **CONSOLE COMMANDS** in the same format as the Source Engine (Left 4
 Dead
 2/Counter-Strike: Global Offensive).
 
@@ -42,6 +42,7 @@ Callvote uses [RueI](https://github.com/pawslee/RueI) as a Soft Dependency, whic
  threshold_restart_round       | integer    | 30            | Percentage threshold required to restart the round.                                            
  broadcast_size                | int        | 0             | Changes the broadcast size to user's preference, leave it at 0 to use Callvote's re-size logic 
  queue_size                    | int        | 5             | Changes Callvote's Queue size if enabled. 
+ discord_webhook               | string     |               | If a Discord Webhook is present, send a message via that Webhook
 
 ## Permissions
 
@@ -120,10 +121,12 @@ Callvote:
   threshold_nuke: 30
   threshold_respawn_wave: 30
   threshold_restart_round: 30
-  # Changes Callvote's broadcast size. (0 = Callvote's default size calculation algorithm)
-  broadcast_size: 0
+  # Changes Callvote's message size. (0 = Callvote's default size calculation algorithm)
+  message_size: 0
   # Changes Callvote's Queue size if enabled.
   queue_size: 5
+  # Add a Discord Webhook if you want to send a Voting Result message to discord.
+  discord_webhook: ''
 ```
 
 ## Translation File
@@ -143,7 +146,7 @@ Callvote:
   player_not_found: 'Did not find any players with the name or partial name of %Player%'
   no_option_available: 'Vote does not have the option %Option%.'
   already_voted: 'You''ve already voted.'
-  vote_accepted: 'You voted %Reason%.'
+  vote_accepted: 'You voted %Option%.'
   no_permission: 'You do not have permission to run this command!'
   voting_stoped: 'Vote stopped.'
   results: |
@@ -186,8 +189,8 @@ Callvote:
   asked_custom: '%Player% <color=#EEDC8A>asks</color>: %Custom%'
   pass_reason: 'You need to pass a reason!'
   less_than_two_options: 'You cannot create a custom voting without 2 options!'
-  vote_keybind: 'Vote'
-  keybind_hint: 'Set this keybind to vote'
+  vote_keybind: 'Vote %Option%!'
+  keybind_hint: 'Set this keybind to vote %Option%.'
   duplicate_command: 'It''s not possible to create a custom command with the same name!'
   queue_disabled: 'Callvote queue disabled.'
   queue_cleared: 'Votings Queue Cleared.'
@@ -195,6 +198,8 @@ Callvote:
   queue_resumed: 'Votings Queue resumed.'
   removed_from_queue: 'Removed %Number% Voting(s)'
   no_voting_in_queue: 'There''s no voting in the queue.'
+  queue_is_full: '<color=red>Queue is full.</color>'
+  voting_enqueued: '<color=#EDF193>Voting Enqueued.</color>'
   type_not_found: 'Did not find any Voting with the type <color=red>%Type%</color>'
   invalid_argument: 'Invalid argument.'
   # Commands:
@@ -202,11 +207,16 @@ Callvote:
   command_no: 'no'
   command_chaos_insurgency: 'ci'
   command_mobile_task_force: 'mtf'
+  # Webhook:
+  webhook_title: 'Voting Results:'
+  webhook_player: 'Player:'
+  webhook_question: 'Question:'
+  webhook_votes: 'Votes:'
 ```
 
 # Special thanks to:
 
-https://github.com/Playeroth for helping me with new logic and translations.
+https://github.com/Playeroth and https://github.com/Edi369 for helping me with translations and adding webhook functionality.
 
 https://github.com/PatPeter for giving the permission to continue the development of [callvote](PatPeter/callvote).
 
