@@ -1,7 +1,7 @@
 using Exiled.API.Interfaces;
 using System.ComponentModel;
 
-namespace Callvote
+namespace Callvote.Configuration
 {
     public class Config : IConfig
     {
@@ -33,9 +33,11 @@ namespace Callvote
         public int ThresholdNuke { get; set; } = 30;
         public int ThresholdRespawnWave { get; set; } = 30;
         public int ThresholdRestartRound { get; set; } = 30;
-        [Description("Changes Callvote's broadcast size. (0 = Callvote's default size calculation algorithm)")]
-        public int BroadcastSize { get; set; } = 0;
+        [Description("Changes Callvote's message size. (0 = Callvote's default size calculation algorithm)")]
+        public int MessageSize { get; set; } = 0;
         [Description("Changes Callvote's Queue size if enabled.")]
         public int QueueSize { get; set; } = 5;
+        [Description("Add a Discord Webhook if you want to send a Voting Result message to discord.")]
+        public string DiscordWebhook { get; set; } = "";
     }
 }

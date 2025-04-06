@@ -6,6 +6,7 @@ namespace Callvote.Commands
 {
     [CommandHandler(typeof(ClientCommandHandler))]
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
+    [CommandHandler(typeof(GameConsoleCommandHandler))]
     internal class CallVoteCommand : ParentCommand
     {
         public override string Command => "callvote";

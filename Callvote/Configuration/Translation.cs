@@ -1,7 +1,8 @@
+using Callvote.Features;
 using Exiled.API.Interfaces;
 using System.ComponentModel;
 
-namespace Callvote
+namespace Callvote.Configuration
 {
     public class Translation : ITranslation
     {
@@ -76,5 +77,10 @@ namespace Callvote
         public string CommandNo { get; set; } = "no";
         public string CommandChaosInsurgency { get; set; } = "ci";
         public string CommandMobileTaskForce { get; set; } = "mtf";
+        [Description("Webhook:")]
+        public string WebhookTitle { get; set; } = "Voting Results:";
+        public string WebhookPlayer { get; set; } = "Player:";
+        public string WebhookQuestion { get; set; } = "Question:";
+        public string WebhookVotes { get; set; } = "Votes:";
     }
 }

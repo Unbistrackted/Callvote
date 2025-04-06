@@ -2,17 +2,18 @@
 using Exiled.API.Features;
 using MEC;
 using System.Collections.Generic;
+using YamlDotNet.Serialization;
 
 namespace Callvote.API
 {
     public static class VotingHandler
     {
-        public static Voting CurrentVoting;
-        public static Queue<Voting> VotingQueue = new Queue<Voting>();
-        public static Dictionary<Player, int> PlayerCallVotingAmount = new Dictionary<Player, int>();
-        public static Dictionary<string, string> Options = new Dictionary<string, string>();
-        public static string Response = string.Empty;
-        public static bool IsQueuePaused = false;
+        public static Voting CurrentVoting { get; private set; }
+        public static Queue<Voting> VotingQueue { get; private set; } = new Queue<Voting>();
+        public static Dictionary<Player, int> PlayerCallVotingAmount { get; private set; } = new Dictionary<Player, int>();
+        public static Dictionary<string, string> Options { get; private set; }  = new Dictionary<string, string>();
+        public static bool IsQueuePaused { get; set; } = false;
+        public static string Response { get; set; } = string.Empty;
 
         public static void CallVoting(string question, string votingType, Player player, CallvoteFunction callback, Dictionary<string, string> options = null)
         {
@@ -41,6 +42,18 @@ namespace Callvote.API
         public static void FinishVoting()
         {
             CurrentVoting?.Stop();
+            if (CurrentVoting != null)
+            {
+                if (CurrentVoting.Callback == null)
+                {
+                    DisplayMessageHelper.DisplayResultsMessage();
+                }
+                else
+                {
+                    CurrentVoting.Callback.Invoke(CurrentVoting);
+                }
+                DcWebhook.ResultsMessage(CurrentVoting);
+            }
             CurrentVoting = null;
             if (Callvote.Instance.Config.EnableQueue) { TryStartNextVoting(); };
         }
@@ -74,14 +87,6 @@ namespace Callvote.API
             {
                 if (timerCounter >= Callvote.Instance.Config.VoteDuration + 1)
                 {
-                    if (VotingHandler.CurrentVoting.Callback == null)
-                    {
-                        DisplayMessageHelper.DisplayResultsMessage();
-                    }
-                    else
-                    {
-                        VotingHandler.CurrentVoting.Callback.Invoke(VotingHandler.CurrentVoting);
-                    }
                     FinishVoting();
                     yield break;
                 }

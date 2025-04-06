@@ -145,7 +145,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="API\DisplayMessageHelper.cs" />
+    <Compile Include="Features\DcWebhook.cs" />
+    <Compile Include="Features\DisplayMessageHelper.cs" />
     <Compile Include="Enums\VotingType.cs" />
     <Compile Include="Extensions\QueueExtensions.cs" />
     <Compile Include="Features\CommandsMenu.cs" />

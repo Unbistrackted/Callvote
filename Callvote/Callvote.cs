@@ -1,4 +1,5 @@
 using Callvote.API;
+using Callvote.Configuration;
 using Callvote.Features;
 using Exiled.API.Enums;
 using Exiled.API.Features;
