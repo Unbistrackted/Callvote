@@ -4,7 +4,6 @@ namespace Callvote
 {
     public class Config
     {
-        public bool IsEnabled { get; set; } = true;
         public bool Debug { get; set; } = false;
         [Description("Enable or disable Modules.")]
         public bool EnableQueue { get; set; } = true;

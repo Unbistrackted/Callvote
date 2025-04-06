@@ -25,7 +25,6 @@ namespace Callvote
         public override LoadPriority Priority { get; } = LoadPriority.Medium;
         //public HeaderSetting SettingsHeader { get; set; } = new HeaderSetting(AssemblyInfo.Name);
 
-
         private bool _configHasIncorrectSettings = false;
         private bool _translationHasIncorrectSettings = false;
 

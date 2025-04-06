@@ -25,7 +25,7 @@ namespace Callvote
         public string Results { get; set; } = "Final results:\n";
         public string OptionAndCounter { get; set; } = " %Option% (%Counter%) ";
         public string Options { get; set; } = ".%OptionKey% = %Option% ";
-        public string AskedQuestion { get; set; } = "%Question% \n <color=#bce3a3>Press ~ and type</color> or <color=#939383>Set the keybind in Server-specific!</color>\n";
+        public string AskedQuestion { get; set; } = "%Question% \n <color=#bce3a3>Press ~ and type</color>\n";
         public string OptionMtf { get; set; } = "<color=blue>MTF</color>";
         public string OptionCi { get; set; } = "<color=green>CI</color>";
         public string CiRespawn { get; set; } = "%VotePercent%% voted <color=green>YES</color>. Forcing the reappearing of CI..";
