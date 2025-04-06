@@ -3,7 +3,7 @@ using System;
 
 namespace Callvote.Commands
 {
-    internal class HelpCommand : ICommand
+    public class HelpCommand : ICommand
     {
         public string Command => "help";
 

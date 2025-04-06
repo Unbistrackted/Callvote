@@ -7,9 +7,8 @@ using System;
 
 namespace Callvote.Commands
 {
-    internal class CallVoteQueueCommand : ParentCommand
+    public class CallVoteQueueCommand : ParentCommand
     {
-
         public override string Command => "queue";
 
         public override string[] Aliases => new[] { "q", "que", "qq", "list" };

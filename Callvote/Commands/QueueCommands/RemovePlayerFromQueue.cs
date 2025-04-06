@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace Callvote.Commands.QueueCommands
 {
-    internal class RemovePlayerFromQueueCommand : ICommand
+    public class RemovePlayerFromQueueCommand : ICommand
     {
         public string Command => "removeplayer";
 

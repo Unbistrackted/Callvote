@@ -6,7 +6,7 @@ using System;
 
 namespace Callvote.Commands.QueueCommands
 {
-    internal class PauseQueueCommand : ICommand
+    public class PauseQueueCommand : ICommand
     {
         public string Command => "pause";
 

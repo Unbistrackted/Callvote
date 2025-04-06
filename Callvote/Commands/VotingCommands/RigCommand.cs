@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Callvote.Commands.VotingCommands
 {
-    internal class RigCommand : ICommand
+    public class RigCommand : ICommand
     {
         public string Command => "rig";
 
@@ -52,8 +52,6 @@ namespace Callvote.Commands.VotingCommands
             VotingHandler.CurrentVoting.Rig(arguments.ElementAt(0), amount: votes);
             response = arguments.ElementAt(0);
             return true;
-
-
         }
     }
 }

@@ -7,7 +7,7 @@ using System;
 
 namespace Callvote.Commands.QueueCommands
 {
-    internal class RemoveXFromQueueCommand : ICommand
+    public class RemoveXFromQueueCommand : ICommand
     {
         public string Command => "removeindex";
 

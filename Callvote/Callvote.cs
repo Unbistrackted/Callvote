@@ -12,7 +12,6 @@ namespace Callvote
 {
     public class Callvote : Plugin<Config, Translation>
     {
-
         public static Callvote Instance;
         public EventHandlers EventHandlers;
 

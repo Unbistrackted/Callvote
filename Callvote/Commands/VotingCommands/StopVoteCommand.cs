@@ -6,7 +6,7 @@ using System;
 
 namespace Callvote.Commands.VotingCommands
 {
-    internal class StopVoteCommand : ICommand
+    public class StopVoteCommand : ICommand
     {
         public string Command => "stopvote";
 

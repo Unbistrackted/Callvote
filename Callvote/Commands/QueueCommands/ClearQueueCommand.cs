@@ -6,7 +6,7 @@ using System;
 
 namespace Callvote.Commands.QueueCommands
 {
-    internal class ClearQueueCommand : ICommand
+    public class ClearQueueCommand : ICommand
     {
         public string Command => "clear";
 
