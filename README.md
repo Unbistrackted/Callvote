@@ -2,7 +2,7 @@
 
 This plugin is the sucessor of [callvote](https://github.com/PatPeter/callvote), which allows calling and voting for Kick,
 RestartRound, Kill,
-RespawnWave, FF, or custom votes using **KEYBINDS** or **CONSOLE COMMANDS** in the same format as the Source Engine (Left 4
+RespawnWave, FF, or custom votes using **KEYBINDS** or ~~**CONSOLE COMMANDS**~~ (Soon™️) in the same format as the Source Engine (Left 4
 Dead
 2/Counter-Strike: Global Offensive).
 
