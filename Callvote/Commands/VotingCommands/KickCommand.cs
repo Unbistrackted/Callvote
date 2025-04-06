@@ -44,9 +44,8 @@ namespace Callvote.Commands.VotingCommands
                 return false;
             }
 
-            if (Round.Duration.TotalSeconds < Callvote.Instance.Config.MaxWaitKick) //|| !player.HasPermissions("cv.bypass"))
+            if (Round.Duration.TotalSeconds < Callvote.Instance.Config.MaxWaitKick || !player.HasPermissions("cv.bypass"))
             {
-                Logger.Info(Round.Duration.TotalSeconds);
                 response = Callvote.Instance.Translation.WaitToVote.Replace("%Timer%", $"{Callvote.Instance.Config.MaxWaitKick - Round.Duration.TotalSeconds}");
                 return false;
             }
