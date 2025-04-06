@@ -21,7 +21,7 @@ namespace Exiled.API.Extensions
             }
         }
 
-        public static void RemoveFromQueuePatch<T>(this Queue<T> queue, T value)
+        public static void RemoveItemFromQueue<T>(this Queue<T> queue, T value)
         {
             List<T> list = queue.Where(item => !item.Equals(value)).ToList();
 

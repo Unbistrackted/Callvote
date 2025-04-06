@@ -145,7 +145,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="API\Objects\CommandsMenu.cs" />
+    <Compile Include="API\DisplayMessageHelper.cs" />
+    <Compile Include="Enums\VotingType.cs" />
+    <Compile Include="Extensions\QueueExtensions.cs" />
+    <Compile Include="Features\CommandsMenu.cs" />
     <Compile Include="Commands\HelpCommand.cs" />
     <Compile Include="Commands\ParentCommands\CallVoteCommand.cs" />
     <Compile Include="Commands\ParentCommands\CallVoteQueueCommand.cs" />
@@ -168,10 +171,8 @@
     <Compile Include="Commands\VotingCommands\VoteCommand.cs" />
     <Compile Include="Configuration\Config.cs" />
     <Compile Include="Callvote.cs" />
-    <Compile Include="API\Enums\VotingType.cs" />
     <Compile Include="EventHandlers.cs" />
-    <Compile Include="API\Extensions\QueueExtensions.cs" />
-    <Compile Include="API\Objects\Voting.cs" />
+    <Compile Include="Features\Voting.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SoftDependency.cs" />
     <Compile Include="Configuration\Translation.cs" />

@@ -1,9 +1,9 @@
 using Callvote.API;
+using Callvote.Features;
 using Exiled.API.Enums;
 using Exiled.API.Features;
 using Exiled.API.Features.Core.UserSettings;
 using System;
-using Callvote.API.Objects;
 using UserSettings.ServerSpecific;
 using Server = Exiled.Events.Handlers.Server;
 
@@ -27,7 +27,6 @@ namespace Callvote
         {
             EventHandlers = new EventHandlers();
             Instance = this;
-            VotingHandler.Init();
             RegisterEvents();
             base.OnEnabled();
         }
@@ -35,7 +34,7 @@ namespace Callvote
         public override void OnDisabled()
         {
             UnregisterEvents();
-            VotingHandler.Clean();
+            VotingHandler.Clear();
             Instance = null;
             EventHandlers = null;
             base.OnDisabled();

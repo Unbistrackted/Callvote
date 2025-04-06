@@ -10,17 +10,17 @@ namespace Callvote
     {
         public void OnWaitingForPlayers()
         {
-            ClearVotings();
+            VotingHandler.Clear();
         }
 
         public void OnRoundEnded(RoundEndedEventArgs ev)
         {
-            ClearVotings();
+            VotingHandler.Clear();
         }
 
         public void OnRoundRestarting()
         {
-            ClearVotings();
+            VotingHandler.Clear();
         }
 
         public void OnUserInput(ReferenceHub sender, ServerSpecificSettingBase settingBase)
@@ -45,12 +45,6 @@ namespace Callvote
                         break;
                 }
             }
-        }
-
-        private static void ClearVotings()
-        {
-            if (Callvote.Instance.Config.EnableQueue) { VotingHandler.VotingQueue.Clear(); }
-            VotingHandler.FinishVoting();
         }
     }
 }

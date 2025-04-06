@@ -1,6 +1,6 @@
-﻿using CommandSystem;
+﻿using Callvote.Commands.VotingCommands;
+using CommandSystem;
 using System;
-using Callvote.Commands.VotingCommands;
 
 namespace Callvote.Commands
 {

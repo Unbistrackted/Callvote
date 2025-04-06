@@ -9,10 +9,10 @@
     using System;
     using System.Runtime.CompilerServices;
 
-    public static class HintProvider
+    public static class MessageProvider
     {
-        public static IHintProvider Provider { get; } = GetProvider();
-        private static IHintProvider GetProvider()
+        public static IMessageProvider Provider { get; } = GetProvider();
+        private static IMessageProvider GetProvider()
         {
             try
             {
@@ -29,21 +29,21 @@
         private static void LoadRueI() => RueIMain.EnsureInit();
     }
 
-    public interface IHintProvider
+    public interface IMessageProvider
     {
-        void ShowString(TimeSpan duration, string content);
+        void DisplayMessage(TimeSpan duration, string content);
     }
 
-    public class BroadcastProvider : IHintProvider
+    public class BroadcastProvider : IMessageProvider
     {
-        public void ShowString(TimeSpan duration1, string content)
+        public void DisplayMessage(TimeSpan duration1, string content)
         {
             Map.Broadcast(message: content, duration: (ushort)duration1.TotalSeconds);
         }
     }
-    public class RueIHintProvider : IHintProvider
+    public class RueIHintProvider : IMessageProvider
     {
-        public void ShowString(TimeSpan timer, string content)
+        public void DisplayMessage(TimeSpan timer, string content)
         {
             TimedElemRef<SetElement> elemRef = new TimedElemRef<SetElement>();
             foreach (Player player in Player.List)

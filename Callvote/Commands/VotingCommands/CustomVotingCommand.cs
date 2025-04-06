@@ -1,4 +1,5 @@
 ﻿using Callvote.API;
+using Callvote.Enums;
 using CommandSystem;
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
@@ -6,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Callvote.API.Enums;
 
 namespace Callvote.Commands.VotingCommands
 {

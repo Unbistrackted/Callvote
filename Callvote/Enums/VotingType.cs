@@ -1,4 +1,4 @@
-﻿namespace Callvote.API.Enums
+﻿namespace Callvote.Enums
 {
     public enum VotingType
     {

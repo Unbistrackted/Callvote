@@ -1,4 +1,5 @@
-﻿using Callvote.Commands.VotingCommands;
+﻿using Callvote.API;
+using Callvote.Commands.VotingCommands;
 using CommandSystem;
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
@@ -9,7 +10,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Callvote.API.Objects
+namespace Callvote.Features
 {
     public class Voting
     {

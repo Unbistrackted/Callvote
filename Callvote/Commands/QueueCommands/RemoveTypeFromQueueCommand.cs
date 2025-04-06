@@ -1,5 +1,5 @@
 ﻿using Callvote.API;
-using Callvote.API.Objects;
+using Callvote.Features;
 using CommandSystem;
 using Exiled.API.Extensions;
 using Exiled.API.Features;
@@ -46,7 +46,7 @@ namespace Callvote.Commands.QueueCommands
 
             foreach (Voting vote in votingsToRemove)
             {
-                VotingHandler.VotingQueue.RemoveFromQueuePatch(vote);
+                VotingHandler.VotingQueue.RemoveItemFromQueue(vote);
             }
             response = Callvote.Instance.Translation.RemovedFromQueue.Replace("%Number%", votingsToRemove.Count.ToString());
             return true;

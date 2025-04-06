@@ -1,9 +1,9 @@
 ﻿using Callvote.API;
+using Callvote.Enums;
 using CommandSystem;
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
 using System;
-using Callvote.API.Enums;
 
 namespace Callvote.Commands.VotingCommands
 {
