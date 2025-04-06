@@ -6,7 +6,7 @@ This plugin is the sucessor of [callvote](https://github.com/PatPeter/callvote),
 Dead
 2/Counter-Strike: Global Offensive).
 
-Callvote uses [RueI](https://github.com/pawslee/RueI) as a Soft Dependency, which replaces Broadcasts with Hints. We 
+Callvote uses [RueI](https://github.com/pawslee/RueI) as a Soft Dependency, which replaces the majority of Broadcasts with Hints. We 
 **highly suggest** installing it since we plan on moving away from Broadcasts.
 
 ![image](https://github.com/user-attachments/assets/34b7522c-afad-4aa5-9e5b-34797eaee3c8)
