@@ -13,7 +13,7 @@ namespace Callvote.Commands.VotingCommands
     {
         public string Command => "friendlyfire";
 
-        public string[] Aliases => new[] { "ff", "enableff" };
+        public string[] Aliases => new[] { "ff" };
 
         public string Description => "Calls a enable/disable ff voting.";
 

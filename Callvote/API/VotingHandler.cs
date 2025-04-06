@@ -2,7 +2,6 @@
 using Exiled.API.Features;
 using MEC;
 using System.Collections.Generic;
-using YamlDotNet.Serialization;
 
 namespace Callvote.API
 {
@@ -11,7 +10,7 @@ namespace Callvote.API
         public static Voting CurrentVoting { get; private set; }
         public static Queue<Voting> VotingQueue { get; private set; } = new Queue<Voting>();
         public static Dictionary<Player, int> PlayerCallVotingAmount { get; private set; } = new Dictionary<Player, int>();
-        public static Dictionary<string, string> Options { get; private set; }  = new Dictionary<string, string>();
+        public static Dictionary<string, string> Options { get; private set; } = new Dictionary<string, string>();
         public static bool IsQueuePaused { get; set; } = false;
         public static string Response { get; set; } = string.Empty;
 
