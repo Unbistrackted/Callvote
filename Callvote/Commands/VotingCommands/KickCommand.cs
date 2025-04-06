@@ -1,13 +1,15 @@
 ﻿using Callvote.API;
-using Callvote.API.Objects;
+using Callvote.Features;
 using CommandSystem;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Callvote.API.Enums;
 using LabApi.Features.Wrappers;
 using LabApi.Features.Permissions;
 using LabApi.Features.Console;
+using LabApi.Features.Extensions;
+using Callvote.Utils;
+using Callvote.Enums;
 
 namespace Callvote.Commands.VotingCommands
 {
@@ -55,16 +57,13 @@ namespace Callvote.Commands.VotingCommands
                 return false;
             }
 
-            Player locatedPlayer;
+            Player locatedPlayer = PlayerUtils.GetPlayerByPartialName(args.ElementAt(0));
 
-            if (!Player.TryGetPlayersByName(args.ElementAt(0), out List<Player> locatedPlayerList))
+            if (locatedPlayer == null)
             {
                 response = Callvote.Instance.Translation.PlayerNotFound.Replace("%Player%", args.ElementAt(0));
                 return false;
             }
-
-            Logger.Info(locatedPlayerList.First().Nickname);
-            locatedPlayer = locatedPlayerList.First();
 
             List<Player> playerSearch = Player.List.Where(p => p.Nickname.Contains(args.ElementAt(0))).ToList();
             if (playerSearch.Count() < 0 || playerSearch.Count() > 1)

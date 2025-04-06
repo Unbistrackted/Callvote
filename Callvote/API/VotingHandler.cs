@@ -1,8 +1,8 @@
-﻿using Callvote.API.Objects;
-using MEC;
+﻿using MEC;
 using System;
 using System.Collections.Generic;
 using LabApi.Features.Wrappers;
+using Callvote.Features;
 
 namespace Callvote.API
 {
@@ -28,7 +28,6 @@ namespace Callvote.API
                     return;
 
                 }
-
                 VotingQueue.Enqueue(voting);
                 TryStartNextVoting();
                 return;

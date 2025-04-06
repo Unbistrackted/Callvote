@@ -1,7 +1,7 @@
 ﻿using Callvote.API;
-using Callvote.API.Objects;
+using Callvote.Features;
 using CommandSystem;
-using Exiled.API.Extensions;
+using LabApi.API.Extensions;
 using LabApi.Features.Permissions;
 using LabApi.Features.Wrappers;
 using System;

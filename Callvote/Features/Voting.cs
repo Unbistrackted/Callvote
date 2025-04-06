@@ -7,9 +7,10 @@ using RemoteAdmin;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using Callvote.API;
 using System.Linq;
 
-namespace Callvote.API.Objects
+namespace Callvote.Features
 {
     public class Voting
     {

@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Callvote.API.Enums;
+using Callvote.Enums;
 using LabApi.Features.Wrappers;
 using LabApi.Features.Permissions;
 

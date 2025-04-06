@@ -20,7 +20,7 @@ namespace Callvote
         public override string Description { get; } = AssemblyInfo.Description;
         public override Version Version { get; } = Version.Parse(AssemblyInfo.Version);
         public override Version RequiredApiVersion { get; } = new Version(0, 5, 0);
-        public string ConfigFileName { get; set; } = "config.yml";
+        public override string ConfigFileName { get; set; } = "config.yml";
         public string TranslationFileName { get; set; } = "translation.yml";
         public override LoadPriority Priority { get; } = LoadPriority.Medium;
         //public HeaderSetting SettingsHeader { get; set; } = new HeaderSetting(AssemblyInfo.Name);
@@ -33,16 +33,15 @@ namespace Callvote
         {
             if (_configHasIncorrectSettings)
             {
-                Logger.Error("Detected incorrect settings, not loading");
+                Logger.Error("Detected incorrect config format, Callvote will not load.");
                 return;
             }
             if (_translationHasIncorrectSettings)
             {
-                Logger.Error("Detected incorrect settings, not loading");
+                Logger.Error("Detected incorrect translation format, Callvote will not load.");
                 return;
             }
-            this.SaveConfig(Config, ConfigFileName);
-            this.SaveConfig(Translation, TranslationFileName);
+
             EventHandlers = new EventHandlers();
             Instance = this;
             VotingHandler.Init();
@@ -60,10 +59,8 @@ namespace Callvote
         public override void LoadConfigs()
         {
             base.LoadConfigs();
-            //_configHasIncorrectSettings = !this.TryLoadConfig(ConfigFileName, out Config);
-            //_translationHasIncorrectSettings = !this.TryLoadConfig(TranslationFileName, out Translation);
-            Translation = this.LoadConfig<Translation>(TranslationFileName);
-            Config = this.LoadConfig<Config>(ConfigFileName);
+            _configHasIncorrectSettings = !this.TryLoadConfig(ConfigFileName, out Config);
+            _translationHasIncorrectSettings = !this.TryLoadConfig(TranslationFileName, out Translation);
         }
     }
 }

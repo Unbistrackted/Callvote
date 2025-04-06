@@ -1,9 +1,9 @@
 ﻿using Callvote.API;
-using Callvote.API.Objects;
+using Callvote.Features;
 using CommandSystem;
 using System;
 using System.Linq;
-using Callvote.API.Enums;
+using Callvote.Enums;
 using LabApi.Features.Wrappers;
 using LabApi.Features.Permissions;
 using CommandSystem.Commands.RemoteAdmin.Broadcasts;

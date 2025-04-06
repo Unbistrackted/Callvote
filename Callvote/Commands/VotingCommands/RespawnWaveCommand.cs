@@ -1,12 +1,12 @@
 ﻿using Callvote.API;
-using Callvote.API.Objects;
+using Callvote.Features;
 using CommandSystem;
 using LabApi.Features.Wrappers;
 using LabApi.Features.Permissions;
 using Respawning;
 using System;
 using System.Linq;
-using Callvote.API.Enums;
+using Callvote.Enums;
 
 namespace Callvote.Commands.VotingCommands
 {

@@ -1,5 +1,5 @@
 ﻿using Callvote.API;
-using Callvote.API.Objects;
+using Callvote.Features;
 using CommandSystem;
 using LabApi.Features.Wrappers;
 using System;

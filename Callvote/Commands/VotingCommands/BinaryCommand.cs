@@ -1,9 +1,9 @@
 ﻿using Callvote.API;
 using CommandSystem;
 using System;
-using Callvote.API.Enums;
 using LabApi.Features.Wrappers;
 using LabApi.Features.Permissions;
+using Callvote.Enums;
 
 namespace Callvote.Commands.VotingCommands
 {
