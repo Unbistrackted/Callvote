@@ -12,7 +12,6 @@ namespace Callvote.Features
         {
             string webhook = Callvote.Instance.Config.DiscordWebhook;
             if (string.IsNullOrWhiteSpace(webhook)) { return; }
-
             string resultsMessage = "";
             foreach (KeyValuePair<string, string> kvp in vote.Options)
             {
@@ -21,13 +20,10 @@ namespace Callvote.Features
                     .Replace("%OptionKey%", kvp.Key)
                     .Replace("%Counter%", vote.Counter[kvp.Key].ToString());
             }
-
             string Question = Escape(vote.Question);
             string Results = Escape(resultsMessage);
             string CallvotePlayerInfo = Escape($"{vote.CallVotePlayer.Nickname}");
-
             string payload = $@"{{""content"":null,""embeds"":[{{""title"":""{Callvote.Instance.Translation.WebhookTitle}"",""color"":255,""fields"":[{{""name"":""{Callvote.Instance.Translation.WebhookPlayer}"",""value"":""{CallvotePlayerInfo}""}},{{""name"":""{Callvote.Instance.Translation.WebhookQuestion}"",""value"":""{Question.Replace($"{vote.CallVotePlayer.Nickname} asks: ", "")}""}},{{""name"":""{Callvote.Instance.Translation.WebhookVotes}"",""value"":""{Results}""}}]}}]}}";
-
             try
             {
                 WebClient client = new WebClient();

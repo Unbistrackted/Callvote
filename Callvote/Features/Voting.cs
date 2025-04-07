@@ -96,10 +96,10 @@ namespace Callvote.Features
             }
             if (!VotingHandler.PlayerCallVotingAmount.ContainsKey(CallVotePlayer))
             {
-                VotingHandler.PlayerCallVotingAmount.Add(CallVotePlayer, 1);
+                VotingHandler.PlayerCallVotingAmount.Add(CallVotePlayer, 0);
             }
             VotingHandler.PlayerCallVotingAmount[CallVotePlayer]++;
-            if (VotingHandler.PlayerCallVotingAmount[CallVotePlayer] - 1 > Callvote.Instance.Config.MaxAmountOfVotesPerRound && !CallVotePlayer.CheckPermission("cv.bypass"))
+            if (VotingHandler.PlayerCallVotingAmount[CallVotePlayer] > Callvote.Instance.Config.MaxAmountOfVotesPerRound && !CallVotePlayer.CheckPermission("cv.bypass"))
             {
                 VotingHandler.Response = Callvote.Instance.Translation.MaxVote;
                 return false;
