@@ -1,6 +1,6 @@
 # Description
 
-This plugin is the sucessor of [callvote](https://github.com/PatPeter/callvote), which allows calling for **Kick**,
+This plugin is the sucessor of [callvote](https://github.com/PatPeter/callvote), which allows calling and voting for **Kick**,
  **RestartRound**,  **Kill**,
 **RespawnWave**, **FriendlyFire**, or **Custom** Votes using **KEYBINDS** or **CONSOLE COMMANDS** in the same format as the Source Engine (Left 4
 Dead
