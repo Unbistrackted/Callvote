@@ -1,6 +1,7 @@
 ﻿using Callvote.Enums;
 using Callvote.Features;
 using Exiled.API.Features;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Callvote.API.VotingsTemplate
@@ -27,7 +28,8 @@ namespace Callvote.API.VotingsTemplate
                         .Replace("%VotePercent%", yesVotePercent.ToString())
                         .Replace("%ThresholdNuke%", Callvote.Instance.Config.ThresholdNuke.ToString()));
                 }
-            })
+            },
+            AddOptions())
         {
             VotingHandler.AddOptionToVoting(Callvote.Instance.Translation.CommandYes, Callvote.Instance.Translation.OptionYes);
             VotingHandler.AddOptionToVoting(Callvote.Instance.Translation.CommandNo, Callvote.Instance.Translation.OptionNo);
@@ -37,6 +39,13 @@ namespace Callvote.API.VotingsTemplate
         {
             return Callvote.Instance.Translation.AskedToNuke
                     .Replace("%Player%", player.Nickname);
+        }
+
+        public static Dictionary<string, string> AddOptions()
+        {
+            VotingHandler.AddOptionToVoting(Callvote.Instance.Translation.CommandYes, Callvote.Instance.Translation.OptionYes);
+            VotingHandler.AddOptionToVoting(Callvote.Instance.Translation.CommandNo, Callvote.Instance.Translation.OptionNo);
+            return VotingHandler.Options;
         }
     }
 }

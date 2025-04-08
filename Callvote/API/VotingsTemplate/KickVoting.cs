@@ -2,6 +2,7 @@
 using Callvote.Features;
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Callvote.API.VotingsTemplate
@@ -36,10 +37,9 @@ namespace Callvote.API.VotingsTemplate
                         .Replace("%ThresholdKick%", Callvote.Instance.Config.ThresholdKick.ToString())
                         .Replace("%Offender%", ofender.Nickname));
                 }
-            })
+            },
+            AddOptions())
         {
-            VotingHandler.AddOptionToVoting(Callvote.Instance.Translation.CommandYes, Callvote.Instance.Translation.OptionYes);
-            VotingHandler.AddOptionToVoting(Callvote.Instance.Translation.CommandNo, Callvote.Instance.Translation.OptionNo);
         }
         private static string ReplacePlayerAndReason(Player player, Player offender, string reason)
         {
@@ -47,6 +47,13 @@ namespace Callvote.API.VotingsTemplate
                     .Replace("%Player%", player.Nickname)
                     .Replace("%Offender%", offender.Nickname)
                     .Replace("%Reason%", reason);
+        }
+
+        public static Dictionary<string, string> AddOptions()
+        {
+            VotingHandler.AddOptionToVoting(Callvote.Instance.Translation.CommandYes, Callvote.Instance.Translation.OptionYes);
+            VotingHandler.AddOptionToVoting(Callvote.Instance.Translation.CommandNo, Callvote.Instance.Translation.OptionNo);
+            return VotingHandler.Options;
         }
     }
 }

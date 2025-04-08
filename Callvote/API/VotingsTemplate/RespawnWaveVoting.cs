@@ -2,6 +2,7 @@
 using Callvote.Features;
 using Exiled.API.Features;
 using Respawning;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Callvote.API.VotingsTemplate
@@ -35,18 +36,23 @@ namespace Callvote.API.VotingsTemplate
                         .Replace("%VotePercent%", noVotePercent.ToString())
                         .Replace("%ThresholdRespawnWave%", Callvote.Instance.Config.ThresholdRespawnWave.ToString()));
                 }
-            })
+            },
+            AddOptions())
         {
-
-            VotingHandler.AddOptionToVoting(Callvote.Instance.Translation.CommandNo, Callvote.Instance.Translation.OptionNo);
-            VotingHandler.AddOptionToVoting(Callvote.Instance.Translation.CommandMobileTaskForce, Callvote.Instance.Translation.OptionMtf);
-            VotingHandler.AddOptionToVoting(Callvote.Instance.Translation.CommandChaosInsurgency, Callvote.Instance.Translation.OptionCi);
         }
 
         private static string ReplacePlayer(Player player)
         {
             return Callvote.Instance.Translation.AskedToRespawn
                     .Replace("%Player%", player.Nickname);
+        }
+
+        public static Dictionary<string, string> AddOptions()
+        {
+            VotingHandler.AddOptionToVoting(Callvote.Instance.Translation.CommandNo, Callvote.Instance.Translation.OptionNo);
+            VotingHandler.AddOptionToVoting(Callvote.Instance.Translation.CommandMobileTaskForce, Callvote.Instance.Translation.OptionMtf);
+            VotingHandler.AddOptionToVoting(Callvote.Instance.Translation.CommandChaosInsurgency, Callvote.Instance.Translation.OptionCi);
+            return VotingHandler.Options;
         }
     }
 }
