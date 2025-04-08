@@ -35,8 +35,7 @@ namespace Callvote.API.VotingsTemplate
                         .Replace("%VotePercent%", noVotePercent.ToString())
                         .Replace("%ThresholdRespawnWave%", Callvote.Instance.Config.ThresholdRespawnWave.ToString()));
                 }
-            },
-            VotingHandler.Options)
+            })
         {
 
             VotingHandler.AddOptionToVoting(Callvote.Instance.Translation.CommandNo, Callvote.Instance.Translation.OptionNo);

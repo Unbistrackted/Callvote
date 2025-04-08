@@ -36,8 +36,7 @@ namespace Callvote.API.VotingsTemplate
                         .Replace("%ThresholdKick%", Callvote.Instance.Config.ThresholdKick.ToString())
                         .Replace("%Offender%", ofender.Nickname));
                 }
-            },
-            VotingHandler.Options)
+            })
         {
             VotingHandler.AddOptionToVoting(Callvote.Instance.Translation.CommandYes, Callvote.Instance.Translation.OptionYes);
             VotingHandler.AddOptionToVoting(Callvote.Instance.Translation.CommandNo, Callvote.Instance.Translation.OptionNo);

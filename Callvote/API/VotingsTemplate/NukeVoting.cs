@@ -27,8 +27,7 @@ namespace Callvote.API.VotingsTemplate
                         .Replace("%VotePercent%", yesVotePercent.ToString())
                         .Replace("%ThresholdNuke%", Callvote.Instance.Config.ThresholdNuke.ToString()));
                 }
-            },
-            VotingHandler.Options)
+            })
         {
             VotingHandler.AddOptionToVoting(Callvote.Instance.Translation.CommandYes, Callvote.Instance.Translation.OptionYes);
             VotingHandler.AddOptionToVoting(Callvote.Instance.Translation.CommandNo, Callvote.Instance.Translation.OptionNo);
