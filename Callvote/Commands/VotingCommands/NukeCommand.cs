@@ -1,11 +1,9 @@
 ﻿using Callvote.API;
-using Callvote.Enums;
-using Callvote.Features;
+using Callvote.API.VotingsTemplate;
 using CommandSystem;
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
 using System;
-using System.Linq;
 
 namespace Callvote.Commands.VotingCommands
 {
@@ -39,32 +37,7 @@ namespace Callvote.Commands.VotingCommands
                 return false;
             }
 
-            VotingHandler.AddOptionToVoting(Callvote.Instance.Translation.CommandYes, Callvote.Instance.Translation.OptionYes);
-            VotingHandler.AddOptionToVoting(Callvote.Instance.Translation.CommandNo, Callvote.Instance.Translation.OptionNo);
-
-
-            VotingHandler.CallVoting(
-                Callvote.Instance.Translation.AskedToNuke
-                    .Replace("%Player%", player.Nickname),
-                nameof(VotingType.Nuke),
-                player,
-                delegate (Voting vote)
-                {
-                    int yesVotePercent = (int)(vote.Counter[Callvote.Instance.Translation.CommandYes] / (float)Player.List.Count() * 100f);
-                    int noVotePercent = (int)(vote.Counter[Callvote.Instance.Translation.CommandNo] / (float)Player.List.Count() * 100f);
-                    if (yesVotePercent >= Callvote.Instance.Config.ThresholdNuke && yesVotePercent > noVotePercent)
-                    {
-                        Map.Broadcast(5, Callvote.Instance.Translation.FoundationNuked
-                            .Replace("%VotePercent%", yesVotePercent.ToString()));
-                        Warhead.Start();
-                    }
-                    else
-                    {
-                        Map.Broadcast(5, Callvote.Instance.Translation.NoSuccessFullNuke
-                            .Replace("%VotePercent%", yesVotePercent.ToString())
-                            .Replace("%ThresholdNuke%", Callvote.Instance.Config.ThresholdNuke.ToString()));
-                    }
-                });
+            VotingHandler.CallVoting(new NukeVoting(player));
             response = VotingHandler.Response;
             return true;
         }

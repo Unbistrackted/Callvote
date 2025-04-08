@@ -14,9 +14,8 @@ namespace Callvote.API
         public static bool IsQueuePaused { get; set; } = false;
         public static string Response { get; set; } = string.Empty;
 
-        public static void CallVoting(string question, string votingType, Player player, CallvoteFunction callback, Dictionary<string, string> options = null)
+        public static void CallVoting(Voting vote)
         {
-            Voting voting = options == null ? new Voting(question, votingType, player, callback) : new Voting(question, votingType, player, callback, options);
             Options.Clear();
 
             if (Callvote.Instance.Config.EnableQueue)
@@ -27,13 +26,13 @@ namespace Callvote.API
                     return;
 
                 }
-                VotingQueue.Enqueue(voting);
+                VotingQueue.Enqueue(vote);
                 TryStartNextVoting();
                 return;
             }
             if (CurrentVoting == null)
             {
-                CurrentVoting = voting;
+                CurrentVoting = vote;
                 CurrentVoting.Start();
             }
         }

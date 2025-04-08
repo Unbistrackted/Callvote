@@ -1,11 +1,9 @@
 ﻿using Callvote.API;
-using Callvote.Enums;
-using Callvote.Features;
+using Callvote.API.VotingsTemplate;
 using CommandSystem;
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
 using System;
-using System.Linq;
 
 namespace Callvote.Commands.VotingCommands
 {
@@ -39,31 +37,7 @@ namespace Callvote.Commands.VotingCommands
                 return false;
             }
 
-            VotingHandler.AddOptionToVoting(Callvote.Instance.Translation.CommandYes, Callvote.Instance.Translation.OptionYes);
-            VotingHandler.AddOptionToVoting(Callvote.Instance.Translation.CommandNo, Callvote.Instance.Translation.OptionNo);
-
-            VotingHandler.CallVoting(
-                Callvote.Instance.Translation.AskedToRestart
-                    .Replace("%Player%", player.Nickname),
-                nameof(VotingType.RestartRound),
-                player,
-                delegate (Voting vote)
-                {
-                    int yesVotePercent = (int)(vote.Counter[Callvote.Instance.Translation.CommandYes] / (float)Player.List.Count() * 100f);
-                    int noVotePercent = (int)(vote.Counter[Callvote.Instance.Translation.CommandNo] / (float)Player.List.Count() * 100f);
-                    if (yesVotePercent >= Callvote.Instance.Config.ThresholdRestartRound && yesVotePercent > noVotePercent)
-                    {
-                        Map.Broadcast(5, Callvote.Instance.Translation.RoundRestarting
-                            .Replace("%VotePercent%", yesVotePercent.ToString()));
-                        Round.Restart();
-                    }
-                    else
-                    {
-                        Map.Broadcast(5, Callvote.Instance.Translation.NoSuccessFullRestart
-                            .Replace("%VotePercent%", yesVotePercent.ToString())
-                            .Replace("%ThresholdRestartRound%", Callvote.Instance.Config.ThresholdRestartRound.ToString()));
-                    }
-                });
+            VotingHandler.CallVoting(new RestartRoundVoting(player));
             response = VotingHandler.Response;
             return true;
         }

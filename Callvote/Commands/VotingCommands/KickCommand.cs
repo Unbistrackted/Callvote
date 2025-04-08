@@ -1,6 +1,5 @@
 ﻿using Callvote.API;
-using Callvote.Enums;
-using Callvote.Features;
+using Callvote.API.VotingsTemplate;
 using CommandSystem;
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
@@ -70,41 +69,7 @@ namespace Callvote.Commands.VotingCommands
 
             string reason = args.ElementAt(1);
 
-            VotingHandler.AddOptionToVoting(Callvote.Instance.Translation.CommandYes, Callvote.Instance.Translation.OptionYes);
-            VotingHandler.AddOptionToVoting(Callvote.Instance.Translation.CommandNo, Callvote.Instance.Translation.OptionNo);
-
-            VotingHandler.CallVoting(
-                Callvote.Instance.Translation.AskedToKick
-                    .Replace("%Player%", player.Nickname)
-                    .Replace("%Offender%", locatedPlayer.Nickname)
-                    .Replace("%Reason%", reason),
-                nameof(VotingType.Kick),
-                player,
-                delegate (Voting vote)
-                {
-                    int yesVotePercent = (int)(vote.Counter[Callvote.Instance.Translation.CommandYes] / (float)Player.List.Count() * 100f);
-                    int noVotePercent = (int)(vote.Counter[Callvote.Instance.Translation.CommandNo] / (float)Player.List.Count() * 100f); //Just so you know that it exists
-                    if (yesVotePercent >= Callvote.Instance.Config.ThresholdKick && yesVotePercent > noVotePercent)
-                    {
-                        if (!locatedPlayer.CheckPermission("cv.untouchable"))
-                        {
-                            locatedPlayer.Kick(reason);
-                            Map.Broadcast(8, Callvote.Instance.Translation.PlayerKicked
-                                .Replace("%VotePercent%", yesVotePercent.ToString())
-                                .Replace("%Player%", player.Nickname)
-                                .Replace("%Offender%", locatedPlayer.Nickname)
-                                .Replace("%Reason%", reason));
-                        }
-                        if (locatedPlayer.CheckPermission("cv.untouchable")) locatedPlayer.Broadcast(5, Callvote.Instance.Translation.Untouchable.Replace("%VotePercent%", yesVotePercent.ToString()));
-                    }
-                    else
-                    {
-                        Map.Broadcast(5, Callvote.Instance.Translation.NotSuccessFullKick
-                            .Replace("%VotePercent%", yesVotePercent.ToString())
-                            .Replace("%ThresholdKick%", Callvote.Instance.Config.ThresholdKick.ToString())
-                            .Replace("%Offender%", locatedPlayer.Nickname));
-                    }
-                });
+            VotingHandler.CallVoting(new KickVoting(player, locatedPlayer, reason));
             response = VotingHandler.Response;
             return true;
         }

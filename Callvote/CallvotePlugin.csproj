@@ -145,9 +145,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="API\VotingsTemplate\CustomVoting.cs" />
     <Compile Include="Features\DcWebhook.cs" />
     <Compile Include="Features\DisplayMessageHelper.cs" />
-    <Compile Include="Enums\VotingType.cs" />
+    <Compile Include="Enums\VotingTypeEnum.cs" />
     <Compile Include="Extensions\QueueExtensions.cs" />
     <Compile Include="Features\CommandsMenu.cs" />
     <Compile Include="Commands\HelpCommand.cs" />
@@ -174,6 +175,13 @@
     <Compile Include="Callvote.cs" />
     <Compile Include="EventHandlers.cs" />
     <Compile Include="Features\Voting.cs" />
+    <Compile Include="API\VotingsTemplate\BinaryVoting.cs" />
+    <Compile Include="API\VotingsTemplate\FFVoting.cs" />
+    <Compile Include="API\VotingsTemplate\KickVoting.cs" />
+    <Compile Include="API\VotingsTemplate\KillVoting.cs" />
+    <Compile Include="API\VotingsTemplate\NukeVoting.cs" />
+    <Compile Include="API\VotingsTemplate\RespawnWaveVoting.cs" />
+    <Compile Include="API\VotingsTemplate\RestartRoundVoting.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SoftDependency.cs" />
     <Compile Include="Configuration\Translation.cs" />

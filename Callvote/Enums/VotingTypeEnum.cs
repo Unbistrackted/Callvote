@@ -1,6 +1,6 @@
 ﻿namespace Callvote.Enums
 {
-    public enum VotingType
+    public enum VotingTypeEnum
     {
         Binary,
         Ff,

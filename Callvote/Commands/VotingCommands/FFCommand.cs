@@ -1,11 +1,9 @@
 ﻿using Callvote.API;
-using Callvote.Enums;
-using Callvote.Features;
+using Callvote.API.VotingsTemplate;
 using CommandSystem;
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
 using System;
-using System.Linq;
 
 namespace Callvote.Commands.VotingCommands
 {
@@ -39,9 +37,6 @@ namespace Callvote.Commands.VotingCommands
                 return false;
             }
 
-            VotingHandler.AddOptionToVoting(Callvote.Instance.Translation.CommandYes, Callvote.Instance.Translation.OptionYes);
-            VotingHandler.AddOptionToVoting(Callvote.Instance.Translation.CommandNo, Callvote.Instance.Translation.OptionNo);
-
             string question;
 
             if (!Server.FriendlyFire)
@@ -53,56 +48,7 @@ namespace Callvote.Commands.VotingCommands
                 question = Callvote.Instance.Translation.AskedToEnableFf;
             }
 
-            VotingHandler.CallVoting(
-                question
-                    .Replace("%Player%", player.Nickname),
-                nameof(VotingType.Ff),
-                player,
-                delegate (Voting vote)
-                {
-                    int yesVotePercent = (int)(vote.Counter[Callvote.Instance.Translation.CommandYes] / (float)Player.List.Count() * 100f);
-                    int noVotePercent = (int)(vote.Counter[Callvote.Instance.Translation.CommandNo] / (float)Player.List.Count() * 100f);
-                    if (yesVotePercent >= Callvote.Instance.Config.ThresholdFf && yesVotePercent > noVotePercent)
-                    {
-                        switch (Server.FriendlyFire)
-                        {
-                            case true:
-                                {
-                                    Map.Broadcast(5, Callvote.Instance.Translation.EnablingFriendlyFire
-                                         .Replace("%VotePercent%", yesVotePercent.ToString()));
-                                    Server.FriendlyFire = false;
-                                    break;
-                                }
-                            case false:
-                                {
-                                    Map.Broadcast(5, Callvote.Instance.Translation.DisablingFriendlyFire
-                                         .Replace("%VotePercent%", yesVotePercent.ToString()));
-                                    Server.FriendlyFire = true;
-                                    break;
-                                }
-                        }
-                    }
-                    else
-                    {
-                        switch (Server.FriendlyFire)
-                        {
-                            case true:
-                                {
-                                    Map.Broadcast(5, Callvote.Instance.Translation.NoSuccessFullEnableFf
-                                        .Replace("%VotePercent%", yesVotePercent.ToString())
-                                        .Replace("%ThresholdRestartRound%", Callvote.Instance.Config.ThresholdRestartRound.ToString()));
-                                    break;
-                                }
-                            case false:
-                                {
-                                    Map.Broadcast(5, Callvote.Instance.Translation.NoSuccessFullDisableFf
-                                         .Replace("%VotePercent%", yesVotePercent.ToString())
-                                         .Replace("%ThresholdRestartRound%", Callvote.Instance.Config.ThresholdRestartRound.ToString()));
-                                    break;
-                                }
-                        }
-                    }
-                });
+            VotingHandler.CallVoting(new FFVoting(player));
             response = VotingHandler.Response;
             return true;
         }

@@ -1,4 +1,5 @@
 ﻿using Callvote.API;
+using Callvote.API.VotingsTemplate;
 using Callvote.Enums;
 using CommandSystem;
 using Exiled.API.Features;
@@ -26,16 +27,7 @@ namespace Callvote.Commands.VotingCommands
                 return true;
             }
 
-            VotingHandler.AddOptionToVoting(Callvote.Instance.Translation.CommandYes, Callvote.Instance.Translation.OptionYes);
-            VotingHandler.AddOptionToVoting(Callvote.Instance.Translation.CommandNo, Callvote.Instance.Translation.OptionNo);
-
-            VotingHandler.CallVoting(
-                Callvote.Instance.Translation.AskedCustom
-                    .Replace("%Player%", player.Nickname)
-                    .Replace("%Custom%", string.Join(" ", args)),
-                nameof(VotingType.Binary),
-                player,
-                null);
+            VotingHandler.CallVoting(new BinaryVoting(player, Callvote.Instance.Translation.AskedCustom.Replace("%Player%", player.Nickname).Replace("%Custom%", string.Join(" ", args)), nameof(VotingTypeEnum.Binary), null));
             response = VotingHandler.Response;
             return true;
         }

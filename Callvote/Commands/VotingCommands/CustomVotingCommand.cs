@@ -1,4 +1,5 @@
 ﻿using Callvote.API;
+using Callvote.API.VotingsTemplate;
 using Callvote.Enums;
 using CommandSystem;
 using Exiled.API.Features;
@@ -52,18 +53,12 @@ namespace Callvote.Commands.VotingCommands
                 }
                 VotingHandler.AddOptionToVoting(argsStrings[i], optionDetail);
             }
-            VotingHandler.CallVoting(
-                Callvote.Instance.Translation.AskedCustom
-                    .Replace("%Player%", player.Nickname)
-                    .Replace("%Custom%", argsStrings.First()),
-                nameof(VotingType.Custom),
-                player,
-                null);
+            VotingHandler.CallVoting(new CustomVoting(player, Callvote.Instance.Translation.AskedCustom.Replace("%Player%", player.Nickname).Replace("%Custom%", argsStrings.First()), nameof(VotingTypeEnum.Custom), null, VotingHandler.Options));
             response = VotingHandler.Response;
             return true;
         }
 
-        static List<string> JoinWordsBetweenQuotes(ArraySegment<string> args)
+        private static List<string> JoinWordsBetweenQuotes(ArraySegment<string> args)
         {
             List<string> list = new List<string>();
             bool isInsideQuotes = false;
@@ -95,7 +90,7 @@ namespace Callvote.Commands.VotingCommands
             return list;
         }
 
-        static List<string> JoinWordsBetweenQuotes(List<string> args)
+        private static List<string> JoinWordsBetweenQuotes(List<string> args)
         {
             List<string> list = new List<string>();
             bool isInsideQuotes = false;
@@ -127,7 +122,7 @@ namespace Callvote.Commands.VotingCommands
             return list;
         }
 
-        static List<string> ExtractAndRemoveParenthesesValues(ref List<string> list)
+        private static List<string> ExtractAndRemoveParenthesesValues(ref List<string> list)
         {
             List<string> parenthesesList = new List<string>();
             Regex regex = new Regex(@"\(([^)]+)\)");
