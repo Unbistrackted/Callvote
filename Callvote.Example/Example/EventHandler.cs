@@ -11,13 +11,13 @@ namespace CallNukeVoting
     {
         public void OnDied(DiedEventArgs ev)
         {
-            ForcePlayersToSurface(ev);
+            ForcePlayersToSurface();
             KillScps(ev);
             ReviveSCPs(ev);
             VoteKickFFPlayer(ev);
         }
 
-        private void ForcePlayersToSurface(DiedEventArgs ev)
+        private void ForcePlayersToSurface()
         {
             if (!Round.AliveSides.Contains(Side.Scp) && Round.AliveSides.Count() >= 2)
             {
@@ -31,10 +31,13 @@ namespace CallNukeVoting
 
         private void VoteKickFFPlayer(DiedEventArgs ev)
         {
-            KickVoting voteKickFf = new KickVoting(Server.Host, ev.Attacker, "Killing Allies");
-            VotingHandler.CallVoting(voteKickFf);
-            if (!Callvote.Callvote.Instance.Config.EnableQueue)
-                return;
+            if (ev.DamageHandler.IsFriendlyFire)
+            {
+                KickVoting voteKickFf = new KickVoting(Server.Host, ev.Attacker, "Killing Allies");
+                VotingHandler.CallVoting(voteKickFf);
+                if (!Callvote.Callvote.Instance.Config.EnableQueue)
+                    return;
+            }
         }
 
         private void ReviveSCPs(DiedEventArgs ev)
