@@ -22,7 +22,7 @@ namespace CallNukeVoting
             if (!Round.AliveSides.Contains(Side.Scp) && Round.AliveSides.Count() >= 2)
             {
                 NukeVoting nukeVoting = new NukeVoting(Server.Host);
-                CustomVoting forcePlayersToSurface = new CustomVoting(nukeVoting.CallVotePlayer, "Force remaining players to surface?", $"{Example.Instance.Prefix}.Nuke", nukeVoting);
+                CustomVoting forcePlayersToSurface = new CustomVoting(nukeVoting.CallVotePlayer, "Force remaining players to the surface?", $"{Example.Instance.Prefix}.Nuke", nukeVoting);
                 VotingHandler.CallVoting(forcePlayersToSurface);
             }
         }
