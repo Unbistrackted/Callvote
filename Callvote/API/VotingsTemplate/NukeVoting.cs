@@ -31,8 +31,6 @@ namespace Callvote.API.VotingsTemplate
             },
             AddOptions())
         {
-            VotingHandler.AddOptionToVoting(Callvote.Instance.Translation.CommandYes, Callvote.Instance.Translation.OptionYes);
-            VotingHandler.AddOptionToVoting(Callvote.Instance.Translation.CommandNo, Callvote.Instance.Translation.OptionNo);
         }
 
         private static string ReplacePlayer(Player player)
