@@ -24,8 +24,6 @@ namespace CallNukeVoting
                 NukeVoting nukeVoting = new NukeVoting(Server.Host);
                 CustomVoting forcePlayersToSurface = new CustomVoting(nukeVoting.CallVotePlayer, "Force remaining players to surface?", $"{Example.Instance.Prefix}.Nuke", nukeVoting);
                 VotingHandler.CallVoting(forcePlayersToSurface);
-                if (!Callvote.Callvote.Instance.Config.EnableQueue)
-                    return;
             }
         }
 
@@ -35,8 +33,6 @@ namespace CallNukeVoting
             {
                 KickVoting voteKickFf = new KickVoting(Server.Host, ev.Attacker, "Killing Allies");
                 VotingHandler.CallVoting(voteKickFf);
-                if (!Callvote.Callvote.Instance.Config.EnableQueue)
-                    return;
             }
         }
 
