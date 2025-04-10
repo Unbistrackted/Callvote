@@ -12,7 +12,8 @@ namespace CallNukeVoting
         {
             if (!Round.AliveSides.Contains(Side.Scp) && Round.AliveSides.Count() >= 2)
             {
-                VotingHandler.CallVoting(new CustomVoting(Server.Host, "Force remaining players to surface?", "CallNukeVoting.Nuke", new NukeVoting(Server.Host).Callback, new NukeVoting(Server.Host).Options));
+                NukeVoting nukeVoting = new NukeVoting(Server.Host);
+                VotingHandler.CallVoting(new CustomVoting(nukeVoting.CallVotePlayer, "Force remaining players to surface?", $"{CallNukeVoting.Instance.Prefix}.Nuke", nukeVoting.Callback, nukeVoting.Options));
             }
         }
     }
