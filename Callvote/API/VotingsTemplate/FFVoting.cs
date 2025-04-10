@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Callvote.API.VotingsTemplate
 {
-    public class FFVoting : Voting , IVotingTemplate
+    public class FFVoting : Voting, IVotingTemplate
     {
         public FFVoting(Player player) : base(
             ReplacePlayer(player),
