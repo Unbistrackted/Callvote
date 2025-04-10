@@ -1,5 +1,6 @@
 ﻿using Callvote.Enums;
 using Callvote.Features;
+using Callvote.Interface;
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
 using System.Collections.Generic;
@@ -7,10 +8,10 @@ using System.Linq;
 
 namespace Callvote.API.VotingsTemplate
 {
-    public class KickVoting : Voting
+    public class KickVoting : Voting, IVotingTemplate
     {
         public KickVoting(Player player, Player ofender, string reason) : base(
-            ReplacePlayerAndReason(player, ofender, reason),
+            ReplacePlayer(player, ofender, reason),
             nameof(VotingTypeEnum.Kick),
             player,
             vote =>
@@ -41,7 +42,7 @@ namespace Callvote.API.VotingsTemplate
             AddOptions())
         {
         }
-        private static string ReplacePlayerAndReason(Player player, Player offender, string reason)
+        private static string ReplacePlayer(Player player, Player offender, string reason)
         {
             return Callvote.Instance.Translation.AskedToKick
                     .Replace("%Player%", player.Nickname)
@@ -49,7 +50,7 @@ namespace Callvote.API.VotingsTemplate
                     .Replace("%Reason%", reason);
         }
 
-        public static Dictionary<string, string> AddOptions()
+        private static Dictionary<string, string> AddOptions()
         {
             VotingHandler.AddOptionToVoting(Callvote.Instance.Translation.CommandYes, Callvote.Instance.Translation.OptionYes);
             VotingHandler.AddOptionToVoting(Callvote.Instance.Translation.CommandNo, Callvote.Instance.Translation.OptionNo);

@@ -1,15 +1,16 @@
 ﻿using Callvote.Enums;
 using Callvote.Features;
+using Callvote.Interface;
 using Exiled.API.Features;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Callvote.API.VotingsTemplate
 {
-    public class FFVoting : Voting
+    public class FFVoting : Voting , IVotingTemplate
     {
         public FFVoting(Player player) : base(
-            WhichFFQuestion(player),
+            ReplacePlayer(player),
             nameof(VotingTypeEnum.Ff),
             player,
             vote =>
@@ -38,7 +39,7 @@ namespace Callvote.API.VotingsTemplate
         {
         }
 
-        private static string WhichFFQuestion(Player player)
+        private static string ReplacePlayer(Player player)
         {
             string baseQuestion = Server.FriendlyFire
                 ? Callvote.Instance.Translation.AskedToDisableFf
@@ -46,7 +47,7 @@ namespace Callvote.API.VotingsTemplate
 
             return baseQuestion.Replace("%Player%", player.Nickname);
         }
-        public static Dictionary<string, string> AddOptions()
+        private static Dictionary<string, string> AddOptions()
         {
             VotingHandler.AddOptionToVoting(Callvote.Instance.Translation.CommandYes, Callvote.Instance.Translation.OptionYes);
             VotingHandler.AddOptionToVoting(Callvote.Instance.Translation.CommandNo, Callvote.Instance.Translation.OptionNo);

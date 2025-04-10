@@ -1,5 +1,6 @@
 ﻿using Callvote.Enums;
 using Callvote.Features;
+using Callvote.Interface;
 using Exiled.API.Features;
 using Respawning;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Linq;
 
 namespace Callvote.API.VotingsTemplate
 {
-    public class RespawnWaveVoting : Voting
+    public class RespawnWaveVoting : Voting, IVotingTemplate
     {
         public RespawnWaveVoting(Player player) : base(
             ReplacePlayer(player),
@@ -47,7 +48,7 @@ namespace Callvote.API.VotingsTemplate
                     .Replace("%Player%", player.Nickname);
         }
 
-        public static Dictionary<string, string> AddOptions()
+        private static Dictionary<string, string> AddOptions()
         {
             VotingHandler.AddOptionToVoting(Callvote.Instance.Translation.CommandNo, Callvote.Instance.Translation.OptionNo);
             VotingHandler.AddOptionToVoting(Callvote.Instance.Translation.CommandMobileTaskForce, Callvote.Instance.Translation.OptionMtf);

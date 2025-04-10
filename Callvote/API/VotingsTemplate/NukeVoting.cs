@@ -1,12 +1,13 @@
 ﻿using Callvote.Enums;
 using Callvote.Features;
+using Callvote.Interface;
 using Exiled.API.Features;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Callvote.API.VotingsTemplate
 {
-    public class NukeVoting : Voting
+    public class NukeVoting : Voting, IVotingTemplate
     {
         public NukeVoting(Player player) : base(
             ReplacePlayer(player),
@@ -39,7 +40,7 @@ namespace Callvote.API.VotingsTemplate
                     .Replace("%Player%", player.Nickname);
         }
 
-        public static Dictionary<string, string> AddOptions()
+        private static Dictionary<string, string> AddOptions()
         {
             VotingHandler.AddOptionToVoting(Callvote.Instance.Translation.CommandYes, Callvote.Instance.Translation.OptionYes);
             VotingHandler.AddOptionToVoting(Callvote.Instance.Translation.CommandNo, Callvote.Instance.Translation.OptionNo);
