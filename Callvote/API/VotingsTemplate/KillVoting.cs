@@ -1,6 +1,6 @@
 ﻿using Callvote.Enums;
 using Callvote.Features;
-using Callvote.Interface;
+using Callvote.Interfaces;
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
 using System.Collections.Generic;
@@ -36,7 +36,7 @@ namespace Callvote.API.VotingsTemplate
                 {
                     Map.Broadcast(5, Callvote.Instance.Translation.NoSuccessFullKill
                         .Replace("%VotePercent%", yesVotePercent.ToString())
-                        .Replace("%ThresholdKick%", Callvote.Instance.Config.ThresholdKick.ToString())
+                        .Replace("%ThresholdKill%", Callvote.Instance.Config.ThresholdKick.ToString())
                         .Replace("%Offender%", ofender.Nickname));
                 }
             },

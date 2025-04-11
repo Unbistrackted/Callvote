@@ -34,11 +34,11 @@ namespace Callvote.Configuration
         public string NoSuccessFullRespawn { get; set; } = "%VotePercent%% voted no. %ThresholdRespawnWave%% was required to respawn the next wave.";
         public string AskedToRespawn { get; set; } = "%Player% <color=#EEDC8A>asks</color>: Respawn the next wave?";
         public string AskedToNuke { get; set; } = "%Player% <color=#EEDC8A>asks</color>: NUKE THE FACILITY?!??";
-        public string AskedToDisableFf { get; set; } = "%Player% <color=#EEDC8A>asks</color>: Enable Friendly Fire for the current round?";
-        public string AskedToEnableFf { get; set; } = "%Player% <color=#EEDC8A>asks</color>: Disable Friendly Fire for the current round?";
+        public string AskedToDisableFf { get; set; } = "%Player% <color=#EEDC8A>asks</color>: Disable Friendly Fire for the current round?";
+        public string AskedToEnableFf { get; set; } = "%Player% <color=#EEDC8A>asks</color>: Enable Friendly Fire for the current round?";
         public string FoundationNuked { get; set; } = "%VotePercent%% voted yes. Nuking the facility...";
         public string NoSuccessFullNuke { get; set; } = "Only %VotePercent%% voted yes. %ThresholdNuke%% was required to nuke the facility.";
-        public string NoSuccessFullKill { get; set; } = "Only %VotePercent%% voted yes. + %ThresholdKill%% was required to kill locatedPlayerName";
+        public string NoSuccessFullKill { get; set; } = "Only %VotePercent%% voted yes. %ThresholdKill%% was required to kill %Offender%";
         public string PlayerKilled { get; set; } = "%VotePercent%% voted yes. Killing player %Offender%";
         public string VoteRespawnWaveDisabled { get; set; } = "Callvote RespawnWave is disabled.";
         public string VoteKickDisabled { get; set; } = "Callvote kick is disabled.";
@@ -50,8 +50,8 @@ namespace Callvote.Configuration
         public string AskedToRestart { get; set; } = "%Player% <color=#EEDC8A>asks</color>: Restart the round?";
         public string RoundRestarting { get; set; } = "%VotePercent% voted yes. Restarting the round...";
         public string NoSuccessFullRestart { get; set; } = "Only %VotePercent%% voted yes. %ThresholdRestartRound%% was required to restart the round.";
-        public string NoSuccessFullEnableFf { get; set; } = "Only %VotePercent%% voted yes. %ThresholdRestartRound%% was required to disable Friendly Fire.";
-        public string NoSuccessFullDisableFf { get; set; } = "Only %VotePercent%% voted yes. %ThresholdRestartRound%% was required to enable Friendly Fire.";
+        public string NoSuccessFullEnableFf { get; set; } = "Only %VotePercent%% voted yes. %ThresholdFF%% was required to disable Friendly Fire.";
+        public string NoSuccessFullDisableFf { get; set; } = "Only %VotePercent%% voted yes. %ThresholdFF%% was required to enable Friendly Fire.";
         public string VotingStarted { get; set; } = "Vote has been started!";
         public string NoVotingInProgress { get; set; } = "There is no vote in progress.";
         public string WaitToVote { get; set; } = "You should wait %Timer%s before using this command.";

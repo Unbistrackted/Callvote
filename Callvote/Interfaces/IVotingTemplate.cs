@@ -1,7 +1,7 @@
 ﻿using Exiled.API.Features;
 using System.Collections.Generic;
 
-namespace Callvote.Interface
+namespace Callvote.Interfaces
 {
     public interface IVotingTemplate
     {

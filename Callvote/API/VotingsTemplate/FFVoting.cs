@@ -1,6 +1,6 @@
 ﻿using Callvote.Enums;
 using Callvote.Features;
-using Callvote.Interface;
+using Callvote.Interfaces;
 using Exiled.API.Features;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,7 +32,7 @@ namespace Callvote.API.VotingsTemplate
                         : Callvote.Instance.Translation.NoSuccessFullDisableFf;
                     Map.Broadcast(5, msg
                         .Replace("%VotePercent%", yesVotePercent.ToString())
-                        .Replace("%ThresholdRestartRound%", Callvote.Instance.Config.ThresholdRestartRound.ToString()));
+                        .Replace("%ThresholdFF%", Callvote.Instance.Config.ThresholdFf.ToString()));
                 }
             },
             AddOptions())

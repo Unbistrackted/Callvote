@@ -1,6 +1,6 @@
 ﻿using Callvote.Enums;
 using Callvote.Features;
-using Callvote.Interface;
+using Callvote.Interfaces;
 using Exiled.API.Features;
 using Respawning;
 using System.Collections.Generic;

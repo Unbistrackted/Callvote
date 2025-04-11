@@ -1,5 +1,5 @@
 ﻿using Callvote.Features;
-using Callvote.Interface;
+using Callvote.Interfaces;
 using Exiled.API.Features;
 using System.Collections.Generic;
 
