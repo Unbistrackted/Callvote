@@ -22,8 +22,10 @@ namespace CallNukeVoting
             if (!Round.AliveSides.Contains(Side.Scp) && Round.AliveSides.Count() >= 2)
             {
                 NukeVoting nukeVoting = new NukeVoting(Server.Host);
-                CustomVoting forcePlayersToSurface = new CustomVoting(nukeVoting.CallVotePlayer, "Force remaining players to the surface?", $"{Example.Instance.Prefix}.Nuke", nukeVoting);
+                CustomVoting forcePlayersToSurface = new CustomVoting(nukeVoting.CallVotePlayer, "Force remaining players to surface?", $"{CustomClass.Instance.Prefix}.Nuke", nukeVoting);
                 VotingHandler.CallVoting(forcePlayersToSurface);
+                if (!Callvote.Callvote.Instance.Config.EnableQueue)
+                    return;
             }
         }
 
@@ -33,6 +35,8 @@ namespace CallNukeVoting
             {
                 KickVoting voteKickFf = new KickVoting(Server.Host, ev.Attacker, "Killing Allies");
                 VotingHandler.CallVoting(voteKickFf);
+                if (!Callvote.Callvote.Instance.Config.EnableQueue)
+                    return;
             }
         }
 
@@ -51,7 +55,7 @@ namespace CallNukeVoting
                     }
                     Map.Broadcast(5, "The Voting Failed.");
                 }
-                BinaryVoting reviveSCP = new BinaryVoting(Server.Host, $"Revive {ev.TargetOldRole}?", $"{Example.Instance.Prefix}.Respawn", callback);
+                BinaryVoting reviveSCP = new BinaryVoting(Server.Host, $"Revive {ev.TargetOldRole}?", $"{CustomClass.Instance.Prefix}.Respawn", callback);
                 VotingHandler.CallVoting(reviveSCP);
             }
         }
@@ -80,7 +84,7 @@ namespace CallNukeVoting
                         }
                     }
                 }
-                CustomVoting custom = new CustomVoting(Server.Host, "Kill all scps?", $"{Example.Instance.Prefix}.Ezwin", callback);
+                CustomVoting custom = new CustomVoting(Server.Host, "Kill all scps?", $"{CustomClass.Instance.Prefix}.Ezwin", callback);
                 VotingHandler.CallVoting(custom);
             }
         }
