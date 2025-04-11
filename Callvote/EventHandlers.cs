@@ -1,7 +1,7 @@
 using Callvote.API;
+using CommandSystem;
 using Exiled.API.Features;
 using Exiled.Events.EventArgs.Server;
-using HarmonyLib;
 using UserSettings.ServerSpecific;
 
 namespace Callvote
@@ -32,16 +32,28 @@ namespace Callvote
                 switch (keybindSetting.SettingId)
                 {
                     case int id when id == 888:
-                        VotingHandler.CurrentVoting.Vote(Player.Get(sender), VotingHandler.CurrentVoting.CommandList.GetValueSafe(Callvote.Instance.Translation.OptionYes).Command);
+                        if (VotingHandler.CurrentVoting.CommandList.TryGetValue(Callvote.Instance.Translation.OptionYes, out ICommand yesCommand))
+                        {
+                            VotingHandler.CurrentVoting.Vote(Player.Get(sender), yesCommand.Command);
+                        }
                         break;
                     case int id when id == 889:
-                        VotingHandler.CurrentVoting.Vote(Player.Get(sender), VotingHandler.CurrentVoting.CommandList.GetValueSafe(Callvote.Instance.Translation.OptionNo).Command);
+                        if (VotingHandler.CurrentVoting.CommandList.TryGetValue(Callvote.Instance.Translation.OptionNo, out ICommand noCommand))
+                        {
+                            VotingHandler.CurrentVoting.Vote(Player.Get(sender), noCommand.Command);
+                        }
                         break;
                     case int id when id == 890:
-                        VotingHandler.CurrentVoting.Vote(Player.Get(sender), VotingHandler.CurrentVoting.CommandList.GetValueSafe(Callvote.Instance.Translation.OptionMtf).Command);
+                        if (VotingHandler.CurrentVoting.CommandList.TryGetValue(Callvote.Instance.Translation.OptionMtf, out ICommand mtfCommand))
+                        {
+                            VotingHandler.CurrentVoting.Vote(Player.Get(sender), mtfCommand.Command);
+                        }
                         break;
                     case int id when id == 891:
-                        VotingHandler.CurrentVoting.Vote(Player.Get(sender), VotingHandler.CurrentVoting.CommandList.GetValueSafe(Callvote.Instance.Translation.OptionCi).Command);
+                        if (VotingHandler.CurrentVoting.CommandList.TryGetValue(Callvote.Instance.Translation.OptionCi, out ICommand ciCommand))
+                        {
+                            VotingHandler.CurrentVoting.Vote(Player.Get(sender), ciCommand.Command);
+                        }
                         break;
                 }
             }

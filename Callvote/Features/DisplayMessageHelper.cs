@@ -56,10 +56,10 @@ namespace Callvote.Features
             int textsize = message.Length / 10;
             if (Callvote.Instance.Config.MessageSize != 0)
             {
-                textsize = 52 - Callvote.Instance.Config.MessageSize;
+                textsize = Callvote.Instance.Config.MessageSize;
                 return textsize;
             }
-            return textsize;
+            return 52 - textsize;
         }
     }
 }
