@@ -12,8 +12,10 @@ namespace Callvote
 {
     public class Callvote : Plugin<Config, Translation>
     {
-        public static Callvote Instance;
-        public EventHandlers EventHandlers;
+        private static Callvote Singleton = new Callvote();
+        private EventHandlers EventHandlers;
+
+        public static Callvote Instance => Singleton;
 
         public override string Name { get; } = AssemblyInfo.Name;
         public override string Author { get; } = AssemblyInfo.Author;
@@ -25,8 +27,6 @@ namespace Callvote
 
         public override void OnEnabled()
         {
-            EventHandlers = new EventHandlers();
-            Instance = this;
             RegisterEvents();
             base.OnEnabled();
         }
@@ -35,13 +35,12 @@ namespace Callvote
         {
             UnregisterEvents();
             VotingHandler.Clear();
-            Instance = null;
-            EventHandlers = null;
             base.OnDisabled();
         }
 
         private void RegisterEvents()
         {
+            EventHandlers = new EventHandlers();
             SettingBase.Register(new[] { SettingsHeader });
             ServerSpecificSettings.RegisterSettings();
             Server.WaitingForPlayers += EventHandlers.OnWaitingForPlayers;
@@ -58,6 +57,7 @@ namespace Callvote
             Server.RoundEnded -= EventHandlers.OnRoundEnded;
             Server.RestartingRound -= EventHandlers.OnRoundRestarting;
             ServerSpecificSettingsSync.ServerOnSettingValueReceived -= EventHandlers.OnUserInput;
+            EventHandlers = null;
         }
     }
 }

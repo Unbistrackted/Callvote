@@ -193,6 +193,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Translations\chinese.yml" />
+    <None Include="Translations\english.yml" />
     <None Include="Translations\russian.yml" />
   </ItemGroup>
   <ItemGroup />

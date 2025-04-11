@@ -1,4 +1,5 @@
 Callvote:
+# Made by PatPeter and Unbistrackted
 # %player%, %VotePercent%, %Offender%, %ThresholdKick%, %ThresholdRespawnWave%, %ThresholdNuke%, %ThresholdKill%, %ThresholdRestartRound%, %OptionKey%, %Option%, %Counter%, %Timer%, %Custom%, %Type%, %Number%
   max_vote: 'Max amounts of votes done this round'
   voting_in_progress: 'A vote is currently in progress.'

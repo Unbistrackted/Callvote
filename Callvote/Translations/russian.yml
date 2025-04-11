@@ -1,4 +1,5 @@
 ﻿Callvote:
+# Made by wand098
 # %player%, %VotePercent%, %Offender%, %ThresholdKick%, %ThresholdRespawnWave%, %ThresholdNuke%, %ThresholdKill%, %ThresholdRestartRound%, %OptionKey%, %Option%, %Counter%, %Timer%, %Custom%, %Type%, %Number%
   max_vote: 'Максимальное количество голосов, сделаных в этом раунде'
   voting_in_progress: 'В настоящее время идет голосование.'
