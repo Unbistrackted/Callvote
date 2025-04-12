@@ -1,76 +1,153 @@
-max_vote: 本场游戏最多的投票数。
-voting_in_progress: 当前正在进行一场投票
-players_with_same_name: 有多个玩家名称或部分名称为 %Player%。请使用与之不同的名字
-option_yes: <color=green>是</color>
-option_no: <color=red>否</color>
-player_kicked: "%Offender% 因 %Reason% 被踢出。"
-asked_to_kill: "%Player% 发起投票：是否因为 %Reason% 的原因驱逐 %Offender%？"
-untouchable: "%VotePercent%% 的玩家投票要杀死或将你踢出。"
-not_success_full_kick: "%VotePercent%% 投了赞成票，但需要 %ThresholdKick% 才能将 %Offender% 踢出。"
-player_not_found: 未找到名为或部分名为 %Player% 的玩家
-no_option_available: 投票中没有该选项。
-already_voted: 你已经投过票了
-vote_accepted: 你投了 %Option%。
-no_permission: 你没有执行这个命令的权限！
-voting_stoped: 投票已停止。
-results: |
-  最终结果：
-option_and_counter: " %Option% (%Counter%) "
-options: ".%OptionKey% = %Option% "
-asked_question: >
-  %Question% 
-   <color=#bce3a3>按 ' 并输入</color> 或 <color=#939383>在Server-specific设置中设置快捷键！</color>
-option_mtf: <color=blue>基金会成员</color>
-option_ci: <color=green>混沌分裂者</color>
-ci_respawn: "%VotePercent%% 投了 是。强制重生混沌分裂者..."
-enabling_friendly_fire: "%VotePercent%% 投了 <color=green>是</color>。正在禁用队友伤害..."
-disabling_friendly_fire: "%VotePercent%% 投了 <color=green>是</color>。正在启用队友伤害..."
-mtf_respawn: "%VotePercent%% 投了 是。强制重生基金会成员..."
-no_success_full_respawn: "%VotePercent%% 投了否。需要 %ThresholdRespawnWave% 才能在下一波重生"
-asked_to_respawn: "%Player% 发起投票：是否在下一波重生？"
-asked_to_nuke: "%Player% 发起投票：是否要引爆设施？！??"
-asked_to_disable_ff: "%Player% <color=#EEDC8A>请求</color>：可以禁用本场比赛队友伤害吗？"
-asked_to_enable_ff: "%Player% <color=#EEDC8A>请求</color>：可以启用本场比赛队友伤害吗？"
-foundation_nuked: "%VotePercent%% 投了是。正在引爆设施..."
-no_success_full_nuke: 仅有 %VotePercent%% 投了是。需要 %ThresholdNuke% 才能引爆设施。
-no_success_full_kill: 仅有 %VotePercent%% 投了是。 需要 %ThresholdKill% 才能杀死 %Offender%
-player_killed: "%VotePercent%% 投了是。正在杀死玩家 %Offender%"
-vote_respawn_wave_disabled: Callvote RespawnWave 已被禁用。
-vote_kick_disabled: Callvote kick 已被禁用。
-vote_kill_disabled: Callvote kill 已被禁用。
-vote_nuke_disabled: Callvote nuke 已被禁用。
-vote_f_f_disabled: Callvote ff 已被禁用。
-vote_restart_round_disabled: Callvote restartround 已被禁用。
-asked_to_kick: "%Player% 发起投票：是否因为 %Reason% 的原因踢出 %Offender%？"
-asked_to_restart: "%Player% 发起投票：是否重启本局？"
-round_restarting: "%VotePercent%% 投了是。正在重启本局..."
-no_success_full_restart: 只有 %VotePercent%% 投了是。需要 %ThresholdRestartRound% 才能重启本局。
-no_success_full_enable_ff: 只有 %VotePercent%% 投了是。需要 %ThresholdFF% 才能禁用队友伤害。
-no_success_full_disable_ff: 只有 %VotePercent%% 投了是。需要 %ThresholdFF% 才能启用队友伤害。
-voting_started: 投票已开始！
-no_voting_in_progress: 当前没有正在进行的投票。
-wait_to_vote: 你需要等待 %Timer% 秒才能使用该命令。
-asked_custom: "%Player% 发起投票：%Custom%"
-pass_reason: 你需要填写一个理由！
-less_than_two_options: 自定义投票需要至少两个选项！
-vote_keybind: 投票 %Option%!
-keybind_hint: 投票 %Option%。
-duplicate_command: 无法创建重复名称的自定义命令！
-queue_disabled: Callvote queue 已被禁用。
-queue_cleared: 投票队列已清空。
-queue_paused: 投票队列已暂停。
-queue_resumed: 投票队列已恢复运行。
-removed_from_queue: 已从队列中移除 %Number% 个投票
-no_voting_in_queue: 投票队列中没有任何投票。
-queue_is_full: <color=red>投票队列已满。</color>
-voting_enqueued: <color=#EDF193>投票已加入队列。</color>
-type_not_found: 未找到类型为 <color=red>%Type%</color> 的投票
-invalid_argument: 无效的参数。
-command_yes: 是
-command_no: 否
-command_chaos_insurgency: 混沌分裂者
-command_mobile_task_force: 基金会成员
-webhook_title: 投票结果：
-webhook_player: 发起人：
-webhook_question: 问题：
-webhook_votes: 投票数：
+# Made by tobto_37049
+# %player%, %VotePercent%, %Offender%, %ThresholdKick%, %ThresholdRespawnWave%, %ThresholdNuke%, %ThresholdKill%, %ThresholdRestartRound%, %OptionKey%, %Option%, %Counter%, %Timer%, %Custom%, %Type%, %Number%
+max_vote:
+  text: '本场游戏最多的投票数。'
+voting_in_progress:
+  text: '当前正在进行一场投票'
+players_with_same_name:
+  text: '有多个玩家名称或部分名称为 %Player%。请使用与之不同的名字'
+option_yes:
+  text: '<color=green>是</color>'
+option_no:
+  text: '<color=red>否</color>'
+player_kicked:
+  text: '%Offender% 因 %Reason% 被踢出。'
+asked_to_kill:
+  text: '%Player% 发起投票：是否因为 %Reason% 的原因驱逐 %Offender%？'
+untouchable:
+  text: '%VotePercent%% 的玩家投票要杀死或将你踢出。'
+not_success_full_kick:
+  text: '%VotePercent%% 投了赞成票，但需要 %ThresholdKick% 才能将 %Offender% 踢出。'
+player_not_found:
+  text: '未找到名为或部分名为 %Player% 的玩家'
+no_option_available:
+  text: '投票中没有该选项。'
+already_voted:
+  text: '你已经投过票了'
+vote_accepted:
+  text: '你投了 %Option%。'
+no_permission:
+  text: '你没有执行这个命令的权限！'
+voting_stoped:
+  text: '投票已停止。'
+results:
+  text: |
+    最终结果：
+option_and_counter:
+  text: ' %Option% (%Counter%) '
+options:
+  text: '.%OptionKey% = %Option% '
+asked_question:
+  text: |
+    %Question% 
+    <color=#bce3a3>按 ' 并输入</color> 或 <color=#939383>在Server-specific设置中设置快捷键！</color>
+option_mtf:
+  text: '<color=blue>基金会成员</color>'
+option_ci:
+  text: '<color=green>混沌分裂者</color>'
+ci_respawn:
+  text: '%VotePercent%% 投了 是。强制重生混沌分裂者...'
+enabling_friendly_fire:
+  text: '%VotePercent%% 投了 <color=green>是</color>。正在禁用队友伤害...'
+disabling_friendly_fire:
+  text: '%VotePercent%% 投了 <color=green>是</color>。正在启用队友伤害...'
+mtf_respawn:
+  text: '%VotePercent%% 投了 是。强制重生基金会成员...'
+no_success_full_respawn:
+  text: '%VotePercent%% 投了否。需要 %ThresholdRespawnWave% 才能在下一波重生'
+asked_to_respawn:
+  text: '%Player% 发起投票：是否在下一波重生？'
+asked_to_nuke:
+  text: '%Player% 发起投票：是否要引爆设施？！??'
+asked_to_disable_ff:
+  text: '%Player% <color=#EEDC8A>请求</color>：可以禁用本场比赛队友伤害吗？'
+asked_to_enable_ff:
+  text: '%Player% <color=#EEDC8A>请求</color>：可以启用本场比赛队友伤害吗？'
+foundation_nuked:
+  text: '%VotePercent%% 投了是。正在引爆设施...'
+no_success_full_nuke:
+  text: '仅有 %VotePercent%% 投了是。需要 %ThresholdNuke% 才能引爆设施。'
+no_success_full_kill:
+  text: '仅有 %VotePercent%% 投了是。 需要 %ThresholdKill% 才能杀死 %Offender%'
+player_killed:
+  text: '%VotePercent%% 投了是。正在杀死玩家 %Offender%'
+vote_respawn_wave_disabled:
+  text: 'Callvote RespawnWave 已被禁用。'
+vote_kick_disabled:
+  text: 'Callvote kick 已被禁用。'
+vote_kill_disabled:
+  text: 'Callvote kill 已被禁用。'
+vote_nuke_disabled:
+  text: 'Callvote nuke 已被禁用。'
+vote_f_f_disabled:
+  text: 'Callvote ff 已被禁用。'
+vote_restart_round_disabled:
+  text: 'Callvote restartround 已被禁用。'
+asked_to_kick:
+  text: '%Player% 发起投票：是否因为 %Reason% 的原因踢出 %Offender%？'
+asked_to_restart:
+  text: '%Player% 发起投票：是否重启本局？'
+round_restarting:
+  text: '%VotePercent%% 投了是。正在重启本局...'
+no_success_full_restart:
+  text: '只有 %VotePercent%% 投了是。需要 %ThresholdRestartRound% 才能重启本局。'
+no_success_full_enable_ff:
+  text: '只有 %VotePercent%% 投了是。需要 %ThresholdFF% 才能禁用队友伤害。'
+no_success_full_disable_ff:
+  text: '只有 %VotePercent%% 投了是。需要 %ThresholdFF% 才能启用队友伤害。'
+voting_started:
+  text: '投票已开始！'
+no_voting_in_progress:
+  text: '当前没有正在进行的投票。'
+wait_to_vote:
+  text: '你需要等待 %Timer% 秒才能使用该命令。'
+asked_custom:
+  text: '%Player% 发起投票：%Custom%'
+pass_reason:
+  text: '你需要填写一个理由！'
+less_than_two_options:
+  text: '自定义投票需要至少两个选项！'
+vote_keybind:
+  text: '投票 %Option%!'
+keybind_hint:
+  text: '投票 %Option%。'
+duplicate_command:
+  text: '无法创建重复名称的自定义命令！'
+queue_disabled:
+  text: 'Callvote queue 已被禁用。'
+queue_cleared:
+  text: '投票队列已清空。'
+queue_paused:
+  text: '投票队列已暂停。'
+queue_resumed:
+  text: '投票队列已恢复运行。'
+removed_from_queue:
+  text: '已从队列中移除 %Number% 个投票'
+no_voting_in_queue:
+  text: '投票队列中没有任何投票。'
+queue_is_full:
+  text: '<color=red>投票队列已满。</color>'
+voting_enqueued:
+  text: '<color=#EDF193>投票已加入队列。</color>'
+type_not_found:
+  text: '未找到类型为 <color=red>%Type%</color> 的投票'
+invalid_argument:
+  text: '无效的参数。'
+# Commands:
+command_yes:
+  text: '是'
+command_no:
+  text: '否'
+command_chaos_insurgency:
+  text: '混沌分裂者'
+command_mobile_task_force:
+  text: '基金会成员'
+# Webhook:
+webhook_title:
+  text: '投票结果：'
+webhook_player:
+  text: '发起人：'
+webhook_question:
+  text: '问题：'
+webhook_votes:
+  text: '投票数：'
