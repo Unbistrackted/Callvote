@@ -12,11 +12,9 @@ namespace Callvote
 {
     public class Callvote : Plugin<Config, Translation>
     {
-        private static Callvote Singleton = new Callvote();
         private EventHandlers EventHandlers;
 
-        public static Callvote Instance => Singleton;
-
+        public static Callvote Instance;
         public override string Name { get; } = AssemblyInfo.Name;
         public override string Author { get; } = AssemblyInfo.Author;
         public override Version Version { get; } = Version.Parse(AssemblyInfo.Version);
@@ -27,6 +25,7 @@ namespace Callvote
 
         public override void OnEnabled()
         {
+            Instance = this;
             RegisterEvents();
             base.OnEnabled();
         }
@@ -36,6 +35,7 @@ namespace Callvote
             UnregisterEvents();
             VotingHandler.Clear();
             base.OnDisabled();
+            Instance = null;
         }
 
         private void RegisterEvents()
