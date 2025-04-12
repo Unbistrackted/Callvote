@@ -1,81 +1,86 @@
-﻿Callvote:
-# Made by wand098
-# %player%, %VotePercent%, %Offender%, %ThresholdKick%, %ThresholdRespawnWave%, %ThresholdNuke%, %ThresholdKill%, %ThresholdRestartRound%, %OptionKey%, %Option%, %Counter%, %Timer%, %Custom%, %Type%, %Number%
-  max_vote: 'Максимальное количество голосов, сделаных в этом раунде'
-  voting_in_progress: 'В настоящее время идет голосование.'
-  players_with_same_name: 'У нескольких игроков есть имя или часть имени %Player%. Пожалуйста, используйте другую строку поиска.'
-  option_yes: '<color=green>ДА</color>'
-  option_no: '<color=red>НЕТ</color>'
-  player_kicked: '%Offender% был исключен по %Reason%.'
-  asked_to_kill: '%Player% <color=#EEDC8A>спрашивает</color>: Выгнать %Offender% за %Reason%?'
-  untouchable: '%VotePercent%% проголосовали выгнать или убить тебя.'
-  not_success_full_kick: '%VotePercent%% проголосовали да, но %ThresholdKick%% требовалось выгнать %Offender%.'
-  player_not_found: 'Не найдено ни одного игрока с именем или частью имени %Player%'
-  no_option_available: 'Голосование не имеет опции %Option%.'
-  already_voted: 'Ты уже проголосовал.'
-  vote_accepted: 'Ты проголосовал за %Option%.'
-  no_permission: 'У вас нет прав на выполнение этой команды!'
-  voting_stoped: 'Голосование приостановлено.'
-  results: |
-    Final results:
-  option_and_counter: ' %Option% (%Counter%) '
-  options: '.%OptionKey% = %Option% '
-  asked_question: |
-    %Question% 
-     <color=#bce3a3>Нажми ~ и голосуй</color> или <color=#939383>Поставь кейбинд в Сервер-специфичный!</color>
-  option_mtf: '<color=blue>Мобильная Оперативная Группа</color>'
-  option_ci: '<color=green>Повстанцы Хаоса</color>'
-  ci_respawn: '%VotePercent%% проголосовали <color=green>ДА</color>. Отправляем Повстанцев Хаоса в Фонд..'
-  enabling_friendly_fire: '%VotePercent%% проголосовали <color=green>ДА</color>. Включаем Френдли Фаер..'
-  disabling_friendly_fire: '%VotePercent%% проголосовали <color=green>ДА</color>. Выключаем Френдли Фаер..'
-  mtf_respawn: '%VotePercent%% проголосовали <color=green>ДА</color>. Отправляем МОГ в Фонд..'
-  no_success_full_respawn: '%VotePercent%% проголосовали против. %ThresholdRespawnWave%% требовалось возродить следующую волну.'
-  asked_to_respawn: '%Player% <color=#EEDC8A>спрашивает</color>: Следующая волна?'
-  asked_to_nuke: '%Player% <color=#EEDC8A>спрашивает</color>: ВЗОРВАТЬ ВЕСЬ КОМПЛЕКС?!??'
-  asked_to_disable_ff: '%Player% <color=#EEDC8A>спрашивает</color>: Выключить Френдли Фаер?'
-  asked_to_enable_ff: '%Player% <color=#EEDC8A>спрашивает</color>: Включить Френдли Фает?'
-  foundation_nuked: '%VotePercent%% проголосовали за. Взрываем комплекс...'
-  no_success_full_nuke: 'Только %VotePercent%% проголосовали за. %ThresholdNuke%% требовалось уничтожить объект ядерной бомбой.'
-  no_success_full_kill: 'Только %VotePercent%% проголосовали за. %ThresholdKill%% был обязан убить %Offender%'
-  player_killed: '%VotePercent%% проголосовали за. Убиваем игрока %Offender%'
-  vote_respawn_wave_disabled: 'Callvote RespawnWave отключен.'
-  vote_kick_disabled: 'Callvote kick выключен.'
-  vote_kill_disabled: 'Callvote kill отключен.'
-  vote_nuke_disabled: 'Callvote nuke выключен.'
-  vote_f_f_disabled: 'Callvote ff отключен.'
-  vote_restart_round_disabled: 'Callvote restartround выключен.'
-  asked_to_kick: '%Player% <color=#EEDC8A>спросил</color>: Выгнать %Offender% за %Reason%?'
-  asked_to_restart: '%Player% <color=#EEDC8A>спросил</color>: Перезапустить раунд?'
-  round_restarting: '%VotePercent% проголосовали за. Перезагружаем раунд...'
-  no_success_full_restart: 'Только %VotePercent%% проголосовали за. %ThresholdRestartRound%% требовалось перезапустить раунд.'
-  no_success_full_enable_ff: 'Только %VotePercent%% проголосовали за. %ThresholdFF%% требовалось отключить Френдли Фаер.'
-  no_success_full_disable_ff: 'Только %VotePercent%% проголосовали за. %ThresholdFF%% требовалось включить Френдли Фаер.'
-  voting_started: 'Голосование началось!'
-  no_voting_in_progress: 'Голосование не проводится.'
-  wait_to_vote: 'Ты должен подождать %Timer%s прежде чем использовать эту команду.'
-  asked_custom: '%Player% <color=#EEDC8A>спрашивает</color>: %Custom%'
-  pass_reason: 'Вам необходимо указать причину!'
-  less_than_two_options: 'Вы не можете создать пользовательское голосование без 2 вариантов!'
-  vote_keybind: 'Проголосовать %Option%!'
-  keybind_hint: 'Установите бинд для голосования %Option%.'
-  duplicate_command: 'Невозможно создать пользовательскую команду с тем же именем!'
-  queue_disabled: 'Callvote очередь выключена.'
-  queue_cleared: 'Очередь Голосований Отчищена.'
-  queue_paused: 'Очередь на паузе.'
-  queue_resumed: 'Очередь голосований возобновлена.'
-  removed_from_queue: 'Removed %Number% Voting(s)'
-  no_voting_in_queue: 'В очереди нету других голосов.'
-  queue_is_full: '<color=red>Очередь полна.</color>'
-  voting_enqueued: '<color=#EDF193>Голосование поставлено в очередь.</color>'
-  type_not_found: 'Не найдено ни одного голосования с типом <color=red>%Type%</color>'
-  invalid_argument: 'Неверный аргумент.'
-  # Commands:
-  command_yes: 'yes'
-  command_no: 'no'
-  command_chaos_insurgency: 'ci'
-  command_mobile_task_force: 'mtf'
-  # Webhook:
-  webhook_title: 'Результат голосования:'
-  webhook_player: 'Игроки:'
-  webhook_question: 'Вопрос:'
-  webhook_votes: 'Голосы:'
+max_vote: Максимальное количество голосов, сделаных в этом раунде
+voting_in_progress: В настоящее время идет голосование.
+players_with_same_name: У нескольких игроков есть имя или часть имени %Player%.
+  Пожалуйста, используйте другую строку поиска.
+option_yes: <color=green>ДА</color>
+option_no: <color=red>НЕТ</color>
+player_kicked: "%Offender% был исключен по %Reason%."
+asked_to_kill: "%Player% <color=#EEDC8A>спрашивает</color>: Выгнать %Offender% за %Reason%?"
+untouchable: "%VotePercent%% проголосовали выгнать или убить тебя."
+not_success_full_kick: "%VotePercent%% проголосовали да, но %ThresholdKick%%
+  требовалось выгнать %Offender%."
+player_not_found: Не найдено ни одного игрока с именем или частью имени %Player%
+no_option_available: Голосование не имеет опции %Option%.
+already_voted: Ты уже проголосовал.
+vote_accepted: Ты проголосовал за %Option%.
+no_permission: У вас нет прав на выполнение этой команды!
+voting_stoped: Голосование приостановлено.
+results: |
+  Final results:
+option_and_counter: " %Option% (%Counter%) "
+options: ".%OptionKey% = %Option% "
+asked_question: >
+  %Question% 
+   <color=#bce3a3>Нажми ~ и голосуй</color> или <color=#939383>Поставь кейбинд в Сервер-специфичный!</color>
+option_mtf: <color=blue>Мобильная Оперативная Группа</color>
+option_ci: <color=green>Повстанцы Хаоса</color>
+ci_respawn: "%VotePercent%% проголосовали <color=green>ДА</color>. Отправляем
+  Повстанцев Хаоса в Фонд.."
+enabling_friendly_fire: "%VotePercent%% проголосовали <color=green>ДА</color>. Включаем Френдли Фаер.."
+disabling_friendly_fire: "%VotePercent%% проголосовали <color=green>ДА</color>.
+  Выключаем Френдли Фаер.."
+mtf_respawn: "%VotePercent%% проголосовали <color=green>ДА</color>. Отправляем МОГ в Фонд.."
+no_success_full_respawn: "%VotePercent%% проголосовали против.
+  %ThresholdRespawnWave%% требовалось возродить следующую волну."
+asked_to_respawn: "%Player% <color=#EEDC8A>спрашивает</color>: Следующая волна?"
+asked_to_nuke: "%Player% <color=#EEDC8A>спрашивает</color>: ВЗОРВАТЬ ВЕСЬ КОМПЛЕКС?!??"
+asked_to_disable_ff: "%Player% <color=#EEDC8A>спрашивает</color>: Выключить Френдли Фаер?"
+asked_to_enable_ff: "%Player% <color=#EEDC8A>спрашивает</color>: Включить Френдли Фает?"
+foundation_nuked: "%VotePercent%% проголосовали за. Взрываем комплекс..."
+no_success_full_nuke: Только %VotePercent%% проголосовали за. %ThresholdNuke%%
+  требовалось уничтожить объект ядерной бомбой.
+no_success_full_kill: Только %VotePercent%% проголосовали за. %ThresholdKill%%
+  был обязан убить %Offender%
+player_killed: "%VotePercent%% проголосовали за. Убиваем игрока %Offender%"
+vote_respawn_wave_disabled: Callvote RespawnWave отключен.
+vote_kick_disabled: Callvote kick выключен.
+vote_kill_disabled: Callvote kill отключен.
+vote_nuke_disabled: Callvote nuke выключен.
+vote_f_f_disabled: Callvote ff отключен.
+vote_restart_round_disabled: Callvote restartround выключен.
+asked_to_kick: "%Player% <color=#EEDC8A>спросил</color>: Выгнать %Offender% за %Reason%?"
+asked_to_restart: "%Player% <color=#EEDC8A>спросил</color>: Перезапустить раунд?"
+round_restarting: "%VotePercent% проголосовали за. Перезагружаем раунд..."
+no_success_full_restart: Только %VotePercent%% проголосовали за.
+  %ThresholdRestartRound%% требовалось перезапустить раунд.
+no_success_full_enable_ff: Только %VotePercent%% проголосовали за.
+  %ThresholdFF%% требовалось отключить Френдли Фаер.
+no_success_full_disable_ff: Только %VotePercent%% проголосовали за.
+  %ThresholdFF%% требовалось включить Френдли Фаер.
+voting_started: Голосование началось!
+no_voting_in_progress: Голосование не проводится.
+wait_to_vote: Ты должен подождать %Timer%s прежде чем использовать эту команду.
+asked_custom: "%Player% <color=#EEDC8A>спрашивает</color>: %Custom%"
+pass_reason: Вам необходимо указать причину!
+less_than_two_options: Вы не можете создать пользовательское голосование без 2 вариантов!
+vote_keybind: Проголосовать %Option%!
+keybind_hint: Установите бинд для голосования %Option%.
+duplicate_command: Невозможно создать пользовательскую команду с тем же именем!
+queue_disabled: Callvote очередь выключена.
+queue_cleared: Очередь Голосований Отчищена.
+queue_paused: Очередь на паузе.
+queue_resumed: Очередь голосований возобновлена.
+removed_from_queue: Removed %Number% Voting(s)
+no_voting_in_queue: В очереди нету других голосов.
+queue_is_full: <color=red>Очередь полна.</color>
+voting_enqueued: <color=#EDF193>Голосование поставлено в очередь.</color>
+type_not_found: Не найдено ни одного голосования с типом <color=red>%Type%</color>
+invalid_argument: Неверный аргумент.
+command_yes: yes
+command_no: no
+command_chaos_insurgency: ci
+command_mobile_task_force: mtf
+webhook_title: "Результат голосования:"
+webhook_player: "Игроки:"
+webhook_question: "Вопрос:"
+webhook_votes: "Голосы:"
