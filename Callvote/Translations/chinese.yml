@@ -1,4 +1,3 @@
-﻿Callvote:
 # Made by tobto_37049
 # %player%, %VotePercent%, %Offender%, %ThresholdKick%, %ThresholdRespawnWave%, %ThresholdNuke%, %ThresholdKill%, %ThresholdRestartRound%, %OptionKey%, %Option%, %Counter%, %Timer%, %Custom%, %Type%, %Number%
   max_vote: '本场游戏最多的投票数。'
