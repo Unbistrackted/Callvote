@@ -19,7 +19,7 @@ namespace Callvote.Commands.VotingCommands
         {
             Player player = Player.Get(sender);
 
-            if (!player.CheckPermission("cv.superadmin+"))
+            if (!player.CheckPermission("cv.superadmin+") && player != null)
             {
                 response = Callvote.Instance.Translation.NoPermission;
                 return false;

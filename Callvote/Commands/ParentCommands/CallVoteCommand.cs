@@ -6,13 +6,14 @@ namespace Callvote.Commands
 {
     [CommandHandler(typeof(ClientCommandHandler))]
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
+    [CommandHandler(typeof(GameConsoleCommandHandler))]
     public class CallVoteCommand : ParentCommand
     {
         public override string Command => "callvote";
 
         public override string[] Aliases => new[] { "cv" };
 
-        public override string Description => "Enables player to call votings!";
+        public override string Description => "Enables player to call votes, manage the queue and more!";
 
         public CallVoteCommand() => LoadGeneratedCommands();
 
@@ -35,7 +36,7 @@ namespace Callvote.Commands
 
         protected override bool ExecuteParent(ArraySegment<string> args, ICommandSender sender, out string response)
         {
-            response = "Wrong Syntax, use .callvote help";
+            response = Callvote.Instance.Translation.WrongSyntax;
             return false;
         }
     }

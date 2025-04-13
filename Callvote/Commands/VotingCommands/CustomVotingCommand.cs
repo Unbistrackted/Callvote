@@ -26,7 +26,7 @@ namespace Callvote.Commands.VotingCommands
             optionDetailsStrings = JoinWordsBetweenQuotes(optionDetailsStrings);
             Player player = Player.Get(sender);
 
-            if (!player.CheckPermission("cv.callvotecustom") || !player.CheckPermission("cv.bypass"))
+            if (!player.CheckPermission("cv.callvotecustom") || !player.CheckPermission("cv.bypass") && player != null)
             {
                 response = Callvote.Instance.Translation.NoPermission;
                 return false;

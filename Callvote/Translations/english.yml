@@ -1,6 +1,7 @@
 Callvote:
   # Made by PatPeter and Unbistrackted
   # %player%, %VotePercent%, %Offender%, %ThresholdKick%, %ThresholdRespawnWave%, %ThresholdNuke%, %ThresholdKill%, %ThresholdRestartRound%, %OptionKey%, %Option%, %Counter%, %Timer%, %Custom%, %Type%, %Number%
+  wrong_syntax: 'Wrong Syntax, use callvote help'
   max_vote: 'Max amounts of votes done this round'
   voting_in_progress: 'A vote is currently in progress.'
   players_with_same_name: 'Multiple players have a name or partial name of %Player%. Please use a different search string.'

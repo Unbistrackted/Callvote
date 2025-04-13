@@ -1,5 +1,7 @@
 ﻿Callvote:
+# Made by Firething and Unbistrackted
 # %player%, %VotePercent%, %Offender%, %ThresholdKick%, %ThresholdRespawnWave%, %ThresholdNuke%, %ThresholdKill%, %ThresholdRestartRound%, %OptionKey%, %Option%, %Counter%, %Timer%, %Custom%, %Type%, %Number%
+  wrong_syntax: "Sintaxe errada. Por favor use callvote help"
   max_vote: 'Quantidade máxima de chamada de votação feita nessa partida.'
   voting_in_progress: 'Uma votação está atualmente em progresso'
   players_with_same_name: 'Múltiplos jogadores têm um nome ou nome parcial de %Player%. Por favor, use um argumento de pesquisa diferente.'
@@ -68,7 +70,7 @@
   voting_enqueued: '<color=#EDF193>Votação colocada na fila.</color>'
   type_not_found: 'Não foi possível achar nenhuma votação com o tipo: <color=red>%Type%</color>'
   invalid_argument: 'Argumento invalido.'
-  translation_changed: 'Tradução mudara para: Português (by Firething and Unbistrackted)'
+  translation_changed: 'Tradução mudada para: Português (by Firething and Unbistrackted)'
   # Commands:
   command_yes: 'sim'
   command_no: 'nao'

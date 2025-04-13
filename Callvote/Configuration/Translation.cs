@@ -6,6 +6,7 @@ namespace Callvote.Configuration
     public class Translation : ITranslation
     {
         [Description("%player%, %VotePercent%, %Offender%, %ThresholdKick%, %ThresholdRespawnWave%, %ThresholdNuke%, %ThresholdKill%, %ThresholdRestartRound%, %OptionKey%, %Option%, %Counter%, %Timer%, %Custom%, %Type%, %Number%")]
+        public string WrongSyntax { get; set; } = "Wrong Syntax, use ~callvote help~";
         public string MaxVote { get; set; } = "Max amounts of votes done this round";
         public string VotingInProgress { get; set; } = "A vote is currently in progress.";
         public string PlayersWithSameName { get; set; } = "Multiple players have a name or partial name of %Player%. Please use a different search string.";

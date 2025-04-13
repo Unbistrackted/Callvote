@@ -28,7 +28,7 @@ namespace Callvote.Commands.VotingCommands
                 return false;
             }
 
-            if (!player.CheckPermission("cv.callvotekick"))
+            if (!player.CheckPermission("cv.callvotekick") && player != null)
             {
                 response = Callvote.Instance.Translation.NoPermission;
                 return false;

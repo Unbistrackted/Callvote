@@ -24,7 +24,7 @@ namespace Callvote.Commands.VotingCommands
                 return false;
             }
 
-            if (!player.CheckPermission("cv.stopvote") || !player.CheckPermission("cv.bypass"))
+            if (!player.CheckPermission("cv.stopvote") || !player.CheckPermission("cv.bypass") && player != null)
             {
                 response = Callvote.Instance.Translation.NoPermission;
                 return false;

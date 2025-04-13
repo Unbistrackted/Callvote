@@ -1,6 +1,7 @@
 Callvote:
   # Made by wand098
   # %player%, %VotePercent%, %Offender%, %ThresholdKick%, %ThresholdRespawnWave%, %ThresholdNuke%, %ThresholdKill%, %ThresholdRestartRound%, %OptionKey%, %Option%, %Counter%, %Timer%, %Custom%, %Type%, %Number%
+  wrong_syntax: "Неверный синтаксис, используйте callvote help"
   max_vote: 'Максимальное количество голосов, сделаных в этом раунде'
   voting_in_progress: 'В настоящее время идет голосование.'
   players_with_same_name: 'У нескольких игроков есть имя или часть имени %Player%. Пожалуйста, используйте другую строку поиска.'

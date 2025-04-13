@@ -18,7 +18,7 @@ namespace Callvote.Commands
         {
             Player player = Player.Get(sender);
 
-            if (!player.CheckPermission("cv.translation"))
+            if (!player.CheckPermission("cv.translation") && player != null)
             {
                 response = Callvote.Instance.Translation.NoPermission;
                 return false;
@@ -26,8 +26,9 @@ namespace Callvote.Commands
 
             if (args.Count == 0)
             {
-                response = "callvote translation <countryCode>";
-                return false;
+                ChangeTranslation.LoadTranslation("auto");
+                response = Callvote.Instance.Translation.TranslationChanged;
+                return true;
             }
 
             ChangeTranslation.LoadTranslation(args.At(0));
