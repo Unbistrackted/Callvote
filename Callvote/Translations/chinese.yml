@@ -1,6 +1,6 @@
-# Made by tobto_37049
-# %player%, %VotePercent%, %Offender%, %ThresholdKick%, %ThresholdRespawnWave%, %ThresholdNuke%, %ThresholdKill%, %ThresholdRestartRound%, %OptionKey%, %Option%, %Counter%, %Timer%, %Custom%, %Type%, %Number%
 Callvote:
+  # Made by tobto_37049
+  # %player%, %VotePercent%, %Offender%, %ThresholdKick%, %ThresholdRespawnWave%, %ThresholdNuke%, %ThresholdKill%, %ThresholdRestartRound%, %OptionKey%, %Option%, %Counter%, %Timer%, %Custom%, %Type%, %Number%
   max_vote: '本场游戏最多的投票数。'
   voting_in_progress: '当前正在进行一场投票'
   players_with_same_name: '有多个玩家名称或部分名称为 %Player%。请使用与之不同的名字'
@@ -69,6 +69,7 @@ Callvote:
   voting_enqueued: '<color=#EDF193>投票已加入队列。</color>'
   type_not_found: '未找到类型为 <color=red>%Type%</color> 的投票'
   invalid_argument: '无效的参数。'
+  translation_changed: '翻译已更改成：中文 (by tobto_37049)'
   # Commands:
   command_yes: '是'
   command_no: '否'

@@ -1,5 +1,6 @@
 Callvote:
-# %player%, %VotePercent%, %Offender%, %ThresholdKick%, %ThresholdRespawnWave%, %ThresholdNuke%, %ThresholdKill%, %ThresholdRestartRound%, %OptionKey%, %Option%, %Counter%, %Timer%, %Custom%, %Type%, %Number%
+  # Made by wand098
+  # %player%, %VotePercent%, %Offender%, %ThresholdKick%, %ThresholdRespawnWave%, %ThresholdNuke%, %ThresholdKill%, %ThresholdRestartRound%, %OptionKey%, %Option%, %Counter%, %Timer%, %Custom%, %Type%, %Number%
   max_vote: 'Максимальное количество голосов, сделаных в этом раунде'
   voting_in_progress: 'В настоящее время идет голосование.'
   players_with_same_name: 'У нескольких игроков есть имя или часть имени %Player%. Пожалуйста, используйте другую строку поиска.'
@@ -68,6 +69,7 @@ Callvote:
   voting_enqueued: '<color=#EDF193>Голосование поставлено в очередь.</color>'
   type_not_found: 'Не найдено ни одного голосования с типом <color=red>%Type%</color>'
   invalid_argument: 'Неверный аргумент.'
+  translation_changed: "Изменён перевод на: Русский (by wand098)"
   # Commands:
   command_yes: 'yes'
   command_no: 'no'

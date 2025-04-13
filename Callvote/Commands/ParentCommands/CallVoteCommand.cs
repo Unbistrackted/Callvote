@@ -30,6 +30,7 @@ namespace Callvote.Commands
             RegisterCommand(new CustomVotingCommand());
             RegisterCommand(new HelpCommand());
             RegisterCommand(new FFCommand());
+            RegisterCommand(new TranslationCommand());
         }
 
         protected override bool ExecuteParent(ArraySegment<string> args, ICommandSender sender, out string response)

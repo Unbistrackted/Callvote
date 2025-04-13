@@ -71,6 +71,7 @@ namespace Callvote.Configuration
         public string VotingEnqueued { get; set; } = "<color=#EDF193>Voting Enqueued.</color>";
         public string TypeNotFound { get; set; } = "Did not find any Voting with the type <color=red>%Type%</color>";
         public string InvalidArgument { get; set; } = "Invalid argument.";
+        public string TranslationChanged { get; set; } = "Changed translation to: English";
         [Description("Commands:")]
         public string CommandYes { get; set; } = "yes";
         public string CommandNo { get; set; } = "no";
