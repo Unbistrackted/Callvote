@@ -33,7 +33,7 @@ Callvote:
   asked_to_respawn: '%Player% <color=#EEDC8A>спрашивает</color>: Следующая волна?'
   asked_to_nuke: '%Player% <color=#EEDC8A>спрашивает</color>: ВЗОРВАТЬ ВЕСЬ КОМПЛЕКС?!??'
   asked_to_disable_ff: '%Player% <color=#EEDC8A>спрашивает</color>: Выключить Френдли Фаер?'
-  asked_to_enable_ff: '%Player% <color=#EEDC8A>спрашивает</color>: Включить Френдли Фает?'
+  asked_to_enable_ff: '%Player% <color=#EEDC8A>спрашивает</color>: Включить Френдли Фаер?'
   foundation_nuked: '%VotePercent%% проголосовали за. Взрываем комплекс...'
   no_success_full_nuke: 'Только %VotePercent%% проголосовали за. %ThresholdNuke%% требовалось уничтожить объект ядерной бомбой.'
   no_success_full_kill: 'Только %VotePercent%% проголосовали за. %ThresholdKill%% был обязан убить %Offender%'
