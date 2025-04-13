@@ -1,20 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using YamlDotNet.Serialization;
-using YamlDotNet.RepresentationModel;
-using Exiled.Loader;
-using System.Net;
-using System.IO;
-using PluginAPI.Core;
-using YamlDotNet.Serialization.NamingConventions;
-using HarmonyLib;
-using LiteNetLib.Utils;
+﻿using Exiled.API.Enums;
 using Exiled.API.Features;
-using Server = PluginAPI.Core.Server;
+using Exiled.Loader;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Net;
+using System.Text;
+using YamlDotNet.RepresentationModel;
 using Log = Exiled.API.Features.Log;
+using Server = PluginAPI.Core.Server;
 
 namespace Callvote.Features
 {
@@ -24,17 +18,17 @@ namespace Callvote.Features
         {
             try
             {
-                string githubTranslationLink = $"https://raw.githubusercontent.com/Unbistrackted/Callvote/EXILED/Callvote/Translations/{GetLanguage(countryCode)}.yml";
-
                 using (WebClient client = new WebClient())
                 {
-                    RewriteTranslationFile(client.DownloadString(githubTranslationLink), Paths.Translations);
+                    string githubTranslationLink = $"https://raw.githubusercontent.com/Unbistrackted/Callvote/EXILED/Callvote/Translations/{GetLanguage(countryCode)}.yml";
+                    string path = LoaderPlugin.Config.ConfigType == ConfigType.Default ? Paths.Translations : Paths.GetTranslationPath(Callvote.Instance.Prefix);
+                    RewriteTranslationFile(client.DownloadString(githubTranslationLink), path);
                 }
                 Callvote.Instance.LoadTranslation();
             }
             catch (Exception)
             {
-                Callvote.Instance.LoadTranslation();
+                TranslationManager.Reload();
             }
         }
 

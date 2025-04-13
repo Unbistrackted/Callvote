@@ -13,7 +13,7 @@ namespace Callvote.Commands
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
-            response = 
+            response =
                 "\ncallvote custom <question(detail) <option1> <option2>(detail2)...." +
                 "\ncallvote binary <question>" +
                 "\ncallvote kick <player>" +
