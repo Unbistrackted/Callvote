@@ -61,7 +61,8 @@ Callvote uses [RueI](https://github.com/pawslee/RueI) as a Soft Dependency, whic
  cv.callvotecustom       | .callvote "Custom Question" ... | Gives permission to use **.callvote "Custom Question" ...**        
  cv.stopvote             | .stopvote                       | Stops current vote                                                 
  cv.untouchable          | .callvote kick/kill             | Player cannot be kicked or killed                                  
- cv.superadmin+          | .callvote (Parameter)           | Allows player to rig the system :trollface:                        
+ cv.superadmin+          | .callvote (Parameter)           | Allows player to rig the system :trollface:                      
+ cv.translation          | .callvote (Parameter)           | Allows player to change Callvote's translation                      
 
 ## Commands
 
@@ -82,6 +83,7 @@ Callvote uses [RueI](https://github.com/pawslee/RueI) as a Soft Dependency, whic
  callvote queue rp     | .callvote queue rp     | [player]                                             | Removes all votings by a Player from the Queue
  callvote queue rt     | .callvote queue rt     | [votingType]                                         | Removes all votings of votingType X from the Queue 
  callvote queue ri     | .callvote queue ri     | [index]                                              | Removes a voting with index X from the Queue
+ callvote translation  | .callvote translation  | [none/countryCode] - RU, CN, PT, BR, EN, KZ, BY, UA  | Changes Callvote's translation (If nothing is passed as an argument, uses server location.)
  stopvote              | .callvote stopvote     | [none]                                               | Stops a vote currently in progress       
  yes (or translation)  | .yes (or translation)  | [none]                                               | Vote option                              
  no  (or translation)  | .no  (or translation)  | [none]                                               | Vote option                              
