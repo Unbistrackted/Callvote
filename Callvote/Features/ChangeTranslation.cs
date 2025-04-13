@@ -97,7 +97,7 @@ namespace Callvote.Features
                 localCallvote.Children[kvp.Key] = kvp.Value;
             }
 
-            using (StreamWriter writer = new StreamWriter(translationsPath))
+            using (StreamWriter writer = new StreamWriter(translationsPath, false, new UTF8Encoding(true)))
             {
                 localTranslations.Save(writer, false);
             }
