@@ -1,19 +1,26 @@
-# Description
+# Callvote ![Downloads](https://img.shields.io/github/downloads/Unbistrackted/Callvote/total)
 
-This plugin is the sucessor of [callvote](https://github.com/PatPeter/callvote), which allows calling and voting for **Kick**,
+The sucessor of [callvote](https://github.com/PatPeter/callvote), which allows calling and voting for **Kick**,
  **RestartRound**,  **Kill**,
 **RespawnWave**, **FriendlyFire**, or **Custom** Votes using **KEYBINDS** or **CONSOLE COMMANDS** in the same format as the Source Engine (Left 4
 Dead
 2/Counter-Strike: Global Offensive).
 
-Callvote uses [RueI](https://github.com/pawslee/RueI) as a Soft Dependency, which replaces the majority of Broadcasts with Hints. We 
-**highly suggest** installing it since we plan on moving away from Broadcasts.
+![{99C91142-43DC-4685-A9DC-C906CEC4C5CC}](https://github.com/user-attachments/assets/f74318d3-f066-4abb-b24a-3cb0187f6dcf)
 
-![image](https://github.com/user-attachments/assets/34b7522c-afad-4aa5-9e5b-34797eaee3c8)
+## Features
 
-![{2D20256F-794E-4164-BCF3-1AFFAFC8CF68}](https://github.com/user-attachments/assets/16dee768-58f1-45c4-b012-5eb8443e3737)
+### *Translations:*
 
-## Configuration Settings
+![{7AD15533-9764-4A6B-98B3-7B328D998089}](https://github.com/user-attachments/assets/46f6a88c-0ec3-4d7f-bcb2-9db9ad284b0f)
+**(Requires a restart to update Keybinds ~ Fix coming soom™️)**
+
+### *Keybinds:*
+
+![{CD282ACF-CDEE-47EB-AD55-14135A48D31A}](https://github.com/user-attachments/assets/4ff2d735-c66e-4491-991e-bc19b63a5ab2)
+
+
+### *Configuration Settings:*
 
  Setting Key                   | Value Type | Default Value | Description                                                                                    
 -------------------------------|------------|---------------|------------------------------------------------------------------------------------------------
@@ -44,7 +51,7 @@ Callvote uses [RueI](https://github.com/pawslee/RueI) as a Soft Dependency, whic
  queue_size                    | int        | 5             | Changes Callvote's Queue size if enabled. 
  discord_webhook               | string     |               | If a Discord Webhook is present, send a message via that Webhook
 
-## Permissions
+### *Permissions:*
 
  Permission              | Command                         | Description                                                        
 -------------------------|---------------------------------|--------------------------------------------------------------------
@@ -64,7 +71,7 @@ Callvote uses [RueI](https://github.com/pawslee/RueI) as a Soft Dependency, whic
  cv.superadmin+          | .callvote (Parameter)           | Allows player to rig the system :trollface:                      
  cv.translation          | .callvote (Parameter)           | Allows player to change Callvote's translation                      
 
-## Commands
+### *Commands:*
 
  Server Command        | Client Command         | Parameters                                           | Description                              
 -----------------------|------------------------|------------------------------------------------------|------------------------------------------
@@ -91,7 +98,7 @@ Callvote uses [RueI](https://github.com/pawslee/RueI) as a Soft Dependency, whic
  ci  (or translation)  | .ci  (or translation)  | [none]                                               | Vote option                              
  (custom)              | .(custom)              | [none]                                               | Vote option                              
 
-## Config File
+### **Config File:**
 
 ```
 Callvote:
@@ -131,92 +138,17 @@ Callvote:
   discord_webhook: ''
 ```
 
-## Translation File
+## Download
 
-```
-Callvote:
-# %player%, %VotePercent%, %Offender%, %ThresholdKick%, %ThresholdRespawnWave%, %ThresholdNuke%, %ThresholdKill%, %ThresholdRestartRound%, %OptionKey%, %Option%, %Counter%, %Timer%, %Custom%, %Type%, %Number%
-  max_vote: 'Max amounts of votes done this round'
-  voting_in_progress: 'A vote is currently in progress.'
-  players_with_same_name: 'Multiple players have a name or partial name of %Player%. Please use a different search string.'
-  option_yes: '<color=green>YES</color>'
-  option_no: '<color=red>NO</color>'
-  player_kicked: '%Offender% was kicked for %Reason%.'
-  asked_to_kill: '%Player% <color=#EEDC8A>asks</color>: Kick %Offender% for %Reason%?'
-  untouchable: '%VotePercent%% voted to kill or kick you.'
-  not_success_full_kick: '%VotePercent%% voted yes, but %ThresholdKick%% was required to kick %Offender%.'
-  player_not_found: 'Did not find any players with the name or partial name of %Player%'
-  no_option_available: 'Vote does not have the option %Option%.'
-  already_voted: 'You''ve already voted.'
-  vote_accepted: 'You voted %Option%.'
-  no_permission: 'You do not have permission to run this command!'
-  voting_stoped: 'Vote stopped.'
-  results: |
-    Final results:
-  option_and_counter: ' %Option% (%Counter%) '
-  options: '.%OptionKey% = %Option% '
-  asked_question: |
-    %Question% 
-     <color=#bce3a3>Press ~ and type</color> or <color=#939383>Set the keybind in Server-specific!</color>
-  option_mtf: '<color=blue>MTF</color>'
-  option_ci: '<color=green>CI</color>'
-  ci_respawn: '%VotePercent%% voted <color=green>YES</color>. Forcing the reappearing of CI..'
-  enabling_friendly_fire: '%VotePercent%% voted <color=green>YES</color>. Disabling Friendly Fire..'
-  disabling_friendly_fire: '%VotePercent%% voted <color=green>YES</color>. Enabling Friendly Fire..'
-  mtf_respawn: '%VotePercent%% voted <color=green>YES</color>. Forcing the reappearing of MTF..'
-  no_success_full_respawn: '%VotePercent%% voted no. %ThresholdRespawnWave%% was required to respawn the next wave.'
-  asked_to_respawn: '%Player% <color=#EEDC8A>asks</color>: Respawn the next wave?'
-  asked_to_nuke: '%Player% <color=#EEDC8A>asks</color>: NUKE THE FACILITY?!??'
-  asked_to_disable_ff: '%Player% <color=#EEDC8A>asks</color>: Enable Friendly Fire for the current round?'
-  asked_to_enable_ff: '%Player% <color=#EEDC8A>asks</color>: Disable Friendly Fire for the current round?'
-  foundation_nuked: '%VotePercent%% voted yes. Nuking the facility...'
-  no_success_full_nuke: 'Only %VotePercent%% voted yes. %ThresholdNuke%% was required to nuke the facility.'
-  no_success_full_kill: 'Only %VotePercent%% voted yes. + %ThresholdKill%% was required to kill locatedPlayerName'
-  player_killed: '%VotePercent%% voted yes. Killing player %Offender%'
-  vote_respawn_wave_disabled: 'Callvote RespawnWave is disabled.'
-  vote_kick_disabled: 'Callvote kick is disabled.'
-  vote_kill_disabled: 'Callvote kill is disabled.'
-  vote_nuke_disabled: 'Callvote nuke is disabled.'
-  vote_f_f_disabled: 'Callvote ff is disabled.'
-  vote_restart_round_disabled: 'Callvote restartround is disabled.'
-  asked_to_kick: '%Player% <color=#EEDC8A>asks</color>: Kick %Offender% for %Reason%?'
-  asked_to_restart: '%Player% <color=#EEDC8A>asks</color>: Restart the round?'
-  round_restarting: '%VotePercent% voted yes. Restarting the round...'
-  no_success_full_restart: 'Only %VotePercent%% voted yes. %ThresholdRestartRound%% was required to restart the round.'
-  no_success_full_enable_ff: 'Only %VotePercent%% voted yes. %ThresholdRestartRound%% was required to disable Friendly Fire.'
-  no_success_full_disable_ff: 'Only %VotePercent%% voted yes. %ThresholdRestartRound%% was required to enable Friendly Fire.'
-  voting_started: 'Vote has been started!'
-  no_voting_in_progress: 'There is no vote in progress.'
-  wait_to_vote: 'You should wait %Timer%s before using this command.'
-  asked_custom: '%Player% <color=#EEDC8A>asks</color>: %Custom%'
-  pass_reason: 'You need to pass a reason!'
-  less_than_two_options: 'You cannot create a custom voting without 2 options!'
-  vote_keybind: 'Vote %Option%!'
-  keybind_hint: 'Set this keybind to vote %Option%.'
-  duplicate_command: 'It''s not possible to create a custom command with the same name!'
-  queue_disabled: 'Callvote queue disabled.'
-  queue_cleared: 'Votings Queue Cleared.'
-  queue_paused: 'Queue Paused'
-  queue_resumed: 'Votings Queue resumed.'
-  removed_from_queue: 'Removed %Number% Voting(s)'
-  no_voting_in_queue: 'There''s no voting in the queue.'
-  queue_is_full: '<color=red>Queue is full.</color>'
-  voting_enqueued: '<color=#EDF193>Voting Enqueued.</color>'
-  type_not_found: 'Did not find any Voting with the type <color=red>%Type%</color>'
-  invalid_argument: 'Invalid argument.'
-  # Commands:
-  command_yes: 'yes'
-  command_no: 'no'
-  command_chaos_insurgency: 'ci'
-  command_mobile_task_force: 'mtf'
-  # Webhook:
-  webhook_title: 'Voting Results:'
-  webhook_player: 'Player:'
-  webhook_question: 'Question:'
-  webhook_votes: 'Votes:'
-```
+You can download the latest version [here](https://github.com/Unbistrackted/Callvote/releases/latest).
 
-# Special thanks to:
+Or you can type ```hub install Callvote``` in your console.
+
+## Soft Depedencies
+
+[RueI](https://github.com/pawslee/RueI) ~ Replaces the majority of Broadcasts with Hints. You can download it [here](https://github.com/pawslee/RueI/releases/latest).
+
+## Special thanks to:
 
 https://github.com/Playeroth and https://github.com/Edi369 for helping me with translations and adding webhook functionality.
 
