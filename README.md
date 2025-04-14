@@ -96,9 +96,9 @@ This plugin uses Discord's Webhook to show the vote results by changing the disc
 
 ## Download
 
-This plugin requires installing [Exiled](https://github.com/ExMod-Team/EXILED/releases/tag/v9.5.1).
+This plugin requires [Exiled](https://github.com/ExMod-Team/EXILED/releases/tag/v9.5.1).
 
-You can download the latest version [here](https://github.com/Unbistrackted/Callvote/releases/latest).
+You can download the latest version of Callvote [here](https://github.com/Unbistrackted/Callvote/releases/latest).
 
 Or you can type ```hub install Callvote``` in your console.
 
