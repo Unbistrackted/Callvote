@@ -6,9 +6,15 @@ The sucessor of [callvote](https://github.com/PatPeter/callvote), which allows c
 Dead
 2/Counter-Strike: Global Offensive).
 
+## Features
+
+### *Calling Votes:*
+
 ![{99C91142-43DC-4685-A9DC-C906CEC4C5CC}](https://github.com/user-attachments/assets/f74318d3-f066-4abb-b24a-3cb0187f6dcf)
 
-## Features
+### *Discord Webhook Integration:*
+
+![{1BCCF854-80E4-43EF-9ACF-3954ABEDAF31}](https://github.com/user-attachments/assets/6bb41f36-796f-45e5-83c9-5e422d7494cf)
 
 ### *Translations:*
 
@@ -18,7 +24,6 @@ Dead
 ### *Keybinds:*
 
 ![{CD282ACF-CDEE-47EB-AD55-14135A48D31A}](https://github.com/user-attachments/assets/4ff2d735-c66e-4491-991e-bc19b63a5ab2)
-
 
 ### *Configuration Settings:*
 
