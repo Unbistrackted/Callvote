@@ -33,7 +33,6 @@ namespace Callvote
         public override void OnDisabled()
         {
             UnregisterEvents();
-            VotingHandler.Clear();
             base.OnDisabled();
             Instance = null;
         }
@@ -41,7 +40,6 @@ namespace Callvote
         private void RegisterEvents()
         {
             EventHandlers = new EventHandlers();
-            SettingBase.Register(new[] { SettingsHeader });
             ServerSpecificSettings.RegisterSettings();
             Server.WaitingForPlayers += EventHandlers.OnWaitingForPlayers;
             Server.RoundEnded += EventHandlers.OnRoundEnded;
@@ -52,11 +50,11 @@ namespace Callvote
         private void UnregisterEvents()
         {
             ServerSpecificSettings.UnregisterSettings();
-            SettingBase.Unregister(settings: new[] { SettingsHeader });
             Server.WaitingForPlayers -= EventHandlers.OnWaitingForPlayers;
             Server.RoundEnded -= EventHandlers.OnRoundEnded;
             Server.RestartingRound -= EventHandlers.OnRoundRestarting;
             ServerSpecificSettingsSync.ServerOnSettingValueReceived -= EventHandlers.OnUserInput;
+            VotingHandler.Clear();
             EventHandlers = null;
         }
     }

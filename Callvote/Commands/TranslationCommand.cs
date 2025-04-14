@@ -31,7 +31,7 @@ namespace Callvote.Commands
                 return true;
             }
 
-            ChangeTranslation.LoadTranslation(args.At(0));
+            ChangeTranslation.LoadTranslation(args.At(0).ToUpper());
 
             response = Callvote.Instance.Translation.TranslationChanged;
             return true;
