@@ -1,8 +1,6 @@
-# Callvote ![Downloads](https://img.shields.io/github/downloads/Unbistrackted/Callvote/total)
-
 **The sucessor of [callvote](https://github.com/PatPeter/callvote).**
 
-A plugin which allows calling and voting for **Kick**,
+Allows the player to call and vote for **Kick**,
  **RestartRound**,  **Kill**,
 **RespawnWave**, **FriendlyFire**, or **Custom** Votes using **KEYBINDS** or **CONSOLE COMMANDS** in the same format as the Source Engine (Left 4
 Dead
