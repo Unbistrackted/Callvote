@@ -1,4 +1,4 @@
-A plugin which allows calling and voting for **Kick**,
+Allows calling and voting for **Kick**,
  **RestartRound**,  **Kill**,
 **RespawnWave**, **FriendlyFire**, or **Custom** Votes using **KEYBINDS** or **CONSOLE COMMANDS** in the same format as the Source Engine (Left 4
 Dead
