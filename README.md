@@ -110,7 +110,7 @@ Or you can type ```hub install Callvote``` in your console.
 
 [RueI](https://github.com/pawslee/RueI) ~ Replaces the majority of Broadcasts with Hints. You can download it [here](https://github.com/pawslee/RueI/releases/latest).
 
-[HSM](https://github.com/MeowServer/HintServiceMeow/releases/tag/V5.3) ~ Replaces the majority of Broadcasts with Hints. You can download it
+[HSM](https://github.com/MeowServer/HintServiceMeow/releases/tag/V5.3) ~ Replaces the majority of Broadcasts with Hints. You can download it [here](https://github.com/MeowServer/HintServiceMeow/releases/tag/V5.3). 
 
 ## Special thanks to:
 
