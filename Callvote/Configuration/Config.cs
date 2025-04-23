@@ -5,7 +5,6 @@ namespace Callvote.Configuration
 {
     public class Config : IConfig
     {
-        [Description("Enables or disables Callvote")]
         public bool IsEnabled { get; set; } = true;
         public bool Debug { get; set; } = false;
         [Description("Which message provider should Callvote use? You can choose between auto, hsm, ruei, or bc. (In auto mode, if both HSM and RUEI are present on the server, it falls back to broadcasts.)")]
