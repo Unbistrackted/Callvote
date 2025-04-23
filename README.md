@@ -106,11 +106,11 @@ Or you can type ```hub install Callvote``` in your console.
 
 ## Soft Depedencies
 
-### Don't use both!!!
+### RueI is the most recommended. Both replaces the majority of Broadcasts with Hints
 
-[RueI](https://github.com/pawslee/RueI) ~ Replaces the majority of Broadcasts with Hints. You can download it [here](https://github.com/pawslee/RueI/releases/latest).
+[RueI](https://github.com/pawslee/RueI) ~ You can download it [here](https://github.com/pawslee/RueI/releases/latest).
 
-[HSM](https://github.com/MeowServer/HintServiceMeow/releases/tag/V5.3) ~ Replaces the majority of Broadcasts with Hints. You can download it [here](https://github.com/MeowServer/HintServiceMeow/releases/tag/V5.3). 
+[HintServiceMeow](https://github.com/MeowServer/HintServiceMeow/releases/tag/V5.3) ~ You can download it [here](https://github.com/MeowServer/HintServiceMeow/releases/tag/V5.3). 
 
 ## Special thanks to:
 
