@@ -21,6 +21,8 @@ This plugin uses Discord's Webhook to show the vote results by changing the disc
  Setting Key                   | Value Type | Default Value | Description                                                                                    
 -------------------------------|------------|---------------|------------------------------------------------------------------------------------------------
  is_enabled                    | bool       | true          | Enables or disables the plugin     
+ message_provider              | string     | "Auto"        | Which message provider should Callvote use? You can choose between auto, hsm, ruei, or bc. (In auto mode, if both HSM and RUEI are present on the server, it falls back to broadcasts.)    
+ hint_y_coordinate             | float      | 300           | Sets the Y coordinate of the hint on a scale from 0-1000, where 0 represents the bottom of the screen (Doesn't apply for broadcasts)  
  enable_queue                  | boolean    | true          | Enables or disables Callvote's queue system
  enable_kick                   | boolean    | true          | Can players use **callvote kick**?                                                             
  enable_kill                   | boolean    | true          | Can players use **callvote kill**?     
