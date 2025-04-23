@@ -5,8 +5,13 @@ namespace Callvote.Configuration
 {
     public class Config : IConfig
     {
+        [Description("Enables or disables Callvote")]
         public bool IsEnabled { get; set; } = true;
         public bool Debug { get; set; } = false;
+        [Description("Which message provider should Callvote use? You can choose between auto, hsm, ruei, or bc. (In auto mode, if both HSM and RUEI are present on the server, it falls back to broadcasts.)")]
+        public string MessageProvider { get; set; } = "auto";
+        [Description("Sets the Y coordinate of the hint on a scale from 0-1000, where 0 represents the bottom of the screen (Doesn't apply for broadcasts)")]
+        public float HintYCoordinate { get; set; } = 300;
         [Description("Enable or disable Modules.")]
         public bool EnableQueue { get; set; } = true;
         public bool EnableKick { get; set; } = true;

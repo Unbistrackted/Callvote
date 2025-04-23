@@ -54,7 +54,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>embedded</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <LangVersion>7.3</LangVersion>
     <ErrorReport>prompt</ErrorReport>
     <DebugSymbols>true</DebugSymbols>
@@ -104,6 +104,9 @@
     </Reference>
     <Reference Include="Exiled.Permissions, Version=9.5.1.0, Culture=neutral, processorArchitecture=AMD64">
       <HintPath>..\packages\ExMod.Exiled.9.5.1\lib\net48\Exiled.Permissions.dll</HintPath>
+    </Reference>
+    <Reference Include="HintServiceMeow-Exiled %282%29">
+      <HintPath>..\..\..\..\Downloads\HintServiceMeow-Exiled (2).dll</HintPath>
     </Reference>
     <Reference Include="Mirror, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
