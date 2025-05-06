@@ -8,12 +8,6 @@ A plugin that allows calling and voting for **Kick**,
 Dead
 2/Counter-Strike: Global Offensive).
 
-You can change translations using the command ```callvote translation (countryCode/none)``` ~ **Requires a server restart**
-
-(Callvote currently has chinese, portuguese, russian and english translations.)
-
-This plugin uses Discord's Webhook to show the vote results by changing the discord_webhook setting.
-
 ![{99C91142-43DC-4685-A9DC-C906CEC4C5CC}](https://github.com/user-attachments/assets/f74318d3-f066-4abb-b24a-3cb0187f6dcf)
 
 ## Configuration Settings:
