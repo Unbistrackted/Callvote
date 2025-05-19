@@ -92,7 +92,7 @@ Dead
 
 ## Download
 
-This plugin requires [Exiled](https://github.com/ExMod-Team/EXILED/releases/tag/v9.5.1).
+This plugin requires [Exiled](https://github.com/ExSLMod-Team/EXILED/releases/tag/v9.6.0).
 
 You can download the latest version of Callvote [here](https://github.com/Unbistrackted/Callvote/releases/latest).
 
