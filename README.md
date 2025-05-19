@@ -110,6 +110,6 @@ You can download the latest version of Callvote [here](https://github.com/Unbist
 
 https://github.com/Playeroth and https://github.com/Edi369 for helping me with translations and adding webhook functionality.
 
-https://github.com/PatPeter for giving the permission to continue the development of [callvote](PatPeter/callvote).
+https://github.com/PatPeter for giving the permission to continue the development of [callvote](https://github.com/PatPeter/callvote).
 
 https://github.com/vladflotsky for giving adivice and guidance while I was rewritting the plugin.
