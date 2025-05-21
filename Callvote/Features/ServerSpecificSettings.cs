@@ -21,7 +21,7 @@ namespace Callvote.Features
                 MtfKeybindSetting = new KeybindSetting(890, Callvote.Instance.Translation.VoteKeybind.Replace("%Option%", Callvote.Instance.Translation.OptionMtf), KeyCode.I, hintDescription: Callvote.Instance.Translation.KeybindHint.Replace("%Option%", Callvote.Instance.Translation.OptionMtf));
                 CiKeybindSetting = new KeybindSetting(891, Callvote.Instance.Translation.VoteKeybind.Replace("%Option%", Callvote.Instance.Translation.OptionCi), KeyCode.O, hintDescription: Callvote.Instance.Translation.KeybindHint.Replace("%Option%", Callvote.Instance.Translation.OptionCi));
             }
-            CallvoteSettings = 
+            CallvoteSettings =
                 [
                 Callvote.Instance.SettingsHeader,
                 YesKeybindSetting,

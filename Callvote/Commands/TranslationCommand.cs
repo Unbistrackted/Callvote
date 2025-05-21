@@ -3,7 +3,6 @@ using CommandSystem;
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
 using System;
-using System.Linq;
 
 namespace Callvote.Commands
 {
