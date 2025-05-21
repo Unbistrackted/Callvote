@@ -6,7 +6,8 @@
 	<LangVersion>latest</LangVersion>
     <RootNamespace>Callvote</RootNamespace>
     <AssemblyName>Callvote</AssemblyName>
-    <DebugType>embedded</DebugType>
+	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+	<DebugType>embedded</DebugType>
     <Optimize>true</Optimize>
     <DefineConstants>TRACE</DefineConstants>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
