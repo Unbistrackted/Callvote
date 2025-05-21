@@ -1,210 +1,49 @@
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{0952A53A-A70E-4DAA-86A6-6560F2F3607B}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <TargetFramework>net48</TargetFramework>
+    <Platforms>x64</Platforms>
+	<LangVersion>latest</LangVersion>
     <RootNamespace>Callvote</RootNamespace>
     <AssemblyName>Callvote</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x64\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <OutputPath>bin\x64\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'EXILED|AnyCPU'">
-    <OutputPath>bin\EXILED\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
     <DebugType>embedded</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
-    <DebugSymbols>true</DebugSymbols>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'EXILED|x64'">
-    <OutputPath>bin\x64\EXILED\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
     <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <DefineConstants>TRACE</DefineConstants>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="0Harmony, Version=2.2.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Lib.Harmony.2.2.2\lib\net48\0Harmony.dll</HintPath>
+    <Reference Include="Assembly-CSharp-firstpass">
+      <HintPath>$(EXILED_REFERENCES)\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
-    <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\packages\ExMod.Exiled.9.5.1\lib\net48\Assembly-CSharp-Publicized.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="HintServiceMeow">
+      <HintPath>$(EXILED_REFERENCES)\HintServiceMeow.dll</HintPath>
     </Reference>
-    <Reference Include="Assembly-CSharp-firstpass, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Downloads\steamcmd\steamapps\common\SCP Secret Laboratory Dedicated Server\SCPSL_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
+    <Reference Include="Mirror">
+      <HintPath>$(EXILED_REFERENCES)\Mirror.dll</HintPath>
     </Reference>
-    <Reference Include="CommandSystem.Core, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ExMod.Exiled.9.5.1\lib\net48\CommandSystem.Core.dll</HintPath>
+    <Reference Include="RueI">
+      <HintPath>$(EXILED_REFERENCES)\RueI.dll</HintPath>
     </Reference>
-    <Reference Include="Exiled.API, Version=9.5.1.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\ExMod.Exiled.9.5.1\lib\net48\Exiled.API.dll</HintPath>
+    <Reference Include="Unity.TextMeshPro">
+      <HintPath>$(EXILED_REFERENCES)\Unity.TextMeshPro.dll</HintPath>
     </Reference>
-    <Reference Include="Exiled.CreditTags, Version=9.5.1.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\ExMod.Exiled.9.5.1\lib\net48\Exiled.CreditTags.dll</HintPath>
+    <Reference Include="UnityEngine">
+      <HintPath>$(EXILED_REFERENCES)\UnityEngine.dll</HintPath>
     </Reference>
-    <Reference Include="Exiled.CustomItems, Version=9.5.1.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\ExMod.Exiled.9.5.1\lib\net48\Exiled.CustomItems.dll</HintPath>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>$(EXILED_REFERENCES)\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
-    <Reference Include="Exiled.CustomRoles, Version=9.5.1.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\ExMod.Exiled.9.5.1\lib\net48\Exiled.CustomRoles.dll</HintPath>
-    </Reference>
-    <Reference Include="Exiled.Events, Version=9.5.1.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\ExMod.Exiled.9.5.1\lib\net48\Exiled.Events.dll</HintPath>
-    </Reference>
-    <Reference Include="Exiled.Loader, Version=9.5.1.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\ExMod.Exiled.9.5.1\lib\net48\Exiled.Loader.dll</HintPath>
-    </Reference>
-    <Reference Include="Exiled.Permissions, Version=9.5.1.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\ExMod.Exiled.9.5.1\lib\net48\Exiled.Permissions.dll</HintPath>
-    </Reference>
-    <Reference Include="HintServiceMeow-Exiled %282%29">
-      <HintPath>..\..\..\..\Downloads\HintServiceMeow-Exiled (2).dll</HintPath>
-    </Reference>
-    <Reference Include="Mirror, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Downloads\steamcmd\steamapps\common\SCP Secret Laboratory Dedicated Server\SCPSL_Data\Managed\Mirror.dll</HintPath>
-    </Reference>
-    <Reference Include="NorthwoodLib, Version=1.3.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ExMod.Exiled.9.5.1\lib\net48\NorthwoodLib.dll</HintPath>
-    </Reference>
-    <Reference Include="PluginAPI, Version=13.1.5.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\ExMod.Exiled.9.5.1\lib\net48\PluginAPI.dll</HintPath>
-    </Reference>
-    <Reference Include="RueI, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Downloads\RueI.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-    <Reference Include="Unity.TextMeshPro, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Downloads\steamcmd\steamapps\common\SCP Secret Laboratory Dedicated Server\SCPSL_Data\Managed\Unity.TextMeshPro.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Downloads\steamcmd\steamapps\common\SCP Secret Laboratory Dedicated Server\SCPSL_Data\Managed\UnityEngine.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Downloads\steamcmd\steamapps\common\SCP Secret Laboratory Dedicated Server\SCPSL_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Downloads\steamcmd\steamapps\common\SCP Secret Laboratory Dedicated Server\SCPSL_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
-    </Reference>
-    <Reference Include="YamlDotNet, Version=16.0.0.0, Culture=neutral, PublicKeyToken=ec19458f3c15af5e, processorArchitecture=MSIL">
-      <HintPath>..\packages\YamlDotNet.16.3.0\lib\net47\YamlDotNet.dll</HintPath>
+    <Reference Include="UnityEngine.PhysicsModule">
+      <HintPath>$(EXILED_REFERENCES)\UnityEngine.PhysicsModule.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="API\VotingsTemplate\CustomVoting.cs" />
-    <Compile Include="Commands\TranslationCommand.cs" />
-    <Compile Include="Features\ChangeTranslation.cs" />
-    <Compile Include="Features\DcWebhook.cs" />
-    <Compile Include="Features\DisplayMessageHelper.cs" />
-    <Compile Include="Enums\VotingTypeEnum.cs" />
-    <Compile Include="Extensions\QueueExtensions.cs" />
-    <Compile Include="Features\ServerSpecificSettings.cs" />
-    <Compile Include="Commands\HelpCommand.cs" />
-    <Compile Include="Commands\ParentCommands\CallVoteCommand.cs" />
-    <Compile Include="Commands\ParentCommands\CallVoteQueueCommand.cs" />
-    <Compile Include="Commands\QueueCommands\CheckQueueCommand.cs" />
-    <Compile Include="Commands\QueueCommands\ClearQueueCommand.cs" />
-    <Compile Include="Commands\QueueCommands\PauseQueueCommand.cs" />
-    <Compile Include="Commands\QueueCommands\RemovePlayerFromQueue.cs" />
-    <Compile Include="Commands\QueueCommands\RemoveTypeFromQueueCommand.cs" />
-    <Compile Include="Commands\QueueCommands\RemoveXVotingFromQueue.cs" />
-    <Compile Include="Commands\VotingCommands\BinaryCommand.cs" />
-    <Compile Include="Commands\VotingCommands\CustomVotingCommand.cs" />
-    <Compile Include="Commands\VotingCommands\FFCommand.cs" />
-    <Compile Include="Commands\VotingCommands\KickCommand.cs" />
-    <Compile Include="Commands\VotingCommands\KillCommand.cs" />
-    <Compile Include="Commands\VotingCommands\NukeCommand.cs" />
-    <Compile Include="Commands\VotingCommands\RespawnWaveCommand.cs" />
-    <Compile Include="Commands\VotingCommands\RestartRoundCommand.cs" />
-    <Compile Include="Commands\VotingCommands\RigCommand.cs" />
-    <Compile Include="Commands\VotingCommands\StopVoteCommand.cs" />
-    <Compile Include="Commands\VotingCommands\VoteCommand.cs" />
-    <Compile Include="Configuration\Config.cs" />
-    <Compile Include="Callvote.cs" />
-    <Compile Include="EventHandlers.cs" />
-    <Compile Include="Features\Voting.cs" />
-    <Compile Include="API\VotingsTemplate\BinaryVoting.cs" />
-    <Compile Include="API\VotingsTemplate\FFVoting.cs" />
-    <Compile Include="API\VotingsTemplate\KickVoting.cs" />
-    <Compile Include="API\VotingsTemplate\KillVoting.cs" />
-    <Compile Include="API\VotingsTemplate\NukeVoting.cs" />
-    <Compile Include="API\VotingsTemplate\RespawnWaveVoting.cs" />
-    <Compile Include="API\VotingsTemplate\RestartRoundVoting.cs" />
-    <Compile Include="Interfaces\IVotingTemplate.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SoftDependency.cs" />
-    <Compile Include="Configuration\Translation.cs" />
-    <Compile Include="API\VotingHandler.cs" />
-    <None Include="Translations\portuguese.yml" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="packages.config" />
-    <None Include="Translations\chinese.yml" />
-    <None Include="Translations\english.yml" />
-    <None Include="Translations\russian.yml" />
-  </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent />
-  </PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="ExMod.Exiled" Version="9.6.0" />
+		<PackageReference Include="Lib.Harmony" Version="2.2.2" />
+		<PackageReference Include="YamlDotNet" Version="16.0.0" />
+	</ItemGroup>
+  
 </Project>

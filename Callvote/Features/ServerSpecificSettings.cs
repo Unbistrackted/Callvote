@@ -1,14 +1,6 @@
-﻿using Exiled.API.Features;
-using Exiled.API.Features.Core.UserSettings;
-using Exiled.API.Features.Pools;
-using MEC;
-using Microsoft.Win32;
+﻿using Exiled.API.Features.Core.UserSettings;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
 using UnityEngine;
-using UserSettings.ServerSpecific;
-using YamlDotNet.Serialization;
 
 namespace Callvote.Features
 {
@@ -29,12 +21,19 @@ namespace Callvote.Features
                 MtfKeybindSetting = new KeybindSetting(890, Callvote.Instance.Translation.VoteKeybind.Replace("%Option%", Callvote.Instance.Translation.OptionMtf), KeyCode.I, hintDescription: Callvote.Instance.Translation.KeybindHint.Replace("%Option%", Callvote.Instance.Translation.OptionMtf));
                 CiKeybindSetting = new KeybindSetting(891, Callvote.Instance.Translation.VoteKeybind.Replace("%Option%", Callvote.Instance.Translation.OptionCi), KeyCode.O, hintDescription: Callvote.Instance.Translation.KeybindHint.Replace("%Option%", Callvote.Instance.Translation.OptionCi));
             }
-            CallvoteSettings = SettingBase.Register(new SettingBase[] { Callvote.Instance.SettingsHeader, YesKeybindSetting, NoKeybindSetting, MtfKeybindSetting, CiKeybindSetting });
-            SettingBase.SendToAll();
+            CallvoteSettings = 
+                [
+                Callvote.Instance.SettingsHeader,
+                YesKeybindSetting,
+                NoKeybindSetting,
+                MtfKeybindSetting,
+                CiKeybindSetting
+                ];
+            SettingBase.Register(CallvoteSettings);
         }
         public static void UnregisterSettings()
         {
-            SettingBase.Unregister();
+            SettingBase.Unregister(settings: CallvoteSettings);
         }
 
     }

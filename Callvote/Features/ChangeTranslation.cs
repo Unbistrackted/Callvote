@@ -4,55 +4,62 @@ using Exiled.Loader;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text;
 using YamlDotNet.RepresentationModel;
-using Log = Exiled.API.Features.Log;
-using Server = PluginAPI.Core.Server;
 
 namespace Callvote.Features
 {
     public class ChangeTranslation
     {
-        public static void LoadTranslation(string countryCode)
+        public static void LoadTranslation(string language)
         {
             try
             {
                 using (WebClient client = new WebClient())
                 {
-                    string githubTranslationLink = $"https://raw.githubusercontent.com/Unbistrackted/Callvote/EXILED/Callvote/Translations/{GetLanguage(countryCode)}.yml";
+                    string githubTranslationLink = $"https://raw.githubusercontent.com/Unbistrackted/Callvote/EXILED/Callvote/Translations/{GetLanguage(language)}.yml";
                     string path = LoaderPlugin.Config.ConfigType == ConfigType.Default ? Paths.Translations : Paths.GetTranslationPath(Callvote.Instance.Prefix);
                     RewriteTranslationFile(client.DownloadString(githubTranslationLink), path);
                 }
                 Callvote.Instance.LoadTranslation();
+                ServerSpecificSettings.UnregisterSettings();
+                ServerSpecificSettings.RegisterSettings();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Log.Error($"Error while loading translation:\n {ex.StackTrace}");
                 TranslationManager.Reload();
             }
         }
 
 
-        private static string GetLanguage(string countryCode)
+        private static string GetLanguage(string input)
         {
-            if (!LanguageByCountryCodeDictionary.TryGetValue(countryCode, out string language))
+            if (LanguageByCountryCodeDictionary.Values.Contains(input))
+            {
+                return input;
+            }
+            if (!LanguageByCountryCodeDictionary.TryGetValue(input, out string language))
             {
                 try
                 {
                     using (WebClient client = new WebClient())
                     {
-                        string url = $"http://ipinfo.io/{Server.ServerIpAddress}/country";
-                        countryCode = client.DownloadString(url).Trim();
+                        string url = $"http://ipinfo.io/{Server.IpAddress}/country";
+                        input = client.DownloadString(url).Trim();
                     }
                 }
                 catch (WebException ex)
                 {
-                    countryCode = "EN";
+                    input = "EN";
                     Log.Error(ex.Message);
                 }
 
-                if (!LanguageByCountryCodeDictionary.TryGetValue(countryCode, out language))
+                if (!LanguageByCountryCodeDictionary.TryGetValue(input, out language))
                 {
+                    Log.Info("aqui");
                     language = LanguageByCountryCodeDictionary["EN"];
                 }
             }
@@ -78,12 +85,10 @@ namespace Callvote.Features
             YamlMappingNode localTranslationsRoot = (YamlMappingNode)localTranslations.Documents[0].RootNode;
 
             YamlMappingNode githubCallvote = (YamlMappingNode)githubTranslationRoot.Children[new YamlScalarNode(Callvote.Instance.Prefix)];
-            YamlMappingNode localCallvote = (YamlMappingNode)localTranslationsRoot.Children[new YamlScalarNode(Callvote.Instance.Prefix)];
-
-
-            if (!localTranslationsRoot.Children.ContainsKey(Callvote.Instance.Prefix))
+            YamlMappingNode localCallvote = localTranslationsRoot;
+            if (localTranslationsRoot.Children.ContainsKey(new YamlScalarNode(Callvote.Instance.Prefix)))
             {
-                localTranslationsRoot.Add(Callvote.Instance.Prefix, githubTranslationRoot);
+                localCallvote = (YamlMappingNode)localTranslationsRoot.Children[new YamlScalarNode(Callvote.Instance.Prefix)];
             }
 
             foreach (var kvp in githubCallvote.Children)
@@ -99,14 +104,15 @@ namespace Callvote.Features
 
         internal static IReadOnlyDictionary<string, string> LanguageByCountryCodeDictionary { get; } = new Dictionary<string, string>()
         {
-            ["EN"] = "english",
-            ["CN"] = "chinese",
-            ["BR"] = "portuguese",
-            ["PT"] = "portuguese",
-            ["RU"] = "russian",
-            ["KZ"] = "russian",
-            ["BY"] = "russian",
-            ["UA"] = "russian",
+            ["en"] = "english",
+            ["cn"] = "chinese",
+            ["br"] = "portuguese",
+            ["pt"] = "portuguese",
+            ["ru"] = "russian",
+            ["kz"] = "russian",
+            ["by"] = "russian",
+            ["ua"] = "russian",
+            ["fr"] = "french",
         };
     }
 }

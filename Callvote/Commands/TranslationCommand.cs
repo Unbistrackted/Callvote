@@ -3,6 +3,7 @@ using CommandSystem;
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
 using System;
+using System.Linq;
 
 namespace Callvote.Commands
 {
@@ -31,7 +32,9 @@ namespace Callvote.Commands
                 return true;
             }
 
-            ChangeTranslation.LoadTranslation(args.At(0).ToUpper());
+            Log.Info(args.At(0).ToLower());
+
+            ChangeTranslation.LoadTranslation(args.At(0).ToLower());
 
             response = Callvote.Instance.Translation.TranslationChanged;
             return true;
