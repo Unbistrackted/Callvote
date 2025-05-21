@@ -82,7 +82,7 @@ Dead
  callvote queue rp     | .callvote queue rp     | [player]                                             | Removes all votings by a Player from the Queue
  callvote queue rt     | .callvote queue rt     | [votingType]                                         | Removes all votings of votingType X from the Queue 
  callvote queue ri     | .callvote queue ri     | [index]                                              | Removes a voting with index X from the Queue
- callvote translation  | .callvote translation  | [none/countryCode] - RU, CN, PT, BR, EN, KZ, BY, UA  | Changes Callvote's translation (If nothing is passed as an argument, tries to find server location.)
+ callvote translation  | .callvote translation  | [none/language/countryCode]                          | Changes Callvote's translation (If nothing is passed as an argument or countryCoude/language is wrong, tries to find server location.)
  stopvote              | .callvote stopvote     | [none]                                               | Stops a vote currently in progress       
  yes (or translation)  | .yes (or translation)  | [none]                                               | Vote option                              
  no  (or translation)  | .no  (or translation)  | [none]                                               | Vote option                              
