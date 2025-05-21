@@ -3,6 +3,7 @@ using CommandSystem;
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
 using System;
+using System.Linq;
 
 namespace Callvote.Commands
 {
@@ -24,16 +25,13 @@ namespace Callvote.Commands
                 return false;
             }
 
-            if (args.Count == 0)
+            string language = args.ElementAtOrDefault(0)?.ToLower() ?? string.Empty;
+
+            if (!ChangeTranslation.LoadTranslation(language))
             {
-                ChangeTranslation.LoadTranslation("auto");
-                response = Callvote.Instance.Translation.TranslationChanged;
-                return true;
+                response = "Something went wrong. Please check the server console.";
+                return false;
             }
-
-            Log.Info(args.At(0).ToLower());
-
-            ChangeTranslation.LoadTranslation(args.At(0).ToLower());
 
             response = Callvote.Instance.Translation.TranslationChanged;
             return true;

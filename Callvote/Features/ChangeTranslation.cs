@@ -13,7 +13,7 @@ namespace Callvote.Features
 {
     public class ChangeTranslation
     {
-        public static void LoadTranslation(string language)
+        public static bool LoadTranslation(string language)
         {
             try
             {
@@ -26,11 +26,13 @@ namespace Callvote.Features
                 Callvote.Instance.LoadTranslation();
                 ServerSpecificSettings.UnregisterSettings();
                 ServerSpecificSettings.RegisterSettings();
+                return true;
             }
             catch (Exception ex)
             {
-                Log.Error($"Error while loading translation:\n {ex.StackTrace}");
+                Log.Error($"Error while loading translation:\n {ex.Message}:\n {ex.StackTrace}");
                 TranslationManager.Reload();
+                return false;
             }
         }
 
@@ -48,19 +50,18 @@ namespace Callvote.Features
                     using (WebClient client = new WebClient())
                     {
                         string url = $"http://ipinfo.io/{Server.IpAddress}/country";
-                        input = client.DownloadString(url).Trim();
+                        input = client.DownloadString(url).Trim().ToLower();
                     }
                 }
                 catch (WebException ex)
                 {
-                    input = "EN";
+                    input = "en";
                     Log.Error(ex.Message);
                 }
 
                 if (!LanguageByCountryCodeDictionary.TryGetValue(input, out language))
                 {
-                    Log.Info("aqui");
-                    language = LanguageByCountryCodeDictionary["EN"];
+                    language = LanguageByCountryCodeDictionary["en"];
                 }
             }
             return language;
