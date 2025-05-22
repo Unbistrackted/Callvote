@@ -110,14 +110,14 @@ namespace Callvote.Features
         private void RegisterVoteCommands()
         {
             bool alreadyRegistered = false;
-            foreach (KeyValuePair<string, string> kvp in Options.ToList())
+            foreach (KeyValuePair<string, string> kvp in Options)
             {
                 if (QueryProcessor.DotCommandHandler.TryGetCommand(kvp.Key, out ICommand existingCommand))
                 {
                     alreadyRegistered = true;
                 }
             }
-            foreach (KeyValuePair<string, string> kvp in Options.ToList())
+            foreach (KeyValuePair<string, string> kvp in Options)
             {
                 VoteCommand voteCommand = new VoteCommand(kvp.Key);
                 if (alreadyRegistered)
@@ -128,7 +128,7 @@ namespace Callvote.Features
                     Counter.TryAdd("cv" + kvp.Key, 0);
                     voteCommand.Command = "cv" + kvp.Key;
                 }
-                CommandList.Add(kvp.Value, voteCommand);
+                CommandList.Add(kvp.Key, voteCommand);
                 QueryProcessor.DotCommandHandler.RegisterCommand(voteCommand);
             }
         }
