@@ -90,7 +90,7 @@ namespace Callvote.API
                 }
                 DisplayMessageHelper.DisplayWhileVotingMessage(firstMessage);
                 timerCounter++;
-                yield return Timing.WaitForSeconds(1f);
+                yield return Timing.WaitForSeconds(Callvote.Instance.Config.RefreshInterval);
             }
         }
 

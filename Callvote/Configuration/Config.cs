@@ -7,7 +7,7 @@ namespace Callvote.Configuration
     {
         public bool IsEnabled { get; set; } = true;
         public bool Debug { get; set; } = false;
-        [Description("Which message provider should Callvote use? You can choose between auto, hsm, ruei, or bc. (In auto mode, if both HSM and RUEI are present on the server, it falls back to broadcasts.)")]
+        [Description("Which message provider should Callvote use? You can choose between auto, hsm, ruei, or broadcasts / bc. (In auto mode, if both HSM and RUEI are present on the server, it falls back to broadcasts.)")]
         public string MessageProvider { get; set; } = "auto";
         [Description("Sets the Y coordinate of the hint on a scale from 0-1000, where 0 represents the bottom of the screen (Doesn't apply for broadcasts)")]
         public float HintYCoordinate { get; set; } = 300;
@@ -39,6 +39,10 @@ namespace Callvote.Configuration
         public int ThresholdRestartRound { get; set; } = 30;
         [Description("Changes Callvote's message size. (0 = Callvote's default size calculation algorithm)")]
         public int MessageSize { get; set; } = 0;
+        [Description("Changes message's refresh time.")]
+        public float RefreshInterval { get; set; } = 1f;
+        [Description("Changes Callvote's results message duration.")]
+        public int FinalResultsDuration { get; set; } = 5;
         [Description("Changes Callvote's Queue size if enabled.")]
         public int QueueSize { get; set; } = 5;
         [Description("Add a Discord Webhook if you want to send a Voting Result message to discord.")]

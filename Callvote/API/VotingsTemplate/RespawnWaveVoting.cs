@@ -3,6 +3,7 @@ using Callvote.Features;
 using Callvote.Interfaces;
 using Exiled.API.Features;
 using Respawning;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -21,21 +22,21 @@ namespace Callvote.API.VotingsTemplate
                 int ciVotePercent = (int)(vote.Counter[Callvote.Instance.Translation.CommandChaosInsurgency] / (float)Player.List.Count() * 100f);
                 if (mtfVotePercent >= Callvote.Instance.Config.ThresholdRespawnWave)
                 {
-                    Map.Broadcast(5, Callvote.Instance.Translation.MtfRespawn
-                        .Replace("%VotePercent%", mtfVotePercent + "%"));
+                    MessageProvider.Provider.DisplayMessage(TimeSpan.FromSeconds(Callvote.Instance.Config.FinalResultsDuration), $"<size={DisplayMessageHelper.CalculateMessageSize(Callvote.Instance.Translation.MtfRespawn)}>{Callvote.Instance.Translation.MtfRespawn
+                        .Replace("%VotePercent%", mtfVotePercent + "%")}</size>");
                     WaveManager.Spawn(WaveManager.Waves[0]);
                 }
                 else if (ciVotePercent >= Callvote.Instance.Config.ThresholdRespawnWave)
                 {
-                    Map.Broadcast(5, Callvote.Instance.Translation.CiRespawn
-                        .Replace("%VotePercent%", ciVotePercent.ToString()));
+                    MessageProvider.Provider.DisplayMessage(TimeSpan.FromSeconds(Callvote.Instance.Config.FinalResultsDuration), $"<size={DisplayMessageHelper.CalculateMessageSize(Callvote.Instance.Translation.CiRespawn)}>{Callvote.Instance.Translation.CiRespawn
+                        .Replace("%VotePercent%", ciVotePercent.ToString())}</size>");
                     WaveManager.Spawn(WaveManager.Waves[1]);
                 }
                 else
                 {
-                    Map.Broadcast(5, Callvote.Instance.Translation.NoSuccessFullRespawn
+                    MessageProvider.Provider.DisplayMessage(TimeSpan.FromSeconds(Callvote.Instance.Config.FinalResultsDuration), $"<size={DisplayMessageHelper.CalculateMessageSize(Callvote.Instance.Translation.NoSuccessFullRespawn)}>{Callvote.Instance.Translation.NoSuccessFullRespawn
                         .Replace("%VotePercent%", noVotePercent.ToString())
-                        .Replace("%ThresholdRespawnWave%", Callvote.Instance.Config.ThresholdRespawnWave.ToString()));
+                        .Replace("%ThresholdRespawnWave%", Callvote.Instance.Config.ThresholdRespawnWave.ToString())}</size>");
                 }
             },
             AddOptions())

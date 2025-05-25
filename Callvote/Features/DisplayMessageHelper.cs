@@ -35,7 +35,7 @@ namespace Callvote.Features
                     .Replace("%OptionKey%", kvp.Key)
                     .Replace("%Counter%", VotingHandler.CurrentVoting.Counter[kvp.Key].ToString());
             }
-            MessageProvider.Provider.DisplayMessage(TimeSpan.FromSeconds(1), $"<size={CalculateMessageSize(timerMessage)}>{timerMessage}</size>");
+            MessageProvider.Provider.DisplayMessage(TimeSpan.FromSeconds(Callvote.Instance.Config.RefreshInterval), $"<size={CalculateMessageSize(timerMessage)}>{timerMessage}</size>");
         }
 
         public static void DisplayResultsMessage()
@@ -48,18 +48,24 @@ namespace Callvote.Features
                     .Replace("%OptionKey%", kvp.Key)
                     .Replace("%Counter%", VotingHandler.CurrentVoting.Counter[kvp.Key].ToString());
             }
-            MessageProvider.Provider.DisplayMessage(TimeSpan.FromSeconds(5), $"<size={CalculateMessageSize(resultsMessage)}>{resultsMessage}</size>");
+            MessageProvider.Provider.DisplayMessage(TimeSpan.FromSeconds(Callvote.Instance.Config.FinalResultsDuration), $"<size={CalculateMessageSize(resultsMessage)}>{resultsMessage}</size>");
         }
 
-        private static int CalculateMessageSize(string message)
+        public static int CalculateMessageSize(string message)
         {
-            int textsize = message.Length / 10;
+            int sizeReduction = message.Length / 4;
+            int defaultSize = 52;
             if (Callvote.Instance.Config.MessageSize != 0)
             {
-                textsize = Callvote.Instance.Config.MessageSize;
-                return textsize;
+                sizeReduction = Callvote.Instance.Config.MessageSize;
+                return sizeReduction;
             }
-            return 52 - textsize;
+            defaultSize -= sizeReduction;
+            if (defaultSize < 30)
+            {
+                defaultSize = 30;
+            }
+            return defaultSize;
         }
     }
 }

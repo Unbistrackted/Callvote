@@ -15,7 +15,7 @@ Dead
  Setting Key                   | Value Type | Default Value | Description                                                                                    
 -------------------------------|------------|---------------|------------------------------------------------------------------------------------------------
  is_enabled                    | bool       | true          | Enables or disables the plugin     
- message_provider              | string     | Auto          | Which message provider should Callvote use? You can choose between auto, hsm, ruei, or broadcasts. (In auto mode, if both HSM and RUEI are present on the server, it falls back to broadcasts.)    
+ message_provider              | string     | Auto          | Which message provider should Callvote use? You can choose between auto, hsm, ruei, or broadcasts / bc. (In auto mode, if both HSM and RUEI are present on the server, it falls back to broadcasts.)    
  hint_y_coordinate             | float      | 300           | Sets the Y coordinate of the hint on a scale from 0-1000, where 0 represents the bottom of the screen (Doesn't apply for broadcasts)  
  enable_queue                  | boolean    | true          | Enables or disables Callvote's queue system
  enable_kick                   | boolean    | true          | Can players use **callvote kick**?                                                             
@@ -38,8 +38,10 @@ Dead
  threshold_nuke                | integer    | 30            | Percentage threshold required to explode ALPHA WARHEAD.      
  threshold_ff                  | integer    | 30            | Percentage threshold required for Friendly Fire be enabled or disabled
  threshold_respawn_wave        | integer    | 30            | Percentage threshold required to respawn a MTF or CI wave.                                     
- threshold_restart_round       | integer    | 30            | Percentage threshold required to restart the round.                                            
+ threshold_restart_round       | integer    | 30            | Percentage threshold required to restart the round.        
  broadcast_size                | int        | 0             | Changes the broadcast size to user's preference, leave it at 0 to use Callvote's re-size logic 
+ refresh_interval              | float      | 1             | Changes message's refresh time.
+ final_results_duration        | int        | 5             | Changes Callvote's results message duration.
  queue_size                    | int        | 5             | Changes Callvote's Queue size if enabled. 
  discord_webhook               | string     |               | If a Discord Webhook is present, send a message via that Webhook
 

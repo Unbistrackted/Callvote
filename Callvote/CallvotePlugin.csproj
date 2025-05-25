@@ -40,11 +40,15 @@
       <HintPath>$(EXILED_REFERENCES)\UnityEngine.PhysicsModule.dll</HintPath>
     </Reference>
   </ItemGroup>
+  
+  <ItemGroup>
+    <Compile Remove="*.yml" />
+  </ItemGroup>
 
-	<ItemGroup>
-		<PackageReference Include="ExMod.Exiled" Version="9.6.0" />
-		<PackageReference Include="Lib.Harmony" Version="2.2.2" />
-		<PackageReference Include="YamlDotNet" Version="16.0.0" />
-	</ItemGroup>
+  <ItemGroup>
+	<PackageReference Include="ExMod.Exiled" Version="9.6.0" />
+	<PackageReference Include="Lib.Harmony" Version="2.2.2" />
+	<PackageReference Include="YamlDotNet" Version="16.0.0" />
+   </ItemGroup>
   
 </Project>

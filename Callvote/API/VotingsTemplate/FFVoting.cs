@@ -2,6 +2,7 @@
 using Callvote.Features;
 using Callvote.Interfaces;
 using Exiled.API.Features;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -23,16 +24,16 @@ namespace Callvote.API.VotingsTemplate
                     string msg = Server.FriendlyFire
                         ? Callvote.Instance.Translation.DisablingFriendlyFire
                         : Callvote.Instance.Translation.EnablingFriendlyFire;
-                    Map.Broadcast(5, msg.Replace("%VotePercent%", yesVotePercent.ToString()));
+                    MessageProvider.Provider.DisplayMessage(TimeSpan.FromSeconds(Callvote.Instance.Config.FinalResultsDuration), $"<size={DisplayMessageHelper.CalculateMessageSize(msg)}>{msg.Replace("%VotePercent%", yesVotePercent.ToString())}</size>");
                 }
                 else
                 {
                     string msg = Server.FriendlyFire
                         ? Callvote.Instance.Translation.NoSuccessFullEnableFf
                         : Callvote.Instance.Translation.NoSuccessFullDisableFf;
-                    Map.Broadcast(5, msg
+                    MessageProvider.Provider.DisplayMessage(TimeSpan.FromSeconds(Callvote.Instance.Config.FinalResultsDuration), $"<size={DisplayMessageHelper.CalculateMessageSize(msg)}>{msg
                         .Replace("%VotePercent%", yesVotePercent.ToString())
-                        .Replace("%ThresholdFF%", Callvote.Instance.Config.ThresholdFf.ToString()));
+                        .Replace("%ThresholdFF%", Callvote.Instance.Config.ThresholdFf.ToString())}</size>");
                 }
             },
             AddOptions())

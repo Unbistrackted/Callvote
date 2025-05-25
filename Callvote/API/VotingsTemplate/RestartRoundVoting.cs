@@ -2,6 +2,7 @@
 using Callvote.Features;
 using Callvote.Interfaces;
 using Exiled.API.Features;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -19,15 +20,15 @@ namespace Callvote.API.VotingsTemplate
                 int noVotePercent = (int)(vote.Counter[Callvote.Instance.Translation.CommandNo] / (float)Player.List.Count() * 100f);
                 if (yesVotePercent >= Callvote.Instance.Config.ThresholdRestartRound && yesVotePercent > noVotePercent)
                 {
-                    Map.Broadcast(5, Callvote.Instance.Translation.RoundRestarting
-                        .Replace("%VotePercent%", yesVotePercent.ToString()));
+                    MessageProvider.Provider.DisplayMessage(TimeSpan.FromSeconds(Callvote.Instance.Config.FinalResultsDuration), $"<size={DisplayMessageHelper.CalculateMessageSize(Callvote.Instance.Translation.RoundRestarting)}>{Callvote.Instance.Translation.RoundRestarting
+                        .Replace("%VotePercent%", yesVotePercent.ToString())}</size>");
                     Round.Restart();
                 }
                 else
                 {
-                    Map.Broadcast(5, Callvote.Instance.Translation.NoSuccessFullRestart
+                    MessageProvider.Provider.DisplayMessage(TimeSpan.FromSeconds(Callvote.Instance.Config.FinalResultsDuration), $"<size={DisplayMessageHelper.CalculateMessageSize(Callvote.Instance.Translation.NoSuccessFullRestart)}>{Callvote.Instance.Translation.NoSuccessFullRestart
                         .Replace("%VotePercent%", yesVotePercent.ToString())
-                        .Replace("%ThresholdRestartRound%", Callvote.Instance.Config.ThresholdRestartRound.ToString()));
+                        .Replace("%ThresholdRestartRound%", Callvote.Instance.Config.ThresholdRestartRound.ToString())}</size>");
                 }
             },
             AddOptions())

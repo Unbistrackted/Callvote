@@ -2,6 +2,7 @@
 using Callvote.Features;
 using Callvote.Interfaces;
 using Exiled.API.Features;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -19,15 +20,15 @@ namespace Callvote.API.VotingsTemplate
                 int noVotePercent = (int)(vote.Counter[Callvote.Instance.Translation.CommandNo] / (float)Player.List.Count() * 100f);
                 if (yesVotePercent >= Callvote.Instance.Config.ThresholdNuke && yesVotePercent > noVotePercent)
                 {
-                    Map.Broadcast(5, Callvote.Instance.Translation.FoundationNuked
-                        .Replace("%VotePercent%", yesVotePercent.ToString()));
+                    MessageProvider.Provider.DisplayMessage(TimeSpan.FromSeconds(Callvote.Instance.Config.FinalResultsDuration), $"<size={DisplayMessageHelper.CalculateMessageSize(Callvote.Instance.Translation.FoundationNuked)}>{Callvote.Instance.Translation.FoundationNuked
+                        .Replace("%VotePercent%", yesVotePercent.ToString())}</size>");
                     Warhead.Start();
                 }
                 else
                 {
-                    Map.Broadcast(5, Callvote.Instance.Translation.NoSuccessFullNuke
+                    MessageProvider.Provider.DisplayMessage(TimeSpan.FromSeconds(Callvote.Instance.Config.FinalResultsDuration), $"<size={DisplayMessageHelper.CalculateMessageSize(Callvote.Instance.Translation.NoSuccessFullNuke)}>{Callvote.Instance.Translation.NoSuccessFullNuke
                         .Replace("%VotePercent%", yesVotePercent.ToString())
-                        .Replace("%ThresholdNuke%", Callvote.Instance.Config.ThresholdNuke.ToString()));
+                        .Replace("%ThresholdNuke%", Callvote.Instance.Config.ThresholdNuke.ToString())}</size>");
                 }
             },
             AddOptions())

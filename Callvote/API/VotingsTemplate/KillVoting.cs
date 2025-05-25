@@ -3,6 +3,7 @@ using Callvote.Features;
 using Callvote.Interfaces;
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -23,21 +24,20 @@ namespace Callvote.API.VotingsTemplate
                     if (!ofender.CheckPermission("cv.untouchable"))
                     {
                         ofender.Kill(reason);
-                        Map.Broadcast(8, Callvote.Instance.Translation.PlayerKilled
+                        MessageProvider.Provider.DisplayMessage(TimeSpan.FromSeconds(Callvote.Instance.Config.FinalResultsDuration), $"<size={DisplayMessageHelper.CalculateMessageSize(Callvote.Instance.Translation.PlayerKilled)}>{Callvote.Instance.Translation.PlayerKilled
                             .Replace("%VotePercent%", yesVotePercent.ToString())
                             .Replace("%Player%", player.Nickname)
                             .Replace("%Offender%", ofender.Nickname)
-                            .Replace("%Reason%", reason));
+                            .Replace("%Reason%", reason)}</size>");
                     }
-                    if (!ofender.CheckPermission("cv.untouchable")) ofender.Kill(reason);
-                    if (ofender.CheckPermission("cv.untouchable")) ofender.Broadcast(5, Callvote.Instance.Translation.Untouchable.Replace("%VotePercent%", yesVotePercent.ToString()));
+                    if (ofender.CheckPermission("cv.untouchable")) ofender.Broadcast((ushort)Callvote.Instance.Config.FinalResultsDuration, Callvote.Instance.Translation.Untouchable.Replace("%VotePercent%", yesVotePercent.ToString()));
                 }
                 else
                 {
-                    Map.Broadcast(5, Callvote.Instance.Translation.NoSuccessFullKill
+                    MessageProvider.Provider.DisplayMessage(TimeSpan.FromSeconds(Callvote.Instance.Config.FinalResultsDuration), $"<size={DisplayMessageHelper.CalculateMessageSize(Callvote.Instance.Translation.NoSuccessFullKill)}>{Callvote.Instance.Translation.NoSuccessFullKill
                         .Replace("%VotePercent%", yesVotePercent.ToString())
                         .Replace("%ThresholdKill%", Callvote.Instance.Config.ThresholdKick.ToString())
-                        .Replace("%Offender%", ofender.Nickname));
+                        .Replace("%Offender%", ofender.Nickname)}</size>");
                 }
             },
             AddOptions())

@@ -114,6 +114,8 @@ namespace Callvote.Features
             ["by"] = "russian",
             ["ua"] = "russian",
             ["fr"] = "french",
+            ["tr"] = "turkish",
+            ["cy"] = "turkish"
         };
     }
 }
