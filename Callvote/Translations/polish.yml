@@ -70,7 +70,7 @@ Callvote:
   voting_enqueued: '<color=#EDF193>Dodano głosowanie do kolejki.</color>'
   type_not_found: 'Nie znaleziono głosowania typu <color=red>%Type%</color>'
   invalid_argument: 'Niepoprawny argument.'
-  translation_changed: 'Changed translation to: Polski (by .piwnica2137)'
+  translation_changed: 'Zmieniono język na: Polski (by .piwnica2137)'
   # Commands:
   command_yes: 'tak'
   command_no: 'nie'
