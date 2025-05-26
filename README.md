@@ -1,4 +1,4 @@
-# Callvote ![Downloads](https://img.shields.io/github/downloads/Unbistrackted/Callvote/total)
+# Callvote ![Version](https://img.shields.io/github/v/release/Unbistrackted/Callvote?style=plastic&label=Version&color=dc3e3e) ![Downloads](https://img.shields.io/github/downloads/Unbistrackted/Callvote/total?style=plastic&label=Downloads&color=50f63f) 
 
 **The sucessor of [callvote](https://github.com/PatPeter/callvote).**
 
