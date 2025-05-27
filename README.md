@@ -86,11 +86,11 @@ Dead
  callvote queue ri     | cv.managequeue         | [index]                                              | Removes a voting with index X from the Queue
  callvote translation  | cv.managequeue         | [none/language/countryCode]                          | Changes Callvote's translation (If nothing is passed as an argument or countryCoude/language is wrong, tries to find server location.)
  stopvote              | cv.stopvote            | [none]                                               | Stops a vote currently in progress       
- yes (or translation)  | .yes (or translation)  | [none]                                               | Vote option                              
- no  (or translation)  | .no  (or translation)  | [none]                                               | Vote option                              
- mtf (or translation)  | .mtf (or translation)  | [none]                                               | Vote option                              
- ci  (or translation)  | .ci  (or translation)  | [none]                                               | Vote option                              
- (custom)              | .(custom)              | [none]                                               | Vote option                              
+ .yes (or translation) |                        | [none]                                               | Vote option                              
+ .no  (or translation) |                        | [none]                                               | Vote option                              
+ .mtf (or translation) |                        | [none]                                               | Vote option                              
+ .ci  (or translation) |                        | [none]                                               | Vote option                              
+ .(custom)             |                        | [none]                                               | Vote option                              
 
 ## Download
 
