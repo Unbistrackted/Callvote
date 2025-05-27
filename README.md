@@ -102,11 +102,12 @@ You can download the latest version of Callvote [here](https://github.com/Unbist
 
 ## Soft Depedencies
 
-### RueI is the most recommended. Both replaces the majority of Broadcasts with Hints
+### Replaces Broadcasts with Hints.
+❗️ Do **not** install both — they are incompatible with each other.
 
-[RueI](https://github.com/pawslee/RueI) ~ You can download it [here](https://github.com/pawslee/RueI/releases/latest).
+- [RueI](https://github.com/pawslee/RueI) — You can download it [here](https://github.com/pawslee/RueI/releases/latest).
 
-[HintServiceMeow](https://github.com/MeowServer/HintServiceMeow/releases/tag/V5.3) ~ You can download it [here](https://github.com/MeowServer/HintServiceMeow/releases/tag/V5.3). 
+- [HintServiceMeow](https://github.com/MeowServer/HintServiceMeow/releases/tag/V5.3) — You can download it [here](https://github.com/MeowServer/HintServiceMeow/releases/latest). 
 
 ## Special thanks to:
 
