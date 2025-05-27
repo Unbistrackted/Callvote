@@ -62,8 +62,8 @@ Dead
  cv.callvotecustom       | .callvote "Custom Question" ... | Gives permission to use **.callvote "Custom Question" ...**        
  cv.stopvote             | .stopvote                       | Stops current vote                                                 
  cv.untouchable          | .callvote kick/kill             | Player cannot be kicked or killed                                  
- cv.superadmin+          | .callvote (Parameter)           | Allows player to rig the system :trollface:                      
- cv.translation          | .callvote (Parameter)           | Allows player to change Callvote's translation                      
+ cv.superadmin+          | .callvote rig                   | Allows player to rig the system :trollface:                      
+ cv.translation          | .callvote translation           | Allows player to change Callvote's translation                      
 
 ## Commands:
 
