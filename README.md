@@ -67,25 +67,25 @@ Dead
 
 ## Commands:
 
- Server Command        | Client Command         | Parameters                                           | Description                              
+ Command               | Required Permission    | Parameters                                           | Description                              
 -----------------------|------------------------|------------------------------------------------------|------------------------------------------
- callvote              | .callvote binary       | "Custom Question"                                    | Vote on a custom yes/no question.        
- callvote              | .callvote custom       | "Custom Question" option(detail) option(detail)  ... | Vote on a question with multiple options 
- callvote kick         | .callvote kick         | [player]                                             | Call a voting to kick a player.                   
- callvote kill         | .callvote kill         | [player]                                             | Call a voting to kill a player.                   
- callvote nuke         | .callvote nuke         | [none]                                               | Call a voting to nuke the facility.               
- callvote respawnwave  | .callvote respawnwave  | [none]                                               | Call a voting to respawn a MTF or CI wave.                 
- callvote restartround | .callvote restartround | [none]                                               | Call a voting to restart a round.                 
- callvote ff           | .callvote ff           | [none]                                               | Call a voting to enable or disable Friendly Fire  
- callvote queue        | .callvote queue        | [none]                                               | List all votings in the Queue (index, votingType, player, Question)
- callvote queue check  | .callvote queue check  | [none]                                               | List all votings in the Queue (index, votingType, player, Question)
- callvote queue clear  | .callvote queue clear  | [none]                                               | Removes all votings from the Queue
- callvote queue pause  | .callvote queue pause  | [none]                                               | Pauses the Queue system
- callvote queue rp     | .callvote queue rp     | [player]                                             | Removes all votings by a Player from the Queue
- callvote queue rt     | .callvote queue rt     | [votingType]                                         | Removes all votings of votingType X from the Queue 
- callvote queue ri     | .callvote queue ri     | [index]                                              | Removes a voting with index X from the Queue
- callvote translation  | .callvote translation  | [none/language/countryCode]                          | Changes Callvote's translation (If nothing is passed as an argument or countryCoude/language is wrong, tries to find server location.)
- stopvote              | .callvote stopvote     | [none]                                               | Stops a vote currently in progress       
+ callvote binary       | cv.callvote            | [Custom Question]                                    | Vote on a custom yes/no question.        
+ callvote custom       | cv.callvotecustom      | ["Custom Question"] [option1(detail)] [option2(detail)] ... | Vote on a question with multiple options (If question has spaces, it needs to be inside quotes)
+ callvote kick         | cv.callvotekick        | [player]                                             | Call a voting to kick a player.                   
+ callvote kill         | cv.callvotekill        | [player]                                             | Call a voting to kill a player.                   
+ callvote nuke         | cv.callvotenuke        | [none]                                               | Call a voting to nuke the facility.               
+ callvote respawnwave  | cv.callvoterespawnwave | [none]                                               | Call a voting to respawn a MTF or CI wave.                 
+ callvote restartround | cv.callvoterestartround| [none]                                               | Call a voting to restart a round.                 
+ callvote ff           | cv.callvoteff          | [none]                                               | Call a voting to enable or disable Friendly Fire  
+ callvote queue        | cv.managequeue         | [none]                                               | List all votings in the Queue (index, votingType, player, Question)
+ callvote queue check  | cv.managequeue         | [none]                                               | List all votings in the Queue (index, votingType, player, Question)
+ callvote queue clear  | cv.managequeue         | [none]                                               | Removes all votings from the Queue
+ callvote queue pause  | cv.managequeue         | [none]                                               | Pauses the Queue system
+ callvote queue rp     | cv.managequeue         | [player]                                             | Removes all votings by a Player from the Queue
+ callvote queue rt     | cv.managequeue         | [votingType]                                         | Removes all votings of votingType X from the Queue 
+ callvote queue ri     | cv.managequeue         | [index]                                              | Removes a voting with index X from the Queue
+ callvote translation  | cv.managequeue         | [none/language/countryCode]                          | Changes Callvote's translation (If nothing is passed as an argument or countryCoude/language is wrong, tries to find server location.)
+ stopvote              | cv.stopvote            | [none]                                               | Stops a vote currently in progress       
  yes (or translation)  | .yes (or translation)  | [none]                                               | Vote option                              
  no  (or translation)  | .no  (or translation)  | [none]                                               | Vote option                              
  mtf (or translation)  | .mtf (or translation)  | [none]                                               | Vote option                              
