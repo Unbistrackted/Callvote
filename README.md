@@ -51,7 +51,7 @@ Dead
 -------------------------|---------------------------------|--------------------------------------------------------------------
  cv.callvote             | .callvote (Parameter)           | Allows players to use **.callvote**          
  cv.managequeue          | .callvote queue (Parameter)     | Allows players to manage Callvote's queue system using **.callvote queue (Parameter)**      
- cv.bypass               | .callvote (Parameter)           | Bypasses permissions requeriments, time and maxium amount of votes 
+ cv.bypass               | .callvote (Parameter)           | Bypasses time requeriments and maxium amount of votes 
  cv.unlimitedvotes       | .callvote (Parameter)           | Bypasses max_amount_of_votes_per_round                             
  cv.callvotekick         | .callvote kick                  | Gives permission to use **.callvote kick**                         
  cv.callvotekill         | .callvote kill                  | Gives permission to use **.callvote kill**                         
@@ -69,7 +69,7 @@ Dead
 
  Command               | Required Permission    | Parameters                                           | Description                              
 -----------------------|------------------------|------------------------------------------------------|------------------------------------------
- callvote binary       | cv.callvote            | [Custom Question]                                    | Vote on a custom yes/no question.        
+ callvote binary       | cv.callvotecustom      | [Custom Question]                                    | Vote on a custom yes/no question.        
  callvote custom       | cv.callvotecustom      | ["Custom Question"] [option1(detail)] [option2(detail)] ... | Vote on a question with multiple options (If question has spaces, it needs to be inside quotes)
  callvote kick         | cv.callvotekick        | [player]                                             | Call a voting to kick a player.                   
  callvote kill         | cv.callvotekill        | [player]                                             | Call a voting to kill a player.                   
