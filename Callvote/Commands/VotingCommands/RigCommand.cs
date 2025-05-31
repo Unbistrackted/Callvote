@@ -45,7 +45,7 @@ namespace Callvote.Commands.VotingCommands
 
             if (!int.TryParse(arguments.ElementAt(1), out int votes))
             {
-                response = "Invalid Argument"; //Callvote.Instance.Translation.InvalidArgument;
+                response = "Invalid Argument";
                 return false;
             }
 

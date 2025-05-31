@@ -21,10 +21,10 @@ namespace Callvote.Commands.VotingCommands
 
             Player player = Player.Get(sender);
 
-            if (!player.CheckPermission("cv.callvotecustom") || !player.CheckPermission("cv.bypass") && player != null)
+            if (!player.CheckPermission("cv.callvotecustom") && player != null)
             {
                 response = Callvote.Instance.Translation.NoPermission;
-                return true;
+                return false;
             }
 
             VotingHandler.CallVoting(new BinaryVoting(player, Callvote.Instance.Translation.AskedCustom.Replace("%Player%", player.Nickname).Replace("%Custom%", string.Join(" ", args)), nameof(VotingTypeEnum.Binary), null));
