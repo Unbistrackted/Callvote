@@ -14,7 +14,7 @@
   player_not_found: 'Não foi encontrado quaisquer jogadores com o nome ou nome parcial de %Player%'
   no_option_available: 'A votação não tem essa opção.'
   already_voted: 'Você já votou'
-  vote_accepted: 'Você votou %Reason%.'
+  vote_accepted: 'Você votou %Option%.'
   no_permission: 'Você não tem permissão para executar esse comando!'
   voting_stoped: 'Votação parada.'
   results: |
