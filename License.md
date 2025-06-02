@@ -2,8 +2,11 @@ Modified BSD License
 ====================
 
 _Copyright © 2019-2024, Nicholas Solin a.k.a. PatPeter_
+
 _Copyright © 2021-2022, babyboucher_
+
 _Copyright © 2025, Unbistrackted_
+
 _All rights reserved._
 
 Redistribution and use in source and binary forms, with or without
