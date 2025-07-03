@@ -6,6 +6,8 @@ using LabApi.Features.Permissions;
 using System;
 using System.Linq;
 using Callvote.Commands.ParentCommands;
+using System.Threading.Tasks;
+using MEC;
 
 namespace Callvote.Commands
 {
@@ -36,11 +38,23 @@ namespace Callvote.Commands
 
             string language = args.ElementAtOrDefault(0)?.ToLower() ?? string.Empty;
 
-            if (!ChangeTranslation.LoadTranslation(language))
+            Task.Run(async () =>
             {
-                response = "Something went wrong. Please check the server console.";
-                return false;
-            }
+                bool result = await ChangeTranslation.LoadTranslation(language);
+
+                Timing.CallDelayed(0f, () =>
+                {
+                    if (!result)
+                    {
+                        player.SendConsoleMessage("Something went wrong. Please check the server console.", "red");
+                        return;
+                    }
+
+                    player.SendConsoleMessage(Callvote.Instance.Translation.TranslationChanged, "green");
+                });
+            });
+
+            response = "Please wait and check your console in a few seconds.";
 
             response = Callvote.Instance.Translation.TranslationChanged;
             return true;

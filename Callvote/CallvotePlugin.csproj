@@ -22,7 +22,7 @@
 		  <HintPath>$(EXILED_REFERENCES)\Assembly-CSharp.dll</HintPath>
 	  </Reference>
     <Reference Include="HintServiceMeow">
-      <HintPath>$(EXILED_REFERENCES)\HintServiceMeow2.dll</HintPath>
+      <HintPath>$(EXILED_REFERENCES)\HintServiceMeow-LabAPI.dll</HintPath>
     </Reference>
     <Reference Include="Mirror">
       <HintPath>$(EXILED_REFERENCES)\Mirror.dll</HintPath>
