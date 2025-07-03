@@ -14,37 +14,39 @@ namespace Callvote.API.VotingsTemplate
             ReplacePlayer(player),
             nameof(VotingTypeEnum.RestartRound),
             player,
-            vote =>
-            {
-                int yesVotePercent = (int)(vote.Counter[Callvote.Instance.Translation.CommandYes] / (float)Player.List.Count() * 100f);
-                int noVotePercent = (int)(vote.Counter[Callvote.Instance.Translation.CommandNo] / (float)Player.List.Count() * 100f);
-                if (yesVotePercent >= Callvote.Instance.Config.ThresholdRestartRound && yesVotePercent > noVotePercent)
-                {
-                    MessageProvider.Provider.DisplayMessage(TimeSpan.FromSeconds(Callvote.Instance.Config.FinalResultsDuration), $"<size={DisplayMessageHelper.CalculateMessageSize(Callvote.Instance.Translation.RoundRestarting)}>{Callvote.Instance.Translation.RoundRestarting
-                        .Replace("%VotePercent%", yesVotePercent.ToString())}</size>");
-                    Round.Restart();
-                }
-                else
-                {
-                    MessageProvider.Provider.DisplayMessage(TimeSpan.FromSeconds(Callvote.Instance.Config.FinalResultsDuration), $"<size={DisplayMessageHelper.CalculateMessageSize(Callvote.Instance.Translation.NoSuccessFullRestart)}>{Callvote.Instance.Translation.NoSuccessFullRestart
-                        .Replace("%VotePercent%", yesVotePercent.ToString())
-                        .Replace("%ThresholdRestartRound%", Callvote.Instance.Config.ThresholdRestartRound.ToString())}</size>");
-                }
-            },
+            AddCallback,
             AddOptions())
         {
         }
 
-        private static string ReplacePlayer(Player player)
+        public static void AddCallback(Voting vote)
         {
-            return Callvote.Instance.Translation.AskedToRespawn
-                    .Replace("%Player%", player.Nickname);
+            int yesVotePercent = (int)(vote.Counter[Callvote.Instance.Translation.CommandYes] / (float)Player.List.Count() * 100f);
+            int noVotePercent = (int)(vote.Counter[Callvote.Instance.Translation.CommandNo] / (float)Player.List.Count() * 100f);
+            if (yesVotePercent >= Callvote.Instance.Config.ThresholdRestartRound && yesVotePercent > noVotePercent)
+            {
+                MessageProvider.Provider.DisplayMessage(TimeSpan.FromSeconds(Callvote.Instance.Config.FinalResultsDuration), $"<size={DisplayMessageHelper.CalculateMessageSize(Callvote.Instance.Translation.RoundRestarting)}>{Callvote.Instance.Translation.RoundRestarting
+                    .Replace("%VotePercent%", yesVotePercent.ToString())}</size>");
+                Round.Restart();
+            }
+            else
+            {
+                MessageProvider.Provider.DisplayMessage(TimeSpan.FromSeconds(Callvote.Instance.Config.FinalResultsDuration), $"<size={DisplayMessageHelper.CalculateMessageSize(Callvote.Instance.Translation.NoSuccessFullRestart)}>{Callvote.Instance.Translation.NoSuccessFullRestart
+                    .Replace("%VotePercent%", yesVotePercent.ToString())
+                    .Replace("%ThresholdRestartRound%", Callvote.Instance.Config.ThresholdRestartRound.ToString())}</size>");
+            }
         }
-        private static Dictionary<string, string> AddOptions()
+
+        public static Dictionary<string, string> AddOptions()
         {
             VotingHandler.AddOptionToVoting(Callvote.Instance.Translation.CommandYes, Callvote.Instance.Translation.OptionYes);
             VotingHandler.AddOptionToVoting(Callvote.Instance.Translation.CommandNo, Callvote.Instance.Translation.OptionNo);
             return VotingHandler.Options;
+        }
+
+        private static string ReplacePlayer(Player player)
+        {
+            return Callvote.Instance.Translation.AskedToRespawn.Replace("%Player%", player.Nickname);
         }
     }
 }

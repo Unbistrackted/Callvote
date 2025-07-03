@@ -2,13 +2,15 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Net.Http;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace Callvote.Features
 {
-    public static class DcWebhook
+    public static class DiscordWebhook
     {
-        public static void ResultsMessage(Voting vote)
+        public static async Task ResultsMessage(Voting vote)
         {
             string webhook = Callvote.Instance.Config.DiscordWebhook;
             if (string.IsNullOrWhiteSpace(webhook)) { return; }
@@ -26,13 +28,22 @@ namespace Callvote.Features
             string payload = $@"{{""content"":null,""embeds"":[{{""title"":""{Callvote.Instance.Translation.WebhookTitle}"",""color"":255,""fields"":[{{""name"":""{Callvote.Instance.Translation.WebhookPlayer}"",""value"":""{CallvotePlayerInfo}""}},{{""name"":""{Callvote.Instance.Translation.WebhookQuestion}"",""value"":""{Question.Replace($"{CallvotePlayerInfo} asks: ", "")}""}},{{""name"":""{Callvote.Instance.Translation.WebhookVotes}"",""value"":""{Results}""}}]}}]}}";
             try
             {
-                WebClient client = new WebClient();
-                client.Headers.Add("Content-Type", "application/json");
-                client.UploadString(webhook, "POST", payload);
+                using (HttpClient client = new HttpClient())
+                {
+                    var request = new StringContent(payload, System.Text.Encoding.UTF8, "application/json");
+
+                    HttpResponseMessage response = await client.PostAsync(webhook, request);
+
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        Log.Error($"Webhook Error: {response.StatusCode} - {await response.Content.ReadAsStringAsync()}");
+                        return;
+                    }
+                }
             }
             catch (Exception ex)
             {
-                Log.Error("Webhook Error: " + ex.Message);
+                Log.Error("Webhook Error: " + ex.Message + " " + ex.Source + " " + ex.StackTrace);
             }
         }
         private static string RemoveColorTags(string input)

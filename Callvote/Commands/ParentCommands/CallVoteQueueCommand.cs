@@ -5,7 +5,7 @@ using CommandSystem;
 using Exiled.API.Features;
 using System;
 
-namespace Callvote.Commands
+namespace Callvote.Commands.ParentCommands
 {
     public class CallVoteQueueCommand : ParentCommand
     {

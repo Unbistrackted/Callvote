@@ -1,4 +1,5 @@
-﻿using Callvote.Features;
+﻿using Callvote.API;
+using Callvote.Features;
 using CommandSystem;
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
@@ -22,6 +23,12 @@ namespace Callvote.Commands
             if (!player.CheckPermission("cv.translation") && player != null)
             {
                 response = Callvote.Instance.Translation.NoPermission;
+                return false;
+            }
+
+            if (VotingHandler.CurrentVoting != null || VotingHandler.VotingQueue.Count > 0)
+            {
+                response = Callvote.Instance.Translation.VotingInProgress;
                 return false;
             }
 

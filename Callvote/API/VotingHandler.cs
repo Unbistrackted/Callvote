@@ -2,6 +2,7 @@
 using Exiled.API.Features;
 using MEC;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Callvote.API
 {
@@ -50,7 +51,7 @@ namespace Callvote.API
                 {
                     CurrentVoting.Callback.Invoke(CurrentVoting);
                 }
-                DcWebhook.ResultsMessage(CurrentVoting);
+                _ = Task.Run(async () => await Features.DiscordWebhook.ResultsMessage(CurrentVoting));
             }
             CurrentVoting = null;
             if (Callvote.Instance.Config.EnableQueue) { TryStartNextVoting(); };

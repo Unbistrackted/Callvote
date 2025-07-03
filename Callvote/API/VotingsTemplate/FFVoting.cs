@@ -14,30 +14,39 @@ namespace Callvote.API.VotingsTemplate
             ReplacePlayer(player),
             nameof(VotingTypeEnum.Ff),
             player,
-            vote =>
-            {
-                int yesVotePercent = (int)(vote.Counter[Callvote.Instance.Translation.CommandYes] / (float)Player.List.Count() * 100f);
-                int noVotePercent = (int)(vote.Counter[Callvote.Instance.Translation.CommandNo] / (float)Player.List.Count() * 100f);
-                if (yesVotePercent >= Callvote.Instance.Config.ThresholdFf && yesVotePercent > noVotePercent)
-                {
-                    Server.FriendlyFire = !Server.FriendlyFire;
-                    string msg = Server.FriendlyFire
-                        ? Callvote.Instance.Translation.DisablingFriendlyFire
-                        : Callvote.Instance.Translation.EnablingFriendlyFire;
-                    MessageProvider.Provider.DisplayMessage(TimeSpan.FromSeconds(Callvote.Instance.Config.FinalResultsDuration), $"<size={DisplayMessageHelper.CalculateMessageSize(msg)}>{msg.Replace("%VotePercent%", yesVotePercent.ToString())}</size>");
-                }
-                else
-                {
-                    string msg = Server.FriendlyFire
-                        ? Callvote.Instance.Translation.NoSuccessFullEnableFf
-                        : Callvote.Instance.Translation.NoSuccessFullDisableFf;
-                    MessageProvider.Provider.DisplayMessage(TimeSpan.FromSeconds(Callvote.Instance.Config.FinalResultsDuration), $"<size={DisplayMessageHelper.CalculateMessageSize(msg)}>{msg
-                        .Replace("%VotePercent%", yesVotePercent.ToString())
-                        .Replace("%ThresholdFF%", Callvote.Instance.Config.ThresholdFf.ToString())}</size>");
-                }
-            },
+            AddCallback,
             AddOptions())
         {
+        }
+
+        public static void AddCallback(Voting vote)
+        {
+            int yesVotePercent = (int)(vote.Counter[Callvote.Instance.Translation.CommandYes] / (float)Player.List.Count() * 100f);
+            int noVotePercent = (int)(vote.Counter[Callvote.Instance.Translation.CommandNo] / (float)Player.List.Count() * 100f);
+            if (yesVotePercent >= Callvote.Instance.Config.ThresholdFf && yesVotePercent > noVotePercent)
+            {
+                Server.FriendlyFire = !Server.FriendlyFire;
+                string msg = Server.FriendlyFire
+                    ? Callvote.Instance.Translation.DisablingFriendlyFire
+                    : Callvote.Instance.Translation.EnablingFriendlyFire;
+                MessageProvider.Provider.DisplayMessage(TimeSpan.FromSeconds(Callvote.Instance.Config.FinalResultsDuration), $"<size={DisplayMessageHelper.CalculateMessageSize(msg)}>{msg.Replace("%VotePercent%", yesVotePercent.ToString())}</size>");
+            }
+            else
+            {
+                string msg = Server.FriendlyFire
+                    ? Callvote.Instance.Translation.NoSuccessFullEnableFf
+                    : Callvote.Instance.Translation.NoSuccessFullDisableFf;
+                MessageProvider.Provider.DisplayMessage(TimeSpan.FromSeconds(Callvote.Instance.Config.FinalResultsDuration), $"<size={DisplayMessageHelper.CalculateMessageSize(msg)}>{msg
+                    .Replace("%VotePercent%", yesVotePercent.ToString())
+                    .Replace("%ThresholdFF%", Callvote.Instance.Config.ThresholdFf.ToString())}</size>");
+            }
+        }
+
+        public static Dictionary<string, string> AddOptions()
+        {
+            VotingHandler.AddOptionToVoting(Callvote.Instance.Translation.CommandYes, Callvote.Instance.Translation.OptionYes);
+            VotingHandler.AddOptionToVoting(Callvote.Instance.Translation.CommandNo, Callvote.Instance.Translation.OptionNo);
+            return VotingHandler.Options;
         }
 
         private static string ReplacePlayer(Player player)
@@ -47,12 +56,6 @@ namespace Callvote.API.VotingsTemplate
                 : Callvote.Instance.Translation.AskedToEnableFf;
 
             return baseQuestion.Replace("%Player%", player.Nickname);
-        }
-        private static Dictionary<string, string> AddOptions()
-        {
-            VotingHandler.AddOptionToVoting(Callvote.Instance.Translation.CommandYes, Callvote.Instance.Translation.OptionYes);
-            VotingHandler.AddOptionToVoting(Callvote.Instance.Translation.CommandNo, Callvote.Instance.Translation.OptionNo);
-            return VotingHandler.Options;
         }
     }
 }

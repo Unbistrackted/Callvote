@@ -2,7 +2,7 @@
 using CommandSystem;
 using System;
 
-namespace Callvote.Commands
+namespace Callvote.Commands.ParentCommands
 {
     [CommandHandler(typeof(ClientCommandHandler))]
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
