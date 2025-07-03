@@ -1,12 +1,14 @@
 ﻿using Callvote.API;
+using Callvote.Commands.ParentCommands;
 using CommandSystem;
 using Exiled.API.Extensions;
-using Exiled.API.Features;
-using Exiled.Permissions.Extensions;
+using LabApi.Features.Permissions;
+using LabApi.Features.Wrappers;
 using System;
 
 namespace Callvote.Commands.QueueCommands
 {
+    [CommandHandler(typeof(CallVoteQueueCommand))]
     public class RemoveXFromQueueCommand : ICommand
     {
         public string Command => "removeindex";
@@ -30,7 +32,7 @@ namespace Callvote.Commands.QueueCommands
                 response = Callvote.Instance.Translation.NoVotingInProgress;
                 return false;
             }
-            if (!player.CheckPermission("cv.managequeue"))
+            if (!player.HasPermissions("cv.managequeue"))
             {
                 response = Callvote.Instance.Translation.NoPermission;
                 return false;

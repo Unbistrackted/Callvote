@@ -1,6 +1,6 @@
 ﻿using Callvote.API;
 using CommandSystem;
-using Exiled.API.Features;
+using LabApi.Features.Wrappers;
 using System;
 
 namespace Callvote.Commands.VotingCommands

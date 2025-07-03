@@ -1,9 +1,8 @@
-using Exiled.API.Interfaces;
 using System.ComponentModel;
 
 namespace Callvote.Configuration
 {
-    public class Translation : ITranslation
+    public class Translation
     {
         [Description("%player%, %VotePercent%, %Offender%, %ThresholdKick%, %ThresholdRespawnWave%, %ThresholdNuke%, %ThresholdKill%, %ThresholdRestartRound%, %OptionKey%, %Option%, %Counter%, %Timer%, %Custom%, %Type%, %Number%")]
         public string WrongSyntax { get; set; } = "Wrong Syntax, use ~callvote help~";

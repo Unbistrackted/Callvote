@@ -1,12 +1,12 @@
 ﻿using Callvote.API;
-using Callvote.Commands.QueueCommands;
 using Callvote.Features;
 using CommandSystem;
-using Exiled.API.Features;
+using LabApi.Features.Wrappers;
 using System;
 
-namespace Callvote.Commands
+namespace Callvote.Commands.ParentCommands
 {
+    [CommandHandler(typeof(CallVoteCommand))]
     public class CallVoteQueueCommand : ParentCommand
     {
         public override string Command => "queue";
@@ -19,12 +19,6 @@ namespace Callvote.Commands
 
         public override void LoadGeneratedCommands()
         {
-            RegisterCommand(new CheckQueueCommand());
-            RegisterCommand(new ClearQueueCommand());
-            RegisterCommand(new RemovePlayerFromQueueCommand());
-            RegisterCommand(new RemoveTypeFromQueueCommand());
-            RegisterCommand(new RemoveXFromQueueCommand());
-            RegisterCommand(new PauseQueueCommand());
         }
 
         protected override bool ExecuteParent(ArraySegment<string> args, ICommandSender sender, out string response)

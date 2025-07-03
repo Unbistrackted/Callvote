@@ -1,7 +1,7 @@
 using Callvote.API;
 using CommandSystem;
-using Exiled.API.Features;
-using Exiled.Events.EventArgs.Server;
+using LabApi.Events.Arguments.ServerEvents;
+using LabApi.Features.Wrappers;
 using UserSettings.ServerSpecific;
 
 namespace Callvote
@@ -18,7 +18,7 @@ namespace Callvote
             VotingHandler.Clear();
         }
 
-        public void OnRoundRestarting()
+        public void OnRoundRestarted()
         {
             VotingHandler.Clear();
         }

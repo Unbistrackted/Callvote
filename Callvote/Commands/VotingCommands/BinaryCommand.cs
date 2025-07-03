@@ -2,12 +2,14 @@
 using Callvote.API.VotingsTemplate;
 using Callvote.Enums;
 using CommandSystem;
-using Exiled.API.Features;
-using Exiled.Permissions.Extensions;
+using LabApi.Features.Wrappers;
+using LabApi.Features.Permissions;
 using System;
+using Callvote.Commands.ParentCommands;
 
 namespace Callvote.Commands.VotingCommands
 {
+    [CommandHandler(typeof(CallVoteCommand))]
     public class BinaryCommand : ICommand
     {
         public string Command => "binary";
@@ -21,7 +23,7 @@ namespace Callvote.Commands.VotingCommands
 
             Player player = Player.Get(sender);
 
-            if (!player.CheckPermission("cv.callvotecustom") && player != null)
+            if (!player.HasPermissions("cv.callvotecustom") && player != null)
             {
                 response = Callvote.Instance.Translation.NoPermission;
                 return false;

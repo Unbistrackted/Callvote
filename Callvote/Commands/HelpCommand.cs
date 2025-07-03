@@ -1,8 +1,10 @@
-﻿using CommandSystem;
+﻿using Callvote.Commands.ParentCommands;
+using CommandSystem;
 using System;
 
 namespace Callvote.Commands
 {
+    [CommandHandler(typeof(CallVoteCommand))]
     public class HelpCommand : ICommand
     {
         public string Command => "help";

@@ -1,9 +1,10 @@
 ﻿using Callvote.API;
 using Callvote.API.VotingsTemplate;
+using Callvote.Commands.ParentCommands;
 using Callvote.Enums;
 using CommandSystem;
-using Exiled.API.Features;
-using Exiled.Permissions.Extensions;
+using LabApi.Features.Permissions;
+using LabApi.Features.Wrappers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ using System.Text.RegularExpressions;
 
 namespace Callvote.Commands.VotingCommands
 {
+    [CommandHandler(typeof(CallVoteCommand))]
     public class CustomVotingCommand : ICommand
     {
         public string Command => "custom";
@@ -26,7 +28,7 @@ namespace Callvote.Commands.VotingCommands
             optionDetailsStrings = JoinWordsBetweenQuotes(optionDetailsStrings);
             Player player = Player.Get(sender);
 
-            if (!player.CheckPermission("cv.callvotecustom") && player != null)
+            if (!player.HasPermissions("cv.callvotecustom") && player != null)
             {
                 response = Callvote.Instance.Translation.NoPermission;
                 return false;

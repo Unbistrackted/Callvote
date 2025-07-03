@@ -1,12 +1,15 @@
-﻿using Callvote.Features;
+﻿using Callvote.API;
+using Callvote.Features;
 using CommandSystem;
-using Exiled.API.Features;
-using Exiled.Permissions.Extensions;
+using LabApi.Features.Wrappers;
+using LabApi.Features.Permissions;
 using System;
 using System.Linq;
+using Callvote.Commands.ParentCommands;
 
 namespace Callvote.Commands
 {
+    [CommandHandler(typeof(CallVoteCommand))]
     public class TranslationCommand : ICommand
     {
         public string Command => "translation";
@@ -19,9 +22,15 @@ namespace Callvote.Commands
         {
             Player player = Player.Get(sender);
 
-            if (!player.CheckPermission("cv.translation") && player != null)
+            if (!player.HasPermissions("cv.translation") && player != null)
             {
                 response = Callvote.Instance.Translation.NoPermission;
+                return false;
+            }
+
+            if (VotingHandler.CurrentVoting != null || VotingHandler.VotingQueue.Count > 0)
+            {
+                response = Callvote.Instance.Translation.VotingInProgress;
                 return false;
             }
 

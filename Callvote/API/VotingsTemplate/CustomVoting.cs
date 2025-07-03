@@ -1,6 +1,6 @@
 ﻿using Callvote.Features;
 using Callvote.Interfaces;
-using Exiled.API.Features;
+using LabApi.Features.Wrappers;
 using System.Collections.Generic;
 
 namespace Callvote.API.VotingsTemplate

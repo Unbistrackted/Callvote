@@ -1,11 +1,13 @@
 ﻿using Callvote.API;
+using Callvote.Commands.ParentCommands;
 using Callvote.Features;
 using CommandSystem;
-using Exiled.API.Features;
+using LabApi.Features.Wrappers;
 using System;
 
 namespace Callvote.Commands.QueueCommands
 {
+    [CommandHandler(typeof(CallVoteQueueCommand))]
     public class CheckQueueCommand : ICommand
     {
         public string Command => "check";

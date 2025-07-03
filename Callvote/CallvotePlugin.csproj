@@ -18,8 +18,11 @@
     <Reference Include="Assembly-CSharp-firstpass">
       <HintPath>$(EXILED_REFERENCES)\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
+	  <Reference Include="Assembly-CSharp">
+		  <HintPath>$(EXILED_REFERENCES)\Assembly-CSharp.dll</HintPath>
+	  </Reference>
     <Reference Include="HintServiceMeow">
-      <HintPath>$(EXILED_REFERENCES)\HintServiceMeow.dll</HintPath>
+      <HintPath>$(EXILED_REFERENCES)\HintServiceMeow2.dll</HintPath>
     </Reference>
     <Reference Include="Mirror">
       <HintPath>$(EXILED_REFERENCES)\Mirror.dll</HintPath>
@@ -27,6 +30,7 @@
     <Reference Include="RueI">
       <HintPath>$(EXILED_REFERENCES)\RueI.dll</HintPath>
     </Reference>
+    <Reference Include="System.Net.Http" />
     <Reference Include="Unity.TextMeshPro">
       <HintPath>$(EXILED_REFERENCES)\Unity.TextMeshPro.dll</HintPath>
     </Reference>
@@ -39,6 +43,9 @@
     <Reference Include="UnityEngine.PhysicsModule">
       <HintPath>$(EXILED_REFERENCES)\UnityEngine.PhysicsModule.dll</HintPath>
     </Reference>
+	  <Reference Include="CommandSystem.Core">
+		  <HintPath>$(EXILED_REFERENCES)\CommandSystem.Core.dll</HintPath>
+	  </Reference>
   </ItemGroup>
   
   <ItemGroup>
@@ -46,8 +53,8 @@
   </ItemGroup>
 
   <ItemGroup>
-	<PackageReference Include="ExMod.Exiled" Version="9.6.0" />
 	<PackageReference Include="Lib.Harmony" Version="2.2.2" />
+	<PackageReference Include="Northwood.LabAPI" Version="1.1.0" />
 	<PackageReference Include="YamlDotNet" Version="16.0.0" />
    </ItemGroup>
   

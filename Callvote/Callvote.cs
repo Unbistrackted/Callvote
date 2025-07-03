@@ -1,39 +1,40 @@
 using Callvote.API;
 using Callvote.Configuration;
 using Callvote.Features;
-using Exiled.API.Enums;
-using Exiled.API.Features;
-using Exiled.API.Features.Core.UserSettings;
 using System;
+using LabApi;
+using LabApi.Loader.Features.Plugins;
+using LabApi.Events.Arguments.ServerEvents;
+using LabApi.Events.Handlers;
+using LabApi.Loader;
 using UserSettings.ServerSpecific;
-using Server = Exiled.Events.Handlers.Server;
 
 namespace Callvote
 {
-    public class Callvote : Plugin<Config, Translation>
+    public class Callvote : Plugin
     {
         private EventHandlers EventHandlers;
 
         public static Callvote Instance;
         public override string Name { get; } = AssemblyInfo.Name;
         public override string Author { get; } = AssemblyInfo.Author;
+        public override string Description => AssemblyInfo.Description;
         public override Version Version { get; } = Version.Parse(AssemblyInfo.Version);
-        public override string Prefix { get; } = AssemblyInfo.LangFile;
-        public override Version RequiredExiledVersion { get; } = new Version(9, 6, 0);
-        public override PluginPriority Priority { get; } = PluginPriority.Default;
-        public HeaderSetting SettingsHeader { get; set; } = new HeaderSetting(AssemblyInfo.Name);
+        public string Prefix { get; } = AssemblyInfo.LangFile;
+        public override Version RequiredApiVersion { get; } = new Version(1, 1, 0);
+        public Translation Translation { get; private set; }
+        public Config Config { get; private set; }
 
-        public override void OnEnabled()
+        public override void Enable()
         {
             Instance = this;
+            LoadConfigs();
             RegisterEvents();
-            base.OnEnabled();
         }
 
-        public override void OnDisabled()
+        public override void Disable()
         {
             UnregisterEvents();
-            base.OnDisabled();
             Instance = null;
         }
 
@@ -41,21 +42,29 @@ namespace Callvote
         {
             EventHandlers = new EventHandlers();
             ServerSpecificSettings.RegisterSettings();
-            Server.WaitingForPlayers += EventHandlers.OnWaitingForPlayers;
-            Server.RoundEnded += EventHandlers.OnRoundEnded;
-            Server.RestartingRound += EventHandlers.OnRoundRestarting;
+            ServerEvents.WaitingForPlayers += EventHandlers.OnWaitingForPlayers;
+            ServerEvents.RoundEnded += EventHandlers.OnRoundEnded;
+            ServerEvents.RoundRestarted += EventHandlers.OnRoundRestarted;
             ServerSpecificSettingsSync.ServerOnSettingValueReceived += EventHandlers.OnUserInput;
         }
 
         private void UnregisterEvents()
         {
             ServerSpecificSettings.UnregisterSettings();
-            Server.WaitingForPlayers -= EventHandlers.OnWaitingForPlayers;
-            Server.RoundEnded -= EventHandlers.OnRoundEnded;
-            Server.RestartingRound -= EventHandlers.OnRoundRestarting;
+            ServerEvents.WaitingForPlayers -= EventHandlers.OnWaitingForPlayers;
+            ServerEvents.RoundEnded -= EventHandlers.OnRoundEnded;
+            ServerEvents.RoundRestarted -= EventHandlers.OnRoundRestarted;
             ServerSpecificSettingsSync.ServerOnSettingValueReceived -= EventHandlers.OnUserInput;
             VotingHandler.Clear();
             EventHandlers = null;
+        }
+
+        public override void LoadConfigs()
+        {
+            this.TryLoadConfig("config.yml", out Config config);
+            Config = config ?? new Config();
+            this.TryLoadConfig("translation.yml", out Translation translation);
+            Translation = translation ?? new Translation();
         }
     }
 }

@@ -1,12 +1,14 @@
 ﻿using Callvote.API;
 using Callvote.API.VotingsTemplate;
 using CommandSystem;
-using Exiled.API.Features;
-using Exiled.Permissions.Extensions;
+using LabApi.Features.Wrappers;
+using LabApi.Features.Permissions;
 using System;
+using Callvote.Commands.ParentCommands;
 
 namespace Callvote.Commands.VotingCommands
 {
+    [CommandHandler(typeof(CallVoteCommand))]
     public class NukeCommand : ICommand
     {
         public string Command => "nuke";
@@ -25,15 +27,15 @@ namespace Callvote.Commands.VotingCommands
                 return false;
             }
 
-            if (!player.CheckPermission("cv.callvotenuke") && player != null)
+            if (!player.HasPermissions("cv.callvotenuke") && player != null)
             {
                 response = Callvote.Instance.Translation.NoPermission;
                 return false;
             }
 
-            if (!player.CheckPermission("cv.bypass") && Round.ElapsedTime.TotalSeconds < Callvote.Instance.Config.MaxWaitNuke)
+            if (!player.HasPermissions("cv.bypass") && Round.Duration.TotalSeconds < Callvote.Instance.Config.MaxWaitNuke)
             {
-                response = Callvote.Instance.Translation.WaitToVote.Replace("%Timer%", $"{Callvote.Instance.Config.MaxWaitNuke - Round.ElapsedTime.TotalSeconds:F0}");
+                response = Callvote.Instance.Translation.WaitToVote.Replace("%Timer%", $"{Callvote.Instance.Config.MaxWaitNuke - Round.Duration.TotalSeconds:F0}");
                 return false;
             }
 

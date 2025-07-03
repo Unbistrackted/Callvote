@@ -1,6 +1,4 @@
-﻿using Exiled.API.Enums;
-using Exiled.API.Features;
-using Exiled.Loader;
+﻿using LabApi.Features.Wrappers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using YamlDotNet.RepresentationModel;
+using LabApi.Loader;
 
 namespace Callvote.Features
 {
@@ -20,18 +19,17 @@ namespace Callvote.Features
                 using (WebClient client = new WebClient())
                 {
                     string githubTranslationLink = $"https://raw.githubusercontent.com/Unbistrackted/Callvote/EXILED/Callvote/Translations/{GetLanguage(language)}.yml";
-                    string path = LoaderPlugin.Config.ConfigType == ConfigType.Default ? Paths.Translations : Paths.GetTranslationPath(Callvote.Instance.Prefix);
+                    string path = Callvote.Instance.GetConfigPath("translation");
                     RewriteTranslationFile(client.DownloadString(githubTranslationLink), path);
                 }
-                Callvote.Instance.LoadTranslation();
+                Callvote.Instance.LoadConfigs();
                 ServerSpecificSettings.UnregisterSettings();
                 ServerSpecificSettings.RegisterSettings();
                 return true;
             }
             catch (Exception ex)
             {
-                Log.Error($"Error while loading translation:\n {ex.Message}:\n {ex.StackTrace}");
-                TranslationManager.Reload();
+                ServerConsole.AddLog($"[ERROR] [Callvote] {ex.Message}:\n {ex.StackTrace}", ConsoleColor.Red);
                 return false;
             }
         }
@@ -56,7 +54,7 @@ namespace Callvote.Features
                 catch (WebException ex)
                 {
                     input = "en";
-                    Log.Error(ex.Message);
+                    ServerConsole.AddLog($"[ERROR] [Callvote] {ex.Message}", ConsoleColor.Red);
                 }
 
                 if (!LanguageByCountryCodeDictionary.TryGetValue(input, out language))
