@@ -19,7 +19,7 @@
       <HintPath>$(EXILED_REFERENCES)\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
     <Reference Include="HintServiceMeow">
-      <HintPath>$(EXILED_REFERENCES)\HintServiceMeow2.dll</HintPath>
+      <HintPath>$(EXILED_REFERENCES)\HintServiceMeow.dll</HintPath>
     </Reference>
     <Reference Include="Mirror">
       <HintPath>$(EXILED_REFERENCES)\Mirror.dll</HintPath>
