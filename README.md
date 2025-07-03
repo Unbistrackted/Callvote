@@ -94,11 +94,9 @@ Dead
 
 ## Download
 
-This plugin requires [Exiled](https://github.com/ExSLMod-Team/EXILED/releases/tag/v9.6.0).
+This plugin requires [Exiled](https://github.com/ExSLMod-Team/EXILED/releases/tag/v9.6.0) or [LabAPI](https://github.com/northwood-studios/LabAPI/releases/tag/1.1.0).
 
 You can download the latest version of Callvote [here](https://github.com/Unbistrackted/Callvote/releases/latest).
-
-~~Or you can type ```hub install Callvote``` in your console.~~ (As of 5/17/2025, Exiled's hub is disabled.)
 
 ## Soft Depedencies
 
