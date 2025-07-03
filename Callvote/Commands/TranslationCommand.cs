@@ -3,8 +3,10 @@ using Callvote.Features;
 using CommandSystem;
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
+using MEC;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Callvote.Commands
 {
@@ -34,13 +36,23 @@ namespace Callvote.Commands
 
             string language = args.ElementAtOrDefault(0)?.ToLower() ?? string.Empty;
 
-            if (!ChangeTranslation.LoadTranslation(language))
+            Task.Run(async () =>
             {
-                response = "Something went wrong. Please check the server console.";
-                return false;
-            }
+                bool result = await ChangeTranslation.LoadTranslation(language);
 
-            response = Callvote.Instance.Translation.TranslationChanged;
+                Timing.CallDelayed(0f, () =>
+                {
+                    if (!result)
+                    {
+                        player.SendConsoleMessage("Something went wrong. Please check the server console.", "red");
+                        return;
+                    }
+
+                    player.SendConsoleMessage(Callvote.Instance.Translation.TranslationChanged, "green");
+                });
+            });
+
+            response = "Please wait and check your console in a few seconds.";
             return true;
         }
     }

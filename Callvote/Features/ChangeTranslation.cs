@@ -6,22 +6,26 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using YamlDotNet.RepresentationModel;
 
 namespace Callvote.Features
 {
     public class ChangeTranslation
     {
-        public static bool LoadTranslation(string language)
+        public static async Task<bool> LoadTranslation(string language)
         {
             try
             {
-                using (WebClient client = new WebClient())
+                using (HttpClient client = new HttpClient())
                 {
                     string githubTranslationLink = $"https://raw.githubusercontent.com/Unbistrackted/Callvote/EXILED/Callvote/Translations/{GetLanguage(language)}.yml";
                     string path = LoaderPlugin.Config.ConfigType == ConfigType.Default ? Paths.Translations : Paths.GetTranslationPath(Callvote.Instance.Prefix);
-                    RewriteTranslationFile(client.DownloadString(githubTranslationLink), path);
+                    string file = await client.GetStringAsync(githubTranslationLink);
+
+                    RewriteTranslationFile(file, path);
                 }
                 Callvote.Instance.LoadTranslation();
                 ServerSpecificSettings.UnregisterSettings();
