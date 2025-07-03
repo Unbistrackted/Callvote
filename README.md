@@ -105,7 +105,7 @@ You can download the latest version of Callvote [here](https://github.com/Unbist
 
 - [RueI](https://github.com/pawslee/RueI) — You can download it [here](https://github.com/pawslee/RueI/releases/latest).
 
-- [HintServiceMeow](https://github.com/MeowServer/HintServiceMeow/releases/tag/V5.3) — You can download it [here](https://github.com/MeowServer/HintServiceMeow/releases/latest). 
+- [HintServiceMeow](https://github.com/MeowServer/HintServiceMeow/) — You can download it [here](https://github.com/MeowServer/HintServiceMeow/releases/latest). 
 
 ## Special thanks to:
 
