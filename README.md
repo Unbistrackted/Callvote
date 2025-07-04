@@ -94,7 +94,7 @@ Dead
 
 ## Download
 
-This plugin requires [Exiled](https://github.com/ExSLMod-Team/EXILED/releases/tag/v9.6.0) or [LabAPI](https://github.com/northwood-studios/LabAPI/releases/tag/1.1.0).
+This plugin requires [Exiled](https://github.com/ExMod-Team/EXILED/releases/latest) or [LabAPI](https://github.com/northwood-studios/LabAPI/releases/latest).
 
 You can download the latest version of Callvote [here](https://github.com/Unbistrackted/Callvote/releases/latest).
 
