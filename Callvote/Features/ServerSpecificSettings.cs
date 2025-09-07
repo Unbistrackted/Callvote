@@ -15,13 +15,13 @@ namespace Callvote.Features
         public static SSKeybindSetting CiKeybindSetting { get; set; }
         public static void RegisterSettings()
         {
-            YesKeybindSetting = new SSKeybindSetting(888, Callvote.Instance.Translation.VoteKeybind.Replace("%Option%", Callvote.Instance.Translation.OptionYes), KeyCode.Y, hint: Callvote.Instance.Translation.KeybindHint.Replace("%Option%", Callvote.Instance.Translation.OptionYes));
-            NoKeybindSetting = new SSKeybindSetting(889, Callvote.Instance.Translation.VoteKeybind.Replace("%Option%", Callvote.Instance.Translation.OptionNo), KeyCode.U, hint: Callvote.Instance.Translation.KeybindHint.Replace("%Option%", Callvote.Instance.Translation.OptionNo));
+            YesKeybindSetting = new SSKeybindSetting(Callvote.Instance.Config.YesKeybindSettingId, Callvote.Instance.Translation.VoteKeybind.Replace("%Option%", Callvote.Instance.Translation.OptionYes), KeyCode.Y, hint: Callvote.Instance.Translation.KeybindHint.Replace("%Option%", Callvote.Instance.Translation.OptionYes));
+            NoKeybindSetting = new SSKeybindSetting(Callvote.Instance.Config.NoKeybindSettingId, Callvote.Instance.Translation.VoteKeybind.Replace("%Option%", Callvote.Instance.Translation.OptionNo), KeyCode.U, hint: Callvote.Instance.Translation.KeybindHint.Replace("%Option%", Callvote.Instance.Translation.OptionNo));
 
             if (Callvote.Instance.Config.EnableRespawnWave)
             {
-                MtfKeybindSetting = new SSKeybindSetting(890, Callvote.Instance.Translation.VoteKeybind.Replace("%Option%", Callvote.Instance.Translation.OptionMtf), KeyCode.I, hint: Callvote.Instance.Translation.KeybindHint.Replace("%Option%", Callvote.Instance.Translation.OptionMtf));
-                CiKeybindSetting = new SSKeybindSetting(891, Callvote.Instance.Translation.VoteKeybind.Replace("%Option%", Callvote.Instance.Translation.OptionCi), KeyCode.O, hint: Callvote.Instance.Translation.KeybindHint.Replace("%Option%", Callvote.Instance.Translation.OptionCi));
+                MtfKeybindSetting = new SSKeybindSetting(Callvote.Instance.Config.MtfKeybindSettingId, Callvote.Instance.Translation.VoteKeybind.Replace("%Option%", Callvote.Instance.Translation.OptionMtf), KeyCode.I, hint: Callvote.Instance.Translation.KeybindHint.Replace("%Option%", Callvote.Instance.Translation.OptionMtf));
+                CiKeybindSetting = new SSKeybindSetting(Callvote.Instance.Config.CiKeybindSettingId, Callvote.Instance.Translation.VoteKeybind.Replace("%Option%", Callvote.Instance.Translation.OptionCi), KeyCode.O, hint: Callvote.Instance.Translation.KeybindHint.Replace("%Option%", Callvote.Instance.Translation.OptionCi));
             }
 
             CallvoteSettings =
@@ -42,7 +42,7 @@ namespace Callvote.Features
 
         public static void Register(IEnumerable<ServerSpecificSettingBase> settings)
         {
-            List<ServerSpecificSettingBase> list = new List<ServerSpecificSettingBase>(ServerSpecificSettingsSync.DefinedSettings ?? Array.Empty<ServerSpecificSettingBase>());
+            List<ServerSpecificSettingBase> list = new(ServerSpecificSettingsSync.DefinedSettings ?? Array.Empty<ServerSpecificSettingBase>());
 
             list.AddRange(settings);
 
@@ -53,7 +53,7 @@ namespace Callvote.Features
 
         public static void Unregister(IEnumerable<ServerSpecificSettingBase> settings)
         {
-            List<ServerSpecificSettingBase> list = new List<ServerSpecificSettingBase>(ServerSpecificSettingsSync.DefinedSettings ?? Array.Empty<ServerSpecificSettingBase>());
+            List<ServerSpecificSettingBase> list = new(ServerSpecificSettingsSync.DefinedSettings ?? Array.Empty<ServerSpecificSettingBase>());
 
             foreach (ServerSpecificSettingBase setting in settings)
                 list.Remove(setting);
