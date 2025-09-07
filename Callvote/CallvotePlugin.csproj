@@ -1,55 +1,62 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net48</TargetFramework>
-    <Platforms>x64</Platforms>
-	<LangVersion>latest</LangVersion>
-    <RootNamespace>Callvote</RootNamespace>
-    <AssemblyName>Callvote</AssemblyName>
-	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-	<DebugType>embedded</DebugType>
-    <Optimize>true</Optimize>
-    <DefineConstants>TRACE</DefineConstants>
-    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net48</TargetFramework>
+		<Platforms>x64</Platforms>
+		<LangVersion>latest</LangVersion>
+		<RootNamespace>Callvote</RootNamespace>
+		<AssemblyName>Callvote</AssemblyName>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<DebugType>embedded</DebugType>
+		<RootNamespace>Callvote</RootNamespace>
+		<AssemblyName>Callvote</AssemblyName>
+		<Optimize>true</Optimize>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<DefineConstants>TRACE</DefineConstants>
+		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Reference Include="Assembly-CSharp-firstpass">
-      <HintPath>$(EXILED_REFERENCES)\Assembly-CSharp-firstpass.dll</HintPath>
-    </Reference>
-    <Reference Include="HintServiceMeow">
-      <HintPath>$(EXILED_REFERENCES)\HintServiceMeow.dll</HintPath>
-    </Reference>
-    <Reference Include="Mirror">
-      <HintPath>$(EXILED_REFERENCES)\Mirror.dll</HintPath>
-    </Reference>
-    <Reference Include="RueI">
-      <HintPath>$(EXILED_REFERENCES)\RueI.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Net.Http" />
-    <Reference Include="Unity.TextMeshPro">
-      <HintPath>$(EXILED_REFERENCES)\Unity.TextMeshPro.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine">
-      <HintPath>$(EXILED_REFERENCES)\UnityEngine.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.CoreModule">
-      <HintPath>$(EXILED_REFERENCES)\UnityEngine.CoreModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.PhysicsModule">
-      <HintPath>$(EXILED_REFERENCES)\UnityEngine.PhysicsModule.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Compile Remove="*.yml" />
-  </ItemGroup>
+	<PropertyGroup Condition="'$(Configuration)' == 'Release'">
+		<AssemblyName>Callvote-EXILED</AssemblyName>
+	</PropertyGroup>
 
-  <ItemGroup>
-	<PackageReference Include="ExMod.Exiled" Version="9.8.1" />
-	<PackageReference Include="Lib.Harmony" Version="2.2.2" />
-	<PackageReference Include="YamlDotNet" Version="16.0.0" />
-   </ItemGroup>
-  
+	<ItemGroup>
+		<Reference Include="Assembly-CSharp-firstpass">
+			<HintPath>$(EXILED_REFERENCES)\Assembly-CSharp-firstpass.dll</HintPath>
+		</Reference>
+		<Reference Include="HintServiceMeow">
+			<HintPath>$(EXILED_REFERENCES)\HintServiceMeow.dll</HintPath>
+		</Reference>
+		<Reference Include="Mirror">
+			<HintPath>$(EXILED_REFERENCES)\Mirror.dll</HintPath>
+		</Reference>
+		<Reference Include="RueI">
+			<HintPath>$(EXILED_REFERENCES)\RueI.dll</HintPath>
+		</Reference>
+		<Reference Include="System.Net.Http" />
+		<Reference Include="Unity.TextMeshPro">
+			<HintPath>$(EXILED_REFERENCES)\Unity.TextMeshPro.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine">
+			<HintPath>$(EXILED_REFERENCES)\UnityEngine.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.CoreModule">
+			<HintPath>$(EXILED_REFERENCES)\UnityEngine.CoreModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.PhysicsModule">
+			<HintPath>$(EXILED_REFERENCES)\UnityEngine.PhysicsModule.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Remove="*.yml" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="ExMod.Exiled" Version="9.8.1" />
+		<PackageReference Include="Lib.Harmony" Version="2.2.2" />
+		<PackageReference Include="YamlDotNet" Version="16.0.0" />
+	</ItemGroup>
+
 </Project>
