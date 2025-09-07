@@ -19,7 +19,7 @@ namespace Callvote
         public override string Description => AssemblyInfo.Description;
         public override Version Version { get; } = Version.Parse(AssemblyInfo.Version);
         public string Prefix { get; } = AssemblyInfo.LangFile;
-        public override Version RequiredApiVersion { get; } = new Version(1, 1, 0);
+        public override Version RequiredApiVersion { get; } = new Version(1, 1, 1);
         public Translation Translation { get; private set; }
         public Config Config { get; private set; }
 
