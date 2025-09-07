@@ -8,7 +8,7 @@ namespace Callvote.Features
     public static class ServerSpecificSettings
     {
         public static IEnumerable<ServerSpecificSettingBase> CallvoteSettings { get; private set; }
-        public static SSGroupHeader SettingsHeader { get; set; } = new SSGroupHeader(AssemblyInfo.Name);
+        public static SSGroupHeader SettingsHeader { get; set; } = new SSGroupHeader(Callvote.Instance.Config.HeaderSettingId, AssemblyInfo.Name);
         public static SSKeybindSetting YesKeybindSetting { get; set; }
         public static SSKeybindSetting NoKeybindSetting { get; set; }
         public static SSKeybindSetting MtfKeybindSetting { get; set; }

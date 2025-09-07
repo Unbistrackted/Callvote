@@ -8,10 +8,17 @@
 		<AssemblyName>Callvote</AssemblyName>
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 		<DebugType>embedded</DebugType>
+		<RootNamespace>Callvote</RootNamespace>
+		<AssemblyName>Callvote</AssemblyName>
 		<Optimize>true</Optimize>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 		<DefineConstants>TRACE</DefineConstants>
 		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)' == 'Release'">
+		<AssemblyName>Callvote-LabAPI</AssemblyName>
 	</PropertyGroup>
 
 	<ItemGroup>
