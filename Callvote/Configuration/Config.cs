@@ -47,5 +47,11 @@ namespace Callvote.Configuration
         public int QueueSize { get; set; } = 5;
         [Description("Add a Discord Webhook if you want to send a Voting Result message to discord.")]
         public string DiscordWebhook { get; set; } = "";
+        [Description("Changes Callvote's SS Menu settings ID.")]
+        public int HeaderSettingId { get; set; } = 887;
+        public int YesKeybindSettingId { get; set; } = 888;
+        public int NoKeybindSettingId { get; set; } = 889;
+        public int MtfKeybindSettingId { get; set; } = 890;
+        public int CiKeybindSettingId { get; set; } = 891;
     }
 }

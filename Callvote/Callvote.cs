@@ -21,7 +21,6 @@ namespace Callvote
         public override string Prefix { get; } = AssemblyInfo.LangFile;
         public override Version RequiredExiledVersion { get; } = new Version(9, 6, 1);
         public override PluginPriority Priority { get; } = PluginPriority.Default;
-        public HeaderSetting SettingsHeader { get; set; } = new HeaderSetting(AssemblyInfo.Name);
 
         public override void OnEnabled()
         {

@@ -7,23 +7,24 @@ namespace Callvote.Features
     public static class ServerSpecificSettings
     {
         public static IEnumerable<SettingBase> CallvoteSettings { get; private set; }
+        public static HeaderSetting SettingsHeader { get; set; } = new HeaderSetting(5635, AssemblyInfo.Name);
         public static KeybindSetting YesKeybindSetting { get; set; }
         public static KeybindSetting NoKeybindSetting { get; set; }
         public static KeybindSetting MtfKeybindSetting { get; set; }
         public static KeybindSetting CiKeybindSetting { get; set; }
         public static void RegisterSettings()
         {
-            YesKeybindSetting = new KeybindSetting(888, Callvote.Instance.Translation.VoteKeybind.Replace("%Option%", Callvote.Instance.Translation.OptionYes), KeyCode.Y, hintDescription: Callvote.Instance.Translation.KeybindHint.Replace("%Option%", Callvote.Instance.Translation.OptionYes));
-            NoKeybindSetting = new KeybindSetting(889, Callvote.Instance.Translation.VoteKeybind.Replace("%Option%", Callvote.Instance.Translation.OptionNo), KeyCode.U, hintDescription: Callvote.Instance.Translation.KeybindHint.Replace("%Option%", Callvote.Instance.Translation.OptionNo));
+            YesKeybindSetting = new KeybindSetting(Callvote.Instance.Config.YesKeybindSettingId, Callvote.Instance.Translation.VoteKeybind.Replace("%Option%", Callvote.Instance.Translation.OptionYes), KeyCode.Y, hintDescription: Callvote.Instance.Translation.KeybindHint.Replace("%Option%", Callvote.Instance.Translation.OptionYes));
+            NoKeybindSetting = new KeybindSetting(Callvote.Instance.Config.NoKeybindSettingId, Callvote.Instance.Translation.VoteKeybind.Replace("%Option%", Callvote.Instance.Translation.OptionNo), KeyCode.U, hintDescription: Callvote.Instance.Translation.KeybindHint.Replace("%Option%", Callvote.Instance.Translation.OptionNo));
 
             if (Callvote.Instance.Config.EnableRespawnWave)
             {
-                MtfKeybindSetting = new KeybindSetting(890, Callvote.Instance.Translation.VoteKeybind.Replace("%Option%", Callvote.Instance.Translation.OptionMtf), KeyCode.I, hintDescription: Callvote.Instance.Translation.KeybindHint.Replace("%Option%", Callvote.Instance.Translation.OptionMtf));
-                CiKeybindSetting = new KeybindSetting(891, Callvote.Instance.Translation.VoteKeybind.Replace("%Option%", Callvote.Instance.Translation.OptionCi), KeyCode.O, hintDescription: Callvote.Instance.Translation.KeybindHint.Replace("%Option%", Callvote.Instance.Translation.OptionCi));
+                MtfKeybindSetting = new KeybindSetting(Callvote.Instance.Config.MtfKeybindSettingId, Callvote.Instance.Translation.VoteKeybind.Replace("%Option%", Callvote.Instance.Translation.OptionMtf), KeyCode.I, hintDescription: Callvote.Instance.Translation.KeybindHint.Replace("%Option%", Callvote.Instance.Translation.OptionMtf));
+                CiKeybindSetting = new KeybindSetting(Callvote.Instance.Config.CiKeybindSettingId, Callvote.Instance.Translation.VoteKeybind.Replace("%Option%", Callvote.Instance.Translation.OptionCi), KeyCode.O, hintDescription: Callvote.Instance.Translation.KeybindHint.Replace("%Option%", Callvote.Instance.Translation.OptionCi));
             }
             CallvoteSettings =
                 [
-                Callvote.Instance.SettingsHeader,
+                SettingsHeader,
                 YesKeybindSetting,
                 NoKeybindSetting,
                 MtfKeybindSetting,
