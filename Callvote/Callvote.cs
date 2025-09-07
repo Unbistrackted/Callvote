@@ -3,7 +3,6 @@ using Callvote.Configuration;
 using Callvote.Features;
 using Exiled.API.Enums;
 using Exiled.API.Features;
-using Exiled.API.Features.Core.UserSettings;
 using System;
 using UserSettings.ServerSpecific;
 using Server = Exiled.Events.Handlers.Server;

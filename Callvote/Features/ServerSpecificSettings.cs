@@ -7,7 +7,7 @@ namespace Callvote.Features
     public static class ServerSpecificSettings
     {
         public static IEnumerable<SettingBase> CallvoteSettings { get; private set; }
-        public static HeaderSetting SettingsHeader { get; set; } = new HeaderSetting(5635, AssemblyInfo.Name);
+        public static HeaderSetting SettingsHeader { get; set; } = new HeaderSetting(Callvote.Instance.Config.HeaderSettingId, AssemblyInfo.Name);
         public static KeybindSetting YesKeybindSetting { get; set; }
         public static KeybindSetting NoKeybindSetting { get; set; }
         public static KeybindSetting MtfKeybindSetting { get; set; }

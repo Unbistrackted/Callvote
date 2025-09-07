@@ -5,7 +5,6 @@ using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 
 namespace Callvote.API.VotingsTemplate
