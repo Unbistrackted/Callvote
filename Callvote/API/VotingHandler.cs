@@ -54,7 +54,8 @@ namespace Callvote.API
                 _ = Task.Run(async () => await Features.DiscordWebhook.ResultsMessage(CurrentVoting));
             }
             CurrentVoting = null;
-            if (Callvote.Instance.Config.EnableQueue) { TryStartNextVoting(); };
+            if (Callvote.Instance.Config.EnableQueue) { TryStartNextVoting(); }
+            ;
         }
 
         public static void TryStartNextVoting()

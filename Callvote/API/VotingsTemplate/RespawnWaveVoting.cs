@@ -11,7 +11,7 @@ namespace Callvote.API.VotingsTemplate
 {
     public class RespawnWaveVoting : Voting, IVotingTemplate
     {
-        public RespawnWaveVoting(Player player) : base(ReplacePlayer(player),nameof(VotingTypeEnum.RespawnWave),player,AddCallback,AddOptions()){}
+        public RespawnWaveVoting(Player player) : base(ReplacePlayer(player), nameof(VotingTypeEnum.RespawnWave), player, AddCallback, AddOptions()) { }
 
         public static void AddCallback(Voting vote)
         {

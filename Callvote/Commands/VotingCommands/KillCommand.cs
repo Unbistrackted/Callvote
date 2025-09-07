@@ -1,12 +1,12 @@
 ﻿using Callvote.API;
 using Callvote.API.VotingsTemplate;
+using Callvote.Commands.ParentCommands;
 using CommandSystem;
-using LabApi.Features.Wrappers;
 using LabApi.Features.Permissions;
+using LabApi.Features.Wrappers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Callvote.Commands.ParentCommands;
 
 namespace Callvote.Commands.VotingCommands
 {
@@ -63,7 +63,7 @@ namespace Callvote.Commands.VotingCommands
 
 
             List<Player> playerSearch = Player.List.Where(p => p.Nickname.Contains(args.ElementAt(0))).ToList();
-            if (playerSearch.Count() < 0 || playerSearch.Count() > 1)
+            if (playerSearch.Count() is < 0 or > 1)
             {
                 response = Callvote.Instance.Translation.PlayersWithSameName.Replace("%Player%", args.ElementAt(0));
                 return false;

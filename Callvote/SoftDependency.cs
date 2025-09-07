@@ -1,6 +1,5 @@
 ﻿namespace Callvote
 {
-    using LabApi.Features.Wrappers;
     using HarmonyLib;
     using HintServiceMeow.Core.Extension;
     using HintServiceMeow.Core.Utilities;
@@ -45,7 +44,7 @@
 
                 return new BroadcastProvider();
             }
-            if (Callvote.Instance.Config.MessageProvider.ToLower() == "broadcast" || Callvote.Instance.Config.MessageProvider.ToLower() == "bc")
+            if (Callvote.Instance.Config.MessageProvider.ToLower() is "broadcast" or "bc")
             {
                 return new BroadcastProvider();
             }

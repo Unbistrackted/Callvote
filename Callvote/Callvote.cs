@@ -1,12 +1,10 @@
 using Callvote.API;
 using Callvote.Configuration;
 using Callvote.Features;
-using System;
-using LabApi;
-using LabApi.Loader.Features.Plugins;
-using LabApi.Events.Arguments.ServerEvents;
 using LabApi.Events.Handlers;
 using LabApi.Loader;
+using LabApi.Loader.Features.Plugins;
+using System;
 using UserSettings.ServerSpecific;
 
 namespace Callvote

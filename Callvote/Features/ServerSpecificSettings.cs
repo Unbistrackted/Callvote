@@ -1,10 +1,6 @@
-﻿using LabApi.Features.Wrappers;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.Pool;
 using UserSettings.ServerSpecific;
 
 namespace Callvote.Features
@@ -41,7 +37,7 @@ namespace Callvote.Features
         }
         public static void UnregisterSettings()
         {
-           Unregister(CallvoteSettings);
+            Unregister(CallvoteSettings);
         }
 
         public static void Register(IEnumerable<ServerSpecificSettingBase> settings)
