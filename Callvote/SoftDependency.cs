@@ -108,10 +108,12 @@
         private static void LoadRueI() => RueIMain.EnsureInit();
 
     }
+
     public interface IMessageProvider
     {
         void DisplayMessage(TimeSpan duration, string content);
     }
+
     public class BroadcastProvider : IMessageProvider
     {
         public void DisplayMessage(TimeSpan duration1, string content)
@@ -119,12 +121,13 @@
             Server.SendBroadcast(message: content, duration: (ushort)duration1.TotalSeconds);
         }
     }
+
     public class RueIHintProvider : IMessageProvider
     {
         public void DisplayMessage(TimeSpan timer, string content)
         {
             TimedElemRef<SetElement> elemRef = new TimedElemRef<SetElement>();
-            foreach (Player player in Player.List)
+            foreach (Player player in Player.ReadyList)
             {
                 SetElement element = new SetElement(Callvote.Instance.Config.HintYCoordinate, content);
                 DisplayCore core = DisplayCore.Get(player.ReferenceHub);
@@ -135,10 +138,9 @@
 
     public class HSMHintProvider : IMessageProvider
     {
-
         public void DisplayMessage(TimeSpan timer, string content)
         {
-            foreach (Player player in Player.List)
+            foreach (Player player in Player.ReadyList)
             {
                 PlayerDisplay playerDisplay = PlayerDisplay.Get(player);
                 HintServiceMeow.Core.Models.Hints.Hint element = new HintServiceMeow.Core.Models.Hints.Hint
