@@ -46,7 +46,7 @@ namespace Callvote.API.VotingsTemplate
 
         private static string ReplacePlayer(Player player)
         {
-            return Callvote.Instance.Translation.AskedToRespawn.Replace("%Player%", player.Nickname);
+            return Callvote.Instance.Translation.AskedToRestart.Replace("%Player%", player.Nickname);
         }
     }
 }

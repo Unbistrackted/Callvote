@@ -1,60 +1,40 @@
+#pragma warning disable IDE0052
+
 using Callvote.API;
 using Callvote.Configuration;
 using Callvote.Features;
-using LabApi.Events.Handlers;
 using LabApi.Loader;
 using LabApi.Loader.Features.Plugins;
 using System;
-using UserSettings.ServerSpecific;
 
 namespace Callvote
 {
     public class Callvote : Plugin
     {
-        private EventHandlers EventHandlers;
-
         public static Callvote Instance;
         public override string Name { get; } = AssemblyInfo.Name;
         public override string Author { get; } = AssemblyInfo.Author;
         public override string Description => AssemblyInfo.Description;
         public override Version Version { get; } = Version.Parse(AssemblyInfo.Version);
         public string Prefix { get; } = AssemblyInfo.LangFile;
-        public override Version RequiredApiVersion { get; } = new Version(1, 1, 1);
+        public override Version RequiredApiVersion { get; } = new Version(1, 1, 4);
         public Translation Translation { get; private set; }
         public Config Config { get; private set; }
+        private EventHandlers EventHandlers;
 
         public override void Enable()
         {
             Instance = this;
             LoadConfigs();
-            RegisterEvents();
+            EventHandlers = new EventHandlers();
+            ServerSpecificSettings.RegisterSettings();
         }
 
         public override void Disable()
         {
-            UnregisterEvents();
-            Instance = null;
-        }
-
-        private void RegisterEvents()
-        {
-            EventHandlers = new EventHandlers();
-            ServerSpecificSettings.RegisterSettings();
-            ServerEvents.WaitingForPlayers += EventHandlers.OnWaitingForPlayers;
-            ServerEvents.RoundEnded += EventHandlers.OnRoundEnded;
-            ServerEvents.RoundRestarted += EventHandlers.OnRoundRestarted;
-            ServerSpecificSettingsSync.ServerOnSettingValueReceived += EventHandlers.OnUserInput;
-        }
-
-        private void UnregisterEvents()
-        {
             ServerSpecificSettings.UnregisterSettings();
-            ServerEvents.WaitingForPlayers -= EventHandlers.OnWaitingForPlayers;
-            ServerEvents.RoundEnded -= EventHandlers.OnRoundEnded;
-            ServerEvents.RoundRestarted -= EventHandlers.OnRoundRestarted;
-            ServerSpecificSettingsSync.ServerOnSettingValueReceived -= EventHandlers.OnUserInput;
-            VotingHandler.Clear();
             EventHandlers = null;
+            Instance = null;
         }
 
         public override void LoadConfigs()

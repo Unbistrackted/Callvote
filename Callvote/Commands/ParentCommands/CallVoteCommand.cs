@@ -4,8 +4,6 @@ using System;
 namespace Callvote.Commands.ParentCommands
 {
     [CommandHandler(typeof(ClientCommandHandler))]
-    [CommandHandler(typeof(RemoteAdminCommandHandler))]
-    [CommandHandler(typeof(GameConsoleCommandHandler))]
     public class CallVoteCommand : ParentCommand
     {
         public override string Command => "callvote";

@@ -54,7 +54,7 @@ namespace Callvote.API.VotingsTemplate
 
         private static string ReplacePlayer(Player player, Player offender, string reason)
         {
-            return Callvote.Instance.Translation.AskedToKick
+            return Callvote.Instance.Translation.AskedToKill
                     .Replace("%Player%", player.Nickname)
                     .Replace("%Offender%", offender.Nickname)
                     .Replace("%Reason%", reason);
