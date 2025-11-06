@@ -1,6 +1,7 @@
 using Callvote.API;
 using CommandSystem;
 using LabApi.Events.Arguments.ServerEvents;
+using LabApi.Events.Handlers;
 using LabApi.Features.Wrappers;
 using UserSettings.ServerSpecific;
 
@@ -8,6 +9,21 @@ namespace Callvote
 {
     public class EventHandlers
     {
+        public EventHandlers()
+        {
+            ServerEvents.WaitingForPlayers += OnWaitingForPlayers;
+            ServerEvents.RoundEnded += OnRoundEnded;
+            ServerEvents.RoundRestarted += OnRoundRestarted;
+            ServerSpecificSettingsSync.ServerOnSettingValueReceived += OnUserInput;
+        }
+        ~EventHandlers()
+        {
+            ServerEvents.WaitingForPlayers -= OnWaitingForPlayers;
+            ServerEvents.RoundEnded -= OnRoundEnded;
+            ServerEvents.RoundRestarted -= OnRoundRestarted;
+            ServerSpecificSettingsSync.ServerOnSettingValueReceived -= OnUserInput;
+        }
+
         public void OnWaitingForPlayers()
         {
             VotingHandler.Clear();
