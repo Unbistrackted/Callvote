@@ -1,8 +1,15 @@
+#if EXILED
+using Exiled.API.Interfaces;
+#endif
 using System.ComponentModel;
 
 namespace Callvote.Configuration
 {
+#if EXILED
+    public class Translation : ITranslation
+#else
     public class Translation
+#endif
     {
         [Description("%player%, %VotePercent%, %Offender%, %ThresholdKick%, %ThresholdRespawnWave%, %ThresholdNuke%, %ThresholdKill%, %ThresholdRestartRound%, %OptionKey%, %Option%, %Counter%, %Timer%, %Custom%, %Type%, %Number%")]
         public string AskedQuestion { get; set; } = "%Question% \n <color=#bce3a3>Press ~ and type</color> or <color=#939383>Set the keybind in Server-specific!</color>\n";

@@ -1,8 +1,13 @@
-﻿using Callvote.Enums;
-using Callvote.Features;
-using Callvote.Interfaces;
+﻿#if EXILED
+using Exiled.API.Features;
+using Exiled.Permissions.Extensions;
+#else
 using LabApi.Features.Permissions;
 using LabApi.Features.Wrappers;
+#endif
+using Callvote.Features;
+using Callvote.Features.Enums;
+using Callvote.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,9 +29,14 @@ namespace Callvote.API.VotingsTemplate
         {
             int yesVotePercent = (int)(vote.Counter[Callvote.Instance.Translation.CommandYes] / (float)Player.List.Count() * 100f);
             int noVotePercent = (int)(vote.Counter[Callvote.Instance.Translation.CommandNo] / (float)Player.List.Count() * 100f);
+
             if (yesVotePercent >= Callvote.Instance.Config.ThresholdKick && yesVotePercent > noVotePercent)
             {
+#if EXILED
+                if (!ofender.CheckPermission("cv.untouchable"))
+#else
                 if (!ofender.HasPermissions("cv.untouchable"))
+#endif
                 {
                     ofender.Kick(reason);
                     MessageProvider.Provider.DisplayMessage(TimeSpan.FromSeconds(Callvote.Instance.Config.FinalResultsDuration), $"<size={DisplayMessageHelper.CalculateMessageSize(Callvote.Instance.Translation.PlayerKicked)}>{Callvote.Instance.Translation.PlayerKicked
@@ -35,7 +45,11 @@ namespace Callvote.API.VotingsTemplate
                         .Replace("%Offender%", ofender.Nickname)
                         .Replace("%Reason%", reason)}</size>");
                 }
+#if EXILED
+                if (ofender.CheckPermission("cv.untouchable")) ofender.Broadcast((ushort)Callvote.Instance.Config.FinalResultsDuration, Callvote.Instance.Translation.Untouchable.Replace("%VotePercent%", yesVotePercent.ToString()));
+#else
                 if (ofender.HasPermissions("cv.untouchable")) ofender.SendBroadcast(Callvote.Instance.Translation.Untouchable.Replace("%VotePercent%", yesVotePercent.ToString()), (ushort)Callvote.Instance.Config.FinalResultsDuration);
+#endif
             }
             else
             {

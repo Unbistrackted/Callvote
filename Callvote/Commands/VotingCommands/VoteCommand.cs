@@ -1,6 +1,10 @@
-﻿using Callvote.API;
-using CommandSystem;
+﻿#if EXILED
+using Exiled.API.Features;
+#else
 using LabApi.Features.Wrappers;
+#endif
+using Callvote.API;
+using CommandSystem;
 using System;
 
 namespace Callvote.Commands.VotingCommands
@@ -26,6 +30,7 @@ namespace Callvote.Commands.VotingCommands
                 response = Callvote.Instance.Translation.NoVotingInProgress;
                 return true;
             }
+
             response = VotingHandler.CurrentVoting.Vote(player, Command);
             return true;
         }

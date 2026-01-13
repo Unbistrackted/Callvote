@@ -1,4 +1,4 @@
-﻿namespace Callvote.Enums
+﻿namespace Callvote.Features.Enums
 {
     public enum VotingTypeEnum
     {

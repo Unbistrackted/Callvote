@@ -1,9 +1,15 @@
-using Callvote.API;
-using CommandSystem;
+#if EXILED
+using ServerEvents = Exiled.Events.Handlers.Server;
+using RoundEndedEventArgs = Exiled.Events.EventArgs.Server.RoundEndedEventArgs;
+using Exiled.API.Features;
+#else
 using LabApi.Events.Arguments.ServerEvents;
 using LabApi.Events.Handlers;
 using LabApi.Features.Wrappers;
+#endif
 using UserSettings.ServerSpecific;
+using Callvote.API;
+using CommandSystem;
 
 namespace Callvote
 {
@@ -13,14 +19,22 @@ namespace Callvote
         {
             ServerEvents.WaitingForPlayers += OnWaitingForPlayers;
             ServerEvents.RoundEnded += OnRoundEnded;
-            ServerEvents.RoundRestarted += OnRoundRestarted;
+#if EXILED
+            ServerEvents.RestartingRound += OnRoundRestarting;
+#else
+            ServerEvents.RoundRestarted += OnRoundRestarting;
+#endif
             ServerSpecificSettingsSync.ServerOnSettingValueReceived += OnUserInput;
         }
         ~EventHandlers()
         {
             ServerEvents.WaitingForPlayers -= OnWaitingForPlayers;
             ServerEvents.RoundEnded -= OnRoundEnded;
-            ServerEvents.RoundRestarted -= OnRoundRestarted;
+#if EXILED
+            ServerEvents.RestartingRound -= OnRoundRestarting;
+#else
+            ServerEvents.RoundRestarted -= OnRoundRestarting;
+#endif
             ServerSpecificSettingsSync.ServerOnSettingValueReceived -= OnUserInput;
         }
 
@@ -34,7 +48,7 @@ namespace Callvote
             VotingHandler.Clear();
         }
 
-        public void OnRoundRestarted()
+        public void OnRoundRestarting()
         {
             VotingHandler.Clear();
         }

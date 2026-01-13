@@ -1,8 +1,13 @@
-﻿using Callvote.API;
-using Callvote.Commands.ParentCommands;
-using CommandSystem;
+﻿#if EXILED
+using Exiled.API.Features;
+using Exiled.Permissions.Extensions;
+#else
 using LabApi.Features.Permissions;
 using LabApi.Features.Wrappers;
+#endif
+using Callvote.API;
+using Callvote.Commands.ParentCommands;
+using CommandSystem;
 using System;
 using System.Linq;
 
@@ -13,25 +18,29 @@ namespace Callvote.Commands.VotingCommands
     {
         public string Command => "rig";
 
-        public string[] Aliases => new[] { "r" };
+        public string[] Aliases => ["r"];
 
         public string Description => "Rigs the system.";
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             Player player = Player.Get(sender);
-
+#if EXILED
+            if (!player.CheckPermission("cv.superadmin+") && player != null)
+#else
             if (!player.HasPermissions("cv.superadmin+") && player != null)
+#endif
             {
                 response = Callvote.Instance.Translation.NoPermission;
                 return false;
             }
+
             if (VotingHandler.CurrentVoting == null)
             {
                 response = Callvote.Instance.Translation.NoVotingInProgress;
                 return false;
-
             }
+
             if (arguments.Count < 0)
             {
                 response = "You need to pass an option.";

@@ -1,9 +1,9 @@
 ﻿namespace Callvote
 {
+    using LabApi.Features.Wrappers;
     using HarmonyLib;
     using HintServiceMeow.Core.Extension;
     using HintServiceMeow.Core.Utilities;
-    using LabApi.Features.Wrappers;
     using RueI;
     using RueI.Displays;
     using RueI.Displays.Scheduling;

@@ -1,10 +1,15 @@
-﻿using Callvote.API;
-using Callvote.Commands.ParentCommands;
-using Callvote.Features;
-using CommandSystem;
-using Exiled.API.Extensions;
+﻿#if EXILED
+using Exiled.API.Features;
+using Exiled.Permissions.Extensions;
+#else
 using LabApi.Features.Permissions;
 using LabApi.Features.Wrappers;
+#endif
+using Callvote.API;
+using Callvote.Commands.ParentCommands;
+using Callvote.Extensions;
+using Callvote.Features;
+using CommandSystem;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,8 +34,11 @@ namespace Callvote.Commands.QueueCommands
             }
 
             Player player = Player.Get(sender);
-
+#if EXILED
+            if (!player.CheckPermission("cv.managequeue"))
+#else
             if (!player.HasPermissions("cv.managequeue"))
+#endif
             {
                 response = Callvote.Instance.Translation.NoPermission;
                 return false;
@@ -47,9 +55,8 @@ namespace Callvote.Commands.QueueCommands
             }
 
             foreach (Voting vote in votingsToRemove)
-            {
                 VotingHandler.VotingQueue.RemoveItemFromQueue(vote);
-            }
+
             response = Callvote.Instance.Translation.RemovedFromQueue.Replace("%Number%", votingsToRemove.Count.ToString());
             return true;
         }

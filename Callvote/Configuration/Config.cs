@@ -1,9 +1,23 @@
+#if EXILED
+using Exiled.API.Interfaces;
+#endif
 using System.ComponentModel;
 
 namespace Callvote.Configuration
 {
+#if EXILED
+    public class Config : IConfig
+#else
     public class Config
+#endif
     {
+#if EXILED
+        [Description("Is the plugin enabled")]
+        public bool IsEnabled { get; set; } = true;
+
+        [Description("Are the plugin's debug logs enabled")]
+        public bool Debug { get; set; } = false;
+#endif
         [Description("Which message provider should Callvote use? You can choose between auto, hsm, ruei, or broadcasts / bc. (In auto mode, if both HSM and RUEI are present on the server, it falls back to broadcasts.)")]
         public string MessageProvider { get; set; } = "auto";
         [Description("Sets the Y coordinate of the hint on a scale from 0-1000, where 0 represents the bottom of the screen (Doesn't apply for broadcasts)")]

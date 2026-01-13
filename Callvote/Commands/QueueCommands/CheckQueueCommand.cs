@@ -1,8 +1,12 @@
-﻿using Callvote.API;
+﻿#if EXILED
+using Exiled.API.Features;
+#else
+using LabApi.Features.Wrappers;
+#endif
+using Callvote.API;
 using Callvote.Commands.ParentCommands;
 using Callvote.Features;
 using CommandSystem;
-using LabApi.Features.Wrappers;
 using System;
 
 namespace Callvote.Commands.QueueCommands
@@ -31,13 +35,16 @@ namespace Callvote.Commands.QueueCommands
                 response = Callvote.Instance.Translation.NoVotingInQueue;
                 return false;
             }
+
             string votingsInfo = string.Empty;
             int _counter = 0;
+
             foreach (Voting voting in VotingHandler.VotingQueue)
             {
                 votingsInfo += $"\nVoting {_counter} ----- Type {voting.VotingType} ----- {voting.Question}\n";
                 _counter++;
             }
+
             response = votingsInfo;
             return true;
         }

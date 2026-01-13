@@ -1,5 +1,9 @@
-﻿using Callvote.Features;
+﻿#if EXILED
+using Exiled.API.Features;
+#else
 using LabApi.Features.Wrappers;
+#endif
+using Callvote.Features;
 using System.Collections.Generic;
 
 namespace Callvote.API.VotingsTemplate

@@ -1,5 +1,11 @@
-﻿using LabApi.Features.Wrappers;
+﻿#if EXILED
+using Exiled.API.Enums;
+using Exiled.API.Features;
+using Exiled.Loader;
+#else
+using LabApi.Features.Wrappers;
 using LabApi.Loader;
+#endif
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -21,12 +27,21 @@ namespace Callvote.Features
                 using (HttpClient client = new HttpClient())
                 {
                     string githubTranslationLink = $"https://raw.githubusercontent.com/Unbistrackted/Callvote/EXILED/Callvote/Translations/{GetLanguage(language)}.yml";
+#if EXILED
+                    string path = LoaderPlugin.Config.ConfigType == ConfigType.Default ? Paths.Translations : Paths.GetTranslationPath(Callvote.Instance.Prefix);
+#else
                     string path = Callvote.Instance.GetConfigPath("translation");
+#endif
+
                     string file = await client.GetStringAsync(githubTranslationLink);
 
                     RewriteTranslationFile(file, path);
                 }
+#if EXILED
+                Callvote.Instance.LoadTranslation();
+#else
                 Callvote.Instance.LoadConfigs();
+#endif
                 ServerSpecificSettings.UnregisterSettings();
                 ServerSpecificSettings.RegisterSettings();
                 return true;

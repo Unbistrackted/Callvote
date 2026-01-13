@@ -1,5 +1,9 @@
-﻿using Callvote.Features;
+﻿#if EXILED
+using Exiled.API.Features;
+#else
 using LabApi.Features.Wrappers;
+#endif
+using Callvote.Features;
 using MEC;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -27,10 +31,12 @@ namespace Callvote.API
                     return;
 
                 }
+
                 VotingQueue.Enqueue(vote);
                 TryStartNextVoting();
                 return;
             }
+
             if (CurrentVoting == null)
             {
                 CurrentVoting = vote;
@@ -41,21 +47,21 @@ namespace Callvote.API
         public static void FinishVoting()
         {
             CurrentVoting?.Stop();
+
             if (CurrentVoting != null)
             {
                 if (CurrentVoting.Callback == null)
-                {
                     DisplayMessageHelper.DisplayResultsMessage();
-                }
                 else
-                {
                     CurrentVoting.Callback.Invoke(CurrentVoting);
-                }
+
                 _ = Task.Run(async () => await Features.DiscordWebhook.ResultsMessage(CurrentVoting));
             }
+
             CurrentVoting = null;
-            if (Callvote.Instance.Config.EnableQueue) { TryStartNextVoting(); }
-            ;
+
+            if (Callvote.Instance.Config.EnableQueue) 
+                TryStartNextVoting(); 
         }
 
         public static void TryStartNextVoting()
@@ -66,15 +72,14 @@ namespace Callvote.API
                 CurrentVoting.Start();
                 return;
             }
+
             Response = Callvote.Instance.Translation.VotingEnqueued;
         }
 
         public static void AddOptionToVoting(string command, string option)
         {
             if (!Options.ContainsKey(command))
-            {
                 Options[command] = option;
-            }
         }
 
         public static IEnumerator<float> VotingCoroutine(Voting newVote)
@@ -83,6 +88,7 @@ namespace Callvote.API
             int timerCounter = 0;
             DisplayMessageHelper.DisplayFirstMessage(out string firstMessage);
             yield return Timing.WaitForSeconds(5f);
+
             while (true)
             {
                 if (timerCounter >= Callvote.Instance.Config.VoteDuration + 1)
@@ -90,6 +96,7 @@ namespace Callvote.API
                     FinishVoting();
                     yield break;
                 }
+
                 DisplayMessageHelper.DisplayWhileVotingMessage(firstMessage);
                 timerCounter++;
                 yield return Timing.WaitForSeconds(Callvote.Instance.Config.RefreshInterval);

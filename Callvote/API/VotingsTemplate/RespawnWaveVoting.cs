@@ -1,7 +1,11 @@
-﻿using Callvote.Enums;
-using Callvote.Features;
-using Callvote.Interfaces;
+﻿#if EXILED
+using Exiled.API.Features;
+#else
 using LabApi.Features.Wrappers;
+#endif
+using Callvote.Features;
+using Callvote.Features.Enums;
+using Callvote.Interfaces;
 using Respawning;
 using System;
 using System.Collections.Generic;
@@ -18,6 +22,7 @@ namespace Callvote.API.VotingsTemplate
             int noVotePercent = (int)(vote.Counter[Callvote.Instance.Translation.CommandNo] / (float)Player.List.Count() * 100f);
             int mtfVotePercent = (int)(vote.Counter[Callvote.Instance.Translation.CommandMobileTaskForce] / (float)Player.List.Count() * 100f);
             int ciVotePercent = (int)(vote.Counter[Callvote.Instance.Translation.CommandChaosInsurgency] / (float)Player.List.Count() * 100f);
+
             if (mtfVotePercent >= Callvote.Instance.Config.ThresholdRespawnWave)
             {
                 MessageProvider.Provider.DisplayMessage(TimeSpan.FromSeconds(Callvote.Instance.Config.FinalResultsDuration), $"<size={DisplayMessageHelper.CalculateMessageSize(Callvote.Instance.Translation.MtfRespawn)}>{Callvote.Instance.Translation.MtfRespawn

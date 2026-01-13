@@ -1,8 +1,13 @@
-﻿using Callvote.API;
-using Callvote.Commands.VotingCommands;
-using CommandSystem;
+﻿#if EXILED
+using Exiled.API.Features;
+using Exiled.Permissions.Extensions;
+#else
 using LabApi.Features.Permissions;
 using LabApi.Features.Wrappers;
+#endif
+using Callvote.API;
+using Callvote.Commands.VotingCommands;
+using CommandSystem;
 using MEC;
 using RemoteAdmin;
 using System;
@@ -98,7 +103,12 @@ namespace Callvote.Features
                 VotingHandler.PlayerCallVotingAmount.Add(CallVotePlayer, 0);
             }
             VotingHandler.PlayerCallVotingAmount[CallVotePlayer]++;
-            if (VotingHandler.PlayerCallVotingAmount[CallVotePlayer] > Callvote.Instance.Config.MaxAmountOfVotesPerRound && !CallVotePlayer.HasPermissions("cv.bypass"))
+            if (VotingHandler.PlayerCallVotingAmount[CallVotePlayer] > Callvote.Instance.Config.MaxAmountOfVotesPerRound &&
+#if EXILED
+                !CallVotePlayer.CheckPermission("cv.bypass"))
+#else
+                !CallVotePlayer.HasPermissions("cv.bypass"))
+#endif
             {
                 VotingHandler.Response = Callvote.Instance.Translation.MaxVote;
                 return false;

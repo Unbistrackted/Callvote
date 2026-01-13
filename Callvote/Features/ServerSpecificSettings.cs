@@ -48,7 +48,6 @@ namespace Callvote.Features
 
             ServerSpecificSettingsSync.DefinedSettings = list.ToArray();
             ServerSpecificSettingsSync.SendToAll();
-
         }
 
         public static void Unregister(IEnumerable<ServerSpecificSettingBase> settings)

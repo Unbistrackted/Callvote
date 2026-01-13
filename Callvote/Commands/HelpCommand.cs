@@ -16,18 +16,19 @@ namespace Callvote.Commands
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             response =
-                "\ncallvote custom <question(detail) <option1> <option2>(detail2)...." +
-                "\ncallvote binary <question>" +
-                "\ncallvote kick <player>" +
-                "\ncallvote kill <player>" +
+                "\ncallvote custom [\"question\"] [option1(\"detail\")] [option2(\"detail2\")]...." +
+                "\ncallvote binary [question]" +
+                "\ncallvote kick [player] [reason]" +
+                "\ncallvote kill [player] [reason]" +
                 "\ncallvote nuke" +
                 "\ncallvote respawnwave" +
                 "\ncallvote restartround" +
                 "\ncallvote stopvote" +
                 "\ncallvote ff" +
-                "\ncallvote queue <check/clear/pause/removeplayer (player)/removetype (type)/removeindex (index)>" +
-                "\ncallvote rig <option>" +
-                "\ncallvote translation <countryCode>";
+                "\ncallvote queue [check/clear/pause/removeplayer/removetype/removeindex] [player/type/index]" +
+                "\ncallvote rig [option]" +
+                "\ncallvote translation [none/language/countryCode]" +
+                "\n<color=red>REMOVE THE SQUARE BRACKETS (-> []) WHEN USING THE COMMAND</color>";
             return true;
         }
     }

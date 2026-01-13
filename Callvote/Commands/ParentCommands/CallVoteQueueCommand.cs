@@ -1,7 +1,11 @@
-﻿using Callvote.API;
+﻿#if EXILED
+using Exiled.API.Features;
+#else
+using LabApi.Features.Wrappers;
+#endif
+using Callvote.API;
 using Callvote.Features;
 using CommandSystem;
-using LabApi.Features.Wrappers;
 using System;
 
 namespace Callvote.Commands.ParentCommands

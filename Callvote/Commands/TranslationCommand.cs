@@ -1,9 +1,14 @@
-﻿using Callvote.API;
+﻿#if EXILED
+using Exiled.API.Features;
+using Exiled.Permissions.Extensions;
+#else
+using LabApi.Features.Permissions;
+using LabApi.Features.Wrappers;
+#endif
+using Callvote.API;
 using Callvote.Commands.ParentCommands;
 using Callvote.Features;
 using CommandSystem;
-using LabApi.Features.Permissions;
-using LabApi.Features.Wrappers;
 using MEC;
 using System;
 using System.Linq;
@@ -23,8 +28,11 @@ namespace Callvote.Commands
         public bool Execute(ArraySegment<string> args, ICommandSender sender, out string response)
         {
             Player player = Player.Get(sender);
-
+#if EXILED
+            if (!player.CheckPermission("cv.translation") && player != null)
+#else
             if (!player.HasPermissions("cv.translation") && player != null)
+#endif
             {
                 response = Callvote.Instance.Translation.NoPermission;
                 return false;

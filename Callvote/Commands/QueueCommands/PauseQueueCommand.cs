@@ -1,8 +1,13 @@
-﻿using Callvote.API;
-using Callvote.Commands.ParentCommands;
-using CommandSystem;
+﻿#if EXILED
+using Exiled.API.Features;
+using Exiled.Permissions.Extensions;
+#else
 using LabApi.Features.Permissions;
 using LabApi.Features.Wrappers;
+#endif
+using Callvote.API;
+using Callvote.Commands.ParentCommands;
+using CommandSystem;
 using System;
 
 namespace Callvote.Commands.QueueCommands
@@ -25,9 +30,12 @@ namespace Callvote.Commands.QueueCommands
             }
 
             Player player = Player.Get(sender);
-
+#if EXILED
+            if (!player.CheckPermission("cv.managequeue"))
+#else
             if (!player.HasPermissions("cv.managequeue"))
-            {
+#endif
+            { 
                 response = Callvote.Instance.Translation.NoPermission;
                 return false;
             }

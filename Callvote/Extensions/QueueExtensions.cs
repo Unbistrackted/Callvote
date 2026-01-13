@@ -1,36 +1,41 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
-namespace Exiled.API.Extensions
+namespace Callvote.Extensions
 {
     public static class QueueExtensions
     {
         public static void RemoveFromQueue<T>(this Queue<T> queue, int index)
         {
-            if (index < 0 || index >= queue.Count) { return; }
+            if (index < 0 || index >= queue.Count)  
+                return;
 
-            T element = queue.ElementAt(index);
-
-            List<T> list = queue.Where(item => !item.Equals(element)).ToList();
-
-            queue.Clear();
-
-            foreach (T item2 in list)
+            for (int i = 0; i < queue.Count; i++)
             {
-                queue.Enqueue(item2);
+                T item = queue.Dequeue();
+
+                if (i != index)
+                    queue.Enqueue(item);
             }
         }
 
-        public static void RemoveItemFromQueue<T>(this Queue<T> queue, T value)
+        public static bool RemoveItemFromQueue<T>(this Queue<T> queue, T value)
         {
-            List<T> list = queue.Where(item => !item.Equals(value)).ToList();
+            bool removed = false;
 
-            queue.Clear();
-
-            foreach (T item2 in list)
+            for (int i = 0; i < queue.Count; i++)
             {
-                queue.Enqueue(item2);
+                T item = queue.Dequeue();
+
+                if (!removed && EqualityComparer<T>.Default.Equals(item, value))
+                {
+                    removed = true;
+                    continue;
+                }
+
+                queue.Enqueue(item);
             }
+
+            return removed;
         }
     }
 }

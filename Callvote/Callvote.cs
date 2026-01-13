@@ -1,10 +1,14 @@
 #pragma warning disable IDE0052
 
-using Callvote.API;
-using Callvote.Configuration;
-using Callvote.Features;
-using LabApi.Loader;
+#if EXILED
+using Plugin = Exiled.API.Features.Plugin<Callvote.Configuration.Config, Callvote.Configuration.Translation>;
+using Exiled.API.Enums;
+# else
 using LabApi.Loader.Features.Plugins;
+using LabApi.Loader;
+using Callvote.Configuration;
+#endif
+using Callvote.Features;
 using System;
 
 namespace Callvote
@@ -14,35 +18,55 @@ namespace Callvote
         public static Callvote Instance;
         public override string Name { get; } = AssemblyInfo.Name;
         public override string Author { get; } = AssemblyInfo.Author;
+#if EXILED
+        public override Version RequiredExiledVersion => new(9, 12, 2);
+        public override PluginPriority Priority => PluginPriority.Default;
+        public override string Prefix { get; } = AssemblyInfo.LangFile;
+#else
         public override string Description => AssemblyInfo.Description;
-        public override Version Version { get; } = Version.Parse(AssemblyInfo.Version);
-        public string Prefix { get; } = AssemblyInfo.LangFile;
         public override Version RequiredApiVersion { get; } = new Version(1, 1, 4);
+        public string Prefix { get; } = AssemblyInfo.LangFile;
         public Translation Translation { get; private set; }
         public Config Config { get; private set; }
-        private EventHandlers EventHandlers;
+#endif
+        public override Version Version { get; } = Version.Parse(AssemblyInfo.Version);
 
+        private EventHandlers _eventHandler;
+
+#if EXILED
+        public override void OnEnabled()
+#else
         public override void Enable()
+#endif
         {
             Instance = this;
+
+#if !EXILED
             LoadConfigs();
-            EventHandlers = new EventHandlers();
+#endif
+            _eventHandler = new EventHandlers();
             ServerSpecificSettings.RegisterSettings();
         }
 
+#if EXILED
+        public override void OnDisabled()
+#else
         public override void Disable()
+#endif
         {
             ServerSpecificSettings.UnregisterSettings();
-            EventHandlers = null;
+            _eventHandler = null;
             Instance = null;
         }
 
+#if !EXILED
         public override void LoadConfigs()
         {
             this.TryLoadConfig("config.yml", out Config config);
-            Config = config ?? new Config();
             this.TryLoadConfig("translation.yml", out Translation translation);
+            Config = config ?? new Config();
             Translation = translation ?? new Translation();
         }
+#endif
     }
 }

@@ -1,9 +1,14 @@
-﻿using Callvote.API;
+﻿#if EXILED
+using Exiled.API.Features;
+using Exiled.Permissions.Extensions;
+#else
+using LabApi.Features.Permissions;
+using LabApi.Features.Wrappers;
+#endif
+using Callvote.API;
 using Callvote.API.VotingsTemplate;
 using Callvote.Commands.ParentCommands;
 using CommandSystem;
-using LabApi.Features.Permissions;
-using LabApi.Features.Wrappers;
 using System;
 
 namespace Callvote.Commands.VotingCommands
@@ -13,13 +18,12 @@ namespace Callvote.Commands.VotingCommands
     {
         public string Command => "respawnwave";
 
-        public string[] Aliases => new[] { "respawn", "wave" };
+        public string[] Aliases => ["respawn", "wave"];
 
         public string Description => "Calls a respawn wave voting.";
 
         public bool Execute(ArraySegment<string> args, ICommandSender sender, out string response)
         {
-
             Player player = Player.Get(sender);
 
             if (!Callvote.Instance.Config.EnableRespawnWave)
@@ -27,16 +31,24 @@ namespace Callvote.Commands.VotingCommands
                 response = Callvote.Instance.Translation.VoteRespawnWaveDisabled;
                 return false;
             }
-
+#if EXILED
+            if (!player.CheckPermission("cv.callvoterespawnwave") && player != null)
+#else
             if (!player.HasPermissions("cv.callvoterespawnwave") && player != null)
+#endif
             {
                 response = Callvote.Instance.Translation.NoPermission;
                 return false;
             }
-
+#if EXILED
+            if (!player.CheckPermission("cv.bypass") && Round.ElapsedTime.TotalSeconds < Callvote.Instance.Config.MaxWaitRespawnWave)
+            {
+                response = Callvote.Instance.Translation.WaitToVote.Replace("%Timer%", $"{Callvote.Instance.Config.MaxWaitRespawnWave - Round.ElapsedTime.TotalSeconds:F0}");
+#else
             if (!player.HasPermissions("cv.bypass") && Round.Duration.TotalSeconds < Callvote.Instance.Config.MaxWaitRespawnWave)
             {
                 response = Callvote.Instance.Translation.WaitToVote.Replace("%Timer%", $"{Callvote.Instance.Config.MaxWaitRespawnWave - Round.Duration.TotalSeconds:F0}");
+#endif
                 return false;
             }
 

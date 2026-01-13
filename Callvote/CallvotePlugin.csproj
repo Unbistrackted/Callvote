@@ -15,19 +15,19 @@
 		<DefineConstants>TRACE</DefineConstants>
 		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+		<Configurations>Debug;Release;EXILED</Configurations>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)' == 'Release'">
 		<AssemblyName>Callvote-LabAPI</AssemblyName>
 	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)' == 'EXILED'">
+		<AssemblyName>Callvote-EXILED</AssemblyName>
+	</PropertyGroup>
 
 	<ItemGroup>
 		<Reference Include="Assembly-CSharp-firstpass">
 			<HintPath>$(EXILED_REFERENCES)\Assembly-CSharp-firstpass.dll</HintPath>
-		</Reference>
-		
-		<Reference Include="Assembly-CSharp">
-			<HintPath>$(EXILED_REFERENCES)\Assembly-CSharp.dll</HintPath>
 		</Reference>
 		
 		<Reference Include="HintServiceMeow">
@@ -70,6 +70,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="ExMod.Exiled" Version="9.12.2" />
 		<PackageReference Include="Lib.Harmony" Version="2.2.2" />
 		<PackageReference Include="Northwood.LabAPI" Version="1.1.4" />
 		<PackageReference Include="YamlDotNet" Version="16.0.0" />

@@ -1,10 +1,15 @@
-﻿using Callvote.API;
-using Callvote.API.VotingsTemplate;
-using Callvote.Commands.ParentCommands;
-using Callvote.Enums;
-using CommandSystem;
+﻿#if EXILED
+using Exiled.API.Features;
+using Exiled.Permissions.Extensions;
+#else
 using LabApi.Features.Permissions;
 using LabApi.Features.Wrappers;
+#endif
+using Callvote.API;
+using Callvote.API.VotingsTemplate;
+using Callvote.Commands.ParentCommands;
+using Callvote.Features.Enums;
+using CommandSystem;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +22,7 @@ namespace Callvote.Commands.VotingCommands
     {
         public string Command => "custom";
 
-        public string[] Aliases => new[] { "c" };
+        public string[] Aliases => ["c"];
 
         public string Description => "Calls a custom voting.";
 
@@ -28,7 +33,13 @@ namespace Callvote.Commands.VotingCommands
             optionDetailsStrings = JoinWordsBetweenQuotes(optionDetailsStrings);
             Player player = Player.Get(sender);
 
-            if (!player.HasPermissions("cv.callvotecustom") && player != null)
+            if (
+#if EXILED
+                !player.CheckPermission("cv.callvotecustom")
+#else
+                !player.HasPermissions("cv.callvotecustom") 
+#endif
+                && player != null)
             {
                 response = Callvote.Instance.Translation.NoPermission;
                 return false;
@@ -84,10 +95,9 @@ namespace Callvote.Commands.VotingCommands
                         isInsideQuotes = false;
                     }
                 }
+
                 else
-                {
                     list.Add(arg);
-                }
             }
             return list;
         }
@@ -116,10 +126,9 @@ namespace Callvote.Commands.VotingCommands
                         isInsideQuotes = false;
                     }
                 }
+
                 else
-                {
                     list.Add(arg);
-                }
             }
             return list;
         }
@@ -143,9 +152,7 @@ namespace Callvote.Commands.VotingCommands
                 }
 
                 if (!string.IsNullOrEmpty(cleanedItem))
-                {
                     cleanedList.Add(cleanedItem);
-                }
             }
 
             list.Clear();

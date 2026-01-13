@@ -1,7 +1,11 @@
-﻿using Callvote.Enums;
-using Callvote.Features;
-using Callvote.Interfaces;
+﻿#if EXILED
+using Exiled.API.Features;
+#else
 using LabApi.Features.Wrappers;
+#endif
+using Callvote.Features;
+using Callvote.Features.Enums;
+using Callvote.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +27,7 @@ namespace Callvote.API.VotingsTemplate
         {
             int yesVotePercent = (int)(vote.Counter[Callvote.Instance.Translation.CommandYes] / (float)Player.List.Count() * 100f);
             int noVotePercent = (int)(vote.Counter[Callvote.Instance.Translation.CommandNo] / (float)Player.List.Count() * 100f);
+
             if (yesVotePercent >= Callvote.Instance.Config.ThresholdRestartRound && yesVotePercent > noVotePercent)
             {
                 MessageProvider.Provider.DisplayMessage(TimeSpan.FromSeconds(Callvote.Instance.Config.FinalResultsDuration), $"<size={DisplayMessageHelper.CalculateMessageSize(Callvote.Instance.Translation.RoundRestarting)}>{Callvote.Instance.Translation.RoundRestarting

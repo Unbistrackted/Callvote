@@ -1,11 +1,17 @@
-﻿using Callvote.API;
-using Callvote.API.VotingsTemplate;
-using Callvote.Commands.ParentCommands;
-using Callvote.Enums;
-using CommandSystem;
+﻿#if EXILED
+using Exiled.API.Features;
+using Exiled.Permissions.Extensions;
+#else
 using LabApi.Features.Permissions;
 using LabApi.Features.Wrappers;
+#endif
+using Callvote.API;
+using Callvote.API.VotingsTemplate;
+using Callvote.Commands.ParentCommands;
+using Callvote.Features.Enums;
+using CommandSystem;
 using System;
+
 
 namespace Callvote.Commands.VotingCommands
 {
@@ -14,16 +20,21 @@ namespace Callvote.Commands.VotingCommands
     {
         public string Command => "binary";
 
-        public string[] Aliases => new[] { "binario", "bi", "b" };
+        public string[] Aliases => ["binario", "bi", "b", "yesno"];
 
         public string Description => "Calls a binary voting.";
 
         public bool Execute(ArraySegment<string> args, ICommandSender sender, out string response)
         {
-
             Player player = Player.Get(sender);
 
-            if (!player.HasPermissions("cv.callvotecustom") && player != null)
+            if (
+#if EXILED
+                !player.CheckPermission("cv.callvotecustom")
+#else
+                !player.HasPermissions("cv.callvotecustom") 
+#endif
+                && player != null)
             {
                 response = Callvote.Instance.Translation.NoPermission;
                 return false;
