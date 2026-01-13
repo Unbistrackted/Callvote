@@ -5,7 +5,7 @@ _Copyright © 2019-2024, Nicholas Solin a.k.a. PatPeter_
 
 _Copyright © 2021-2022, babyboucher_
 
-_Copyright © 2025, Unbistrackted_
+_Copyright © 2025-2026, Unbistrackted_
 
 _All rights reserved._
 
