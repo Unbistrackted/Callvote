@@ -14,7 +14,7 @@ using System.Runtime.InteropServices;
 #endif
 [assembly: AssemblyCompany("Universal Gaming Alliance")]
 [assembly: AssemblyProduct(AssemblyInfo.Name)]
-[assembly: AssemblyCopyright("Copyright © 2018 Nicholas Solin a.k.a. PatPeter")]
+[assembly: AssemblyCopyright("Copyright © 2025-2026 Unbistrackted")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
