@@ -35,7 +35,7 @@ namespace Callvote.Commands.QueueCommands
 #else
             if (!player.HasPermissions("cv.managequeue"))
 #endif
-            { 
+            {
                 response = Callvote.Instance.Translation.NoPermission;
                 return false;
             }

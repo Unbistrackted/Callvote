@@ -6,7 +6,7 @@ namespace Callvote.Extensions
     {
         public static void RemoveFromQueue<T>(this Queue<T> queue, int index)
         {
-            if (index < 0 || index >= queue.Count)  
+            if (index < 0 || index >= queue.Count)
                 return;
 
             for (int i = 0; i < queue.Count; i++)

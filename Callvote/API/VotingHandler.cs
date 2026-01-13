@@ -38,7 +38,7 @@ namespace Callvote.API
         /// Key: Command name. Value: Option/Label name for the command.
         /// </summary>
         public static Dictionary<string, string> Options { get; private set; } = new Dictionary<string, string>();
-            
+
         /// <summary>
         /// When true the vote queue will not start the next voting even if entries exist.
         /// </summary>
@@ -103,8 +103,8 @@ namespace Callvote.API
 
             CurrentVoting = null;
 
-            if (Callvote.Instance.Config.EnableQueue) 
-                TryStartNextVoting(); 
+            if (Callvote.Instance.Config.EnableQueue)
+                TryStartNextVoting();
         }
 
         /// <summary>
