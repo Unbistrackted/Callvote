@@ -15,7 +15,9 @@ using System;
 
 namespace Callvote.Commands.VotingCommands
 {
+#if !EXILED
     [CommandHandler(typeof(CallVoteCommand))]
+#endif
     public class BinaryCommand : ICommand
     {
         public string Command => "binary";

@@ -16,7 +16,9 @@ using System.Linq;
 
 namespace Callvote.Commands.QueueCommands
 {
+#if !EXILED
     [CommandHandler(typeof(CallVoteQueueCommand))]
+#endif
     public class RemovePlayerFromQueueCommand : ICommand
     {
         public string Command => "removeplayer";

@@ -7,15 +7,18 @@ using Callvote.API;
 using Callvote.Features;
 using CommandSystem;
 using System;
+using Callvote.Commands.QueueCommands;
 
 namespace Callvote.Commands.ParentCommands
 {
+#if !EXILED
     [CommandHandler(typeof(CallVoteCommand))]
+#endif
     public class CallVoteQueueCommand : ParentCommand
     {
         public override string Command => "queue";
 
-        public override string[] Aliases => new[] { "q", "que", "qq", "list" };
+        public override string[] Aliases => ["q", "que", "qq", "list"];
 
         public override string Description => "Commands related to Callvote queue.";
 
@@ -23,6 +26,14 @@ namespace Callvote.Commands.ParentCommands
 
         public override void LoadGeneratedCommands()
         {
+#if EXILED
+            RegisterCommand(new CheckQueueCommand());
+            RegisterCommand(new ClearQueueCommand());
+            RegisterCommand(new RemovePlayerFromQueueCommand());
+            RegisterCommand(new RemoveTypeFromQueueCommand());
+            RegisterCommand(new RemoveXFromQueueCommand());
+            RegisterCommand(new PauseQueueCommand());
+#endif
         }
 
         protected override bool ExecuteParent(ArraySegment<string> args, ICommandSender sender, out string response)

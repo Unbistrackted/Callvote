@@ -13,7 +13,9 @@ using System;
 
 namespace Callvote.Commands.VotingCommands
 {
+#if !EXILED
     [CommandHandler(typeof(CallVoteCommand))]
+#endif
     public class RestartRoundCommand : ICommand
     {
         public string Command => "restartround";

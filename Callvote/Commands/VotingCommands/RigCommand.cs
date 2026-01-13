@@ -13,7 +13,9 @@ using System.Linq;
 
 namespace Callvote.Commands.VotingCommands
 {
+#if !EXILED
     [CommandHandler(typeof(CallVoteCommand))]
+#endif
     public class RigCommand : ICommand
     {
         public string Command => "rig";

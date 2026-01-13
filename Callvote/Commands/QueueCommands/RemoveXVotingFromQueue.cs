@@ -13,7 +13,9 @@ using System;
 
 namespace Callvote.Commands.QueueCommands
 {
+#if !EXILED
     [CommandHandler(typeof(CallVoteQueueCommand))]
+#endif
     public class RemoveXFromQueueCommand : ICommand
     {
         public string Command => "removeindex";

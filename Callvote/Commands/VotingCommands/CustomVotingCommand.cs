@@ -17,7 +17,9 @@ using System.Text.RegularExpressions;
 
 namespace Callvote.Commands.VotingCommands
 {
+#if !EXILED
     [CommandHandler(typeof(CallVoteCommand))]
+#endif
     public class CustomVotingCommand : ICommand
     {
         public string Command => "custom";

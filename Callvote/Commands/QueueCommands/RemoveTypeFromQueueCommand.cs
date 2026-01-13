@@ -16,7 +16,9 @@ using System.Linq;
 
 namespace Callvote.Commands.QueueCommands
 {
+#if !EXILED
     [CommandHandler(typeof(CallVoteQueueCommand))]
+#endif
     public class RemoveTypeFromQueueCommand : ICommand
     {
         public string Command => "removetype";

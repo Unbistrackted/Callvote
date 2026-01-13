@@ -11,7 +11,9 @@ using System;
 
 namespace Callvote.Commands.QueueCommands
 {
+#if !EXILED
     [CommandHandler(typeof(CallVoteQueueCommand))]
+#endif
     public class CheckQueueCommand : ICommand
     {
         public string Command => "check";

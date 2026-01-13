@@ -12,7 +12,9 @@ using System;
 
 namespace Callvote.Commands.VotingCommands
 {
+#if !EXILED
     [CommandHandler(typeof(CallVoteCommand))]
+#endif
     public class StopVoteCommand : ICommand
     {
         public string Command => "stopvote";

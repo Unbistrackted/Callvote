@@ -15,7 +15,9 @@ using System.Linq;
 
 namespace Callvote.Commands.VotingCommands
 {
+#if !EXILED
     [CommandHandler(typeof(CallVoteCommand))]
+#endif
     public class KickCommand : ICommand
     {
         public string Command => "kick";

@@ -12,7 +12,9 @@ using System;
 
 namespace Callvote.Commands.QueueCommands
 {
+#if !EXILED
     [CommandHandler(typeof(CallVoteQueueCommand))]
+#endif
     public class PauseQueueCommand : ICommand
     {
         public string Command => "pause";

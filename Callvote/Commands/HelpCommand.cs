@@ -4,7 +4,9 @@ using System;
 
 namespace Callvote.Commands
 {
+#if !EXILED
     [CommandHandler(typeof(CallVoteCommand))]
+#endif
     public class HelpCommand : ICommand
     {
         public string Command => "help";

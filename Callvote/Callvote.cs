@@ -11,7 +11,11 @@ using System;
 
 namespace Callvote
 {
+#if EXILED
     public class Callvote : Plugin
+#else
+    public class Callvote : Plugin
+#endif
     {
         public static Callvote Instance;
         public override string Name { get; } = AssemblyInfo.Name;
@@ -44,6 +48,10 @@ namespace Callvote
 #endif
             _eventHandler = new EventHandlers();
             ServerSpecificSettings.RegisterSettings();
+
+#if EXILED
+            base.OnEnabled();
+#endif
         }
 
 #if EXILED
@@ -55,6 +63,10 @@ namespace Callvote
             ServerSpecificSettings.UnregisterSettings();
             _eventHandler = null;
             Instance = null;
+
+#if EXILED
+            base.OnDisabled();
+#endif
         }
 
 #if !EXILED

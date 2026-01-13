@@ -1,4 +1,5 @@
-﻿using CommandSystem;
+﻿using Callvote.Commands.VotingCommands;
+using CommandSystem;
 using System;
 
 namespace Callvote.Commands.ParentCommands
@@ -18,6 +19,21 @@ namespace Callvote.Commands.ParentCommands
 
         public override void LoadGeneratedCommands()
         {
+#if EXILED
+            RegisterCommand(new CallVoteQueueCommand());
+            RegisterCommand(new KickCommand());
+            RegisterCommand(new KillCommand());
+            RegisterCommand(new NukeCommand());
+            RegisterCommand(new RespawnWaveCommand());
+            RegisterCommand(new RestartRoundCommand());
+            RegisterCommand(new RigCommand());
+            RegisterCommand(new StopVoteCommand());
+            RegisterCommand(new BinaryCommand());
+            RegisterCommand(new CustomVotingCommand());
+            RegisterCommand(new HelpCommand());
+            RegisterCommand(new FFCommand());
+            RegisterCommand(new TranslationCommand());
+#endif
         }
 
         protected override bool ExecuteParent(ArraySegment<string> args, ICommandSender sender, out string response)

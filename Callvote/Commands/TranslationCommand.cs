@@ -16,7 +16,9 @@ using System.Threading.Tasks;
 
 namespace Callvote.Commands
 {
+#if !EXILED
     [CommandHandler(typeof(CallVoteCommand))]
+#endif
     public class TranslationCommand : ICommand
     {
         public string Command => "translation";
