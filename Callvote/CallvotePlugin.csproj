@@ -26,6 +26,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<Reference Include="System.Net.Http" />
+		
 		<Reference Include="Assembly-CSharp-firstpass">
 			<HintPath>$(EXILED_REFERENCES)\Assembly-CSharp-firstpass.dll</HintPath>
 		</Reference>
@@ -37,12 +39,6 @@
 		<Reference Include="Mirror">
 			<HintPath>$(EXILED_REFERENCES)\Mirror.dll</HintPath>
 		</Reference>
-		
-		<Reference Include="RueI">
-			<HintPath>$(EXILED_REFERENCES)\RueI.dll</HintPath>
-		</Reference>
-		
-		<Reference Include="System.Net.Http" />
 		
 		<Reference Include="Unity.TextMeshPro">
 			<HintPath>$(EXILED_REFERENCES)\Unity.TextMeshPro.dll</HintPath>
@@ -73,6 +69,7 @@
 		<PackageReference Include="ExMod.Exiled" Version="9.12.2" />
 		<PackageReference Include="Lib.Harmony" Version="2.2.2" />
 		<PackageReference Include="Northwood.LabAPI" Version="1.1.4" />
+		<PackageReference Include="RueI" Version="3.1.2" />
 		<PackageReference Include="YamlDotNet" Version="16.0.0" />
 	</ItemGroup>
 

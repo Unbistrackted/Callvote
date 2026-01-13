@@ -1,5 +1,3 @@
-#pragma warning disable IDE0052
-
 #if EXILED
 using Plugin = Exiled.API.Features.Plugin<Callvote.Configuration.Config, Callvote.Configuration.Translation>;
 using Exiled.API.Enums;
