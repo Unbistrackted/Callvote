@@ -4,14 +4,10 @@
     using HarmonyLib;
     using HintServiceMeow.Core.Extension;
     using HintServiceMeow.Core.Utilities;
-    using RueI;
-    using RueI.Displays;
-    using RueI.Displays.Scheduling;
-    using RueI.Elements;
-    using RueI.Extensions;
     using System;
     using System.Linq;
-    using System.Runtime.CompilerServices;
+    using RueI.API;
+    using RueI.API.Elements;
 
     public static class MessageProvider
     {
@@ -19,35 +15,27 @@
         private static IMessageProvider GetProvider()
         {
             if (Callvote.Instance.Config.MessageProvider.ToLower() == "auto")
-            {
                 return AutoProvider();
-            }
+
             if (Callvote.Instance.Config.MessageProvider.ToLower() == "ruei")
             {
-                bool IsRueILoaded = TryLoadRueI(out IMessageProvider ruei);
-
-                if (IsRueILoaded)
-                {
+                if (TryLoadRueI(out IMessageProvider ruei))
                     return ruei;
-                }
 
                 return new BroadcastProvider();
             }
+
             if (Callvote.Instance.Config.MessageProvider.ToLower() == "hsm")
             {
-                bool IsHSMLoaded = TryLoadHSM(out IMessageProvider hsm);
-
-                if (IsHSMLoaded)
-                {
+                if (TryLoadHSM(out IMessageProvider hsm))
                     return hsm;
-                }
 
                 return new BroadcastProvider();
             }
+
             if (Callvote.Instance.Config.MessageProvider.ToLower() is "broadcast" or "bc")
-            {
                 return new BroadcastProvider();
-            }
+
             return AutoProvider();
         }
 
@@ -57,34 +45,27 @@
             bool IsHSMLoaded = TryLoadHSM(out IMessageProvider hsm);
 
             if (IsHSMLoaded && IsRueILoaded)
-            {
                 return new BroadcastProvider();
-            }
+
             if (IsRueILoaded)
-            {
                 return ruei;
-            }
+
             if (IsHSMLoaded)
-            {
                 return hsm;
-            }
 
             return new BroadcastProvider();
         }
 
         private static bool TryLoadRueI(out IMessageProvider provider)
         {
-            try
+            if (IsRueiPatched())
             {
-                LoadRueI();
                 provider = new RueIHintProvider();
                 return true;
             }
-            catch
-            {
-                provider = null;
-                return false;
-            }
+
+            provider = null;
+            return false;
         }
 
         private static bool TryLoadHSM(out IMessageProvider provider)
@@ -94,6 +75,7 @@
                 provider = new HSMHintProvider();
                 return true;
             }
+
             provider = null;
             return false;
         }
@@ -103,9 +85,10 @@
             return Harmony.GetAllPatchedMethods().Select(Harmony.GetPatchInfo).Any(info => info?.Postfixes?.Any(p => p.owner.Contains("HintServiceMeow")) == true || info?.Prefixes?.Any(p => p.owner.Contains("HintServiceMeow")) == true);
         }
 
-
-        [MethodImpl(MethodImplOptions.NoInlining)]
-        private static void LoadRueI() => RueIMain.EnsureInit();
+        private static bool IsRueiPatched()
+        {
+            return Harmony.GetAllPatchedMethods().Select(Harmony.GetPatchInfo).Any(info => info?.Postfixes?.Any(p => p.owner.Contains("RueI")) == true || info?.Transpilers?.Any(p => p.owner.Contains("RueI")) == true);
+        }
 
     }
 
@@ -126,12 +109,11 @@
     {
         public void DisplayMessage(TimeSpan timer, string content)
         {
-            TimedElemRef<SetElement> elemRef = new TimedElemRef<SetElement>();
             foreach (Player player in Player.ReadyList)
             {
-                SetElement element = new SetElement(Callvote.Instance.Config.HintYCoordinate, content);
-                DisplayCore core = DisplayCore.Get(player.ReferenceHub);
-                core.AddTemp(element, timer, elemRef);
+                BasicElement element = new BasicElement(Callvote.Instance.Config.HintYCoordinate, content);
+                RueDisplay display = RueDisplay.Get(player.ReferenceHub);
+                display.Show(element, timer);
             }
         }
     }
