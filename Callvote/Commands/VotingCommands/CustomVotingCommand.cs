@@ -68,6 +68,7 @@ namespace Callvote.Commands.VotingCommands
                 }
                 VotingHandler.AddOptionToVoting(argsStrings[i], optionDetail);
             }
+
             VotingHandler.CallVoting(new CustomVoting(player, Callvote.Instance.Translation.AskedCustom.Replace("%Player%", player.Nickname).Replace("%Custom%", argsStrings.First()), nameof(VotingTypeEnum.Custom), null, VotingHandler.Options));
             response = VotingHandler.Response;
             return true;

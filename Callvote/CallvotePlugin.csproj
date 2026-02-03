@@ -16,6 +16,15 @@
 		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
 		<Configurations>Debug;Release;EXILED</Configurations>
+
+		<PackageId>Callvote</PackageId>
+		<Version>6.6.2</Version>
+		<Authors>Unbistrackted,PatPeter</Authors>
+		<Description>Callvote command like in the Source engine. Vote to kick users, restart round, or make your own custom votes.</Description>
+		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+		<RepositoryUrl>https://github.com/Unbistrackted/Callvote</RepositoryUrl>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageLicenseFile>License.md</PackageLicenseFile>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)' == 'Release'">
@@ -63,6 +72,7 @@
 
 	<ItemGroup>
 		<Compile Remove="*.yml" />
+		<None Include="..\License.md" Pack="true" PackagePath="" />
 	</ItemGroup>
 
 	<ItemGroup>

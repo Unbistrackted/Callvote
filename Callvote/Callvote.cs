@@ -11,11 +11,7 @@ using System;
 
 namespace Callvote
 {
-#if EXILED
     public class Callvote : Plugin
-#else
-    public class Callvote : Plugin
-#endif
     {
         public static Callvote Instance;
         public override string Name { get; } = AssemblyInfo.Name;
