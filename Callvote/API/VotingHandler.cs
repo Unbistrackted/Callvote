@@ -30,14 +30,14 @@ namespace Callvote.API
         /// Tracks how many <see cref="Voting"/> each player has initiated during the current round.
         /// Key: <see cref="Player"/> who called <see cref="Voting"/>. Value: number of <see cref="Voting"/> they've called.
         /// </summary>
-        public static Dictionary<Player, int> PlayerCallVotingAmount { get; private set; } = new Dictionary<Player, int>();
+        public static Dictionary<Player, int> PlayerCallVotingAmount { get; private set; } = [];
 
         /// <summary>
         /// Temporary mapping for the commands and labels/options.
         /// This is cleared when <see cref="CallVoting"/> is invoked.
         /// Key: Command name. Value: Option/Label name for the command.
         /// </summary>
-        public static Dictionary<string, string> Options { get; private set; } = new Dictionary<string, string>();
+        public static Dictionary<string, string> Options { get; private set; } = [];
 
         /// <summary>
         /// When true the vote queue will not start the next voting even if entries exist.
@@ -177,9 +177,3 @@ namespace Callvote.API
         }
     }
 }
-
-/// <summary>
-/// Delegate signature for a callback that can be invoked when a vote completes. Implementations receive the completed <see cref="Voting"/>.
-/// </summary>
-/// <param name="vote">The completed <see cref="Voting"/> instance.</param>
-public delegate void CallvoteFunction(Voting vote);

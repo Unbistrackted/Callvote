@@ -5,19 +5,19 @@ using LabApi.Features.Wrappers;
 #endif
 using Callvote.Features;
 using System.Collections.Generic;
+using System;
 
 namespace Callvote.API.VotingsTemplate
 {
-    public class BinaryVoting : Voting
+    public class BinaryVoting(Player player, string question, string votingType, Action<Voting> callback) : Voting(player, question, votingType, callback, AddOptions())
     {
-        public BinaryVoting(Player player, string question, string votingType, CallvoteFunction callback) : base(question, votingType, player, callback, AddOptions())
-        {
-        }
         public static Dictionary<string, string> AddOptions()
         {
-            VotingHandler.AddOptionToVoting(Callvote.Instance.Translation.CommandYes, Callvote.Instance.Translation.OptionYes);
-            VotingHandler.AddOptionToVoting(Callvote.Instance.Translation.CommandNo, Callvote.Instance.Translation.OptionNo);
-            return VotingHandler.Options;
+            Dictionary<string, string> options = [];
+            options.Add(Callvote.Instance.Translation.CommandYes, Callvote.Instance.Translation.OptionYes);
+            options.Add(Callvote.Instance.Translation.CommandNo, Callvote.Instance.Translation.OptionNo);
+
+            return options;
         }
     }
 }

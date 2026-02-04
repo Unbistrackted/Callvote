@@ -1,5 +1,10 @@
 ﻿namespace Callvote
 {
+#if EXILED
+    using Player = Exiled.API.Features.Player;
+#else
+    using Player = LabApi.Features.Wrappers.Player;
+#endif
     using HarmonyLib;
     using HintServiceMeow.Core.Extension;
     using HintServiceMeow.Core.Utilities;
@@ -7,6 +12,7 @@
     using RueI.API;
     using RueI.API.Elements;
     using System;
+    using System.Collections.Generic;
     using System.Linq;
 
     public static class MessageProvider
@@ -94,22 +100,25 @@
 
     public interface IMessageProvider
     {
-        void DisplayMessage(TimeSpan duration, string content);
+        void DisplayMessage(TimeSpan duration, string content, HashSet<Player> players);
     }
 
     public class BroadcastProvider : IMessageProvider
     {
-        public void DisplayMessage(TimeSpan duration1, string content)
+        public void DisplayMessage(TimeSpan duration1, string content, HashSet<Player> players)
         {
-            Server.SendBroadcast(message: content, duration: (ushort)duration1.TotalSeconds);
+            foreach (Player player in players)
+            {
+                Server.SendBroadcast(player, message: content, duration: (ushort)duration1.TotalSeconds);
+            }
         }
     }
 
     public class RueIHintProvider : IMessageProvider
     {
-        public void DisplayMessage(TimeSpan timer, string content)
+        public void DisplayMessage(TimeSpan timer, string content, HashSet<Player> players)
         {
-            foreach (Player player in Player.ReadyList)
+            foreach (Player player in players)
             {
                 BasicElement element = new BasicElement(Callvote.Instance.Config.HintYCoordinate, content);
                 RueDisplay display = RueDisplay.Get(player.ReferenceHub);
@@ -120,9 +129,9 @@
 
     public class HSMHintProvider : IMessageProvider
     {
-        public void DisplayMessage(TimeSpan timer, string content)
+        public void DisplayMessage(TimeSpan timer, string content, HashSet<Player> players)
         {
-            foreach (Player player in Player.ReadyList)
+            foreach (Player player in players)
             {
                 PlayerDisplay playerDisplay = PlayerDisplay.Get(player);
                 HintServiceMeow.Core.Models.Hints.Hint element = new HintServiceMeow.Core.Models.Hints.Hint

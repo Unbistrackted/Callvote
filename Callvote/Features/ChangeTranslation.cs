@@ -24,7 +24,7 @@ namespace Callvote.Features
         {
             try
             {
-                using (HttpClient client = new HttpClient())
+                using (HttpClient client = new())
                 {
                     string githubTranslationLink = $"https://raw.githubusercontent.com/Unbistrackted/Callvote/EXILED/Callvote/Translations/{GetLanguage(language)}.yml";
 #if EXILED
@@ -57,14 +57,13 @@ namespace Callvote.Features
         private static string GetLanguage(string input)
         {
             if (LanguageByCountryCodeDictionary.Values.Contains(input))
-            {
                 return input;
-            }
+
             if (!LanguageByCountryCodeDictionary.TryGetValue(input, out string language))
             {
                 try
                 {
-                    using (WebClient client = new WebClient())
+                    using (WebClient client = new())
                     {
                         string url = $"http://ipinfo.io/{Server.IpAddress}/country";
                         input = client.DownloadString(url).Trim().ToLower();
@@ -77,47 +76,37 @@ namespace Callvote.Features
                 }
 
                 if (!LanguageByCountryCodeDictionary.TryGetValue(input, out language))
-                {
                     language = LanguageByCountryCodeDictionary["en"];
-                }
+
             }
             return language;
         }
 
         private static void RewriteTranslationFile(string rawGithubTranslation, string translationsPath)
         {
-            YamlStream githubTranslation = new YamlStream();
-            YamlStream localTranslations = new YamlStream();
+            YamlStream githubTranslation = [];
+            YamlStream localTranslations = [];
 
             using (StringReader reader = new StringReader(rawGithubTranslation))
-            {
                 githubTranslation.Load(reader);
-            }
 
             using (StreamReader reader = new StreamReader(translationsPath))
-            {
                 localTranslations.Load(reader);
-            }
 
             YamlMappingNode githubTranslationRoot = (YamlMappingNode)githubTranslation.Documents[0].RootNode;
             YamlMappingNode localTranslationsRoot = (YamlMappingNode)localTranslations.Documents[0].RootNode;
 
             YamlMappingNode githubCallvote = (YamlMappingNode)githubTranslationRoot.Children[new YamlScalarNode(Callvote.Instance.Prefix)];
             YamlMappingNode localCallvote = localTranslationsRoot;
+
             if (localTranslationsRoot.Children.ContainsKey(new YamlScalarNode(Callvote.Instance.Prefix)))
-            {
                 localCallvote = (YamlMappingNode)localTranslationsRoot.Children[new YamlScalarNode(Callvote.Instance.Prefix)];
-            }
 
             foreach (var kvp in githubCallvote.Children)
-            {
                 localCallvote.Children[kvp.Key] = kvp.Value;
-            }
 
             using (StreamWriter writer = new StreamWriter(translationsPath, false, new UTF8Encoding(true)))
-            {
                 localTranslations.Save(writer, false);
-            }
         }
 
         internal static IReadOnlyDictionary<string, string> LanguageByCountryCodeDictionary { get; } = new Dictionary<string, string>()

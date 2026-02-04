@@ -13,60 +13,81 @@ using RemoteAdmin;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Callvote.Features
 {
     public class Voting
     {
-        public CallvoteFunction Callback { get; private set; }
-        public string Question { get; private set; }
-        public string VotingType { get; private set; }
+        public Player CallVotePlayer { get; init; }
+        public string Question { get; init; }
+        public string VotingType { get; init; }
+        public Action<Voting> Callback { get; init; }
+        public HashSet<Player> AllowedPlayers { get; init; }
+        public Dictionary<string, string> Options { get; init; }
         public long CallVoteId { get; private set; }
         public ConcurrentDictionary<string, int> Counter { get; }
-        public Dictionary<string, string> Options { get; }
         public Dictionary<string, ICommand> CommandList { get; }
-        public Player CallVotePlayer { get; }
 
-        private Dictionary<string, string> _playerVote;
+        private readonly Dictionary<string, string> _playerVote;
         private CoroutineHandle _votingCoroutine;
 
-        public Voting(string question, string votingType, Player player, CallvoteFunction callback, Dictionary<string, string> options = null)
+        public Voting(Player player, string question, string votingType, Action<Voting> callback, Dictionary<string, string> options = null, IEnumerable<Player> players = null)
         {
             CallVotePlayer = player;
             Question = question;
-            Options = new Dictionary<string, string>(options ?? VotingHandler.Options);
             Callback = callback;
-            _playerVote = new Dictionary<string, string>();
+            Options = new Dictionary<string, string>(options ?? VotingHandler.Options);
+#if EXILED
+            AllowedPlayers = [.. players ?? Player.List.Where(p => p.ReferenceHub.nicknameSync.NickSet && p.ReferenceHub.authManager.InstanceMode != 0)];
+#else
+            AllowedPlayers = [.. players ?? Player.ReadyList];
+#endif
+            _playerVote = [];
+            CommandList = [];
             Counter = new ConcurrentDictionary<string, int>();
             _votingCoroutine = new CoroutineHandle();
-            CommandList = new Dictionary<string, ICommand>();
-            foreach (string option in Options.Keys) Counter[option] = 0;
+
+            foreach (string option in Options.Keys)
+                Counter[option] = 0;
+
             VotingType = votingType;
             CallVoteId = DateTime.Now.ToBinary() + RandomNumber();
         }
 
         public void Start()
         {
-            if (!IsCallVotingAllowed()) { return; }
+            if (!IsCallVotingAllowed())
+                return;
+
             RegisterVoteCommands();
             StartVotingCoroutine();
+
             VotingHandler.Response = Callvote.Instance.Translation.VotingStarted;
         }
         public void Stop()
         {
             UnregisterVoteCommands();
             StopVotingCoroutine();
+
             VotingHandler.Response = Callvote.Instance.Translation.VotingStoped;
         }
 
         public string Vote(Player player, string option)
         {
+            if (!AllowedPlayers.Contains(player))
+                return Callvote.Instance.Translation.NoPermission;
+
             string playerUserId = player.UserId;
-            if (!Options.ContainsKey(option)) return Callvote.Instance.Translation.NoOptionAvailable.Replace("%Option%", option);
+
+            if (!Options.ContainsKey(option))
+                return Callvote.Instance.Translation.NoOptionAvailable.Replace("%Option%", option);
 
             if (_playerVote.ContainsKey(playerUserId))
             {
-                if (_playerVote[playerUserId] == option) return Callvote.Instance.Translation.AlreadyVoted;
+                if (_playerVote[playerUserId] == option)
+                    return Callvote.Instance.Translation.AlreadyVoted;
+
                 Counter.AddOrUpdate(_playerVote[playerUserId], 0, (key, value) => Math.Max(0, value - 1));
                 _playerVote[playerUserId] = option;
             }
@@ -87,6 +108,7 @@ namespace Callvote.Features
                 VotingHandler.Response = Callvote.Instance.Translation.NoOptionAvailable.Replace("%Option%", argument);
                 return;
             }
+
             Counter.AddOrUpdate(argument, amount, (key, value) => value + amount);
             VotingHandler.Response = $"Rigged {amount} votes for {argument}!";
         }
@@ -98,11 +120,12 @@ namespace Callvote.Features
                 VotingHandler.Response = Callvote.Instance.Translation.VotingInProgress;
                 return false;
             }
+
             if (!VotingHandler.PlayerCallVotingAmount.ContainsKey(CallVotePlayer))
-            {
                 VotingHandler.PlayerCallVotingAmount.Add(CallVotePlayer, 0);
-            }
+
             VotingHandler.PlayerCallVotingAmount[CallVotePlayer]++;
+
             if (VotingHandler.PlayerCallVotingAmount[CallVotePlayer] > Callvote.Instance.Config.MaxAmountOfVotesPerRound &&
 #if EXILED
                 !CallVotePlayer.CheckPermission("cv.bypass"))
@@ -113,30 +136,31 @@ namespace Callvote.Features
                 VotingHandler.Response = Callvote.Instance.Translation.MaxVote;
                 return false;
             }
+
             return true;
         }
 
         private void RegisterVoteCommands()
         {
             bool alreadyRegistered = false;
+
             foreach (KeyValuePair<string, string> kvp in Options)
-            {
                 if (QueryProcessor.DotCommandHandler.TryGetCommand(kvp.Key, out ICommand existingCommand))
-                {
                     alreadyRegistered = true;
-                }
-            }
+
             foreach (KeyValuePair<string, string> kvp in Options)
             {
-                VoteCommand voteCommand = new VoteCommand(kvp.Key);
+                VoteCommand voteCommand = new(kvp.Key);
+
                 if (alreadyRegistered)
                 {
                     Options.Remove(kvp.Key);
                     Options.Add("cv" + kvp.Key, kvp.Value);
-                    Counter.TryRemove(kvp.Key, out int _int);
+                    Counter.TryRemove(kvp.Key, out _);
                     Counter.TryAdd("cv" + kvp.Key, 0);
                     voteCommand.Command = "cv" + kvp.Key;
                 }
+
                 CommandList.Add(kvp.Key, voteCommand);
                 QueryProcessor.DotCommandHandler.RegisterCommand(voteCommand);
             }
@@ -145,9 +169,7 @@ namespace Callvote.Features
         private void UnregisterVoteCommands()
         {
             foreach (KeyValuePair<string, ICommand> command in CommandList)
-            {
                 QueryProcessor.DotCommandHandler.UnregisterCommand(command.Value);
-            }
         }
 
         private void StartVotingCoroutine()
@@ -162,7 +184,7 @@ namespace Callvote.Features
 
         private long RandomNumber()
         {
-            Random rng = new Random();
+            Random rng = new();
             return rng.Next(-1000, 1000);
         }
     }

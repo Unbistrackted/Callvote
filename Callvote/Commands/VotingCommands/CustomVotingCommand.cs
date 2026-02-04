@@ -7,7 +7,6 @@ using LabApi.Features.Wrappers;
 #endif
 using Callvote.API;
 using Callvote.API.VotingsTemplate;
-using Callvote.Commands.ParentCommands;
 using Callvote.Features.Enums;
 using CommandSystem;
 using System;
@@ -56,20 +55,19 @@ namespace Callvote.Commands.VotingCommands
 
             for (int i = 1; i < argsStrings.Count; i++)
             {
-                string optionDetail;
-                if (!optionDetailsStrings.TryGet(i - 1, out optionDetail))
-                {
+                if (!optionDetailsStrings.TryGet(i - 1, out string optionDetail))
                     optionDetail = argsStrings[i];
-                }
+
                 if (VotingHandler.Options.ContainsKey(argsStrings[i]))
                 {
                     response = Callvote.Instance.Translation.DuplicateCommand;
                     return false;
                 }
+
                 VotingHandler.AddOptionToVoting(argsStrings[i], optionDetail);
             }
 
-            VotingHandler.CallVoting(new CustomVoting(player, Callvote.Instance.Translation.AskedCustom.Replace("%Player%", player.Nickname).Replace("%Custom%", argsStrings.First()), nameof(VotingTypeEnum.Custom), null, VotingHandler.Options));
+            VotingHandler.CallVoting(new CustomVoting(player, Callvote.Instance.Translation.AskedCustom.Replace("%Player%", player.Nickname).Replace("%Custom%", argsStrings.First()), nameof(VotingTypeEnum.Custom), null));
             response = VotingHandler.Response;
             return true;
         }

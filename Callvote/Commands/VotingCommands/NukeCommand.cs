@@ -6,8 +6,7 @@ using LabApi.Features.Permissions;
 using LabApi.Features.Wrappers;
 #endif
 using Callvote.API;
-using Callvote.API.VotingsTemplate;
-using Callvote.Commands.ParentCommands;
+using Callvote.Features.PredefinedVotings;
 using CommandSystem;
 using System;
 

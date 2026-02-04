@@ -42,17 +42,15 @@ namespace Callvote.Features
 
         public static void Register(IEnumerable<ServerSpecificSettingBase> settings)
         {
-            List<ServerSpecificSettingBase> list = new(ServerSpecificSettingsSync.DefinedSettings ?? Array.Empty<ServerSpecificSettingBase>());
+            List<ServerSpecificSettingBase> list = [.. ServerSpecificSettingsSync.DefinedSettings ?? Array.Empty<ServerSpecificSettingBase>(), .. settings];
 
-            list.AddRange(settings);
-
-            ServerSpecificSettingsSync.DefinedSettings = list.ToArray();
+            ServerSpecificSettingsSync.DefinedSettings = [.. list];
             ServerSpecificSettingsSync.SendToAll();
         }
 
         public static void Unregister(IEnumerable<ServerSpecificSettingBase> settings)
         {
-            List<ServerSpecificSettingBase> list = new(ServerSpecificSettingsSync.DefinedSettings ?? Array.Empty<ServerSpecificSettingBase>());
+            List<ServerSpecificSettingBase> list = [.. ServerSpecificSettingsSync.DefinedSettings ?? []];
 
             foreach (ServerSpecificSettingBase setting in settings)
                 list.Remove(setting);
