@@ -3,9 +3,8 @@ using Exiled.API.Features;
 #else
 using Callvote.Features;
 using LabApi.Features.Wrappers;
-using System;
-
 #endif
+using System;
 using System.Collections.Generic;
 
 namespace Callvote.Features.Interfaces
