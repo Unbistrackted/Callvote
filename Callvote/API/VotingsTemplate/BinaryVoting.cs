@@ -9,7 +9,7 @@ using System;
 
 namespace Callvote.API.VotingsTemplate
 {
-    public class BinaryVoting(Player player, string question, string votingType, Action<Voting> callback) : Voting(player, question, votingType, callback, AddOptions())
+    public class BinaryVoting(Player player, string question, string votingType, Action<Voting> callback = null, IEnumerable<Player> players = null) : Voting(player, question, votingType, callback, AddOptions(), players)
     {
         public static Dictionary<string, string> AddOptions()
         {

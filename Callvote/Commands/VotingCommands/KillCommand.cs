@@ -76,7 +76,8 @@ namespace Callvote.Commands.VotingCommands
             }
 
 
-            List<Player> playerSearch = Player.List.Where(p => p.Nickname.Contains(args.ElementAt(0))).ToList();
+            List<Player> playerSearch = [.. Player.List.Where(p => p.Nickname.Contains(args.ElementAt(0)))];
+
             if (playerSearch.Count() is < 0 or > 1)
             {
                 response = Callvote.Instance.Translation.PlayersWithSameName.Replace("%Player%", args.ElementAt(0));

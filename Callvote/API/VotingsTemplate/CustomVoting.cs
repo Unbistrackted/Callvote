@@ -12,7 +12,7 @@ namespace Callvote.API.VotingsTemplate
 {
     public class CustomVoting : Voting
     {
-        public CustomVoting(Player player, string question, string votingType, Action<Voting> callback, Dictionary<string, string> options = null) : base(player, question, votingType, callback, options ?? VotingHandler.Options)
+        public CustomVoting(Player player, string question, string votingType, Action<Voting> callback = null, Dictionary<string, string> options = null, IEnumerable<Player> players = null) : base(player, question, votingType, callback, options ?? VotingHandler.Options, players)
         {
         }
 
