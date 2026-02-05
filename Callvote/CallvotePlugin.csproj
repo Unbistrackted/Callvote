@@ -74,7 +74,7 @@
 	<ItemGroup>
 		<Compile Remove="*.yml" />
 		<None Include="..\License.md" Pack="true" PackagePath="" />
-		<None Include="NugetREADME.md" Pack="true" PackagePath="" />
+		<None Include="..\NugetREADME.md" Pack="true" PackagePath="" />
 	</ItemGroup>
 
 	<ItemGroup>
