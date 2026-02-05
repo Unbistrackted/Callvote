@@ -1,10 +1,10 @@
 ﻿#if EXILED
 using Exiled.API.Features;
-using System;
-
 #else
 using Callvote.Features;
 using LabApi.Features.Wrappers;
+using System;
+
 #endif
 using System.Collections.Generic;
 

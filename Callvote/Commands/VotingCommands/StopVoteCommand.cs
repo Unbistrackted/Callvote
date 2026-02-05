@@ -8,6 +8,7 @@ using LabApi.Features.Wrappers;
 using Callvote.API;
 using CommandSystem;
 using System;
+using Callvote.Commands.ParentCommands;
 
 namespace Callvote.Commands.VotingCommands
 {

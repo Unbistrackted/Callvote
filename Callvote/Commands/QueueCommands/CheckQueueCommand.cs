@@ -2,6 +2,7 @@
 using Exiled.API.Features;
 #else
 using LabApi.Features.Wrappers;
+using Callvote.Commands.ParentCommands;
 #endif
 using Callvote.API;
 using Callvote.Features;

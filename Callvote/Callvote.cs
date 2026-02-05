@@ -17,12 +17,12 @@ namespace Callvote
         public override string Name { get; } = AssemblyInfo.Name;
         public override string Author { get; } = AssemblyInfo.Author;
 #if EXILED
-        public override Version RequiredExiledVersion => new(9, 12, 2);
+        public override Version RequiredExiledVersion => new(9, 12, 6);
         public override PluginPriority Priority => PluginPriority.Default;
         public override string Prefix { get; } = AssemblyInfo.LangFile;
 #else
         public override string Description => AssemblyInfo.Description;
-        public override Version RequiredApiVersion { get; } = new Version(1, 1, 4);
+        public override Version RequiredApiVersion { get; } = new Version(1, 1, 5);
         public string Prefix { get; } = AssemblyInfo.LangFile;
         public Translation Translation { get; private set; }
         public Config Config { get; private set; }
