@@ -78,9 +78,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="ExMod.Exiled" Version="9.12.2" />
+		<PackageReference Include="ExMod.Exiled" Version="9.12.6" />
 		<PackageReference Include="Lib.Harmony" Version="2.2.2" />
-		<PackageReference Include="Northwood.LabAPI" Version="1.1.4" />
+		<PackageReference Include="Northwood.LabAPI" Version="1.1.5" />
 		<PackageReference Include="RueI" Version="3.1.2" />
 		<PackageReference Include="YamlDotNet" Version="16.0.0" />
 	</ItemGroup>
