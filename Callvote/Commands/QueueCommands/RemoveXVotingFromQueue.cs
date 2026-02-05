@@ -34,11 +34,6 @@ namespace Callvote.Commands.QueueCommands
 
             Player player = Player.Get(sender);
 
-            if (VotingHandler.CurrentVoting == null)
-            {
-                response = Callvote.Instance.Translation.NoVotingInProgress;
-                return false;
-            }
 #if EXILED
             if (!player.CheckPermission("cv.managequeue"))
 #else

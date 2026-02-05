@@ -40,7 +40,7 @@ namespace Callvote.Commands
                 return false;
             }
 
-            if (VotingHandler.CurrentVoting != null || VotingHandler.VotingQueue.Count > 0)
+            if (VotingHandler.IsVotingActive || VotingHandler.VotingQueue.Count > 0)
             {
                 response = Callvote.Instance.Translation.VotingInProgress;
                 return false;

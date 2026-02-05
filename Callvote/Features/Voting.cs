@@ -2,7 +2,6 @@
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
 #else
-using LabApi.Features.Permissions;
 using LabApi.Features.Wrappers;
 #endif
 using Callvote.API;
@@ -55,9 +54,9 @@ namespace Callvote.Features
             CallVoteId = DateTime.Now.ToBinary() + RandomNumber();
         }
 
-        public void Start()
+        internal void Start()
         {
-            if (!IsCallVotingAllowed())
+            if (!VotingHandler.IsCallVotingAllowed(CallVotePlayer))
                 return;
 
             RegisterVoteCommands();
@@ -65,7 +64,8 @@ namespace Callvote.Features
 
             VotingHandler.Response = Callvote.Instance.Translation.VotingStarted;
         }
-        public void Stop()
+
+        internal void Stop()
         {
             UnregisterVoteCommands();
             StopVotingCoroutine();
@@ -113,31 +113,30 @@ namespace Callvote.Features
             VotingHandler.Response = $"Rigged {amount} votes for {argument}!";
         }
 
-        private bool IsCallVotingAllowed()
+        /// <summary>
+        /// Coroutine that manages the <see cref="CurrentVoting"/> runtime. This method yields to MEC timing and repeatedly refreshes the voting display
+        /// until the <see cref="CurrentVoting"/> duration has passed. When the courotine expires when the <see cref="CurrentVoting"/> is finished.
+        /// </summary>
+        /// <param name="newVote">The vote instance to run the coroutine for.</param>
+        private IEnumerator<float> VotingCoroutine()
         {
-            if (VotingHandler.CurrentVoting != null && !Callvote.Instance.Config.EnableQueue)
+            VotingHandler.CurrentVoting = this;
+            int timerCounter = 0;
+            DisplayMessageHelper.DisplayFirstMessage(Question, out string firstMessage);
+            yield return Timing.WaitForSeconds(5f);
+
+            while (true)
             {
-                VotingHandler.Response = Callvote.Instance.Translation.VotingInProgress;
-                return false;
+                if (timerCounter >= Callvote.Instance.Config.VoteDuration + 1)
+                {
+                    VotingHandler.FinishVoting();
+                    yield break;
+                }
+
+                DisplayMessageHelper.DisplayWhileVotingMessage(firstMessage);
+                timerCounter++;
+                yield return Timing.WaitForSeconds(Callvote.Instance.Config.RefreshInterval);
             }
-
-            if (!VotingHandler.PlayerCallVotingAmount.ContainsKey(CallVotePlayer))
-                VotingHandler.PlayerCallVotingAmount.Add(CallVotePlayer, 0);
-
-            VotingHandler.PlayerCallVotingAmount[CallVotePlayer]++;
-
-            if (VotingHandler.PlayerCallVotingAmount[CallVotePlayer] > Callvote.Instance.Config.MaxAmountOfVotesPerRound &&
-#if EXILED
-                !CallVotePlayer.CheckPermission("cv.bypass"))
-#else
-                !CallVotePlayer.HasPermissions("cv.bypass"))
-#endif
-            {
-                VotingHandler.Response = Callvote.Instance.Translation.MaxVote;
-                return false;
-            }
-
-            return true;
         }
 
         private void RegisterVoteCommands()
@@ -174,7 +173,7 @@ namespace Callvote.Features
 
         private void StartVotingCoroutine()
         {
-            _votingCoroutine = Timing.RunCoroutine(VotingHandler.VotingCoroutine(this));
+            _votingCoroutine = Timing.RunCoroutine(VotingCoroutine());
         }
 
         private void StopVotingCoroutine()

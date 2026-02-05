@@ -6,9 +6,9 @@ namespace Callvote.Features
 {
     public static class DisplayMessageHelper
     {
-        public static void DisplayFirstMessage(out string firstMessage)
+        public static void DisplayFirstMessage(string question, out string firstMessage)
         {
-            firstMessage = Callvote.Instance.Translation.AskedQuestion.Replace("%Question%", VotingHandler.CurrentVoting.Question);
+            firstMessage = Callvote.Instance.Translation.AskedQuestion.Replace("%Question%", question);
             int counter = 0;
             foreach (KeyValuePair<string, string> kvp in VotingHandler.CurrentVoting.Options)
             {

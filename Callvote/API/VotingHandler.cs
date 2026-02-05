@@ -1,10 +1,11 @@
 ﻿#if EXILED
 using Exiled.API.Features;
+using Exiled.Permissions.Extensions;
 #else
 using LabApi.Features.Wrappers;
+using LabApi.Features.Permissions;
 #endif
 using Callvote.Features;
-using MEC;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -19,7 +20,7 @@ namespace Callvote.API
         /// <summary>
         /// The currently active <see cref="Voting"/> instance. Null when no vote is in progress.
         /// </summary>
-        public static Voting CurrentVoting { get; private set; }
+        public static Voting CurrentVoting { get; internal set; }
 
         /// <summary>
         /// Queue of pending <see cref="Voting"/> instances. When queueing is enabled, new votes are placed here.
@@ -40,6 +41,16 @@ namespace Callvote.API
         public static Dictionary<string, string> Options { get; private set; } = [];
 
         /// <summary>
+        /// Gets whether the <see cref="Voting"/> is currently active.
+        /// </summary>
+        public static bool IsVotingActive => CurrentVoting != null;
+
+        /// <summary>
+        /// Gets if the Queue is full.
+        /// </summary>
+        public static bool IsQueueFull => VotingQueue.Count >= Callvote.Instance.Config.QueueSize;
+
+        /// <summary>
         /// When true the vote queue will not start the next voting even if entries exist.
         /// </summary>
         public static bool IsQueuePaused { get; set; } = false;
@@ -48,7 +59,7 @@ namespace Callvote.API
         /// Response message set by operations on the handler (e.g. "Queue is full" or "Voting enqueued").
         /// Used for upstream code to read and display to users.
         /// </summary>
-        public static string Response { get; set; } = string.Empty;
+        public static string Response { get; internal set; } = string.Empty;
 
         /// <summary>
         /// Request to start a <see cref="Voting"/>. 
@@ -63,7 +74,7 @@ namespace Callvote.API
 
             if (Callvote.Instance.Config.EnableQueue)
             {
-                if (VotingQueue.Count >= Callvote.Instance.Config.QueueSize)
+                if (IsQueueFull)
                 {
                     Response = Callvote.Instance.Translation.QueueIsFull;
                     return;
@@ -74,7 +85,7 @@ namespace Callvote.API
                 return;
             }
 
-            if (CurrentVoting == null)
+            if (!IsVotingActive)
             {
                 CurrentVoting = vote;
                 CurrentVoting.Start();
@@ -91,7 +102,7 @@ namespace Callvote.API
         {
             CurrentVoting?.Stop();
 
-            if (CurrentVoting != null)
+            if (IsVotingActive)
             {
                 if (CurrentVoting.Callback == null)
                     DisplayMessageHelper.DisplayResultsMessage();
@@ -113,7 +124,7 @@ namespace Callvote.API
         /// </summary>
         public static void TryStartNextVoting()
         {
-            if (CurrentVoting == null && VotingQueue.Count != 0 && !IsQueuePaused)
+            if (!IsVotingActive && VotingQueue.Count != 0 && !IsQueuePaused)
             {
                 CurrentVoting = VotingQueue.Dequeue();
                 CurrentVoting.Start();
@@ -136,29 +147,34 @@ namespace Callvote.API
         }
 
         /// <summary>
-        /// Coroutine that manages the <see cref="CurrentVoting"/> runtime. This method yields to MEC timing and repeatedly refreshes the voting display
-        /// until the <see cref="CurrentVoting"/> duration has passed. When the courotine expires when the <see cref="CurrentVoting"/> is finished.
+        /// Checks if a player is able to call vote based on permissions and per-player call limits.
         /// </summary>
-        /// <param name="newVote">The vote instance to run the coroutine for.</param>
-        public static IEnumerator<float> VotingCoroutine(Voting newVote)
+        /// <param name="player">Player to check if he is able to call a vote.</param>
+        public static bool IsCallVotingAllowed(Player player)
         {
-            VotingHandler.CurrentVoting = newVote;
-            int timerCounter = 0;
-            DisplayMessageHelper.DisplayFirstMessage(out string firstMessage);
-            yield return Timing.WaitForSeconds(5f);
-
-            while (true)
+            if (IsVotingActive && !Callvote.Instance.Config.EnableQueue)
             {
-                if (timerCounter >= Callvote.Instance.Config.VoteDuration + 1)
-                {
-                    FinishVoting();
-                    yield break;
-                }
-
-                DisplayMessageHelper.DisplayWhileVotingMessage(firstMessage);
-                timerCounter++;
-                yield return Timing.WaitForSeconds(Callvote.Instance.Config.RefreshInterval);
+                Response = Callvote.Instance.Translation.VotingInProgress;
+                return false;
             }
+
+            if (!PlayerCallVotingAmount.ContainsKey(player))
+                PlayerCallVotingAmount.Add(player, 0);
+
+            PlayerCallVotingAmount[player]++;
+
+            if (PlayerCallVotingAmount[player] > Callvote.Instance.Config.MaxAmountOfVotesPerRound &&
+#if EXILED
+                !player.CheckPermission("cv.bypass"))
+#else
+                !player.HasPermissions("cv.bypass"))
+#endif
+            {
+                Response = Callvote.Instance.Translation.MaxVote;
+                return false;
+            }
+
+            return true;
         }
 
         /// <summary>

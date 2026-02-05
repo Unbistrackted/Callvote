@@ -55,7 +55,7 @@ namespace Callvote
 
         public void OnUserInput(ReferenceHub sender, ServerSpecificSettingBase settingBase)
         {
-            if (VotingHandler.CurrentVoting == null)
+            if (!VotingHandler.IsVotingActive)
                 return;
 
             if (settingBase is SSKeybindSetting keybindSetting && keybindSetting.SyncIsPressed)

@@ -37,7 +37,7 @@ namespace Callvote.Commands.VotingCommands
                 return false;
             }
 
-            if (VotingHandler.CurrentVoting == null)
+            if (!VotingHandler.IsVotingActive)
             {
                 response = Callvote.Instance.Translation.NoVotingInProgress;
                 return false;

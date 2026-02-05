@@ -25,7 +25,7 @@ namespace Callvote.Commands.VotingCommands
         {
             Player player = Player.Get(sender);
 
-            if (VotingHandler.CurrentVoting == null)
+            if (!VotingHandler.IsVotingActive)
             {
                 response = Callvote.Instance.Translation.NoVotingInProgress;
                 return true;
