@@ -25,7 +25,7 @@
 		<RepositoryUrl>https://github.com/Unbistrackted/Callvote</RepositoryUrl>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageLicenseFile>License.md</PackageLicenseFile>
-		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageReadmeFile>NugetREADME.md</PackageReadmeFile>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)' == 'Release'">
@@ -74,7 +74,7 @@
 	<ItemGroup>
 		<Compile Remove="*.yml" />
 		<None Include="..\License.md" Pack="true" PackagePath="" />
-		<None Include="..\README.md" Pack="true" PackagePath="" />
+		<None Include="NugetREADME.md" Pack="true" PackagePath="" />
 	</ItemGroup>
 
 	<ItemGroup>
