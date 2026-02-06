@@ -1,6 +1,6 @@
-﻿using Callvote.Commands.VotingCommands;
+﻿using System;
+using Callvote.Commands.VotingCommands;
 using CommandSystem;
-using System;
 
 namespace Callvote.Commands.ParentCommands
 {
@@ -9,13 +9,13 @@ namespace Callvote.Commands.ParentCommands
     [CommandHandler(typeof(GameConsoleCommandHandler))]
     public class CallVoteCommand : ParentCommand
     {
+        public CallVoteCommand() => this.LoadGeneratedCommands();
+
         public override string Command => "callvote";
 
         public override string[] Aliases => ["cv"];
 
         public override string Description => "Enables player to call votes, manage the queue and more!";
-
-        public CallVoteCommand() => LoadGeneratedCommands();
 
         public override void LoadGeneratedCommands()
         {
@@ -38,7 +38,7 @@ namespace Callvote.Commands.ParentCommands
 
         protected override bool ExecuteParent(ArraySegment<string> args, ICommandSender sender, out string response)
         {
-            response = Callvote.Instance.Translation.WrongSyntax;
+            response = CallvotePlugin.Instance.Translation.WrongSyntax;
             return false;
         }
     }

@@ -1,24 +1,29 @@
 ﻿using System.Collections.Generic;
 
-namespace Callvote.Extensions
+namespace Callvote.Features.Extensions
 {
-    public static class QueueExtensions
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:Elements should be documented", Justification = "Only public API documentation is required")]
+    internal static class QueueExtensions
     {
-        public static void RemoveFromQueue<T>(this Queue<T> queue, int index)
+        internal static void RemoveFromQueue<T>(this Queue<T> queue, int index)
         {
             if (index < 0 || index >= queue.Count)
+            {
                 return;
+            }
 
             for (int i = 0; i < queue.Count; i++)
             {
                 T item = queue.Dequeue();
 
                 if (i != index)
+                {
                     queue.Enqueue(item);
+                }
             }
         }
 
-        public static bool RemoveItemFromQueue<T>(this Queue<T> queue, T value)
+        internal static bool RemoveItemFromQueue<T>(this Queue<T> queue, T value)
         {
             bool removed = false;
 

@@ -5,10 +5,10 @@ using Exiled.Permissions.Extensions;
 using LabApi.Features.Permissions;
 using LabApi.Features.Wrappers;
 #endif
-using Callvote.API;
-using CommandSystem;
 using System;
+using Callvote.API;
 using Callvote.Commands.ParentCommands;
+using CommandSystem;
 
 namespace Callvote.Commands.VotingCommands
 {
@@ -29,7 +29,7 @@ namespace Callvote.Commands.VotingCommands
 
             if (!VotingHandler.IsVotingActive)
             {
-                response = Callvote.Instance.Translation.NoVotingInProgress;
+                response = CallvotePlugin.Instance.Translation.NoVotingInProgress;
                 return false;
             }
 #if EXILED
@@ -38,12 +38,12 @@ namespace Callvote.Commands.VotingCommands
             if (!player.HasPermissions("cv.stopvote") && player != null)
 #endif
             {
-                response = Callvote.Instance.Translation.NoPermission;
+                response = CallvotePlugin.Instance.Translation.NoPermission;
                 return false;
             }
 
             VotingHandler.FinishVoting();
-            response = Callvote.Instance.Translation.VotingStoped;
+            response = CallvotePlugin.Instance.Translation.VotingStoped;
             return true;
         }
     }

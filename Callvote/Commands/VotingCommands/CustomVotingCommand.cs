@@ -2,18 +2,18 @@
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
 #else
+using Callvote.Commands.ParentCommands;
 using LabApi.Features.Permissions;
 using LabApi.Features.Wrappers;
-using Callvote.Commands.ParentCommands;
 #endif
-using Callvote.API;
-using Callvote.API.VotingsTemplate;
-using Callvote.Features.Enums;
-using CommandSystem;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Callvote.API;
+using Callvote.API.VotingsTemplate;
+using Callvote.Features.Enums;
+using CommandSystem;
 
 namespace Callvote.Commands.VotingCommands
 {
@@ -22,6 +22,8 @@ namespace Callvote.Commands.VotingCommands
 #endif
     public class CustomVotingCommand : ICommand
     {
+        private static readonly Regex CommandDetailRegex = new(@"^(\w+)\(([^)]+)\)$");
+
         public string Command => "custom";
 
         public string[] Aliases => ["c"];
@@ -30,137 +32,95 @@ namespace Callvote.Commands.VotingCommands
 
         public bool Execute(ArraySegment<string> args, ICommandSender sender, out string response)
         {
-            List<string> argsStrings = JoinWordsBetweenQuotes(args);
-            List<string> optionDetailsStrings = ExtractAndRemoveParenthesesValues(ref argsStrings);
-            optionDetailsStrings = JoinWordsBetweenQuotes(optionDetailsStrings);
+            List<string> separatedArgs = JoinWordsBetweenQuotes(args);
             Player player = Player.Get(sender);
 
-            if (
 #if EXILED
-                !player.CheckPermission("cv.callvotecustom")
+            if (player == null || !player.CheckPermission("cv.callvotecustom"))
 #else
-                !player.HasPermissions("cv.callvotecustom") 
+            if (player == null || !player.HasPermissions("cv.callvotecustom"))
 #endif
-                && player != null)
             {
-                response = Callvote.Instance.Translation.NoPermission;
+                response = CallvotePlugin.Instance.Translation.NoPermission;
                 return false;
             }
 
-
-            if (argsStrings.Count < 2)
+            if (separatedArgs.Count < 2)
             {
-                response = Callvote.Instance.Translation.LessThanTwoOptions;
+                response = CallvotePlugin.Instance.Translation.LessThanTwoOptions;
                 return false;
             }
 
-            for (int i = 1; i < argsStrings.Count; i++)
+            for (int i = 1; i < separatedArgs.Count; i++)
             {
-                if (!optionDetailsStrings.TryGet(i - 1, out string optionDetail))
-                    optionDetail = argsStrings[i];
+                string arg = separatedArgs[i];
+                Match match = CommandDetailRegex.Match(arg);
 
-                if (VotingHandler.Options.ContainsKey(argsStrings[i]))
+                if (!match.Success)
                 {
-                    response = Callvote.Instance.Translation.DuplicateCommand;
+                    response = $"Invalid format: {arg}";
                     return false;
                 }
 
-                VotingHandler.AddOptionToVoting(argsStrings[i], optionDetail);
+                string command = match.Groups[1].Value;
+                string detail = match.Groups[2].Value;
+
+                VotingHandler.AddOptionToVoting(command, detail);
             }
 
-            VotingHandler.CallVoting(new CustomVoting(player, Callvote.Instance.Translation.AskedCustom.Replace("%Player%", player.Nickname).Replace("%Custom%", argsStrings.First()), nameof(VotingTypeEnum.Custom), null));
-            response = VotingHandler.Response;
+            response = VotingHandler.CallVoting(new CustomVoting(player, CallvotePlugin.Instance.Translation.AskedCustom.Replace("%Player%", player.Nickname).Replace("%Custom%", separatedArgs.First()), nameof(VotingTypeEnum.Custom)));
             return true;
         }
 
-        private static List<string> JoinWordsBetweenQuotes(ArraySegment<string> args)
+        private static List<string> JoinWordsBetweenQuotes(IEnumerable<string> args)
         {
-            List<string> list = new List<string>();
-            bool isInsideQuotes = false;
-            List<string> wordsBetweenQuotes = new List<string>();
+            List<string> result = [];
+            bool inQuotes = false;
+            int parenthesesDepth = 0;
+
+            List<string> buffer = [];
 
             foreach (string arg in args)
             {
                 if (arg.StartsWith("\""))
                 {
-                    isInsideQuotes = true;
-                    wordsBetweenQuotes.Clear();
+                    inQuotes = true;
+                    buffer.Clear();
                 }
 
-                if (isInsideQuotes)
+                if (arg.Contains("("))
                 {
-                    wordsBetweenQuotes.Add(arg.Trim('"'));
+                    parenthesesDepth += arg.Count(c => c == '(');
+                    buffer.Clear();
+                }
 
-                    if (arg.EndsWith("\"") && arg.Length > 1)
+                if (inQuotes || parenthesesDepth > 0)
+                {
+                    buffer.Add(arg.Trim('"'));
+
+                    if (arg.EndsWith("\"") && inQuotes)
                     {
-                        list.Add(string.Join(" ", wordsBetweenQuotes));
-                        isInsideQuotes = false;
+                        inQuotes = false;
+                    }
+
+                    if (arg.Contains(")"))
+                    {
+                        parenthesesDepth -= arg.Count(c => c == ')');
+                    }
+
+                    if (!inQuotes && parenthesesDepth == 0)
+                    {
+                        result.Add(string.Join(" ", buffer));
+                        buffer.Clear();
                     }
                 }
-
                 else
-                    list.Add(arg);
-            }
-            return list;
-        }
-
-        private static List<string> JoinWordsBetweenQuotes(List<string> args)
-        {
-            List<string> list = new List<string>();
-            bool isInsideQuotes = false;
-            List<string> argsBetweenQuotes = new List<string>();
-
-            foreach (string arg in args)
-            {
-                if (arg.StartsWith("\""))
                 {
-                    isInsideQuotes = true;
-                    argsBetweenQuotes.Clear();
+                    result.Add(arg);
                 }
-
-                if (isInsideQuotes)
-                {
-                    argsBetweenQuotes.Add(arg.Trim('"'));
-
-                    if (arg.EndsWith("\"") && arg.Length > 1)
-                    {
-                        list.Add(string.Join(" ", argsBetweenQuotes));
-                        isInsideQuotes = false;
-                    }
-                }
-
-                else
-                    list.Add(arg);
-            }
-            return list;
-        }
-
-        private static List<string> ExtractAndRemoveParenthesesValues(ref List<string> list)
-        {
-            List<string> parenthesesList = new List<string>();
-            Regex regex = new Regex(@"\(([^)]+)\)");
-
-            List<string> cleanedList = new List<string>();
-
-            foreach (string item in list)
-            {
-                MatchCollection matches = regex.Matches(item);
-                string cleanedItem = item;
-
-                foreach (Match match in matches)
-                {
-                    parenthesesList.Add(match.Groups[1].Value);
-                    cleanedItem = cleanedItem.Replace(match.Value, "").Trim();
-                }
-
-                if (!string.IsNullOrEmpty(cleanedItem))
-                    cleanedList.Add(cleanedItem);
             }
 
-            list.Clear();
-            list.AddRange(cleanedList);
-
-            return parenthesesList;
+            return result;
         }
     }
 }

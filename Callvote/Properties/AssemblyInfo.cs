@@ -1,6 +1,6 @@
-﻿using Callvote;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Runtime.InteropServices;
+using Callvote;
 
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
@@ -41,6 +41,7 @@ using System.Runtime.InteropServices;
 
 namespace Callvote
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:Elements should be documented", Justification = "Self-explanatory elements.")]
     internal static class AssemblyInfo
     {
         internal const string Author = "PatPeter & Unbistrackted";

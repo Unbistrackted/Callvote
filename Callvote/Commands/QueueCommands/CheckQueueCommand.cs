@@ -1,13 +1,13 @@
 ﻿#if EXILED
 using Exiled.API.Features;
 #else
-using LabApi.Features.Wrappers;
 using Callvote.Commands.ParentCommands;
+using LabApi.Features.Wrappers;
 #endif
+using System;
 using Callvote.API;
 using Callvote.Features;
 using CommandSystem;
-using System;
 
 namespace Callvote.Commands.QueueCommands
 {
@@ -18,15 +18,15 @@ namespace Callvote.Commands.QueueCommands
     {
         public string Command => "check";
 
-        public string[] Aliases => new[] { "chk" };
+        public string[] Aliases => ["chk"];
 
         public string Description => "Checks the voting queue.";
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
-            if (!Callvote.Instance.Config.EnableQueue)
+            if (!CallvotePlugin.Instance.Config.EnableQueue)
             {
-                response = Callvote.Instance.Translation.QueueDisabled;
+                response = CallvotePlugin.Instance.Translation.QueueDisabled;
                 return false;
             }
 
@@ -34,17 +34,17 @@ namespace Callvote.Commands.QueueCommands
 
             if (VotingHandler.VotingQueue.Count == 0)
             {
-                response = Callvote.Instance.Translation.NoVotingInQueue;
+                response = CallvotePlugin.Instance.Translation.NoVotingInQueue;
                 return false;
             }
 
             string votingsInfo = string.Empty;
-            int _counter = 0;
+            int counter = 0;
 
             foreach (Voting voting in VotingHandler.VotingQueue)
             {
-                votingsInfo += $"\nVoting {_counter} ----- Type {voting.VotingType} ----- {voting.Question}\n";
-                _counter++;
+                votingsInfo += $"\nVoting {counter} ----- Type {voting.VotingType} ----- {voting.Question}\n";
+                counter++;
             }
 
             response = votingsInfo;

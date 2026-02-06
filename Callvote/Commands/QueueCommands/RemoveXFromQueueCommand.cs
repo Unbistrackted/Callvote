@@ -2,14 +2,14 @@
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
 #else
+using Callvote.Commands.ParentCommands;
 using LabApi.Features.Permissions;
 using LabApi.Features.Wrappers;
-using Callvote.Commands.ParentCommands;
 #endif
-using Callvote.API;
-using Callvote.Extensions;
-using CommandSystem;
 using System;
+using Callvote.API;
+using Callvote.Features.Extensions;
+using CommandSystem;
 
 namespace Callvote.Commands.QueueCommands
 {
@@ -20,15 +20,15 @@ namespace Callvote.Commands.QueueCommands
     {
         public string Command => "removeindex";
 
-        public string[] Aliases => new[] { "rid", "rd", "ri" };
+        public string[] Aliases => ["rid", "rd", "ri"];
 
         public string Description => "Removes X voting from voting queue.";
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
-            if (!Callvote.Instance.Config.EnableQueue)
+            if (!CallvotePlugin.Instance.Config.EnableQueue)
             {
-                response = Callvote.Instance.Translation.QueueDisabled;
+                response = CallvotePlugin.Instance.Translation.QueueDisabled;
                 return false;
             }
 
@@ -40,13 +40,13 @@ namespace Callvote.Commands.QueueCommands
             if (!player.HasPermissions("cv.managequeue"))
 #endif
             {
-                response = Callvote.Instance.Translation.NoPermission;
+                response = CallvotePlugin.Instance.Translation.NoPermission;
                 return false;
             }
 
             if (!int.TryParse(arguments.At(0), out int number))
             {
-                response = Callvote.Instance.Translation.InvalidArgument;
+                response = CallvotePlugin.Instance.Translation.InvalidArgument;
                 return false;
             }
 
@@ -54,7 +54,7 @@ namespace Callvote.Commands.QueueCommands
 
             VotingHandler.VotingQueue.RemoveFromQueue(number);
 
-            response = Callvote.Instance.Translation.RemovedFromQueue.Replace("%Number%", (size - VotingHandler.VotingQueue.Count).ToString());
+            response = CallvotePlugin.Instance.Translation.RemovedFromQueue.Replace("%Number%", (size - VotingHandler.VotingQueue.Count).ToString());
             return true;
         }
     }

@@ -3,39 +3,48 @@ using Exiled.API.Features;
 #else
 using LabApi.Features.Wrappers;
 #endif
-using Callvote.Features.Enums;
 using System;
 using System.Linq;
-using Callvote.API.VotingsTemplate;
-using Callvote.Features.Interfaces;
 using Callvote.API;
+using Callvote.API.VotingsTemplate;
+using Callvote.Features.Enums;
+using Callvote.Features.Interfaces;
 
 namespace Callvote.Features.PredefinedVotings
 {
+    /// <summary>
+    /// Represents the type for the Friendly Fire enable/disable Predefined Voting.
+    /// Initializes a new instance of the <see cref="FFVoting"/> class.
+    /// </summary>
+    /// <param name="player"><see cref="Voting.CallVotePlayer"/>.</param>
     public class FFVoting(Player player) : BinaryVoting(player, ReplacePlayer(player), nameof(VotingTypeEnum.Ff), AddCallback), IVotingTemplate
     {
-        public static void AddCallback(Voting vote)
+        private static void AddCallback(Voting vote)
         {
-            int yesVotePercent = (int)(vote.Counter[Callvote.Instance.Translation.CommandYes] / (float)Player.List.Count() * 100f);
-            int noVotePercent = (int)(vote.Counter[Callvote.Instance.Translation.CommandNo] / (float)Player.List.Count() * 100f);
+            int yesVotePercent = (int)(vote.Counter[CallvotePlugin.Instance.Translation.CommandYes] / (float)Player.List.Count() * 100f);
+            int noVotePercent = (int)(vote.Counter[CallvotePlugin.Instance.Translation.CommandNo] / (float)Player.List.Count() * 100f);
 
-            if (yesVotePercent >= Callvote.Instance.Config.ThresholdFf && yesVotePercent > noVotePercent)
+            if (yesVotePercent >= CallvotePlugin.Instance.Config.ThresholdFf && yesVotePercent > noVotePercent)
             {
                 Server.FriendlyFire = !Server.FriendlyFire;
                 string msg = Server.FriendlyFire
-                    ? Callvote.Instance.Translation.DisablingFriendlyFire
-                    : Callvote.Instance.Translation.EnablingFriendlyFire;
-                MessageProvider.Provider.DisplayMessage(TimeSpan.FromSeconds(Callvote.Instance.Config.FinalResultsDuration), $"<size={DisplayMessageHelper.CalculateMessageSize(msg)}>{msg.Replace("%VotePercent%", yesVotePercent.ToString())}</size>",
+                    ? CallvotePlugin.Instance.Translation.DisablingFriendlyFire
+                    : CallvotePlugin.Instance.Translation.EnablingFriendlyFire;
+                SoftDependency.MessageProvider.DisplayMessage(
+                    TimeSpan.FromSeconds(CallvotePlugin.Instance.Config.FinalResultsDuration),
+                    $"<size={DisplayMessageHelper.CalculateMessageSize(msg)}>{msg.Replace("%VotePercent%", yesVotePercent.ToString())}</size>",
                     VotingHandler.CurrentVoting.AllowedPlayers);
             }
             else
             {
                 string msg = Server.FriendlyFire
-                    ? Callvote.Instance.Translation.NoSuccessFullEnableFf
-                    : Callvote.Instance.Translation.NoSuccessFullDisableFf;
-                MessageProvider.Provider.DisplayMessage(TimeSpan.FromSeconds(Callvote.Instance.Config.FinalResultsDuration), $"<size={DisplayMessageHelper.CalculateMessageSize(msg)}>{msg
+                    ? CallvotePlugin.Instance.Translation.NoSuccessFullEnableFf
+                    : CallvotePlugin.Instance.Translation.NoSuccessFullDisableFf;
+                SoftDependency.MessageProvider.DisplayMessage(
+                    TimeSpan.FromSeconds(CallvotePlugin.Instance.Config.FinalResultsDuration),
+                    $"<size={DisplayMessageHelper.CalculateMessageSize(msg)}>{msg
                     .Replace("%VotePercent%", yesVotePercent.ToString())
-                    .Replace("%ThresholdFF%", Callvote.Instance.Config.ThresholdFf.ToString())}</size>",
+                    .Replace("%ThresholdFF%", CallvotePlugin.Instance.Config.ThresholdFf.ToString())}</size>",
                     VotingHandler.CurrentVoting.AllowedPlayers);
             }
         }
@@ -43,8 +52,8 @@ namespace Callvote.Features.PredefinedVotings
         private static string ReplacePlayer(Player player)
         {
             string baseQuestion = Server.FriendlyFire
-                ? Callvote.Instance.Translation.AskedToDisableFf
-                : Callvote.Instance.Translation.AskedToEnableFf;
+                ? CallvotePlugin.Instance.Translation.AskedToDisableFf
+                : CallvotePlugin.Instance.Translation.AskedToEnableFf;
 
             return baseQuestion.Replace("%Player%", player.Nickname);
         }

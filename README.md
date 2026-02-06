@@ -40,8 +40,8 @@ private void ReviveSCPs(DiedEventArgs ev)
       {
          void callback(Voting vote)
          {
-            int yes = vote.Counter[Callvote.Callvote.Instance.Translation.CommandYes];
-            int no = vote.Counter[Callvote.Callvote.Instance.Translation.CommandNo];
+            int yes = vote.Counter[Callvote.CallvotePlugin.Instance.Translation.CommandYes];
+            int no = vote.Counter[Callvote.CallvotePlugin.Instance.Translation.CommandNo];
             if (yes > no)
             {
                ev.Player.RoleManager.ServerSetRole(ev.TargetOldRole, PlayerRoles.RoleChangeReason.None);

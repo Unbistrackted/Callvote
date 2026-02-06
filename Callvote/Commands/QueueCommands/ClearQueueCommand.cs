@@ -2,13 +2,13 @@
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
 #else
+using Callvote.Commands.ParentCommands;
 using LabApi.Features.Permissions;
 using LabApi.Features.Wrappers;
-using Callvote.Commands.ParentCommands;
 #endif
+using System;
 using Callvote.API;
 using CommandSystem;
-using System;
 
 namespace Callvote.Commands.QueueCommands
 {
@@ -19,15 +19,15 @@ namespace Callvote.Commands.QueueCommands
     {
         public string Command => "clear";
 
-        public string[] Aliases => new[] { "clq" };
+        public string[] Aliases => ["clq"];
 
         public string Description => "Clears the voting queue.";
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
-            if (!Callvote.Instance.Config.EnableQueue)
+            if (!CallvotePlugin.Instance.Config.EnableQueue)
             {
-                response = Callvote.Instance.Translation.QueueDisabled;
+                response = CallvotePlugin.Instance.Translation.QueueDisabled;
                 return false;
             }
 
@@ -38,12 +38,12 @@ namespace Callvote.Commands.QueueCommands
             if (!player.HasPermissions("cv.managequeue"))
 #endif
             {
-                response = Callvote.Instance.Translation.NoPermission;
+                response = CallvotePlugin.Instance.Translation.NoPermission;
                 return false;
             }
 
             VotingHandler.VotingQueue.Clear();
-            response = Callvote.Instance.Translation.QueueCleared;
+            response = CallvotePlugin.Instance.Translation.QueueCleared;
             return true;
         }
     }

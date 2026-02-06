@@ -3,11 +3,11 @@ using Exiled.API.Features;
 #else
 using LabApi.Features.Wrappers;
 #endif
+using System;
 using Callvote.API;
+using Callvote.Commands.QueueCommands;
 using Callvote.Features;
 using CommandSystem;
-using System;
-using Callvote.Commands.QueueCommands;
 
 namespace Callvote.Commands.ParentCommands
 {
@@ -16,13 +16,13 @@ namespace Callvote.Commands.ParentCommands
 #endif
     public class CallVoteQueueCommand : ParentCommand
     {
+        public CallVoteQueueCommand() => this.LoadGeneratedCommands();
+
         public override string Command => "queue";
 
         public override string[] Aliases => ["q", "que", "qq", "list"];
 
         public override string Description => "Commands related to Callvote queue.";
-
-        public CallVoteQueueCommand() => LoadGeneratedCommands();
 
         public override void LoadGeneratedCommands()
         {
@@ -38,9 +38,9 @@ namespace Callvote.Commands.ParentCommands
 
         protected override bool ExecuteParent(ArraySegment<string> args, ICommandSender sender, out string response)
         {
-            if (!Callvote.Instance.Config.EnableQueue)
+            if (!CallvotePlugin.Instance.Config.EnableQueue)
             {
-                response = Callvote.Instance.Translation.QueueDisabled;
+                response = CallvotePlugin.Instance.Translation.QueueDisabled;
                 return false;
             }
 
@@ -48,9 +48,10 @@ namespace Callvote.Commands.ParentCommands
 
             if (VotingHandler.VotingQueue.Count == 0)
             {
-                response = Callvote.Instance.Translation.NoVotingInQueue;
+                response = CallvotePlugin.Instance.Translation.NoVotingInQueue;
                 return false;
             }
+
             string votingsInfo = string.Empty;
             int counter = 0;
             foreach (Voting voting in VotingHandler.VotingQueue)
@@ -58,6 +59,7 @@ namespace Callvote.Commands.ParentCommands
                 votingsInfo += $"\nVoting {counter} ----- Type {voting.VotingType} ----- {voting.Question}\n";
                 counter++;
             }
+
             response = votingsInfo;
             return true;
         }

@@ -9,12 +9,19 @@ using System.Collections.Generic;
 
 namespace Callvote.Features.Interfaces
 {
+    /// <summary>
+    /// Represents the interface for voting templates.
+    /// </summary>
     public interface IVotingTemplate
     {
-        Player CallVotePlayer { get; }
-        string Question { get; }
-        string VotingType { get; }
+        /// <summary>
+        /// Gets <see cref="Voting.Callback"/> of the template.
+        /// </summary>
         Action<Voting> Callback { get; }
+
+        /// <summary>
+        /// Gets <see cref="Voting.Options"/> of the template.
+        /// </summary>
         Dictionary<string, string> Options { get; }
     }
 }

@@ -1,35 +1,47 @@
 #if EXILED
-using Plugin = Exiled.API.Features.Plugin<Callvote.Configuration.Config, Callvote.Configuration.Translation>;
 using Exiled.API.Enums;
-# else
-using LabApi.Loader.Features.Plugins;
-using LabApi.Loader;
+using Plugin = Exiled.API.Features.Plugin<Callvote.Configuration.Config, Callvote.Configuration.Translation>;
+#else
 using Callvote.Configuration;
+using LabApi.Loader;
+using LabApi.Loader.Features.Plugins;
 #endif
-using Callvote.Features;
 using System;
+using Callvote.Features;
 
 namespace Callvote
 {
-    public class Callvote : Plugin
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:Elements should be documented", Justification = "Only public API documentation is required")]
+    public class CallvotePlugin : Plugin
     {
-        public static Callvote Instance;
+        private EventHandlers eventHandler;
+
+        public static CallvotePlugin Instance { get; private set; }
+
         public override string Name { get; } = AssemblyInfo.Name;
+
         public override string Author { get; } = AssemblyInfo.Author;
+
 #if EXILED
         public override Version RequiredExiledVersion => new(9, 12, 6);
+
         public override PluginPriority Priority => PluginPriority.Default;
+
         public override string Prefix { get; } = AssemblyInfo.LangFile;
+
 #else
         public override string Description => AssemblyInfo.Description;
+
         public override Version RequiredApiVersion { get; } = new Version(1, 1, 5);
+
         public string Prefix { get; } = AssemblyInfo.LangFile;
+
         public Translation Translation { get; private set; }
+
         public Config Config { get; private set; }
+
 #endif
         public override Version Version { get; } = Version.Parse(AssemblyInfo.Version);
-
-        private EventHandlers _eventHandler;
 
 #if EXILED
         public override void OnEnabled()
@@ -40,9 +52,9 @@ namespace Callvote
             Instance = this;
 
 #if !EXILED
-            LoadConfigs();
+            this.LoadConfigs();
 #endif
-            _eventHandler = new EventHandlers();
+            this.eventHandler = new EventHandlers();
             ServerSpecificSettings.RegisterSettings();
 
 #if EXILED
@@ -57,7 +69,7 @@ namespace Callvote
 #endif
         {
             ServerSpecificSettings.UnregisterSettings();
-            _eventHandler = null;
+            this.eventHandler = null;
             Instance = null;
 
 #if EXILED
@@ -70,8 +82,8 @@ namespace Callvote
         {
             this.TryLoadConfig("config.yml", out Config config);
             this.TryLoadConfig("translation.yml", out Translation translation);
-            Config = config ?? new Config();
-            Translation = translation ?? new Translation();
+            this.Config = config ?? new Config();
+            this.Translation = translation ?? new Translation();
         }
 #endif
     }

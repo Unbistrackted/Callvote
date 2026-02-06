@@ -5,23 +5,30 @@ using Exiled.Permissions.Extensions;
 using LabApi.Features.Permissions;
 using LabApi.Features.Wrappers;
 #endif
-using Callvote.Features.Enums;
 using System;
 using System.Linq;
-using Callvote.API.VotingsTemplate;
-using Callvote.Features.Interfaces;
 using Callvote.API;
+using Callvote.API.VotingsTemplate;
+using Callvote.Features.Enums;
+using Callvote.Features.Interfaces;
 
 namespace Callvote.Features.PredefinedVotings
 {
+    /// <summary>
+    /// Represents the type for the Kick Player Predefined Voting.
+    /// Initializes a new instance of the <see cref="KickVoting"/> class.
+    /// </summary>
+    /// <param name="player"><see cref="Voting.CallVotePlayer"/>.</param>
+    /// <param name="ofender">The <see cref="Player"/> that is going to be kicked.</param>
+    /// <param name="reason">The reason for the kick.</param>
     public class KickVoting(Player player, Player ofender, string reason) : BinaryVoting(player, ReplacePlayer(player, ofender, reason), nameof(VotingTypeEnum.Kick), vote => AddCallback(vote, player, ofender, reason)), IVotingTemplate
     {
-        public static void AddCallback(Voting vote, Player player, Player ofender, string reason)
+        private static void AddCallback(Voting vote, Player player, Player ofender, string reason)
         {
-            int yesVotePercent = (int)(vote.Counter[Callvote.Instance.Translation.CommandYes] / (float)Player.List.Count() * 100f);
-            int noVotePercent = (int)(vote.Counter[Callvote.Instance.Translation.CommandNo] / (float)Player.List.Count() * 100f);
+            int yesVotePercent = (int)(vote.Counter[CallvotePlugin.Instance.Translation.CommandYes] / (float)Player.List.Count() * 100f);
+            int noVotePercent = (int)(vote.Counter[CallvotePlugin.Instance.Translation.CommandNo] / (float)Player.List.Count() * 100f);
 
-            if (yesVotePercent >= Callvote.Instance.Config.ThresholdKick && yesVotePercent > noVotePercent)
+            if (yesVotePercent >= CallvotePlugin.Instance.Config.ThresholdKick && yesVotePercent > noVotePercent)
             {
 #if EXILED
                 if (!ofender.CheckPermission("cv.untouchable"))
@@ -30,7 +37,9 @@ namespace Callvote.Features.PredefinedVotings
 #endif
                 {
                     ofender.Kick(reason);
-                    MessageProvider.Provider.DisplayMessage(TimeSpan.FromSeconds(Callvote.Instance.Config.FinalResultsDuration), $"<size={DisplayMessageHelper.CalculateMessageSize(Callvote.Instance.Translation.PlayerKicked)}>{Callvote.Instance.Translation.PlayerKicked
+                    SoftDependency.MessageProvider.DisplayMessage(
+                        TimeSpan.FromSeconds(CallvotePlugin.Instance.Config.FinalResultsDuration),
+                        $"<size={DisplayMessageHelper.CalculateMessageSize(CallvotePlugin.Instance.Translation.PlayerKicked)}>{CallvotePlugin.Instance.Translation.PlayerKicked
                         .Replace("%VotePercent%", yesVotePercent.ToString())
                         .Replace("%Player%", player.Nickname)
                         .Replace("%Offender%", ofender.Nickname)
@@ -38,16 +47,24 @@ namespace Callvote.Features.PredefinedVotings
                         VotingHandler.CurrentVoting.AllowedPlayers);
                 }
 #if EXILED
-                if (ofender.CheckPermission("cv.untouchable")) ofender.Broadcast((ushort)Callvote.Instance.Config.FinalResultsDuration, Callvote.Instance.Translation.Untouchable.Replace("%VotePercent%", yesVotePercent.ToString()));
+                if (ofender.CheckPermission("cv.untouchable"))
+                {
+                    ofender.Broadcast((ushort)CallvotePlugin.Instance.Config.FinalResultsDuration, CallvotePlugin.Instance.Translation.Untouchable.Replace("%VotePercent%", yesVotePercent.ToString()));
+                }
 #else
-                if (ofender.HasPermissions("cv.untouchable")) ofender.SendBroadcast(Callvote.Instance.Translation.Untouchable.Replace("%VotePercent%", yesVotePercent.ToString()), (ushort)Callvote.Instance.Config.FinalResultsDuration);
+                if (ofender.HasPermissions("cv.untouchable"))
+                {
+                    ofender.SendBroadcast(CallvotePlugin.Instance.Translation.Untouchable.Replace("%VotePercent%", yesVotePercent.ToString()), (ushort)CallvotePlugin.Instance.Config.FinalResultsDuration);
+                }
 #endif
             }
             else
             {
-                MessageProvider.Provider.DisplayMessage(TimeSpan.FromSeconds(Callvote.Instance.Config.FinalResultsDuration), $"<size={DisplayMessageHelper.CalculateMessageSize(Callvote.Instance.Translation.NotSuccessFullKick)}>{Callvote.Instance.Translation.NotSuccessFullKick
+                SoftDependency.MessageProvider.DisplayMessage(
+                    TimeSpan.FromSeconds(CallvotePlugin.Instance.Config.FinalResultsDuration),
+                    $"<size={DisplayMessageHelper.CalculateMessageSize(CallvotePlugin.Instance.Translation.NotSuccessFullKick)}>{CallvotePlugin.Instance.Translation.NotSuccessFullKick
                     .Replace("%VotePercent%", yesVotePercent.ToString())
-                    .Replace("%ThresholdKick%", Callvote.Instance.Config.ThresholdKick.ToString())
+                    .Replace("%ThresholdKick%", CallvotePlugin.Instance.Config.ThresholdKick.ToString())
                     .Replace("%Offender%", ofender.Nickname)}</size>",
                     VotingHandler.CurrentVoting.AllowedPlayers);
             }
@@ -55,7 +72,7 @@ namespace Callvote.Features.PredefinedVotings
 
         private static string ReplacePlayer(Player player, Player offender, string reason)
         {
-            return Callvote.Instance.Translation.AskedToKick
+            return CallvotePlugin.Instance.Translation.AskedToKick
                     .Replace("%Player%", player.Nickname)
                     .Replace("%Offender%", offender.Nickname)
                     .Replace("%Reason%", reason);

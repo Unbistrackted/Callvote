@@ -2,14 +2,14 @@
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
 #else
+using Callvote.Commands.ParentCommands;
 using LabApi.Features.Permissions;
 using LabApi.Features.Wrappers;
-using Callvote.Commands.ParentCommands;
 #endif
+using System;
 using Callvote.API;
 using Callvote.Features.PredefinedVotings;
 using CommandSystem;
-using System;
 
 namespace Callvote.Commands.VotingCommands
 {
@@ -28,9 +28,9 @@ namespace Callvote.Commands.VotingCommands
         {
             Player player = Player.Get(sender);
 
-            if (!Callvote.Instance.Config.EnableRoundRestart)
+            if (!CallvotePlugin.Instance.Config.EnableRoundRestart)
             {
-                response = Callvote.Instance.Translation.VoteRestartRoundDisabled;
+                response = CallvotePlugin.Instance.Translation.VoteRestartRoundDisabled;
                 return false;
             }
 #if EXILED
@@ -39,24 +39,23 @@ namespace Callvote.Commands.VotingCommands
             if (!player.HasPermissions("cv.callvoterestartround") && player != null)
 #endif
             {
-                response = Callvote.Instance.Translation.NoPermission;
+                response = CallvotePlugin.Instance.Translation.NoPermission;
                 return false;
             }
 
 #if EXILED
-            if (!player.CheckPermission("cv.bypass") && Round.ElapsedTime.TotalSeconds < Callvote.Instance.Config.MaxWaitRestartRound)
+            if (!player.CheckPermission("cv.bypass") && Round.ElapsedTime.TotalSeconds < CallvotePlugin.Instance.Config.MaxWaitRestartRound)
             {
-                response = Callvote.Instance.Translation.WaitToVote.Replace("%Timer%", $"{Callvote.Instance.Config.MaxWaitRestartRound - Round.ElapsedTime.TotalSeconds:F0}");
+                response = CallvotePlugin.Instance.Translation.WaitToVote.Replace("%Timer%", $"{CallvotePlugin.Instance.Config.MaxWaitRestartRound - Round.ElapsedTime.TotalSeconds:F0}");
 #else
-            if (!player.HasPermissions("cv.bypass") && Round.Duration.TotalSeconds < Callvote.Instance.Config.MaxWaitRestartRound)
+            if (!player.HasPermissions("cv.bypass") && Round.Duration.TotalSeconds < CallvotePlugin.Instance.Config.MaxWaitRestartRound)
             {
-                response = Callvote.Instance.Translation.WaitToVote.Replace("%Timer%", $"{Callvote.Instance.Config.MaxWaitRestartRound - Round.Duration.TotalSeconds:F0}");
+                response = CallvotePlugin.Instance.Translation.WaitToVote.Replace("%Timer%", $"{CallvotePlugin.Instance.Config.MaxWaitRestartRound - Round.Duration.TotalSeconds:F0}");
 #endif
                 return false;
             }
 
-            VotingHandler.CallVoting(new RestartRoundVoting(player));
-            response = VotingHandler.Response;
+            response = VotingHandler.CallVoting(new RestartRoundVoting(player));
             return true;
         }
     }

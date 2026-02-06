@@ -1,6 +1,6 @@
-﻿using CommandSystem;
-using System;
+﻿using System;
 using Callvote.Commands.ParentCommands;
+using CommandSystem;
 
 namespace Callvote.Commands
 {
@@ -11,7 +11,7 @@ namespace Callvote.Commands
     {
         public string Command => "help";
 
-        public string[] Aliases => new[] { "help" };
+        public string[] Aliases => [];
 
         public string Description => "Usage of Callvote.";
 

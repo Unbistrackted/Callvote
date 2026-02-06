@@ -5,42 +5,51 @@ using UserSettings.ServerSpecific;
 
 namespace Callvote.Features
 {
-    public static class ServerSpecificSettings
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:Elements should be documented", Justification = "Only public API documentation is required")]
+    internal static class ServerSpecificSettings
     {
-        public static IEnumerable<ServerSpecificSettingBase> CallvoteSettings { get; private set; }
-        public static SSGroupHeader SettingsHeader { get; set; } = new SSGroupHeader(Callvote.Instance.Config.HeaderSettingId, AssemblyInfo.Name);
-        public static SSKeybindSetting YesKeybindSetting { get; set; }
-        public static SSKeybindSetting NoKeybindSetting { get; set; }
-        public static SSKeybindSetting MtfKeybindSetting { get; set; }
-        public static SSKeybindSetting CiKeybindSetting { get; set; }
-        public static void RegisterSettings()
-        {
-            YesKeybindSetting = new SSKeybindSetting(Callvote.Instance.Config.YesKeybindSettingId, Callvote.Instance.Translation.VoteKeybind.Replace("%Option%", Callvote.Instance.Translation.OptionYes), KeyCode.Y, hint: Callvote.Instance.Translation.KeybindHint.Replace("%Option%", Callvote.Instance.Translation.OptionYes));
-            NoKeybindSetting = new SSKeybindSetting(Callvote.Instance.Config.NoKeybindSettingId, Callvote.Instance.Translation.VoteKeybind.Replace("%Option%", Callvote.Instance.Translation.OptionNo), KeyCode.U, hint: Callvote.Instance.Translation.KeybindHint.Replace("%Option%", Callvote.Instance.Translation.OptionNo));
+        private static SSGroupHeader settingsHeader;
 
-            if (Callvote.Instance.Config.EnableRespawnWave)
+        private static SSKeybindSetting yesKeybindSetting;
+
+        private static SSKeybindSetting noKeybindSetting;
+
+        private static SSKeybindSetting mtfKeybindSetting;
+
+        private static SSKeybindSetting ciKeybindSetting;
+
+        internal static IEnumerable<ServerSpecificSettingBase> CallvoteSettings { get; set; }
+
+        internal static void RegisterSettings()
+        {
+            settingsHeader = new(CallvotePlugin.Instance.Config.HeaderSettingId, AssemblyInfo.Name);
+            yesKeybindSetting = new SSKeybindSetting(CallvotePlugin.Instance.Config.YesKeybindSettingId, CallvotePlugin.Instance.Translation.VoteKeybind.Replace("%Option%", CallvotePlugin.Instance.Translation.OptionYes), KeyCode.Y, hint: CallvotePlugin.Instance.Translation.KeybindHint.Replace("%Option%", CallvotePlugin.Instance.Translation.OptionYes));
+            noKeybindSetting = new SSKeybindSetting(CallvotePlugin.Instance.Config.NoKeybindSettingId, CallvotePlugin.Instance.Translation.VoteKeybind.Replace("%Option%", CallvotePlugin.Instance.Translation.OptionNo), KeyCode.U, hint: CallvotePlugin.Instance.Translation.KeybindHint.Replace("%Option%", CallvotePlugin.Instance.Translation.OptionNo));
+
+            if (CallvotePlugin.Instance.Config.EnableRespawnWave)
             {
-                MtfKeybindSetting = new SSKeybindSetting(Callvote.Instance.Config.MtfKeybindSettingId, Callvote.Instance.Translation.VoteKeybind.Replace("%Option%", Callvote.Instance.Translation.OptionMtf), KeyCode.I, hint: Callvote.Instance.Translation.KeybindHint.Replace("%Option%", Callvote.Instance.Translation.OptionMtf));
-                CiKeybindSetting = new SSKeybindSetting(Callvote.Instance.Config.CiKeybindSettingId, Callvote.Instance.Translation.VoteKeybind.Replace("%Option%", Callvote.Instance.Translation.OptionCi), KeyCode.O, hint: Callvote.Instance.Translation.KeybindHint.Replace("%Option%", Callvote.Instance.Translation.OptionCi));
+                mtfKeybindSetting = new SSKeybindSetting(CallvotePlugin.Instance.Config.MtfKeybindSettingId, CallvotePlugin.Instance.Translation.VoteKeybind.Replace("%Option%", CallvotePlugin.Instance.Translation.OptionMtf), KeyCode.I, hint: CallvotePlugin.Instance.Translation.KeybindHint.Replace("%Option%", CallvotePlugin.Instance.Translation.OptionMtf));
+                ciKeybindSetting = new SSKeybindSetting(CallvotePlugin.Instance.Config.CiKeybindSettingId, CallvotePlugin.Instance.Translation.VoteKeybind.Replace("%Option%", CallvotePlugin.Instance.Translation.OptionCi), KeyCode.O, hint: CallvotePlugin.Instance.Translation.KeybindHint.Replace("%Option%", CallvotePlugin.Instance.Translation.OptionCi));
             }
 
             CallvoteSettings =
                 [
-                SettingsHeader,
-                YesKeybindSetting,
-                NoKeybindSetting,
-                MtfKeybindSetting,
-                CiKeybindSetting
+                settingsHeader,
+                yesKeybindSetting,
+                noKeybindSetting,
+                mtfKeybindSetting,
+                ciKeybindSetting
                 ];
 
             Register(CallvoteSettings);
         }
-        public static void UnregisterSettings()
+
+        internal static void UnregisterSettings()
         {
             Unregister(CallvoteSettings);
         }
 
-        public static void Register(IEnumerable<ServerSpecificSettingBase> settings)
+        private static void Register(IEnumerable<ServerSpecificSettingBase> settings)
         {
             List<ServerSpecificSettingBase> list = [.. ServerSpecificSettingsSync.DefinedSettings ?? Array.Empty<ServerSpecificSettingBase>(), .. settings];
 
@@ -48,12 +57,14 @@ namespace Callvote.Features
             ServerSpecificSettingsSync.SendToAll();
         }
 
-        public static void Unregister(IEnumerable<ServerSpecificSettingBase> settings)
+        private static void Unregister(IEnumerable<ServerSpecificSettingBase> settings)
         {
             List<ServerSpecificSettingBase> list = [.. ServerSpecificSettingsSync.DefinedSettings ?? []];
 
             foreach (ServerSpecificSettingBase setting in settings)
+            {
                 list.Remove(setting);
+            }
 
             ServerSpecificSettingsSync.DefinedSettings = list.ToArray();
             ServerSpecificSettingsSync.SendToAll();

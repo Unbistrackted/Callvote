@@ -6,27 +6,32 @@ using System.Threading.Tasks;
 
 namespace Callvote.Features
 {
-    public static class DiscordWebhook
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:Elements should be documented", Justification = "Only public API documentation is required")]
+    internal static class DiscordWebhook
     {
-        public static async Task ResultsMessage(Voting vote)
+        internal static async Task ResultsMessage(Voting vote)
         {
-            string webhook = Callvote.Instance.Config.DiscordWebhook;
+            string webhook = CallvotePlugin.Instance.Config.DiscordWebhook;
 
             if (string.IsNullOrWhiteSpace(webhook))
+            {
                 return;
+            }
 
-            string resultsMessage = "";
+            string resultsMessage = string.Empty;
 
             foreach (KeyValuePair<string, string> kvp in vote.Options)
-                resultsMessage += Callvote.Instance.Translation.OptionAndCounter
+            {
+                resultsMessage += CallvotePlugin.Instance.Translation.OptionAndCounter
                     .Replace("%Option%", kvp.Value)
                     .Replace("%OptionKey%", kvp.Key)
                     .Replace("%Counter%", vote.Counter[kvp.Key].ToString());
+            }
 
-            string Question = Escape(vote.Question);
-            string Results = Escape(resultsMessage);
-            string CallvotePlayerInfo = Escape($"{vote.CallVotePlayer.Nickname}");
-            string payload = $@"{{""content"":null,""embeds"":[{{""title"":""{Callvote.Instance.Translation.WebhookTitle}"",""color"":255,""fields"":[{{""name"":""{Callvote.Instance.Translation.WebhookPlayer}"",""value"":""{CallvotePlayerInfo}""}},{{""name"":""{Callvote.Instance.Translation.WebhookQuestion}"",""value"":""{Question.Replace($"{CallvotePlayerInfo} asks: ", "")}""}},{{""name"":""{Callvote.Instance.Translation.WebhookVotes}"",""value"":""{Results}""}}]}}]}}";
+            string question = Escape(vote.Question);
+            string results = Escape(resultsMessage);
+            string callvotePlayerInfo = Escape($"{vote.CallVotePlayer.Nickname}");
+            string payload = $@"{{""content"":null,""embeds"":[{{""title"":""{CallvotePlugin.Instance.Translation.WebhookTitle}"",""color"":255,""fields"":[{{""name"":""{CallvotePlugin.Instance.Translation.WebhookPlayer}"",""value"":""{callvotePlayerInfo}""}},{{""name"":""{CallvotePlugin.Instance.Translation.WebhookQuestion}"",""value"":""{question.Replace($"{callvotePlayerInfo} asks: ", string.Empty)}""}},{{""name"":""{CallvotePlugin.Instance.Translation.WebhookVotes}"",""value"":""{results}""}}]}}]}}";
             try
             {
                 using (HttpClient client = new())
@@ -47,16 +52,20 @@ namespace Callvote.Features
                 ServerConsole.AddLog($"[ERROR] [Callvote] " + "Webhook Error: " + ex.Message + " " + ex.Source + " " + ex.StackTrace, ConsoleColor.Red);
             }
         }
+
         private static string RemoveColorTags(string input)
         {
-            return Regex.Replace(input, "<color=.*?>|</color>", "");
+            return Regex.Replace(input, "<color=.*?>|</color>", string.Empty);
         }
+
         private static string Escape(string message)
         {
             message = RemoveColorTags(message);
 
             if (string.IsNullOrEmpty(message))
-                return "";
+            {
+                return string.Empty;
+            }
 
             return message
                 .Replace("\\", "\\\\")

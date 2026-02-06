@@ -3,9 +3,9 @@ using Exiled.API.Features;
 #else
 using LabApi.Features.Wrappers;
 #endif
+using System;
 using Callvote.API;
 using CommandSystem;
-using System;
 
 namespace Callvote.Commands.VotingCommands
 {
@@ -13,8 +13,9 @@ namespace Callvote.Commands.VotingCommands
     {
         public VoteCommand(string command)
         {
-            Command = command;
+            this.Command = command;
         }
+
         public string Command { get; set; }
 
         public string[] Aliases { get; set; }
@@ -27,11 +28,11 @@ namespace Callvote.Commands.VotingCommands
 
             if (!VotingHandler.IsVotingActive)
             {
-                response = Callvote.Instance.Translation.NoVotingInProgress;
+                response = CallvotePlugin.Instance.Translation.NoVotingInProgress;
                 return true;
             }
 
-            response = VotingHandler.CurrentVoting.Vote(player, Command);
+            response = VotingHandler.CurrentVoting.Vote(player, this.Command);
             return true;
         }
     }

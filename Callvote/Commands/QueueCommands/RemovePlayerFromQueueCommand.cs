@@ -2,17 +2,17 @@
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
 #else
+using Callvote.Commands.ParentCommands;
 using LabApi.Features.Permissions;
 using LabApi.Features.Wrappers;
-using Callvote.Commands.ParentCommands;
 #endif
-using Callvote.API;
-using Callvote.Extensions;
-using Callvote.Features;
-using CommandSystem;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Callvote.API;
+using Callvote.Features;
+using Callvote.Features.Extensions;
+using CommandSystem;
 
 namespace Callvote.Commands.QueueCommands
 {
@@ -23,15 +23,15 @@ namespace Callvote.Commands.QueueCommands
     {
         public string Command => "removeplayer";
 
-        public string[] Aliases => new[] { "rplayer", "rp" };
+        public string[] Aliases => ["rplayer", "rp"];
 
         public string Description => "Remove a certain Player from Voting queue.";
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
-            if (!Callvote.Instance.Config.EnableQueue)
+            if (!CallvotePlugin.Instance.Config.EnableQueue)
             {
-                response = Callvote.Instance.Translation.QueueDisabled;
+                response = CallvotePlugin.Instance.Translation.QueueDisabled;
                 return false;
             }
 
@@ -42,7 +42,7 @@ namespace Callvote.Commands.QueueCommands
             if (!player.HasPermissions("cv.managequeue"))
 #endif
             {
-                response = Callvote.Instance.Translation.NoPermission;
+                response = CallvotePlugin.Instance.Translation.NoPermission;
                 return false;
             }
 
@@ -52,14 +52,16 @@ namespace Callvote.Commands.QueueCommands
 
             if (votingsToRemove.Count() == 0)
             {
-                response = Callvote.Instance.Translation.PlayerNotFound.Replace("%Player%", playerToRemove.Nickname);
+                response = CallvotePlugin.Instance.Translation.PlayerNotFound.Replace("%Player%", playerToRemove.Nickname);
                 return false;
             }
 
             foreach (Voting vote in votingsToRemove)
+            {
                 VotingHandler.VotingQueue.RemoveItemFromQueue(vote);
+            }
 
-            response = Callvote.Instance.Translation.RemovedFromQueue.Replace("%Number%", votingsToRemove.Count.ToString());
+            response = CallvotePlugin.Instance.Translation.RemovedFromQueue.Replace("%Number%", votingsToRemove.Count.ToString());
             return true;
         }
     }

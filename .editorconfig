@@ -1,0 +1,9 @@
+﻿[*.cs]
+dotnet_diagnostic.CS1591.severity = none
+
+[**/Commands/**/*.cs]
+dotnet_diagnostic.SA1600.severity = none
+[**/Commands/*.cs]
+dotnet_diagnostic.SA1600.severity = none
+[**/Configuration/*.cs]
+dotnet_diagnostic.SA1600.severity = none

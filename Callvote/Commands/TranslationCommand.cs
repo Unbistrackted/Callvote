@@ -2,17 +2,17 @@
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
 #else
+using Callvote.Commands.ParentCommands;
 using LabApi.Features.Permissions;
 using LabApi.Features.Wrappers;
-using Callvote.Commands.ParentCommands;
 #endif
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Callvote.API;
 using Callvote.Features;
 using CommandSystem;
 using MEC;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Callvote.Commands
 {
@@ -36,13 +36,13 @@ namespace Callvote.Commands
             if (!player.HasPermissions("cv.translation") && player != null)
 #endif
             {
-                response = Callvote.Instance.Translation.NoPermission;
+                response = CallvotePlugin.Instance.Translation.NoPermission;
                 return false;
             }
 
             if (VotingHandler.IsVotingActive || VotingHandler.VotingQueue.Count > 0)
             {
-                response = Callvote.Instance.Translation.VotingInProgress;
+                response = CallvotePlugin.Instance.Translation.VotingInProgress;
                 return false;
             }
 
@@ -60,13 +60,13 @@ namespace Callvote.Commands
                         return;
                     }
 
-                    player.SendConsoleMessage(Callvote.Instance.Translation.TranslationChanged, "green");
+                    player.SendConsoleMessage(CallvotePlugin.Instance.Translation.TranslationChanged, "green");
                 });
             });
 
             response = "Please wait and check your console in a few seconds.";
 
-            response = Callvote.Instance.Translation.TranslationChanged;
+            response = CallvotePlugin.Instance.Translation.TranslationChanged;
             return true;
         }
     }

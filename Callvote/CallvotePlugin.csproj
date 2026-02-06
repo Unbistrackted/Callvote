@@ -12,60 +12,71 @@
 		<AssemblyName>Callvote</AssemblyName>
 		<Optimize>true</Optimize>
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<DefineConstants>TRACE</DefineConstants>
-		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
 		<Configurations>Debug;Release;EXILED</Configurations>
+		<EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+	</PropertyGroup>
 
+	<PropertyGroup>
 		<PackageId>Callvote</PackageId>
+		<Title>Callvote</Title>
+		<Product>Callvote</Product>
 		<Version>6.6.3</Version>
 		<Authors>Unbistrackted,PatPeter</Authors>
+		<Copyright>Modified BSD</Copyright>
 		<Description>Callvote command like in the Source engine. Vote to kick users, restart round, or make your own custom votes.</Description>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 		<RepositoryUrl>https://github.com/Unbistrackted/Callvote</RepositoryUrl>
+		<PackageProjectUrl>https://github.com/Unbistrackted/Callvote</PackageProjectUrl>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageLicenseFile>License.md</PackageLicenseFile>
 		<PackageReadmeFile>NugetREADME.md</PackageReadmeFile>
+		<PackageIcon>Callvote.png</PackageIcon>
+		<PackageTags>LabAPI,EXILED,Callvote,SCPSL</PackageTags>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)' == 'Release'">
 		<AssemblyName>Callvote-LabAPI</AssemblyName>
+		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)' == 'EXILED'">
 		<AssemblyName>Callvote-EXILED</AssemblyName>
+		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<Reference Include="System.Net.Http" />
-		
+
 		<Reference Include="Assembly-CSharp-firstpass">
 			<HintPath>$(EXILED_REFERENCES)\Assembly-CSharp-firstpass.dll</HintPath>
 		</Reference>
-		
+
 		<Reference Include="HintServiceMeow">
 			<HintPath>$(EXILED_REFERENCES)\HintServiceMeow-LabAPI.dll</HintPath>
 		</Reference>
-		
+
 		<Reference Include="Mirror">
 			<HintPath>$(EXILED_REFERENCES)\Mirror.dll</HintPath>
 		</Reference>
-		
+
 		<Reference Include="Unity.TextMeshPro">
 			<HintPath>$(EXILED_REFERENCES)\Unity.TextMeshPro.dll</HintPath>
 		</Reference>
-		
+
 		<Reference Include="UnityEngine">
 			<HintPath>$(EXILED_REFERENCES)\UnityEngine.dll</HintPath>
 		</Reference>
-		
+
 		<Reference Include="UnityEngine.CoreModule">
 			<HintPath>$(EXILED_REFERENCES)\UnityEngine.CoreModule.dll</HintPath>
 		</Reference>
-		
+
 		<Reference Include="UnityEngine.PhysicsModule">
 			<HintPath>$(EXILED_REFERENCES)\UnityEngine.PhysicsModule.dll</HintPath>
 		</Reference>
-		
+
 		<Reference Include="CommandSystem.Core">
 			<HintPath>$(EXILED_REFERENCES)\CommandSystem.Core.dll</HintPath>
 		</Reference>
@@ -73,6 +84,7 @@
 
 	<ItemGroup>
 		<Compile Remove="*.yml" />
+		<None Include="..\Callvote.png" Pack="true" PackagePath="" />
 		<None Include="..\License.md" Pack="true" PackagePath="" />
 		<None Include="..\NugetREADME.md" Pack="true" PackagePath="" />
 	</ItemGroup>
@@ -83,6 +95,10 @@
 		<PackageReference Include="Northwood.LabAPI" Version="1.1.5" />
 		<PackageReference Include="RueI" Version="3.1.2" />
 		<PackageReference Include="YamlDotNet" Version="16.0.0" />
+		<PackageReference Include="StyleCop.Analyzers.Unstable" Version="1.2.0.556">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
 	</ItemGroup>
 
 </Project>
