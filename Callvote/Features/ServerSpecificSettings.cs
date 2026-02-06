@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Callvote.Properties;
 using UnityEngine;
 using UserSettings.ServerSpecific;
 

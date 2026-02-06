@@ -7,10 +7,13 @@ using LabApi.Loader;
 using LabApi.Loader.Features.Plugins;
 #endif
 using System;
+using System.ComponentModel;
 using Callvote.Features;
+using Callvote.Properties;
 
 namespace Callvote
 {
+    [EditorBrowsable(EditorBrowsableState.Never)]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:Elements should be documented", Justification = "Only public API documentation is required")]
     public class CallvotePlugin : Plugin
     {

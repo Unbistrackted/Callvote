@@ -11,6 +11,8 @@ namespace Callvote.API.VotingsTemplate
 {
     /// <summary>
     /// Represents the type for the Binary Voting, which only contains the Yes and No options from the Translation File.
+    /// </summary>
+    /// <summary>
     /// Initializes a new instance of the <see cref="BinaryVoting"/> class.
     /// </summary>
     /// <param name="player"><see cref="Voting.CallVotePlayer"/>.</param>

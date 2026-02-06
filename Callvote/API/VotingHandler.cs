@@ -58,7 +58,7 @@ namespace Callvote.API
         /// <summary>
         /// Gets or sets a value indicating whether if the Discord Webhook will be able to send the message.
         /// </summary>
-        public static bool ShouldWebhookSendMessage { get; set; } = true;
+        public static bool ShouldSendWebhookMessage { get; set; } = true;
 
         /// <summary>
         /// Request to start a <see cref="Voting"/>.
@@ -113,7 +113,7 @@ namespace Callvote.API
                     CurrentVoting.Callback.Invoke(CurrentVoting);
                 }
 
-                if (ShouldWebhookSendMessage)
+                if (ShouldSendWebhookMessage)
                 {
                     _ = Task.Run(async () => await Features.DiscordWebhook.ResultsMessage(CurrentVoting));
                 }

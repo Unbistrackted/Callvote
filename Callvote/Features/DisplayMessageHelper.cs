@@ -20,7 +20,13 @@ namespace Callvote.Features
         /// </remarks>
         internal static void DisplayFirstMessage(string question, out string firstMessage)
         {
-            firstMessage = CallvotePlugin.Instance.Translation.AskedQuestion.Replace("%Question%", question);
+            if (VotingHandler.CurrentVoting.CanShowMessages)
+            {
+                firstMessage = string.Empty;
+                return;
+            }
+
+            firstMessage = VotingHandler.CurrentVoting.ShouldOnlyShowQuestionAndCounter ? CallvotePlugin.Instance.Translation.AskedQuestion.Replace("%Question%", question) : question;
             int counter = 0;
             foreach (KeyValuePair<string, string> kvp in VotingHandler.CurrentVoting.Options)
             {
@@ -48,6 +54,11 @@ namespace Callvote.Features
         /// </remarks>
         internal static void DisplayWhileVotingMessage(string firstMessage)
         {
+            if (VotingHandler.CurrentVoting.CanShowMessages)
+            {
+                return;
+            }
+
             string timerMessage = firstMessage + "\n";
 
             foreach (KeyValuePair<string, string> kvp in VotingHandler.CurrentVoting.Options)
@@ -66,6 +77,11 @@ namespace Callvote.Features
         /// </summary>
         internal static void DisplayResultsMessage()
         {
+            if (VotingHandler.CurrentVoting.CanShowMessages)
+            {
+                return;
+            }
+
             string resultsMessage = CallvotePlugin.Instance.Translation.Results;
 
             foreach (KeyValuePair<string, string> kvp in VotingHandler.CurrentVoting.Options)

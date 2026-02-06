@@ -31,7 +31,6 @@ CustomVoting vote = new CustomVoting(player, $"{player.Nickname} asks: Do nothin
 VotingHandler.CallVoting(vote);
 ```
 ```cs
-
 private void ReviveSCPs(DiedEventArgs ev)
 {
    if (ev.Player.IsScp)

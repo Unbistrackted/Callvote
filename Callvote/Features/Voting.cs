@@ -33,7 +33,7 @@ namespace Callvote.Features
         /// <param name="callback">A <see cref="Action{T}"/> that takes in a <see cref="Voting"/> that works as a callback.</param>
         /// <param name="options">A <see cref="Dictionary{Option, Detail}"/> that takes in a <see cref="string"/> option as key and a <see cref="string"/> detail as value. </param>
         /// <param name="players">A <see cref="IEnumerable{Player}"/> that takes <see cref="Player"/>s that are only allowed to see and vote in a <see cref="Voting"/>.</param>
-        public Voting(Player player, string question, string votingType, Action<Voting> callback, Dictionary<string, string> options = null, IEnumerable<Player> players = null)
+        internal Voting(Player player, string question, string votingType, Action<Voting> callback, Dictionary<string, string> options = null, IEnumerable<Player> players = null)
         {
             this.CallVotePlayer = player;
             this.Question = question;
@@ -88,6 +88,16 @@ namespace Callvote.Features
         /// Key: Command/Option name. Value: Option/Label name for the command.
         /// </summary>
         public Dictionary<string, string> Options { get; init; }
+
+        /// <summary>
+        /// Gets a value indicating whether it should only show the configured question and the counter.
+        /// </summary>
+        public bool ShouldOnlyShowQuestionAndCounter { get; init; } = true;
+
+        /// <summary>
+        /// Gets a value indicating whether it can show messages.
+        /// </summary>
+        public bool CanShowMessages { get; init; } = true;
 
         /// <summary>
         /// Gets the <see cref="Voting"/> ID.
