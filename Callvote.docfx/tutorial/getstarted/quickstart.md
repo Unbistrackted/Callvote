@@ -12,7 +12,7 @@ Quick guide if you don't want to spend your time reading the entire documentatio
 
 A Voting can have the following elements:
 
-![alt-text](/images/CallvoteSchematic.png)
+![alt-text](~/images/CallvoteSchematic.png)
 
 And each one can be controlled by the user in these given ways:
 

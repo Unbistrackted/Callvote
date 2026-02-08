@@ -27,6 +27,6 @@ So by using this example:
 callvote binary <color=#D681DE>question</color>
 ```
 
-![alt-text](/images/CallvoteBinary.png)
+![alt-text](~/images/CallvoteBinary.png)
 
 
