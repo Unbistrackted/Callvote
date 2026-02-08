@@ -10,8 +10,10 @@ jobs:
       - uses: actions/checkout@v4
       - name: Restore Packages
         run: nuget restore Callvote.sln
-      - name: Setup MSBuild
-        uses: microsoft/setup-msbuild@v1
+      - name: Setup Dotnet
+        uses: actions/setup-dotnet@v4
+        with:
+         dotnet-version: 8.0.x
       - name: Download references
         run: Invoke-WebRequest -Uri "https://exmod-team.github.io/SL-References/Dev.zip"
           -OutFile "References.zip"
@@ -20,9 +22,11 @@ jobs:
           mkdir Callvote\lib
           tar -xf References.zip -C Callvote/lib
       - name: Build EXILED
-        run: msbuild Callvote.sln -p:Configuration=EXILED -p:Platform=x64
+        run: dotnet build Callvote.sln -c EXILED -p:Platform=x64 --no-restore
       - name: Build LabAPI
-        run: msbuild Callvote.sln -p:Configuration=Release -p:Platform=x64
+        run: dotnet build Callvote.sln -c Release -p:Platform=x64 --no-restore
+      - name: Pack
+        run: dotnet pack Callvote/Callvote.csproj -c Release --no-build
       - name: Create Release with Dlls
         uses: softprops/action-gh-release@v2
         id: create_release
