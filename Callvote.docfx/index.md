@@ -3,7 +3,7 @@ _layout: landing
 ---
 
 <p align="center">
-  <img src="images/WelcomeCallvote.png" width="70%">
+  <img src="/images/WelcomeCallvote.png" width="70%">
 </p>
 
 ### What is Callvote?
