@@ -1,4 +1,5 @@
-# Callvote ![Version](https://img.shields.io/github/v/release/Unbistrackted/Callvote?style=plastic&label=Version&color=dc3e3e) ![Downloads](https://img.shields.io/github/downloads/Unbistrackted/Callvote/total?style=plastic&label=Downloads&color=50f63f)
+# Callvote ![Version](https://img.shields.io/github/v/release/Unbistrackted/Callvote?style=plastic&label=Version&color=dc3e3e) ![Downloads](https://img.shields.io/github/downloads/Unbistrackted/Callvote/total?style=plastic&label=Downloads&color=50f63f) ![NuGet Downloads](https://img.shields.io/nuget/dt/Callvote.LabAPI?style=plastic&logo=nuget&logoColor=005CAB&logoSize=auto&label=Callvote.LabAPI&color=005CAB) ![NuGet Downloads](https://img.shields.io/nuget/dt/Callvote.EXILED?style=plastic&logo=nuget&logoColor=005CAB&logoSize=auto&label=Callvote.EXILED&color=005CAB)
+
 
 **The sucessor of [callvote](https://github.com/PatPeter/callvote).**
 
