@@ -40,12 +40,14 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)' == 'Release'">
+		<PackageId>Callvote.LabAPI</PackageId>
 		<AssemblyName>Callvote-LabAPI</AssemblyName>
-		<Version>6.7.0-LabAPI</Version>
+		<Version>6.7.0+LabAPI</Version>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)' == 'EXILED'">
+		<PackageId>Callvote.EXILED</PackageId>
 		<AssemblyName>Callvote-EXILED</AssemblyName>
-		<Version>6.7.0-EXILED</Version>
+		<Version>6.7.0+EXILED</Version>
 	</PropertyGroup>
 
 	<ItemGroup>
