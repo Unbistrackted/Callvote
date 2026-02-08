@@ -20,7 +20,7 @@ namespace Callvote.Features
         /// </remarks>
         internal static void DisplayFirstMessage(string question, out string firstMessage)
         {
-            if (VotingHandler.CurrentVoting.CanShowMessages)
+            if (!VotingHandler.CurrentVoting.CanShowMessages)
             {
                 firstMessage = string.Empty;
                 return;
@@ -54,7 +54,7 @@ namespace Callvote.Features
         /// </remarks>
         internal static void DisplayWhileVotingMessage(string firstMessage)
         {
-            if (VotingHandler.CurrentVoting.CanShowMessages)
+            if (!VotingHandler.CurrentVoting.CanShowMessages)
             {
                 return;
             }
@@ -77,7 +77,7 @@ namespace Callvote.Features
         /// </summary>
         internal static void DisplayResultsMessage()
         {
-            if (VotingHandler.CurrentVoting.CanShowMessages)
+            if (!VotingHandler.CurrentVoting.CanShowMessages)
             {
                 return;
             }

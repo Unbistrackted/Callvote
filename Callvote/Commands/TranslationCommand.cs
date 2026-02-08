@@ -46,7 +46,7 @@ namespace Callvote.Commands
                 return false;
             }
 
-            string language = args.ElementAtOrDefault(0)?.ToLower() ?? string.Empty;
+            string language = args.ElementAtOrDefault(0) ?? string.Empty;
 
             Task.Run(async () =>
             {

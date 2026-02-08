@@ -68,7 +68,11 @@ namespace Callvote.Commands.VotingCommands
                 return false;
             }
 
+#if EXILED
             Player locatedPlayer = Player.Get(args.ElementAt(0));
+#else
+            Player locatedPlayer = Player.GetByNickname(args.ElementAt(0));
+#endif
 
             if (locatedPlayer == null)
             {

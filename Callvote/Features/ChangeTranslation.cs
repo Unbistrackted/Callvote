@@ -50,7 +50,7 @@ namespace Callvote.Features
             {
                 using (HttpClient client = new())
                 {
-                    string githubTranslationLink = $"https://raw.githubusercontent.com/Unbistrackted/Callvote/EXILED/Callvote/Translations/{GetLanguage(language)}.yml";
+                    string githubTranslationLink = $"https://raw.githubusercontent.com/Unbistrackted/Callvote/main/Callvote/Translations/{GetLanguage(language.ToLower())}.yml";
 #if EXILED
                     string path = LoaderPlugin.Config.ConfigType == ConfigType.Default ? Paths.Translations : Paths.GetTranslationPath(CallvotePlugin.Instance.Prefix);
 #else

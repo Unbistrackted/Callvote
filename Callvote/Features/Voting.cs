@@ -27,13 +27,9 @@ namespace Callvote.Features
         /// <summary>
         /// Initializes a new instance of the <see cref="Voting"/> class.
         /// </summary>
-        /// <param name="player">The <see cref="Player"/> that called the voting.</param>
-        /// <param name="question">A <see cref="string"/> that represents the voting question.</param>
-        /// <param name="votingType">A <see cref="string"/> that represents the voting type.</param>
-        /// <param name="callback">A <see cref="Action{T}"/> that takes in a <see cref="Voting"/> that works as a callback.</param>
-        /// <param name="options">A <see cref="Dictionary{Option, Detail}"/> that takes in a <see cref="string"/> option as key and a <see cref="string"/> detail as value. </param>
-        /// <param name="players">A <see cref="IEnumerable{Player}"/> that takes <see cref="Player"/>s that are only allowed to see and vote in a <see cref="Voting"/>.</param>
+#pragma warning disable SA1611 // Not Public
         internal Voting(Player player, string question, string votingType, Action<Voting> callback, Dictionary<string, string> options = null, IEnumerable<Player> players = null)
+#pragma warning restore SA1611
         {
             this.CallVotePlayer = player;
             this.Question = question;

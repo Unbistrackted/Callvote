@@ -1,0 +1,12 @@
+apiRules:
+  - exclude:
+      uidRegex: ^Callvote\.Properties
+      type: Namespace
+
+  - exclude:
+      uidRegex: ^Callvote\.Commands
+      type: Namespace
+
+  - exclude:
+      uidRegex: ^Callvote\.Configuration
+      type: Namespace

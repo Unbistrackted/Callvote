@@ -15,7 +15,15 @@ namespace Callvote.API.VotingsTemplate
     /// </summary>
     public class CustomVoting : Voting
     {
-        /// <inheritdoc/>
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CustomVoting"/> class.
+        /// </summary>
+        /// <param name="player">The <see cref="Player"/> that called the voting.</param>
+        /// <param name="question">A <see cref="string"/> that represents the voting question.</param>
+        /// <param name="votingType">A <see cref="string"/> that represents the voting type.</param>
+        /// <param name="callback">A <see cref="Action{T}"/> that takes in a <see cref="Voting"/> that works as a callback.</param>
+        /// <param name="options">A <see cref="Dictionary{Option, Detail}"/> that takes in a <see cref="string"/> option as key and a <see cref="string"/> detail as value. If null, uses <see cref="VotingHandler.Options"/> instead.</param>
+        /// <param name="players">A <see cref="IEnumerable{Player}"/> that takes <see cref="Player"/>s that are only allowed to see and vote in a <see cref="Voting"/>. If null, gets all ready players instead.</param>
         public CustomVoting(Player player, string question, string votingType, Action<Voting> callback = null, Dictionary<string, string> options = null, IEnumerable<Player> players = null)
             : base(player, question, votingType, callback, options, players)
         {

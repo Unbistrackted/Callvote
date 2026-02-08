@@ -31,7 +31,7 @@ namespace Callvote.Features.PredefinedVotings
                     $"<size={DisplayMessageHelper.CalculateMessageSize(CallvotePlugin.Instance.Translation.FoundationNuked)}>{CallvotePlugin.Instance.Translation.FoundationNuked
                     .Replace("%VotePercent%", yesVotePercent.ToString())}</size>",
                     VotingHandler.CurrentVoting.AllowedPlayers);
-                Warhead.Start();
+                Warhead.Detonate();
             }
             else
             {

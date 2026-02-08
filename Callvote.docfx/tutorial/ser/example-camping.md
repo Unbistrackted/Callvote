@@ -1,0 +1,3 @@
+---
+uid: example-camping-ser
+---

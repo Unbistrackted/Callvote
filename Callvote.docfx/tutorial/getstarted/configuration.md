@@ -1,0 +1,131 @@
+---
+uid: config
+---
+
+# Configuration
+How to customize and work with your ``Callvote Instance``
+
+Callvote allows fully customization over the ``Votings``, and it shouldn't be a suprise that  we also allow configuring the ``Voting Time`` and changing their ``Texts``.
+
+Anything related to ``Callvote's`` Behaviour is located at the config file, and ``Texts`` at the translation file:
+
+# [<span style="color:#43CCE5">LabAPI</span>](#tab/LabAPI)
+### Config File Location
+
+> [!WINDOWS]
+> %AppData%\SCP Secret Laboratory\LabAPI\configs\\``{Server_Port}``\Callvote\config.yml
+
+> [!LINUX]
+> ~/.config/SCP Secret Laboratory/LabAPI/plugins/configs/``{Server_Port}``/Callvote/config.yml
+
+<br><br>
+### Translation File Location
+
+> [!WINDOWS]
+> %AppData%\SCP Secret Laboratory\LabAPI\configs\\``{Server_Port}``\Callvote\translation.yml
+
+> [!LINUX]
+> ~/.config/SCP Secret Laboratory/LabAPI/plugins/configs/``{Server_Port}``/Callvote/translation.yml
+
+# [<span style="color:#F53B3B">EXILED</span>](#tab/Exiled)
+### Config File Location
+
+> [!WINDOWS]
+> %AppData%\EXILED\Configs\Plugins\Callvote\\``{Server_Port}``.yml
+
+> [!LINUX]
+> ~/.config/EXILED/Configs/Plugins/Callvote/``{Server_Port}``.yml
+
+<br><br>
+### Translation File Location
+
+> [!WINDOWS]
+> %AppData%\EXILED\Configs\Translations\Plugins\Callvote\\``{Server_Port}``.yml
+
+> [!LINUX]
+> ~/.config/EXILED/Configs/Translations/Plugins/Callvote/``{Server_Port}``.yml
+
+---
+
+### Change translation
+You can change ``Callvote's Translation`` using this Commnd:
+
+```
+callvote translation [none/language/countryCode]
+```
+
+If no argument is passed, it will automatically get your server location and get the translation based on that.
+
+Avaliable ``Translations``:
+
+ ``Country Code`` | ``Language``
+--------------|------------
+ EN           | english
+ CN           | chinese
+ BR           | portuguese
+ PT           | portuguese
+ RU           | russian
+ KZ           | russian
+ BY           | russian
+ UA           | russian
+ FR           | french
+ TR           | turkish
+ CY           | turkish
+ PL           | polish
+
+### Configuration Keys
+Description and ``Type`` for each ``Setting`` in the config file.
+
+ ``Setting Key``               | ``Value Type`` | ``Default Value`` | ``Description``
+-------------------------------|------------|---------------|------------------------------------------------------------------------------------------------
+ is_enabled                    | bool       | true          | Enables or disables the plugin
+ message_provider              | string     | Auto          | Which message provider should Callvote use? You can choose between auto, hsm, ruei, or broadcasts / bc. (In auto mode, if both HSM and RUEI are present on the server, it falls back to broadcasts.)
+ hint_y_coordinate             | float      | 300           | Sets the Y coordinate of the hint on a scale from 0-1000, where 0 represents the bottom of the screen (Doesn't apply for broadcasts)
+ enable_queue                  | boolean    | true          | Enables or disables Callvote's queue system
+ enable_kick                   | boolean    | true          | Can players use **callvote kick**?
+ enable_kill                   | boolean    | true          | Can players use **callvote kill**?
+ enable_Ff                     | boolean    | true          | Can players use **callvote ff**?
+ enable_nuke                   | boolean    | true          | Can players use **callvote nuke**?
+ enable_respawn_wave           | boolean    | true          | Can players use **callvote respawnwave**?
+ enable_restart_round          | boolean    | true          | Can players use **callvote restartround**?
+ vote_duration                 | int        | 30            | Number of seconds for a vote to last for.
+ vote_cooldown                 | int        | 5             | Cooldown (in seconds) between each callvote.
+ max_amount_of_votes_per_round | float      | 10            | Maximum amount of **callvotes** a player can do in a round
+ max_wait_kill                 | float      | 0             | Time (in seconds) after the round starts to the command **callvote kill** be available
+ max_wait_Ff                   | float      | 0             | Time (in seconds) after the round starts to the command **callvote ff** be available
+ max_wait_kick                 | float      | 0             | Time (in seconds) after the round starts to the command **callvote kick** be available
+ max_wait_nuke                 | float      | 0             | Time (in seconds) after the round starts to the command **callvote nuke** be available
+ max_wait_respawn_wave         | float      | 0             | Time (in seconds) after the round starts to the command **callvote respawnwave** be available
+ max_wait_restart_round        | float      | 0             | Time (in seconds) after the round starts to the command **callvote restartround** be available
+ threshold_kick                | integer    | 30            | Percentage threshold required for a player to be kicked.
+ threshold_kill                | integer    | 30            | Percentage threshold required for a player to be killed.
+ threshold_nuke                | integer    | 30            | Percentage threshold required to explode ALPHA WARHEAD.
+ threshold_ff                  | integer    | 30            | Percentage threshold required for Friendly Fire be enabled or disabled
+ threshold_respawn_wave        | integer    | 30            | Percentage threshold required to respawn a MTF or CI wave.
+ threshold_restart_round       | integer    | 30            | Percentage threshold required to restart the round.
+ broadcast_size                | int        | 0             | Changes the broadcast size to user's preference, leave it at 0 to use Callvote's re-size logic
+ refresh_interval              | float      | 1             | Changes message's refresh time.
+ final_results_duration        | int        | 5             | Changes Callvote's results message duration.
+ queue_size                    | int        | 5             | Changes Callvote's Queue size if enabled.
+ discord_webhook               | string     |               | If a Discord Webhook is present, send a message via that Webhook
+
+### Permissions
+``Permissions`` for each ``Command``.
+
+ ``Permission``          | ``Command``                     | ``Description``
+-------------------------|---------------------------------|--------------------------------------------------------------------
+ cv.callvote             | .callvote (Parameter)           | Allows players to use **.callvote**
+ cv.managequeue          | .callvote queue (Parameter)     | Allows players to manage Callvote's queue system using **.callvote queue (Parameter)**
+ cv.bypass               | .callvote (Parameter)           | Bypasses time requeriments and maxium amount of votes
+ cv.unlimitedvotes       | .callvote (Parameter)           | Bypasses max_amount_of_votes_per_round
+ cv.callvotekick         | .callvote kick                  | Gives permission to use **.callvote kick**
+ cv.callvotekill         | .callvote kill                  | Gives permission to use **.callvote kill**
+ cv.callvotenuke         | .callvote nuke                  | Gives permission to use **.callvote nuke**
+ cv.callvoterespawnwave  | .callvote respawnwave           | Gives permission to use **.callvote respawnwave**
+ cv.callvoterestartround | .callvote restartround          | Gives permission to use **.callvote restartround**
+ cv.callvoteff           | .callvote ff                    | Gives permission to use **.callvote ff**
+ cv.callvotecustom       | .cv custom && .cv binary        | Gives permission to use **.callvote custom and binary**
+ cv.stopvote             | .stopvote                       | Stops current vote
+ cv.untouchable          | .callvote kick/kill             | Player cannot be kicked or killed
+ cv.superadmin+          | .callvote rig                   | Allows player to rig the system :trollface:
+ cv.translation          | .callvote translation           | Allows player to change Callvote's translation
