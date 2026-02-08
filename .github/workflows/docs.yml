@@ -25,18 +25,14 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 8.x
-        
     - name: Download references
       run: wget https://exmod-team.github.io/SL-References/Dev.zip -O References.zip
-
     - name: Extract references
       run: |
         mkdir -p Callvote/lib
         unzip References.zip -d Callvote/lib
-
     - run: dotnet tool update -g docfx
     - run: docfx Callvote.docfx/docfx.json
-
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3
       with:
