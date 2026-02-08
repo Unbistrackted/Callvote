@@ -22,6 +22,7 @@ uid: Translation
 > [!LINUX]
 > ~/.config/EXILED/Configs/Translations/Plugins/Callvote/``{Server_Port}``.yml
 
+---
 
 ### Change translation
 You can change ``Callvote's Translation`` using this Commnd:

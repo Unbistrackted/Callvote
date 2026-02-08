@@ -27,6 +27,8 @@ uid: permission
 > [!LINUX]
 > ~/.config/EXILED/Configs/permissions.yml
 
+---
+
  ``Permission``          | ``Command``                     | ``Description``
 -------------------------|---------------------------------|--------------------------------------------------------------------
  cv.callvote             | .callvote (Parameter)           | Allows players to use **.callvote**
