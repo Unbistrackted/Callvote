@@ -33,6 +33,8 @@ jobs:
           files: |
             Callvote/bin/x64/EXILED/net48/Callvote-EXILED.dll
             Callvote/bin/x64/Release/net48/Callvote-LabAPI.dll
+      - name: List all files
+        run: dir Callvote -Recurse
       - name: Publish to NuGet.org
         run: dotnet nuget push Callvote/bin/Release/*.nupkg --api-key ${{ secrets.NUGET_API }} --source https://api.nuget.org/v3/index.json
       - name: Publish to GitHub Packages
