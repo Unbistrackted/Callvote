@@ -20,9 +20,9 @@ jobs:
           mkdir Callvote\lib
           tar -xf References.zip -C Callvote/lib
       - name: Build EXILED
-        run: msbuild Callvote.sln -p:Configuration=EXILED
+        run: msbuild Callvote.sln -p:Configuration=EXILED -p:Platform=x64
       - name: Build LabAPI
-        run: msbuild Callvote.sln -p:Configuration=Release
+        run: msbuild Callvote.sln -p:Configuration=Release -p:Platform=x64
       - name: Create Release with Dlls
         uses: softprops/action-gh-release@v2
         id: create_release
