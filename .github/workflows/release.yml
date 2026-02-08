@@ -33,13 +33,23 @@ jobs:
           files: |
             Callvote/bin/x64/EXILED/net48/Callvote-EXILED.dll
             Callvote/bin/x64/Release/net48/Callvote-LabAPI.dll
-      - name: Publish to NuGet.org
+      - name: Publish LabAPI Package to NuGet.org
         run: |
           Get-ChildItem Callvote/bin/x64/Release/*.nupkg | ForEach-Object {
           dotnet nuget push $_.FullName --api-key ${{ secrets.NUGET_API }} --source https://api.nuget.org/v3/index.json
           }
-      - name: Publish to GitHub Packages
+      - name: Publish EXILED Package to NuGet.org
+        run: |
+          Get-ChildItem Callvote/bin/x64/EXILED/*.nupkg | ForEach-Object {
+          dotnet nuget push $_.FullName --api-key ${{ secrets.NUGET_API }} --source https://api.nuget.org/v3/index.json
+          }
+      - name: Publish LabAPI Package to GitHub Packages
         run: |
           Get-ChildItem  Callvote/bin/x64/Release/*.nupkg | ForEach-Object {
+          dotnet nuget push $_.FullName --api-key ${{ secrets.GITHUB_TOKEN }} --source https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
+          }
+      - name: Publish EXILED Package to GitHub Packages
+        run: |
+          Get-ChildItem  Callvote/bin/x64/EXILED/*.nupkg | ForEach-Object {
           dotnet nuget push $_.FullName --api-key ${{ secrets.GITHUB_TOKEN }} --source https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
           }
