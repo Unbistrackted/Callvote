@@ -1,17 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Callvote.Configuration;
 
 namespace Callvote.Features
 {
     [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:Elements should be documented", Justification = "Only public API documentation is required")]
     internal static class DiscordWebhook
     {
-        internal static async Task ResultsMessage(Voting vote)
+        private static readonly Translation Translation = CallvotePlugin.Instance.Translation;
+        private static readonly Config Config = CallvotePlugin.Instance.Config;
+
+        internal static async Task ResultsMessage(Voting voting)
         {
-            string webhook = CallvotePlugin.Instance.Config.DiscordWebhook;
+            string webhook = Config.DiscordWebhook;
 
             if (string.IsNullOrWhiteSpace(webhook))
             {
@@ -20,18 +23,18 @@ namespace Callvote.Features
 
             string resultsMessage = string.Empty;
 
-            foreach (KeyValuePair<string, string> kvp in vote.Options)
+            foreach (Vote vote in voting.VoteOptions)
             {
-                resultsMessage += CallvotePlugin.Instance.Translation.OptionAndCounter
-                    .Replace("%Option%", kvp.Value)
-                    .Replace("%OptionKey%", kvp.Key)
-                    .Replace("%Counter%", vote.Counter[kvp.Key].ToString());
+                resultsMessage += Translation.OptionAndCounter
+                    .Replace("%Option%", vote.Command.Command)
+                    .Replace("%OptionKey%", vote.Detail)
+                    .Replace("%Counter%", voting.Counter[vote].ToString());
             }
 
-            string question = Escape(vote.Question);
+            string question = Escape(voting.Question);
             string results = Escape(resultsMessage);
-            string callvotePlayerInfo = Escape($"{vote.CallVotePlayer.Nickname}");
-            string payload = $@"{{""content"":null,""embeds"":[{{""title"":""{CallvotePlugin.Instance.Translation.WebhookTitle}"",""color"":255,""fields"":[{{""name"":""{CallvotePlugin.Instance.Translation.WebhookPlayer}"",""value"":""{callvotePlayerInfo}""}},{{""name"":""{CallvotePlugin.Instance.Translation.WebhookQuestion}"",""value"":""{question.Replace($"{callvotePlayerInfo} asks: ", string.Empty)}""}},{{""name"":""{CallvotePlugin.Instance.Translation.WebhookVotes}"",""value"":""{results}""}}]}}]}}";
+            string callvotePlayerInfo = Escape($"{voting.CallVotePlayer.Nickname}");
+            string payload = $@"{{""content"":null,""embeds"":[{{""title"":""{Translation.WebhookTitle}"",""color"":255,""fields"":[{{""name"":""{Translation.WebhookPlayer}"",""value"":""{callvotePlayerInfo}""}},{{""name"":""{Translation.WebhookQuestion}"",""value"":""{question.Replace($"{callvotePlayerInfo} asks: ", string.Empty)}""}},{{""name"":""{Translation.WebhookVotes}"",""value"":""{results}""}}]}}]}}";
             try
             {
                 using (HttpClient client = new())

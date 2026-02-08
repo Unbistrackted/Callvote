@@ -2,12 +2,12 @@
 using Exiled.API.Features;
 using Exiled.Permissions.Extensions;
 #else
+using Callvote.Commands.ParentCommands;
 using LabApi.Features.Permissions;
 using LabApi.Features.Wrappers;
 #endif
 using System;
 using Callvote.API;
-using Callvote.Commands.ParentCommands;
 using CommandSystem;
 
 namespace Callvote.Commands.VotingCommands

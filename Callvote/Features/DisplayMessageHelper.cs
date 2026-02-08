@@ -1,7 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using Callvote.API;
+using Callvote.Configuration;
 using Callvote.Features.Interfaces;
+using UnityEngine;
 
 namespace Callvote.Features
 {
@@ -10,6 +11,9 @@ namespace Callvote.Features
     /// </summary>
     internal static class DisplayMessageHelper
     {
+        private static readonly Translation Translation = CallvotePlugin.Instance.Translation;
+        private static readonly Config Config = CallvotePlugin.Instance.Config;
+
         /// <summary>
         /// Displays the initial message to <see cref="Voting.AllowedPlayers"/> based on the <see cref="IMessageProvider"/>.
         /// </summary>
@@ -26,23 +30,27 @@ namespace Callvote.Features
                 return;
             }
 
-            firstMessage = VotingHandler.CurrentVoting.ShouldOnlyShowQuestionAndCounter ? CallvotePlugin.Instance.Translation.AskedQuestion.Replace("%Question%", question) : question;
+            firstMessage = VotingHandler.CurrentVoting.ShouldOnlyShowQuestionAndCounter ? Translation.AskedQuestion.Replace("%Question%", question) : question;
+
             int counter = 0;
-            foreach (KeyValuePair<string, string> kvp in VotingHandler.CurrentVoting.Options)
+            foreach (Vote vote in VotingHandler.CurrentVoting.VoteOptions)
             {
                 if (counter == 0)
                 {
-                    firstMessage += $"|  {CallvotePlugin.Instance.Translation.Options.Replace("%OptionKey%", kvp.Key).Replace("%Option%", kvp.Value)}  |";
+                    firstMessage += $"|  {Translation.Options.Replace("%OptionKey%", vote.Command.Command).Replace("%Option%", vote.Detail)}  |";
                 }
                 else
                 {
-                    firstMessage += $"  {CallvotePlugin.Instance.Translation.Options.Replace("%OptionKey%", kvp.Key).Replace("%Option%", kvp.Value)} |";
+                    firstMessage += $"  {Translation.Options.Replace("%OptionKey%", vote.Command.Command).Replace("%Option%", vote.Detail)} |";
                 }
 
                 counter++;
             }
 
-            SoftDependency.MessageProvider.DisplayMessage(TimeSpan.FromSeconds(5), $"<size={CalculateMessageSize(firstMessage)}>{firstMessage}</size>", VotingHandler.CurrentVoting.AllowedPlayers);
+            SoftDependency.MessageProvider.DisplayMessage(
+                TimeSpan.FromSeconds(5),
+                $"<size={CalculateMessageSize(firstMessage)}>{firstMessage}</size>",
+                VotingHandler.CurrentVoting.AllowedPlayers);
         }
 
         /// <summary>
@@ -61,19 +69,21 @@ namespace Callvote.Features
 
             string timerMessage = firstMessage + "\n";
 
-            foreach (KeyValuePair<string, string> kvp in VotingHandler.CurrentVoting.Options)
+            foreach (Vote vote in VotingHandler.CurrentVoting.VoteOptions)
             {
-                timerMessage += CallvotePlugin.Instance.Translation.OptionAndCounter
-                    .Replace("%Option%", kvp.Value)
-                    .Replace("%OptionKey%", kvp.Key)
-                    .Replace("%Counter%", VotingHandler.CurrentVoting.Counter[kvp.Key].ToString());
+                timerMessage += Translation.OptionAndCounter
+                    .Replace("%Option%", vote.Detail)
+                    .Replace("%Counter%", VotingHandler.CurrentVoting.Counter[vote].ToString());
             }
 
-            SoftDependency.MessageProvider.DisplayMessage(TimeSpan.FromSeconds(CallvotePlugin.Instance.Config.RefreshInterval), $"<size={CalculateMessageSize(timerMessage)}>{timerMessage}</size>", VotingHandler.CurrentVoting.AllowedPlayers);
+            SoftDependency.MessageProvider.DisplayMessage(
+                TimeSpan.FromSeconds(Config.RefreshInterval),
+                $"<size={CalculateMessageSize(timerMessage)}>{timerMessage}</size>",
+                VotingHandler.CurrentVoting.AllowedPlayers);
         }
 
         /// <summary>
-        /// Displays the results message based on <see cref="Voting.Counter"/> and <see cref="Voting.Options"/>.
+        /// Displays the results message based on <see cref="Voting.Counter"/> and <see cref="Voting.VoteOptions"/>.
         /// </summary>
         internal static void DisplayResultsMessage()
         {
@@ -82,17 +92,19 @@ namespace Callvote.Features
                 return;
             }
 
-            string resultsMessage = CallvotePlugin.Instance.Translation.Results;
+            string resultsMessage = Translation.Results;
 
-            foreach (KeyValuePair<string, string> kvp in VotingHandler.CurrentVoting.Options)
+            foreach (Vote vote in VotingHandler.CurrentVoting.VoteOptions)
             {
-                resultsMessage += CallvotePlugin.Instance.Translation.OptionAndCounter
-                    .Replace("%Option%", kvp.Value)
-                    .Replace("%OptionKey%", kvp.Key)
-                    .Replace("%Counter%", VotingHandler.CurrentVoting.Counter[kvp.Key].ToString());
+                resultsMessage += Translation.OptionAndCounter
+                    .Replace("%Option%", vote.Detail)
+                    .Replace("%Counter%", VotingHandler.CurrentVoting.Counter[vote].ToString());
             }
 
-            SoftDependency.MessageProvider.DisplayMessage(TimeSpan.FromSeconds(CallvotePlugin.Instance.Config.FinalResultsDuration), $"<size={CalculateMessageSize(resultsMessage)}>{resultsMessage}</size>", VotingHandler.CurrentVoting.AllowedPlayers);
+            SoftDependency.MessageProvider.DisplayMessage(
+                TimeSpan.FromSeconds(Config.FinalResultsDuration),
+                $"<size={CalculateMessageSize(resultsMessage)}>{resultsMessage}</size>",
+                VotingHandler.CurrentVoting.AllowedPlayers);
         }
 
         /// <summary>
@@ -105,23 +117,18 @@ namespace Callvote.Features
         /// <returns>An number for the size tag.</returns>
         internal static int CalculateMessageSize(string message)
         {
-            int sizeReduction = message.Length / 4;
             int defaultSize = 52;
+            int sizeReduction = message.Length / 4;
 
-            if (CallvotePlugin.Instance.Config.MessageSize != 0)
+            if (Config.MessageSize != 0)
             {
-                sizeReduction = CallvotePlugin.Instance.Config.MessageSize;
-                return sizeReduction;
+                defaultSize = Config.MessageSize;
+                return defaultSize;
             }
 
             defaultSize -= sizeReduction;
 
-            if (defaultSize < 30)
-            {
-                defaultSize = 30;
-            }
-
-            return defaultSize;
+            return Mathf.Clamp(defaultSize, 30, 52);
         }
     }
 }

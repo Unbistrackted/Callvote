@@ -4,9 +4,8 @@ using Exiled.API.Features;
 using LabApi.Features.Wrappers;
 #endif
 using System;
-using System.Linq;
-using Callvote.API;
 using Callvote.API.VotingsTemplate;
+using Callvote.Configuration;
 using Callvote.Features.Enums;
 using Callvote.Features.Interfaces;
 
@@ -19,34 +18,46 @@ namespace Callvote.Features.PredefinedVotings
     /// <param name="player"><see cref="Voting.CallVotePlayer"/>.</param>
     public class RestartRoundVoting(Player player) : BinaryVoting(player, ReplacePlayer(player), nameof(VotingTypeEnum.RestartRound), AddCallback), IVotingTemplate
     {
-        private static void AddCallback(Voting vote)
-        {
-            int yesVotePercent = (int)(vote.Counter[CallvotePlugin.Instance.Translation.CommandYes] / (float)Player.List.Count() * 100f);
-            int noVotePercent = (int)(vote.Counter[CallvotePlugin.Instance.Translation.CommandNo] / (float)Player.List.Count() * 100f);
+        private static readonly Translation Translation = CallvotePlugin.Instance.Translation;
+        private static readonly Config Config = CallvotePlugin.Instance.Config;
 
-            if (yesVotePercent >= CallvotePlugin.Instance.Config.ThresholdRestartRound && yesVotePercent > noVotePercent)
+        private static void AddCallback(Voting voting)
+        {
+            if (voting is not BinaryVoting binaryVoting)
             {
-                SoftDependency.MessageProvider.DisplayMessage(
-                    TimeSpan.FromSeconds(CallvotePlugin.Instance.Config.FinalResultsDuration),
-                    $"<size={DisplayMessageHelper.CalculateMessageSize(CallvotePlugin.Instance.Translation.RoundRestarting)}>{CallvotePlugin.Instance.Translation.RoundRestarting
-                    .Replace("%VotePercent%", yesVotePercent.ToString())}</size>",
-                    VotingHandler.CurrentVoting.AllowedPlayers);
-                Round.Restart();
+                return;
+            }
+
+            int yesVotePercent = voting.GetVotePercentage(binaryVoting.YesVote);
+            int noVotePercent = voting.GetVotePercentage(binaryVoting.NoVote);
+
+            string message;
+
+            if (yesVotePercent >= Config.ThresholdRestartRound && yesVotePercent > noVotePercent)
+            {
+                message = Translation.RoundRestarting.Replace("%VotePercent%", yesVotePercent.ToString());
+#if EXILED
+                Round.EndRound(true);
+#else
+                Round.End();
+#endif
             }
             else
             {
-                SoftDependency.MessageProvider.DisplayMessage(
-                    TimeSpan.FromSeconds(CallvotePlugin.Instance.Config.FinalResultsDuration),
-                    $"<size={DisplayMessageHelper.CalculateMessageSize(CallvotePlugin.Instance.Translation.NoSuccessFullRestart)}>{CallvotePlugin.Instance.Translation.NoSuccessFullRestart
+                message = Translation.NoSuccessFullRestart
                     .Replace("%VotePercent%", yesVotePercent.ToString())
-                    .Replace("%ThresholdRestartRound%", CallvotePlugin.Instance.Config.ThresholdRestartRound.ToString())}</size>",
-                    VotingHandler.CurrentVoting.AllowedPlayers);
+                    .Replace("%ThresholdRestartRound%", Config.ThresholdRestartRound.ToString());
             }
+
+            SoftDependency.MessageProvider.DisplayMessage(
+                TimeSpan.FromSeconds(Config.FinalResultsDuration),
+                $"<size={DisplayMessageHelper.CalculateMessageSize(message)}>{message}</size>",
+                voting.AllowedPlayers);
         }
 
         private static string ReplacePlayer(Player player)
         {
-            return CallvotePlugin.Instance.Translation.AskedToRestart.Replace("%Player%", player.Nickname);
+            return Translation.AskedToRestart.Replace("%Player%", player.Nickname);
         }
     }
 }

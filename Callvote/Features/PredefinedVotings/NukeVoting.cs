@@ -4,9 +4,8 @@ using Exiled.API.Features;
 using LabApi.Features.Wrappers;
 #endif
 using System;
-using System.Linq;
-using Callvote.API;
 using Callvote.API.VotingsTemplate;
+using Callvote.Configuration;
 using Callvote.Features.Enums;
 using Callvote.Features.Interfaces;
 
@@ -19,34 +18,43 @@ namespace Callvote.Features.PredefinedVotings
     /// <param name="player"><see cref="Voting.CallVotePlayer"/>.</param>
     public class NukeVoting(Player player) : BinaryVoting(player, ReplacePlayer(player), nameof(VotingTypeEnum.Nuke), AddCallback), IVotingTemplate
     {
-        private static void AddCallback(Voting vote)
-        {
-            int yesVotePercent = (int)(vote.Counter[CallvotePlugin.Instance.Translation.CommandYes] / (float)Player.List.Count() * 100f);
-            int noVotePercent = (int)(vote.Counter[CallvotePlugin.Instance.Translation.CommandNo] / (float)Player.List.Count() * 100f);
+        private static readonly Translation Translation = CallvotePlugin.Instance.Translation;
+        private static readonly Config Config = CallvotePlugin.Instance.Config;
 
-            if (yesVotePercent >= CallvotePlugin.Instance.Config.ThresholdNuke && yesVotePercent > noVotePercent)
+        private static void AddCallback(Voting voting)
+        {
+            if (voting is not BinaryVoting binaryVoting)
             {
-                SoftDependency.MessageProvider.DisplayMessage(
-                    TimeSpan.FromSeconds(CallvotePlugin.Instance.Config.FinalResultsDuration),
-                    $"<size={DisplayMessageHelper.CalculateMessageSize(CallvotePlugin.Instance.Translation.FoundationNuked)}>{CallvotePlugin.Instance.Translation.FoundationNuked
-                    .Replace("%VotePercent%", yesVotePercent.ToString())}</size>",
-                    VotingHandler.CurrentVoting.AllowedPlayers);
+                return;
+            }
+
+            int yesVotePercent = voting.GetVotePercentage(binaryVoting.YesVote);
+            int noVotePercent = voting.GetVotePercentage(binaryVoting.NoVote);
+
+            string message;
+
+            if (yesVotePercent >= Config.ThresholdNuke && yesVotePercent > noVotePercent)
+            {
+                message = Translation.FoundationNuked.Replace("%VotePercent%", yesVotePercent.ToString());
+
                 Warhead.Detonate();
             }
             else
             {
-                SoftDependency.MessageProvider.DisplayMessage(
-                    TimeSpan.FromSeconds(CallvotePlugin.Instance.Config.FinalResultsDuration),
-                    $"<size={DisplayMessageHelper.CalculateMessageSize(CallvotePlugin.Instance.Translation.NoSuccessFullNuke)}>{CallvotePlugin.Instance.Translation.NoSuccessFullNuke
+                message = Translation.NoSuccessFullNuke
                     .Replace("%VotePercent%", yesVotePercent.ToString())
-                    .Replace("%ThresholdNuke%", CallvotePlugin.Instance.Config.ThresholdNuke.ToString())}</size>",
-                    VotingHandler.CurrentVoting.AllowedPlayers);
+                    .Replace("%ThresholdNuke%", Config.ThresholdNuke.ToString());
             }
+
+            SoftDependency.MessageProvider.DisplayMessage(
+                TimeSpan.FromSeconds(Config.FinalResultsDuration),
+                $"<size={DisplayMessageHelper.CalculateMessageSize(message)}>{message}</size>",
+                voting.AllowedPlayers);
         }
 
         private static string ReplacePlayer(Player player)
         {
-            return CallvotePlugin.Instance.Translation.AskedToNuke.Replace("%Player%", player.Nickname);
+            return Translation.AskedToNuke.Replace("%Player%", player.Nickname);
         }
     }
 }

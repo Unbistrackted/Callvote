@@ -5,6 +5,7 @@ using LabApi.Features.Wrappers;
 #endif
 using System;
 using Callvote.API;
+using Callvote.Features;
 using CommandSystem;
 
 namespace Callvote.Commands.VotingCommands
@@ -29,10 +30,16 @@ namespace Callvote.Commands.VotingCommands
             if (!VotingHandler.IsVotingActive)
             {
                 response = CallvotePlugin.Instance.Translation.NoVotingInProgress;
-                return true;
+                return false;
             }
 
-            response = VotingHandler.CurrentVoting.Vote(player, this.Command);
+            if (!VotingHandler.CurrentVoting.TryGetVote(this.Command, out Vote vote))
+            {
+                response = CallvotePlugin.Instance.Translation.NoOptionAvailable.Replace("%Option%", this.Command);
+                return false;
+            }
+
+            response = VotingHandler.CurrentVoting.VoteOption(player, vote);
             return true;
         }
     }

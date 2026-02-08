@@ -1,5 +1,4 @@
 ﻿#if EXILED
-using Player = Exiled.API.Features.Player;
 #else
 using Player = LabApi.Features.Wrappers.Player;
 #endif

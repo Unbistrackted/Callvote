@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Callvote.Configuration;
 using Callvote.Properties;
 using UnityEngine;
 using UserSettings.ServerSpecific;
@@ -9,6 +10,9 @@ namespace Callvote.Features
     [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:Elements should be documented", Justification = "Only public API documentation is required")]
     internal static class ServerSpecificSettings
     {
+        private static readonly Translation Translation = CallvotePlugin.Instance.Translation;
+        private static readonly Config Config = CallvotePlugin.Instance.Config;
+
         private static SSGroupHeader settingsHeader;
 
         private static SSKeybindSetting yesKeybindSetting;
@@ -23,14 +27,15 @@ namespace Callvote.Features
 
         internal static void RegisterSettings()
         {
-            settingsHeader = new(CallvotePlugin.Instance.Config.HeaderSettingId, AssemblyInfo.Name);
-            yesKeybindSetting = new SSKeybindSetting(CallvotePlugin.Instance.Config.YesKeybindSettingId, CallvotePlugin.Instance.Translation.VoteKeybind.Replace("%Option%", CallvotePlugin.Instance.Translation.OptionYes), KeyCode.Y, hint: CallvotePlugin.Instance.Translation.KeybindHint.Replace("%Option%", CallvotePlugin.Instance.Translation.OptionYes));
-            noKeybindSetting = new SSKeybindSetting(CallvotePlugin.Instance.Config.NoKeybindSettingId, CallvotePlugin.Instance.Translation.VoteKeybind.Replace("%Option%", CallvotePlugin.Instance.Translation.OptionNo), KeyCode.U, hint: CallvotePlugin.Instance.Translation.KeybindHint.Replace("%Option%", CallvotePlugin.Instance.Translation.OptionNo));
+            settingsHeader = new(Config.HeaderSettingId, AssemblyInfo.Name);
 
-            if (CallvotePlugin.Instance.Config.EnableRespawnWave)
+            yesKeybindSetting = new SSKeybindSetting(Config.YesKeybindSettingId, Translation.VoteKeybind.Replace("%Option%", Translation.OptionYes), KeyCode.Y, hint: Translation.KeybindHint.Replace("%Option%", Translation.OptionYes));
+            noKeybindSetting = new SSKeybindSetting(Config.NoKeybindSettingId, Translation.VoteKeybind.Replace("%Option%", Translation.OptionNo), KeyCode.U, hint: Translation.KeybindHint.Replace("%Option%", Translation.OptionNo));
+
+            if (Config.EnableRespawnWave)
             {
-                mtfKeybindSetting = new SSKeybindSetting(CallvotePlugin.Instance.Config.MtfKeybindSettingId, CallvotePlugin.Instance.Translation.VoteKeybind.Replace("%Option%", CallvotePlugin.Instance.Translation.OptionMtf), KeyCode.I, hint: CallvotePlugin.Instance.Translation.KeybindHint.Replace("%Option%", CallvotePlugin.Instance.Translation.OptionMtf));
-                ciKeybindSetting = new SSKeybindSetting(CallvotePlugin.Instance.Config.CiKeybindSettingId, CallvotePlugin.Instance.Translation.VoteKeybind.Replace("%Option%", CallvotePlugin.Instance.Translation.OptionCi), KeyCode.O, hint: CallvotePlugin.Instance.Translation.KeybindHint.Replace("%Option%", CallvotePlugin.Instance.Translation.OptionCi));
+                mtfKeybindSetting = new SSKeybindSetting(Config.MtfKeybindSettingId, Translation.VoteKeybind.Replace("%Option%", Translation.OptionMtf), KeyCode.I, hint: Translation.KeybindHint.Replace("%Option%", Translation.OptionMtf));
+                ciKeybindSetting = new SSKeybindSetting(Config.CiKeybindSettingId, Translation.VoteKeybind.Replace("%Option%", Translation.OptionCi), KeyCode.O, hint: Translation.KeybindHint.Replace("%Option%", Translation.OptionCi));
             }
 
             CallvoteSettings =

@@ -1,5 +1,4 @@
 ﻿#if EXILED
-using Exiled.API.Features;
 #else
 using Callvote.Features;
 using LabApi.Features.Wrappers;
@@ -20,8 +19,8 @@ namespace Callvote.Features.Interfaces
         Action<Voting> Callback { get; }
 
         /// <summary>
-        /// Gets <see cref="Voting.Options"/> of the template.
+        /// Gets <see cref="Voting.VoteOptions"/> of the template.
         /// </summary>
-        Dictionary<string, string> Options { get; }
+        HashSet<Vote> VoteOptions { get; }
     }
 }

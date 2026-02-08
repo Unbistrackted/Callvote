@@ -1,5 +1,7 @@
-﻿using System;
+﻿#if EXILED
 using Callvote.Commands.VotingCommands;
+#endif
+using System;
 using CommandSystem;
 
 namespace Callvote.Commands.ParentCommands

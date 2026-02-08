@@ -8,7 +8,8 @@ using LabApi.Events.Handlers;
 using LabApi.Features.Wrappers;
 #endif
 using Callvote.API;
-using CommandSystem;
+using Callvote.Configuration;
+using Callvote.Features;
 using UserSettings.ServerSpecific;
 
 namespace Callvote
@@ -16,6 +17,9 @@ namespace Callvote
     [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:Elements should be documented", Justification = "Only public API documentation is required")]
     internal class EventHandlers
     {
+        private static readonly Translation Translation = CallvotePlugin.Instance.Translation;
+        private static readonly Config Config = CallvotePlugin.Instance.Config;
+
         internal EventHandlers()
         {
             ServerEvents.WaitingForPlayers += this.OnWaitingForPlayers;
@@ -66,34 +70,34 @@ namespace Callvote
             {
                 switch (keybindSetting.SettingId)
                 {
-                    case int id when id == CallvotePlugin.Instance.Config.YesKeybindSettingId:
-                        if (VotingHandler.CurrentVoting.CommandList.TryGetValue(CallvotePlugin.Instance.Translation.CommandYes, out ICommand yesCommand))
+                    case int id when id == Config.YesKeybindSettingId:
+                        if (VotingHandler.CurrentVoting.TryGetVote(Translation.CommandYes, out Vote yesVote))
                         {
-                            VotingHandler.CurrentVoting.Vote(Player.Get(sender), yesCommand.Command);
+                            VotingHandler.CurrentVoting.VoteOption(Player.Get(sender), yesVote);
                         }
 
                         break;
 
-                    case int id when id == CallvotePlugin.Instance.Config.NoKeybindSettingId:
-                        if (VotingHandler.CurrentVoting.CommandList.TryGetValue(CallvotePlugin.Instance.Translation.CommandNo, out ICommand noCommand))
+                    case int id when id == Config.NoKeybindSettingId:
+                        if (VotingHandler.CurrentVoting.TryGetVote(Translation.CommandNo, out Vote noVote))
                         {
-                            VotingHandler.CurrentVoting.Vote(Player.Get(sender), noCommand.Command);
+                            VotingHandler.CurrentVoting.VoteOption(Player.Get(sender), noVote);
                         }
 
                         break;
 
-                    case int id when id == CallvotePlugin.Instance.Config.MtfKeybindSettingId:
-                        if (VotingHandler.CurrentVoting.CommandList.TryGetValue(CallvotePlugin.Instance.Translation.CommandMobileTaskForce, out ICommand mtfCommand))
+                    case int id when id == Config.MtfKeybindSettingId:
+                        if (VotingHandler.CurrentVoting.TryGetVote(Translation.CommandMobileTaskForce, out Vote mtfVote))
                         {
-                            VotingHandler.CurrentVoting.Vote(Player.Get(sender), mtfCommand.Command);
+                            VotingHandler.CurrentVoting.VoteOption(Player.Get(sender), mtfVote);
                         }
 
                         break;
 
-                    case int id when id == CallvotePlugin.Instance.Config.CiKeybindSettingId:
-                        if (VotingHandler.CurrentVoting.CommandList.TryGetValue(CallvotePlugin.Instance.Translation.CommandChaosInsurgency, out ICommand ciCommand))
+                    case int id when id == Config.CiKeybindSettingId:
+                        if (VotingHandler.CurrentVoting.TryGetVote(Translation.CommandChaosInsurgency, out Vote ciVote))
                         {
-                            VotingHandler.CurrentVoting.Vote(Player.Get(sender), ciCommand.Command);
+                            VotingHandler.CurrentVoting.VoteOption(Player.Get(sender), ciVote);
                         }
 
                         break;

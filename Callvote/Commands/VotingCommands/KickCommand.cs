@@ -79,6 +79,16 @@ namespace Callvote.Commands.VotingCommands
                 return false;
             }
 
+#if EXILED
+            if (!locatedPlayer.CheckPermission("cv.untouchable"))
+#else
+            if (!locatedPlayer.HasPermissions("cv.untouchable"))
+#endif
+            {
+                response = "Player is Untouchable! :trollface:";
+                return false;
+            }
+
             List<Player> playerSearch = [.. Player.List.Where(p => p.Nickname.Contains(args.ElementAt(0)))];
 
             if (playerSearch.Count() is < 0 or > 1)

@@ -6,69 +6,118 @@ using LabApi.Features.Wrappers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Callvote.API;
 using Callvote.API.VotingsTemplate;
+using Callvote.Configuration;
 using Callvote.Features.Enums;
 using Callvote.Features.Interfaces;
+using PlayerRoles;
 using Respawning;
+using Respawning.Config;
+using Respawning.Waves;
 
 namespace Callvote.Features.PredefinedVotings
 {
     /// <summary>
     /// Represents the type for the Respawn Wave Predefined Voting.
-    /// Initializes a new instance of the <see cref="RespawnWaveVoting"/> class.
     /// </summary>
-    /// <param name="player"><see cref="Voting.CallVotePlayer"/>.</param>
-    public class RespawnWaveVoting(Player player) : CustomVoting(player, ReplacePlayer(player), nameof(VotingTypeEnum.RespawnWave), AddCallback, AddOptions()), IVotingTemplate
+    public class RespawnWaveVoting : CustomVoting, IVotingTemplate
     {
-        private static void AddCallback(Voting vote)
-        {
-            int noVotePercent = (int)(vote.Counter[CallvotePlugin.Instance.Translation.CommandNo] / (float)Player.List.Count() * 100f);
-            int mtfVotePercent = (int)(vote.Counter[CallvotePlugin.Instance.Translation.CommandMobileTaskForce] / (float)Player.List.Count() * 100f);
-            int ciVotePercent = (int)(vote.Counter[CallvotePlugin.Instance.Translation.CommandChaosInsurgency] / (float)Player.List.Count() * 100f);
+        private static readonly Translation Translation = CallvotePlugin.Instance.Translation;
+        private static readonly Config Config = CallvotePlugin.Instance.Config;
 
-            if (mtfVotePercent >= CallvotePlugin.Instance.Config.ThresholdRespawnWave)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RespawnWaveVoting"/> class.
+        /// </summary>
+        /// <param name="player"><see cref="Voting.CallVotePlayer"/>.</param>
+        public RespawnWaveVoting(Player player)
+            : base(player, ReplacePlayer(player), nameof(VotingTypeEnum.RespawnWave), AddCallback, AddOptions(out Vote no, out Vote mtf, out Vote ci))
+        {
+            NoVote = no;
+            MtfVote = mtf;
+            CiVote = ci;
+        }
+
+        /// <summary>
+        /// Gets the No <see cref="Vote"/> option.
+        /// </summary>
+        public Vote NoVote { get; }
+
+        /// <summary>
+        /// Gets the Mtf <see cref="Vote"/> option.
+        /// </summary>
+        public Vote MtfVote { get; }
+
+        /// <summary>
+        /// Gets the Ci <see cref="Vote"/> option.
+        /// </summary>
+        public Vote CiVote { get; }
+
+        private static void AddCallback(Voting voting)
+        {
+            if (voting is not RespawnWaveVoting respawnVoting)
             {
-                SoftDependency.MessageProvider.DisplayMessage(
-                    TimeSpan.FromSeconds(CallvotePlugin.Instance.Config.FinalResultsDuration),
-                    $"<size={DisplayMessageHelper.CalculateMessageSize(CallvotePlugin.Instance.Translation.MtfRespawn)}>{CallvotePlugin.Instance.Translation.MtfRespawn
-                    .Replace("%VotePercent%", mtfVotePercent + "%")}</size>",
-                    VotingHandler.CurrentVoting.AllowedPlayers);
-                WaveManager.Spawn(WaveManager.Waves[0]);
+                return;
             }
-            else if (ciVotePercent >= CallvotePlugin.Instance.Config.ThresholdRespawnWave)
+
+            int noVotePercent = voting.GetVotePercentage(respawnVoting.NoVote);
+            int mtfVotePercent = voting.GetVotePercentage(respawnVoting.MtfVote);
+            int ciVotePercent = voting.GetVotePercentage(respawnVoting.CiVote);
+
+            string message;
+
+            if (mtfVotePercent >= Config.ThresholdRespawnWave)
             {
-                SoftDependency.MessageProvider.DisplayMessage(
-                    TimeSpan.FromSeconds(CallvotePlugin.Instance.Config.FinalResultsDuration),
-                    $"<size={DisplayMessageHelper.CalculateMessageSize(CallvotePlugin.Instance.Translation.CiRespawn)}>{CallvotePlugin.Instance.Translation.CiRespawn
-                    .Replace("%VotePercent%", ciVotePercent.ToString())}</size>",
-                    VotingHandler.CurrentVoting.AllowedPlayers);
-                WaveManager.Spawn(WaveManager.Waves[1]);
+                message = Translation.MtfRespawn.Replace("%VotePercent%", mtfVotePercent + "%");
+
+                SpawnableWaveBase mtfWave = WaveManager.Waves.Where(wave => wave.TargetFaction == Faction.FoundationStaff && wave.Configuration is not StandardWaveConfig<NtfMiniWave>).FirstOrDefault();
+
+                if (mtfWave == null)
+                {
+                    ServerConsole.AddLog($"[ERROR] [Callvote] NW Moment!!!!! For some reason Wave is null!!!!!!!! I LOVE NW!!!!!!", ConsoleColor.Red);
+                    return;
+                }
+
+                WaveManager.Spawn(mtfWave);
+            }
+            else if (ciVotePercent >= Config.ThresholdRespawnWave)
+            {
+                message = Translation.CiRespawn.Replace("%VotePercent%", ciVotePercent + "%");
+
+                SpawnableWaveBase ciWave = WaveManager.Waves.Where(wave => wave.TargetFaction == Faction.FoundationEnemy && wave.Configuration is not StandardWaveConfig<ChaosMiniWave>).FirstOrDefault();
+
+                if (ciWave == null)
+                {
+                    ServerConsole.AddLog($"[ERROR] [Callvote] NW Moment!!!!! For some reason Wave is null!!!!!!!! I LOVE NW!!!!!!", ConsoleColor.Red);
+                    return;
+                }
+
+                WaveManager.Spawn(ciWave);
             }
             else
             {
-                SoftDependency.MessageProvider.DisplayMessage(
-                    TimeSpan.FromSeconds(CallvotePlugin.Instance.Config.FinalResultsDuration),
-                    $"<size={DisplayMessageHelper.CalculateMessageSize(CallvotePlugin.Instance.Translation.NoSuccessFullRespawn)}>{CallvotePlugin.Instance.Translation.NoSuccessFullRespawn
+                message = Translation.NoSuccessFullRespawn
                     .Replace("%VotePercent%", noVotePercent.ToString())
-                    .Replace("%ThresholdRespawnWave%", CallvotePlugin.Instance.Config.ThresholdRespawnWave.ToString())}</size>",
-                    VotingHandler.CurrentVoting.AllowedPlayers);
+                    .Replace("%ThresholdRespawnWave%", Config.ThresholdRespawnWave.ToString());
             }
+
+            SoftDependency.MessageProvider.DisplayMessage(
+                TimeSpan.FromSeconds(Config.FinalResultsDuration),
+                $"<size={DisplayMessageHelper.CalculateMessageSize(message)}>{message}</size>",
+                voting.AllowedPlayers);
         }
 
-        private static Dictionary<string, string> AddOptions()
+        private static HashSet<Vote> AddOptions(out Vote no, out Vote mtf, out Vote ci)
         {
-            Dictionary<string, string> options = [];
-            options.Add(CallvotePlugin.Instance.Translation.CommandNo, CallvotePlugin.Instance.Translation.OptionNo);
-            options.Add(CallvotePlugin.Instance.Translation.CommandMobileTaskForce, CallvotePlugin.Instance.Translation.OptionMtf);
-            options.Add(CallvotePlugin.Instance.Translation.CommandChaosInsurgency, CallvotePlugin.Instance.Translation.OptionCi);
+            no = new Vote(Translation.CommandNo, Translation.OptionNo);
+            mtf = new Vote(Translation.CommandMobileTaskForce, Translation.OptionMtf);
+            ci = new Vote(Translation.CommandChaosInsurgency, Translation.OptionCi);
 
-            return options;
+            return [no, mtf, ci];
         }
 
         private static string ReplacePlayer(Player player)
         {
-            return CallvotePlugin.Instance.Translation.AskedToRespawn.Replace("%Player%", player.Nickname);
+            return Translation.AskedToRespawn.Replace("%Player%", player.Nickname);
         }
     }
 }

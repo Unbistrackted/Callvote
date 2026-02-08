@@ -1,6 +1,5 @@
 ﻿#if EXILED
 using Exiled.API.Features;
-using Exiled.Permissions.Extensions;
 #else
 using LabApi.Features.Wrappers;
 #endif
@@ -9,10 +8,8 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using Callvote.API;
-using Callvote.Commands.VotingCommands;
-using CommandSystem;
+using Callvote.Configuration;
 using MEC;
-using RemoteAdmin;
 
 namespace Callvote.Features
 {
@@ -21,33 +18,34 @@ namespace Callvote.Features
     /// </summary>
     public class Voting
     {
-        private readonly Dictionary<string, string> playerVote;
+        private static readonly Translation Translation = CallvotePlugin.Instance.Translation;
+        private static readonly Config Config = CallvotePlugin.Instance.Config;
         private CoroutineHandle votingCoroutine;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Voting"/> class.
         /// </summary>
 #pragma warning disable SA1611 // Not Public
-        internal Voting(Player player, string question, string votingType, Action<Voting> callback, Dictionary<string, string> options = null, IEnumerable<Player> players = null)
+        internal Voting(Player player, string question, string votingType, Action<Voting> callback, HashSet<Vote> voteOptions = null, IEnumerable<Player> players = null)
 #pragma warning restore SA1611
         {
             this.CallVotePlayer = player;
             this.Question = question;
             this.Callback = callback;
-            this.Options = new Dictionary<string, string>(options ?? VotingHandler.Options);
+            this.VoteOptions = [.. voteOptions ?? VotingHandler.TemporaryVoteOptions];
+
 #if EXILED
-            AllowedPlayers = [.. players ?? Player.List.Where(p => p.ReferenceHub.nicknameSync.NickSet && p.ReferenceHub.authManager.InstanceMode != 0)];
+            this.AllowedPlayers = [.. players ?? Player.List.Where(p => p.ReferenceHub.nicknameSync.NickSet && p.ReferenceHub.authManager.InstanceMode != 0)];
 #else
             this.AllowedPlayers = [.. players ?? Player.ReadyList];
 #endif
-            this.playerVote = [];
-            this.CommandList = [];
-            this.Counter = new ConcurrentDictionary<string, int>();
-            this.votingCoroutine = default(CoroutineHandle);
+            this.PlayerVote = [];
+            this.Counter = new ConcurrentDictionary<Vote, int>();
+            this.votingCoroutine = default;
 
-            foreach (string option in this.Options.Keys)
+            foreach (Vote vote in this.VoteOptions)
             {
-                this.Counter[option] = 0;
+                this.Counter[vote] = 0;
             }
 
             this.VotingType = votingType;
@@ -80,10 +78,10 @@ namespace Callvote.Features
         public HashSet<Player> AllowedPlayers { get; init; }
 
         /// <summary>
-        /// Gets the Dictionary of options with their details in the <see cref="Voting"/> .
+        /// Gets the <see cref="HashSet{Vote}"/> with the available <see cref="Vote"/>s in the <see cref="Voting"/> .
         /// Key: Command/Option name. Value: Option/Label name for the command.
         /// </summary>
-        public Dictionary<string, string> Options { get; init; }
+        public HashSet<Vote> VoteOptions { get; init; }
 
         /// <summary>
         /// Gets a value indicating whether it should only show the configured question and the counter.
@@ -101,63 +99,120 @@ namespace Callvote.Features
         public long CallVoteId { get; private set; }
 
         /// <summary>
+        /// Gets the Dictionary of Players with their <see cref="Vote"/> in the <see cref="Voting"/> .
+        /// Key: Player. Value: <see cref="Vote"/>.
+        /// </summary>
+        public Dictionary<Player, Vote> PlayerVote { get; private set; }
+
+        /// <summary>
         /// Gets the ammount of votes in a <see cref="Voting"/>.
         /// Key: Command/Option name. Value: Ammount of votes.
         /// </summary>
-        public ConcurrentDictionary<string, int> Counter { get; }
+        public ConcurrentDictionary<Vote, int> Counter { get; }
 
         /// <summary>
-        /// Gets the commands registered in a <see cref="Voting"/>..
-        /// /// Key: Command/Option name. Value: The registered <see cref="ICommand"/>.
-        /// </summary>
-        public Dictionary<string, ICommand> CommandList { get; }
-
-        /// <summary>
-        /// Makes a <see cref="Player"/> vote on a <see param="option"/> of a <see cref="Voting"/>.
+        /// Makes a <see cref="Player"/> vote on a <see cref="Vote"/> of a <see cref="Voting"/>.
         /// </summary>
         /// <param name="player">The <see cref="Player"/> who is will be voting.</param>
-        /// <param name="option">The option that will be voted.</param>
-        /// <returns>A <see cref="string"/> representing if the votes was sucessful or not.</returns>
+        /// <param name="vote">The <see cref="Vote"/> that will be selected.</param>
+        /// <returns>A <see cref="string"/> representing if the vote process was sucessful or not.</returns>
         /// <remarks>
         /// The vote will only go through if the <see cref="votingCoroutine"/> is active.
         /// </remarks>
-        public string Vote(Player player, string option)
+        public string VoteOption(Player player, Vote vote)
         {
             if (!votingCoroutine.IsRunning)
             {
-                return CallvotePlugin.Instance.Translation.NoVotingInProgress;
+                return Translation.NoVotingInProgress;
             }
 
             if (!this.AllowedPlayers.Contains(player))
             {
-                return CallvotePlugin.Instance.Translation.NoPermission;
+                return Translation.NoPermission;
             }
 
-            string playerUserId = player.UserId;
-
-            if (!this.Options.ContainsKey(option))
+            if (!IsVotePresent(vote))
             {
-                return CallvotePlugin.Instance.Translation.NoOptionAvailable.Replace("%Option%", option);
+                return Translation.NoOptionAvailable.Replace("%Option%", vote.Option ?? string.Empty);
             }
 
-            if (this.playerVote.ContainsKey(playerUserId))
+            if (this.PlayerVote.ContainsKey(player))
             {
-                if (this.playerVote[playerUserId] == option)
+                if (this.PlayerVote[player] == vote)
                 {
-                    return CallvotePlugin.Instance.Translation.AlreadyVoted;
+                    return Translation.AlreadyVoted;
                 }
 
-                this.Counter.AddOrUpdate(this.playerVote[playerUserId], 0, (key, value) => Math.Max(0, value - 1));
-                this.playerVote[playerUserId] = option;
+                this.Counter.AddOrUpdate(this.PlayerVote[player], 0, (key, value) => Math.Max(0, value - 1)); // Removes the Value of the previous vote of the player
+
+                this.PlayerVote[player] = vote;
             }
             else
             {
-                this.playerVote.Add(playerUserId, option);
+                this.PlayerVote.Add(player, vote);
             }
 
-            this.Counter.AddOrUpdate(option, 1, (key, value) => value + 1);
+            this.Counter.AddOrUpdate(vote, 1, (key, value) => value + 1);
 
-            return CallvotePlugin.Instance.Translation.VoteAccepted.Replace("%Option%", this.Options[option]);
+            return Translation.VoteAccepted.Replace("%Option%", vote.Option);
+        }
+
+        /// <summary>
+        /// Gets the <see cref="Vote"/> in a <see cref="Voting"/> .
+        /// </summary>
+        /// <param name="command">The command that will be searched for.</param>
+        /// <returns>A <see cref="Vote"/> if found, otherwise null.</returns>
+        public Vote GetVote(string command)
+        {
+            return this.VoteOptions.Where(vote => vote.Command.Command == command && vote.IsCommandRegistered).FirstOrDefault();
+        }
+
+        /// <summary>
+        /// Gets the <see cref="Vote"/> in a <see cref="Voting"/> .
+        /// </summary>
+        /// <param name="command">The string option that will be searched for.</param>
+        /// <param name="vote">Returns a <see cref="Vote"/> if found, otherwise null.</param>
+        /// <returns>If the specific <see cref="Vote"/> was found.</returns>
+        public bool TryGetVote(string command, out Vote vote)
+        {
+            vote = GetVote(command);
+
+            if (!IsVotePresent(vote))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Checks if a <see cref="Vote"/> exists in a <see cref="Voting"/> .
+        /// </summary>
+        /// <param name="vote">The <see cref="Vote"/> that will be searched for.</param>
+        /// <returns>A true if found, otherwise false.</returns>
+        public bool IsVotePresent(Vote vote)
+        {
+            if (vote == null && vote.IsCommandRegistered)
+            {
+                return false;
+            }
+
+            return this.VoteOptions.Contains(vote);
+        }
+
+        /// <summary>
+        /// Gets a <see cref="Vote"/> percentage based on <see cref="AllowedPlayers"/> in a <see cref="Voting"/> .
+        /// </summary>
+        /// <param name="vote">The <see cref="Vote"/> that will be searched for.</param>
+        /// <returns>A int value as a percentage.</returns>
+        public int GetVotePercentage(Vote vote)
+        {
+            if (!IsVotePresent(vote))
+            {
+                return 0;
+            }
+
+            return (int)(Counter[vote] / (float)AllowedPlayers.Count * 100f);
         }
 
         /// <summary>
@@ -171,12 +226,15 @@ namespace Callvote.Features
         /// </remarks>
         public string Rig(string option, int amount = 1)
         {
-            if (!this.Counter.ContainsKey(option))
+            Vote vote = this.GetVote(option);
+
+            if (!IsVotePresent(vote))
             {
-                return CallvotePlugin.Instance.Translation.NoOptionAvailable.Replace("%Option%", option);
+                return Translation.NoOptionAvailable.Replace("%Option%", option);
             }
 
-            this.Counter.AddOrUpdate(option, amount, (key, value) => value + amount);
+            this.Counter.AddOrUpdate(vote, amount, (key, value) => value + amount);
+
             return $"Rigged {amount} votes for {option}!";
         }
 
@@ -188,13 +246,13 @@ namespace Callvote.Features
         {
             if (!VotingHandler.IsCallVotingAllowed(this.CallVotePlayer))
             {
-                return CallvotePlugin.Instance.Translation.MaxVote;
+                return Translation.MaxVote;
             }
 
             this.RegisterVoteCommands();
             this.StartVotingCoroutine();
 
-            return CallvotePlugin.Instance.Translation.VotingStarted;
+            return Translation.VotingStarted;
         }
 
         /// <summary>
@@ -214,7 +272,7 @@ namespace Callvote.Features
 
             while (true)
             {
-                if (timerCounter >= CallvotePlugin.Instance.Config.VoteDuration + 1)
+                if (timerCounter >= Config.VoteDuration + 1)
                 {
                     VotingHandler.FinishVoting();
                     yield break;
@@ -222,45 +280,23 @@ namespace Callvote.Features
 
                 DisplayMessageHelper.DisplayWhileVotingMessage(firstMessage);
                 timerCounter++;
-                yield return Timing.WaitForSeconds(CallvotePlugin.Instance.Config.RefreshInterval);
+                yield return Timing.WaitForSeconds(Config.RefreshInterval);
             }
         }
 
         private void RegisterVoteCommands()
         {
-            bool alreadyRegistered = false;
-
-            foreach (KeyValuePair<string, string> kvp in this.Options)
+            foreach (Vote vote in this.VoteOptions)
             {
-                if (QueryProcessor.DotCommandHandler.TryGetCommand(kvp.Key, out ICommand existingCommand))
-                {
-                    alreadyRegistered = true;
-                }
-            }
-
-            foreach (KeyValuePair<string, string> kvp in this.Options)
-            {
-                VoteCommand voteCommand = new(kvp.Key);
-
-                if (alreadyRegistered)
-                {
-                    this.Options.Remove(kvp.Key);
-                    this.Options.Add("cv" + kvp.Key, kvp.Value);
-                    this.Counter.TryRemove(kvp.Key, out _);
-                    this.Counter.TryAdd("cv" + kvp.Key, 0);
-                    voteCommand.Command = "cv" + kvp.Key;
-                }
-
-                this.CommandList.Add(kvp.Key, voteCommand);
-                QueryProcessor.DotCommandHandler.RegisterCommand(voteCommand);
+                vote.RegisterCommand();
             }
         }
 
         private void UnregisterVoteCommands()
         {
-            foreach (KeyValuePair<string, ICommand> command in this.CommandList)
+            foreach (Vote vote in this.VoteOptions)
             {
-                QueryProcessor.DotCommandHandler.UnregisterCommand(command.Value);
+                vote.UnregisterCommand();
             }
         }
 

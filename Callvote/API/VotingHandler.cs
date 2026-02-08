@@ -38,7 +38,7 @@ namespace Callvote.API
         /// This is cleared when <see cref="CallVoting"/> is invoked.
         /// Key: Command name. Value: Option/Label name for the command.
         /// </summary>
-        public static Dictionary<string, string> Options { get; private set; } = [];
+        public static HashSet<Vote> TemporaryVoteOptions { get; private set; } = [];
 
         /// <summary>
         /// Gets a value indicating whether gets whether the <see cref="Voting"/> is currently active.
@@ -70,7 +70,7 @@ namespace Callvote.API
         /// <returns>The response message set by operations on the handler (e.g. "Queue is full" or "Voting enqueued").</returns>
         public static string CallVoting(Voting vote)
         {
-            Options.Clear();
+            TemporaryVoteOptions.Clear();
 
             if (CallvotePlugin.Instance.Config.EnableQueue)
             {
@@ -149,17 +149,13 @@ namespace Callvote.API
         }
 
         /// <summary>
-        /// Adds a option for the <see cref="Voting"/> build process.
-        /// Only adds the option if the <paramref name="command"/> key does not already exist.
+        /// Creates a <see cref="Vote"/> for the <see cref="Voting"/> to <see cref="TemporaryVoteOptions"/>.
         /// </summary>
-        /// <param name="command">The internal command (e.g. console alias).</param>
-        /// <param name="option">Human-readable option text/label for the command.</param>
-        public static void AddOptionToVoting(string command, string option)
+        /// <param name="option">The <see cref="Vote"/> Option.</param>
+        /// <param name="detail">The <see cref="Vote"/> Detail.</param>
+        public static void CreateVoteForVoting(string option, string detail)
         {
-            if (!Options.ContainsKey(command))
-            {
-                Options[command] = option;
-            }
+            TemporaryVoteOptions.Add(new Vote(option, detail));
         }
 
         /// <summary>
@@ -201,7 +197,7 @@ namespace Callvote.API
         public static void Clear()
         {
             PlayerCallVotingAmount?.Clear();
-            Options?.Clear();
+            TemporaryVoteOptions?.Clear();
             VotingQueue?.Clear();
             FinishVoting();
             IsQueuePaused = false;
