@@ -8,7 +8,7 @@ A plugin that allows calling and voting for **Kick**,
 Dead
 2/Counter-Strike: Global Offensive).
 
-If you want to develop using Callvote, please install the [Nuget Package](https://www.nuget.org/packages/Callvote)
+If you want to develop using Callvote, please install the [EXILED Nuget Package](https://www.nuget.org/packages/Callvote.EXILED/) or [LabAPI Nuget Package](https://www.nuget.org/packages/Callvote.LabAPI/)
 
 ## Examples
 ```cs
