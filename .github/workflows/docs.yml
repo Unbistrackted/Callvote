@@ -17,7 +17,7 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
     - name: Checkout
       uses: actions/checkout@v3
@@ -26,11 +26,11 @@ jobs:
       with:
         dotnet-version: 8.x
     - name: Download references
-      run: wget https://exmod-team.github.io/SL-References/Dev.zip -O References.zip
+      run: Invoke-WebRequest -Uri "https://exmod-team.github.io/SL-References/Dev.zip" -OutFile "References.zip"
     - name: Extract references
       run: |
-        mkdir -p Callvote/lib
-        unzip References.zip -d Callvote/lib
+        mkdir Callvote\lib
+        tar -xf References.zip -C Callvote/lib
     - run: dotnet tool update -g docfx
     - run: docfx Callvote.docfx/docfx.json
     - name: Upload artifact
