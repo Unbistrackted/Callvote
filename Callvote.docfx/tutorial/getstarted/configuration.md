@@ -26,6 +26,7 @@ Anything related to ``Callvote's`` Behaviour is located at the Config file:
 
 > [!LINUX]
 > ~/.config/EXILED/Configs/Plugins/Callvote/``{Server_Port}``.yml
+
 ---
 
 ### Configuration Keys

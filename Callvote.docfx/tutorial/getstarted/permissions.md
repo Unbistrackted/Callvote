@@ -8,7 +8,6 @@ uid: permission
 > [!CAUTION]
 > If you are using ``Cedmod``, please configure the permissions in your Server Instance!
 
-
 # [<span style="color:#43CCE5">LabAPI</span>](#tab/LabAPI)
 ### Permission File Location
 
@@ -26,6 +25,7 @@ uid: permission
 
 > [!LINUX]
 > ~/.config/EXILED/Configs/permissions.yml
+
 ---
 
  ``Permission``          | ``Command``                     | ``Description``
