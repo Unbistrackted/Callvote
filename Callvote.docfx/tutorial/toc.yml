@@ -3,6 +3,8 @@
   href: getstarted/installation.md
 - name: Configuration
   href: getstarted/configuration.md
+- name: Permissions
+  href: getstarted/permissions.md
 - name: Quick Start
   href: getstarted/quickstart.md
 - name: ⌨️ Commands
