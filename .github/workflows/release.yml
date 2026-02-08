@@ -35,11 +35,11 @@ jobs:
             Callvote/bin/x64/Release/net48/Callvote-LabAPI.dll
       - name: Publish to NuGet.org
         run: |
-          Get-ChildItem Callvote/bin/Release/*.nupkg | ForEach-Object {
+          Get-ChildItem Callvote/bin/Release/x64/*.nupkg | ForEach-Object {
           dotnet nuget push $_.FullName --api-key ${{ secrets.NUGET_API }} --source https://api.nuget.org/v3/index.json
           }
       - name: Publish to GitHub Packages
         run: |
-          Get-ChildItem Callvote/bin/Release/*.nupkg | ForEach-Object {
+          Get-ChildItem Callvote/bin/Release/x64/*.nupkg | ForEach-Object {
           dotnet nuget push $_.FullName --api-key ${{ secrets.GITHUB_TOKEN }} --source https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
           }
