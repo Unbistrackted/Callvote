@@ -6,6 +6,7 @@ on:
 jobs:
   build-and-release:
     runs-on: windows-latest
+    environment: publish
     steps:
       - uses: actions/checkout@v4
       - name: Restore Packages
