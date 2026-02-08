@@ -44,5 +44,5 @@ callvote custom "<color=#D681DE>question</color>" command(<color=red>detail</col
 
 You should expect this Voting to pop up:
 
-![alt-text](/images/CallvoteCustom.png)
+![alt-text](images/CallvoteCustom.png)
 

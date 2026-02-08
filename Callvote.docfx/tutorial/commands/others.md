@@ -22,9 +22,9 @@ callvote ff
 
 You should expect these Votings to pop up:
 
-![alt-text](/images/CallvoteEnableFF.png)
+![alt-text](images/CallvoteEnableFF.png)
 
-![alt-text](/images/CallvoteDisableFF.png)
+![alt-text](images/CallvoteDisableFF.png)
 
 ### Kick Player Vote
 
@@ -40,7 +40,7 @@ callvote kick [Player] [Reason]
 
 You should expect this Voting to pop up:
 
-![alt-text](/images/CallvoteKick.png)
+![alt-text](images/CallvoteKick.png)
 
 ### Kill Player Vote
 
@@ -57,7 +57,7 @@ callvote kill [Player] [Reason]
 
 You should expect this Voting to pop up:
 
-![alt-text](/images/CallvoteKill.png)
+![alt-text](images/CallvoteKill.png)
 
 ### Nuke Facility Vote
 
@@ -70,7 +70,7 @@ callvote nuke
 
 You should expect this Voting to pop up:
 
-![alt-text](/images/CallvoteNuke.png)
+![alt-text](images/CallvoteNuke.png)
 
 ### Respawn Wave Vote
 
@@ -83,7 +83,7 @@ callvote respawnwave
 
 You should expect this Voting to pop up:
 
-![alt-text](/images/CallvoteRespawnWave.png)
+![alt-text](images/CallvoteRespawnWave.png)
 
 ### Restart Round Vote
 
@@ -96,4 +96,4 @@ callvote restartround
 
 You should expect this Voting to pop up:
 
-![alt-text](/images/CallvoteRestart.png)
+![alt-text](images/CallvoteRestart.png)
