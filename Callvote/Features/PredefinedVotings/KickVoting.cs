@@ -21,8 +21,9 @@ namespace Callvote.Features.PredefinedVotings
     /// <param name="reason">The reason for the kick.</param>
     public class KickVoting(Player player, Player ofender, string reason) : BinaryVoting(player, ReplacePlayer(player, ofender, reason), nameof(VotingTypeEnum.Kick), vote => AddCallback(vote, player, ofender, reason)), IVotingTemplate
     {
-        private static readonly Translation Translation = CallvotePlugin.Instance.Translation;
-        private static readonly Config Config = CallvotePlugin.Instance.Config;
+        private static Translation Translation => CallvotePlugin.Instance.Translation;
+
+        private static Config Config => CallvotePlugin.Instance.Config;
 
         private static void AddCallback(Voting voting, Player player, Player ofender, string reason)
         {

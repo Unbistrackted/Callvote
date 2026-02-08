@@ -17,9 +17,6 @@ namespace Callvote
     [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:Elements should be documented", Justification = "Only public API documentation is required")]
     internal class EventHandlers
     {
-        private static readonly Translation Translation = CallvotePlugin.Instance.Translation;
-        private static readonly Config Config = CallvotePlugin.Instance.Config;
-
         internal EventHandlers()
         {
             ServerEvents.WaitingForPlayers += this.OnWaitingForPlayers;
@@ -43,6 +40,10 @@ namespace Callvote
 #endif
             ServerSpecificSettingsSync.ServerOnSettingValueReceived -= this.OnUserInput;
         }
+
+        private static Translation Translation => CallvotePlugin.Instance.Translation;
+
+        private static Config Config => CallvotePlugin.Instance.Config;
 
         private void OnWaitingForPlayers()
         {

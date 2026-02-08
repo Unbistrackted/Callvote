@@ -9,8 +9,9 @@ namespace Callvote.Features
     [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:Elements should be documented", Justification = "Only public API documentation is required")]
     internal static class DiscordWebhook
     {
-        private static readonly Translation Translation = CallvotePlugin.Instance.Translation;
-        private static readonly Config Config = CallvotePlugin.Instance.Config;
+        private static Translation Translation => CallvotePlugin.Instance.Translation;
+
+        private static Config Config => CallvotePlugin.Instance.Config;
 
         internal static async Task ResultsMessage(Voting voting)
         {

@@ -10,9 +10,6 @@ namespace Callvote.Features
     [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:Elements should be documented", Justification = "Only public API documentation is required")]
     internal static class ServerSpecificSettings
     {
-        private static readonly Translation Translation = CallvotePlugin.Instance.Translation;
-        private static readonly Config Config = CallvotePlugin.Instance.Config;
-
         private static SSGroupHeader settingsHeader;
 
         private static SSKeybindSetting yesKeybindSetting;
@@ -24,6 +21,10 @@ namespace Callvote.Features
         private static SSKeybindSetting ciKeybindSetting;
 
         internal static IEnumerable<ServerSpecificSettingBase> CallvoteSettings { get; set; }
+
+        private static Translation Translation => CallvotePlugin.Instance.Translation;
+
+        private static Config Config => CallvotePlugin.Instance.Config;
 
         internal static void RegisterSettings()
         {

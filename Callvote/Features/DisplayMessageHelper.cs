@@ -11,8 +11,9 @@ namespace Callvote.Features
     /// </summary>
     internal static class DisplayMessageHelper
     {
-        private static readonly Translation Translation = CallvotePlugin.Instance.Translation;
-        private static readonly Config Config = CallvotePlugin.Instance.Config;
+        private static Translation Translation => CallvotePlugin.Instance.Translation;
+
+        private static Config Config => CallvotePlugin.Instance.Config;
 
         /// <summary>
         /// Displays the initial message to <see cref="Voting.AllowedPlayers"/> based on the <see cref="IMessageProvider"/>.

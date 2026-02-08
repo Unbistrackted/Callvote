@@ -22,8 +22,9 @@ namespace Callvote.Features.PredefinedVotings
     /// </summary>
     public class RespawnWaveVoting : CustomVoting, IVotingTemplate
     {
-        private static readonly Translation Translation = CallvotePlugin.Instance.Translation;
-        private static readonly Config Config = CallvotePlugin.Instance.Config;
+        private static Translation Translation => CallvotePlugin.Instance.Translation;
+
+        private static Config Config => CallvotePlugin.Instance.Config;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RespawnWaveVoting"/> class.

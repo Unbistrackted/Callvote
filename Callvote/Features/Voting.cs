@@ -18,8 +18,6 @@ namespace Callvote.Features
     /// </summary>
     public class Voting
     {
-        private static readonly Translation Translation = CallvotePlugin.Instance.Translation;
-        private static readonly Config Config = CallvotePlugin.Instance.Config;
         private CoroutineHandle votingCoroutine;
 
         /// <summary>
@@ -109,6 +107,10 @@ namespace Callvote.Features
         /// Key: Command/Option name. Value: Ammount of votes.
         /// </summary>
         public ConcurrentDictionary<Vote, int> Counter { get; }
+
+        private static Translation Translation => CallvotePlugin.Instance.Translation;
+
+        private static Config Config => CallvotePlugin.Instance.Config;
 
         /// <summary>
         /// Makes a <see cref="Player"/> vote on a <see cref="Vote"/> of a <see cref="Voting"/>.

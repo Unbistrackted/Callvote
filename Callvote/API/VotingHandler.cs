@@ -7,6 +7,7 @@ using LabApi.Features.Wrappers;
 #endif
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Callvote.Configuration;
 using Callvote.Features;
 
 namespace Callvote.API
@@ -48,7 +49,7 @@ namespace Callvote.API
         /// <summary>
         /// Gets a value indicating whether gets if the Queue is full.
         /// </summary>
-        public static bool IsQueueFull => VotingQueue.Count >= CallvotePlugin.Instance.Config.QueueSize;
+        public static bool IsQueueFull => VotingQueue.Count >= Config.QueueSize;
 
         /// <summary>
         /// Gets or sets a value indicating whether the vote queue will or will not start the next voting even if entries exist.
@@ -59,6 +60,10 @@ namespace Callvote.API
         /// Gets or sets a value indicating whether if the Discord Webhook will be able to send the message.
         /// </summary>
         public static bool ShouldSendWebhookMessage { get; set; } = true;
+
+        private static Translation Translation => CallvotePlugin.Instance.Translation;
+
+        private static Config Config => CallvotePlugin.Instance.Config;
 
         /// <summary>
         /// Request to start a <see cref="Voting"/>.
@@ -72,11 +77,11 @@ namespace Callvote.API
         {
             TemporaryVoteOptions.Clear();
 
-            if (CallvotePlugin.Instance.Config.EnableQueue)
+            if (Config.EnableQueue)
             {
                 if (IsQueueFull)
                 {
-                    return CallvotePlugin.Instance.Translation.QueueIsFull;
+                    return Translation.QueueIsFull;
                 }
 
                 VotingQueue.Enqueue(vote);
@@ -89,7 +94,7 @@ namespace Callvote.API
                 return CurrentVoting.Start();
             }
 
-            return CallvotePlugin.Instance.Translation.VotingInProgress;
+            return Translation.VotingInProgress;
         }
 
         /// <summary>
@@ -121,7 +126,7 @@ namespace Callvote.API
 
             CurrentVoting = null;
 
-            if (CallvotePlugin.Instance.Config.EnableQueue)
+            if (Config.EnableQueue)
             {
                 DequeueVoting();
             }
@@ -142,10 +147,10 @@ namespace Callvote.API
 
             if (IsQueuePaused)
             {
-                return CallvotePlugin.Instance.Translation.QueueDisabled;
+                return Translation.QueueDisabled;
             }
 
-            return CallvotePlugin.Instance.Translation.VotingEnqueued;
+            return Translation.VotingEnqueued;
         }
 
         /// <summary>
@@ -165,7 +170,7 @@ namespace Callvote.API
         /// <returns>If player is able to call a vote.</returns>
         public static bool IsCallVotingAllowed(Player player)
         {
-            if (IsVotingActive && !CallvotePlugin.Instance.Config.EnableQueue)
+            if (IsVotingActive && !Config.EnableQueue)
             {
                 return false;
             }
@@ -177,7 +182,7 @@ namespace Callvote.API
 
             PlayerCallVotingAmount[player]++;
 
-            if (PlayerCallVotingAmount[player] > CallvotePlugin.Instance.Config.MaxAmountOfVotesPerRound &&
+            if (PlayerCallVotingAmount[player] > Config.MaxAmountOfVotesPerRound &&
 #if EXILED
                 !player.CheckPermission("cv.bypass"))
 #else

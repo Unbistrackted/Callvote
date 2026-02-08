@@ -18,8 +18,9 @@ namespace Callvote.Features.PredefinedVotings
     /// <param name="player"><see cref="Voting.CallVotePlayer"/>.</param>
     public class RestartRoundVoting(Player player) : BinaryVoting(player, ReplacePlayer(player), nameof(VotingTypeEnum.RestartRound), AddCallback), IVotingTemplate
     {
-        private static readonly Translation Translation = CallvotePlugin.Instance.Translation;
-        private static readonly Config Config = CallvotePlugin.Instance.Config;
+        private static Translation Translation => CallvotePlugin.Instance.Translation;
+
+        private static Config Config => CallvotePlugin.Instance.Config;
 
         private static void AddCallback(Voting voting)
         {

@@ -65,8 +65,6 @@ namespace Callvote.Commands
             });
 
             response = "Please wait and check your console in a few seconds.";
-
-            response = CallvotePlugin.Instance.Translation.TranslationChanged;
             return true;
         }
     }
