@@ -26,7 +26,6 @@ uid: permission
 
 > [!LINUX]
 > ~/.config/EXILED/Configs/permissions.yml
-
 ---
 
  ``Permission``          | ``Command``                     | ``Description``
