@@ -33,32 +33,43 @@ VotingHandler.CallVoting(vote);
 ```cs
 private void ReviveSCPs(DiedEventArgs ev)
 {
-   if (ev.Player.IsScp)
-      {
-         void callback(Voting vote)
-         {
-            int yes = vote.Counter[Callvote.CallvotePlugin.Instance.Translation.CommandYes];
-            int no = vote.Counter[Callvote.CallvotePlugin.Instance.Translation.CommandNo];
-            if (yes > no)
+    if (ev.Player.IsScp)
+    {
+        void Callback(Voting voting)
+        {
+            if (voting is not BinaryVoting binaryVoting)
             {
-               ev.Player.RoleManager.ServerSetRole(ev.TargetOldRole, PlayerRoles.RoleChangeReason.None);
-               Map.Broadcast(5, $"{ev.TargetOldRole} respawned.");
-               return;
+                return;
             }
-                    Map.Broadcast(5, "The Voting Failed.");
-         }
-         BinaryVoting reviveSCP = new BinaryVoting(Server.Host, $"Revive {ev.TargetOldRole}?", $"NothingBurguerPlugin.Respawn", callback);
-         VotingHandler.CallVoting(reviveSCP);
-      }
+
+            int yesPercentage = voting.GetVotePercentage(binaryVoting.YesVote);
+            int noPercentage = voting.GetVotePercentage(binaryVoting.NoVote);
+
+            if (yesPercentage > noPercentage)
+            {
+                ev.Player.RoleManager.ServerSetRole(ev.TargetOldRole, PlayerRoles.RoleChangeReason.None);
+                Map.Broadcast(5, $"{ev.TargetOldRole} respawned.");
+                return;
+            }
+
+            Map.Broadcast(5, "The Voting Failed.");
+        }
+
+        BinaryVoting reviveSCP = new BinaryVoting(Server.Host, $"Revive {ev.TargetOldRole}?", $"NothingBurguerPlugin.Respawn", Callback);
+        VotingHandler.CallVoting(reviveSCP);
+    }
 }
 ```
 
+## Documentation
+
+> https://unbistrackted.github.io/Callvote/
+
 ## Download
 
-This plugin requires [Exiled](https://github.com/ExSLMod-Team/EXILED/releases/latest) or [LabAPI](https://github.com/northwood-studios/LabAPI/releases/latest).
+This plugin requires [Exiled](https://github.com/ExMod-Team/EXILED/releases/latest) or [LabAPI](https://github.com/northwood-studios/LabAPI/releases/latest).
 
 You can download the latest version of Callvote [here](https://github.com/Unbistrackted/Callvote/releases/latest).
-
 
 ## Soft Depedencies
 
@@ -67,7 +78,7 @@ You can download the latest version of Callvote [here](https://github.com/Unbist
 
 - [RueI](https://github.com/pawslee/RueI) — You can download it [here](https://github.com/pawslee/RueI/releases/latest).
 
-- [HintServiceMeow](https://github.com/MeowServer/HintServiceMeow/) — You can download it [here](https://github.com/MeowServer/HintServiceMeow/releases/latest). 
+- ~~[HintServiceMeow](https://github.com/MeowServer/HintServiceMeow/releases/tag/V5.3) — You can download it [here](https://github.com/MeowServer/HintServiceMeow/releases/latest).~~ **HSM is deprecated.**
 
 ## Special thanks to:
 
