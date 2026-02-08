@@ -22,11 +22,9 @@ jobs:
           mkdir Callvote\lib
           tar -xf References.zip -C Callvote/lib
       - name: Build EXILED
-        run: dotnet build Callvote.sln -c EXILED -p:Platform=x64 --no-restore
+        run: dotnet build Callvote.sln -c EXILED -p:Platform=x64
       - name: Build LabAPI
-        run: dotnet build Callvote.sln -c Release -p:Platform=x64 --no-restore
-      - name: Pack
-        run: dotnet pack Callvote/Callvote.csproj -c Release --no-build
+        run: dotnet build Callvote.sln -c Release -p:Platform=x64
       - name: Create Release with Dlls
         uses: softprops/action-gh-release@v2
         id: create_release
