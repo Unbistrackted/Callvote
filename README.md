@@ -10,7 +10,7 @@ Dead
 
 ![{99C91142-43DC-4685-A9DC-C906CEC4C5CC}](https://github.com/user-attachments/assets/f74318d3-f066-4abb-b24a-3cb0187f6dcf)
 
-If you want to develop using Callvote, please install the [Nuget Package](https://www.nuget.org/packages/Callvote)
+If you want to develop using Callvote, please install the [EXILED Nuget Package](https://www.nuget.org/packages/Callvote.EXILED/) or [LabAPI Nuget Package](https://www.nuget.org/packages/Callvote.LabAPI/)
 
 ## Documentation
 
