@@ -7,25 +7,40 @@ jobs:
   build-and-release:
     runs-on: windows-latest
     environment: publish
+    permissions:
+      id-token: write 
+      
     steps:
+      - name: NuGet login (OIDC → temp API key)
+        uses: NuGet/login@v1
+        id: login
+        with:
+           user: ${{ secrets.NUGET_USER }} 
+           
       - uses: actions/checkout@v4
       - name: Restore Packages
         run: nuget restore Callvote.sln
+        
       - name: Setup Dotnet
         uses: actions/setup-dotnet@v4
         with:
          dotnet-version: 8.0.x
+         
       - name: Download references
         run: Invoke-WebRequest -Uri "https://exmod-team.github.io/SL-References/Dev.zip"
           -OutFile "References.zip"
+          
       - name: Extract Refs
         run: |
           mkdir Callvote\lib
           tar -xf References.zip -C Callvote/lib
+          
       - name: Build EXILED
         run: dotnet build Callvote.sln -c EXILED -p:Platform=x64
+        
       - name: Build LabAPI
         run: dotnet build Callvote.sln -c Release -p:Platform=x64
+        
       - name: Create Release with Dlls
         uses: softprops/action-gh-release@v2
         id: create_release
@@ -34,21 +49,25 @@ jobs:
           files: |
             Callvote/bin/x64/EXILED/net48/Callvote-EXILED.dll
             Callvote/bin/x64/Release/net48/Callvote-LabAPI.dll
+            
       - name: Publish LabAPI Package to NuGet.org
         run: |
           Get-ChildItem Callvote/bin/x64/Release/*.nupkg | ForEach-Object {
-          dotnet nuget push $_.FullName --api-key ${{ secrets.NUGET_API }} --source https://api.nuget.org/v3/index.json
+          dotnet nuget push $_.FullName --api-key ${{steps.login.outputs.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json
           }
+          
       - name: Publish EXILED Package to NuGet.org
         run: |
           Get-ChildItem Callvote/bin/x64/EXILED/*.nupkg | ForEach-Object {
-          dotnet nuget push $_.FullName --api-key ${{ secrets.NUGET_API }} --source https://api.nuget.org/v3/index.json
+          dotnet nuget push $_.FullName --api-key ${{steps.login.outputs.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json
           }
+          
       - name: Publish LabAPI Package to GitHub Packages
         run: |
           Get-ChildItem  Callvote/bin/x64/Release/*.nupkg | ForEach-Object {
           dotnet nuget push $_.FullName --api-key ${{ secrets.GITHUB_TOKEN }} --source https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
           }
+          
       - name: Publish EXILED Package to GitHub Packages
         run: |
           Get-ChildItem  Callvote/bin/x64/EXILED/*.nupkg | ForEach-Object {
