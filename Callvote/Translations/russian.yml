@@ -1,6 +1,6 @@
 Callvote:
   # Made by wand098
-  # %player%, %VotePercent%, %Offender%, %ThresholdKick%, %ThresholdRespawnWave%, %ThresholdNuke%, %ThresholdKill%, %ThresholdRestartRound%, %OptionKey%, %Option%, %Counter%, %Timer%, %Custom%, %Type%, %Number%
+  # %player%, %VotePercent%, %Offender%, %ThresholdKick%, %ThresholdRespawnWave%, %ThresholdNuke%, %ThresholdKill%, %ThresholdRestartRound%, %VoteDetail%, %VoteCommand%, %VoteCounter%, %Timer%, %Custom%, %Type%, %Number%
   wrong_syntax: "Неверный синтаксис, используйте callvote help"
   max_vote: 'Максимальное количество голосов, сделаных в этом раунде'
   voting_in_progress: 'В настоящее время идет голосование.'
@@ -19,8 +19,8 @@ Callvote:
   voting_stoped: 'Голосование приостановлено.'
   results: |
     Final results:
-  option_and_counter: ' %Option% (%Counter%) '
-  options: '.%OptionKey% = %Option% '
+  option_and_counter: ' %VoteDetail% (%VoteCounter%) '
+  options: '.%VoteCommand% = %VoteDetail% '
   asked_question: |
     %Question% 
      <color=#bce3a3>Нажми ~ и голосуй</color> или <color=#939383>Поставь кейбинд в Сервер-специфичный!</color>

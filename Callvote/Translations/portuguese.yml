@@ -1,6 +1,6 @@
 ﻿Callvote:
 # Made by Firething and Unbistrackted
-# %player%, %VotePercent%, %Offender%, %ThresholdKick%, %ThresholdRespawnWave%, %ThresholdNuke%, %ThresholdKill%, %ThresholdRestartRound%, %OptionKey%, %Option%, %Counter%, %Timer%, %Custom%, %Type%, %Number%
+# %player%, %VotePercent%, %Offender%, %ThresholdKick%, %ThresholdRespawnWave%, %ThresholdNuke%, %ThresholdKill%, %ThresholdRestartRound%, %VoteDetail%, %VoteCommand%, %VoteCounter%, %Timer%, %Custom%, %Type%, %Number%
   wrong_syntax: "Sintaxe errada. Por favor use callvote help"
   max_vote: 'Quantidade máxima de chamada de votação feita nessa partida.'
   voting_in_progress: 'Uma votação está atualmente em progresso'
@@ -19,8 +19,8 @@
   voting_stoped: 'Votação parada.'
   results: |
     Resultados finais:
-  option_and_counter: ' %Option% (%Counter%) '
-  options: '.%OptionKey% = %Option% '
+  option_and_counter: ' %VoteDetail% (%VoteCounter%) '
+  options: '.%VoteCommand% = %VoteDetail% '
   asked_question: |
     %Question% 
      <color=#bce3a3>Pressione ' e digite</color> ou <color=#939383>Defina um atalho em Server-specific!</color>

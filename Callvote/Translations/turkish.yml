@@ -1,6 +1,6 @@
 ﻿Callvote:
   # Made by falsevorlosaf
-  # %player%, %VotePercent%, %Offender%, %ThresholdKick%, %ThresholdRespawnWave%, %ThresholdNuke%, %ThresholdKill%, %ThresholdRestartRound%, %OptionKey%, %Option%, %Counter%, %Timer%, %Custom%, %Type%, %Number%
+  # %player%, %VotePercent%, %Offender%, %ThresholdKick%, %ThresholdRespawnWave%, %ThresholdNuke%, %ThresholdKill%, %ThresholdRestartRound%, %VoteDetail%, %VoteCommand%, %VoteCounter%, %Timer%, %Custom%, %Type%, %Number%
   wrong_syntax: '<color=#F5B7B1><b>Yanlış komut kullandınız!</b></color> <color=#D7DBDD>Yardım için: .callvote help</color>'
   max_vote: '<color=#F5CBA7>Bu turda kullanılabilecek maksimum oylama sayısına ulaşıldı</color>'
   voting_n_progress: 'Şu anda bir oylama devam ediyor.'
@@ -19,8 +19,8 @@
   voting_stoped: '<color=#F7DC6F>Oylama durduruldu.</color>'
   results: |
     <color=#AED6F1><b>Sonuçlar:</b></color>
-  option_and_counter: ' %Option% (<color=#FAD7A0>%Counter%</color>) '
-  options: '.%OptionKey% = <color=#ABEBC6>%Option%</color> '
+  option_and_counter: ' %VoteDetail% (%VoteDetail%) '
+  options: '.%VoteCommand% = %VoteDetail% '
   asked_question: |
     <color=#FADBD8>%Question%</color>
     <color=#D6EAF8>~ tuşuna basarak yaz</color> ya da <color=#F9E79F>sunucu ayarlarından kısayol ata!</color>

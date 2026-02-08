@@ -1,6 +1,6 @@
 Callvote:
   # Made by tobto_37049
-  # %player%, %VotePercent%, %Offender%, %ThresholdKick%, %ThresholdRespawnWave%, %ThresholdNuke%, %ThresholdKill%, %ThresholdRestartRound%, %OptionKey%, %Option%, %Counter%, %Timer%, %Custom%, %Type%, %Number%
+  # %player%, %VotePercent%, %Offender%, %ThresholdKick%, %ThresholdRespawnWave%, %ThresholdNuke%, %ThresholdKill%, %ThresholdRestartRound%, %VoteDetail%, %VoteCommand%, %VoteCounter%, %Timer%, %Custom%, %Type%, %Number%
   wrong_syntax: '语法错误，请使用 callvote help'
   max_vote: '本场游戏最多的投票数。'
   voting_in_progress: '当前正在进行一场投票'
@@ -19,8 +19,8 @@ Callvote:
   voting_stoped: '投票已停止。'
   results: |
     最终结果：
-  option_and_counter: ' %Option% (%Counter%) '
-  options: '.%OptionKey% = %Option% '
+  option_and_counter: ' %VoteDetail% (%VoteCounter%) '
+  options: '.%VoteCommand% = %VoteDetail% '
   asked_question: |
     %Question% 
      <color=#bce3a3>按 ' 并输入</color> 或 <color=#939383>在Server-specific设置中设置快捷键！</color>

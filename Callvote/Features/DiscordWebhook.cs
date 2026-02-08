@@ -26,9 +26,9 @@ namespace Callvote.Features
             foreach (Vote vote in voting.VoteOptions)
             {
                 resultsMessage += Translation.OptionAndCounter
-                    .Replace("%Option%", vote.Command.Command)
-                    .Replace("%OptionKey%", vote.Detail)
-                    .Replace("%Counter%", voting.Counter[vote].ToString());
+                    .Replace("%VoteCommand%", vote.Command.Command)
+                    .Replace("%VoteDetail%", vote.Detail)
+                    .Replace("%VoteCounter%", voting.Counter[vote].ToString());
             }
 
             string question = Escape(voting.Question);

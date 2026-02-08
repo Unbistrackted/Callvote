@@ -1,6 +1,6 @@
 Callvote:
   # Made by .piwnica2137
-  # %player%, %VotePercent%, %Offender%, %ThresholdKick%, %ThresholdRespawnWave%, %ThresholdNuke%, %ThresholdKill%, %ThresholdRestartRound%, %OptionKey%, %Option%, %Counter%, %Timer%, %Custom%, %Type%, %Number%
+  # %player%, %VotePercent%, %Offender%, %ThresholdKick%, %ThresholdRespawnWave%, %ThresholdNuke%, %ThresholdKill%, %ThresholdRestartRound%, %VoteDetail%, %VoteCommand%, %VoteCounter%, %Timer%, %Custom%, %Type%, %Number%
   wrong_syntax: 'Niepoprawny Syntax, użyj callvote help.'
   max_vote: 'Osiągnięto maksymalną ilość głosowań w tej rundzie.'
   voting_in_progress: 'Głosowanie jest w trakcie.'
@@ -19,8 +19,8 @@ Callvote:
   voting_stoped: 'Głosowanie wstrzymane.'
   results: |
     Ostateczny wynik:
-  option_and_counter: ' %Option% (%Counter%) '
-  options: '.%OptionKey% = %Option% '
+  option_and_counter: ' %VoteDetail% (%VoteCounter%) '
+  options: '.%VoteCommand% = %VoteDetail% '
   asked_question: |
     %Question% 
      <color=#bce3a3>Naciśnij ~ i wpisz</color> lub <color=#939383>Ustaw przycisk w Server-specific!</color>

@@ -37,11 +37,11 @@ namespace Callvote.Features
             {
                 if (counter == 0)
                 {
-                    firstMessage += $"|  {Translation.Options.Replace("%OptionKey%", vote.Command.Command).Replace("%Option%", vote.Detail)}  |";
+                    firstMessage += $"|  {Translation.Options.Replace("%VoteCommand%", vote.Command.Command).Replace("%VoteDetail%", vote.Detail)}  |";
                 }
                 else
                 {
-                    firstMessage += $"  {Translation.Options.Replace("%OptionKey%", vote.Command.Command).Replace("%Option%", vote.Detail)} |";
+                    firstMessage += $"  {Translation.Options.Replace("%VoteCommand%", vote.Command.Command).Replace("%VoteDetail%", vote.Detail)} |";
                 }
 
                 counter++;
@@ -72,8 +72,8 @@ namespace Callvote.Features
             foreach (Vote vote in VotingHandler.CurrentVoting.VoteOptions)
             {
                 timerMessage += Translation.OptionAndCounter
-                    .Replace("%Option%", vote.Detail)
-                    .Replace("%Counter%", VotingHandler.CurrentVoting.Counter[vote].ToString());
+                    .Replace("%VoteDetail%", vote.Detail)
+                    .Replace("%VoteCounter%", VotingHandler.CurrentVoting.Counter[vote].ToString());
             }
 
             SoftDependency.MessageProvider.DisplayMessage(
@@ -97,8 +97,8 @@ namespace Callvote.Features
             foreach (Vote vote in VotingHandler.CurrentVoting.VoteOptions)
             {
                 resultsMessage += Translation.OptionAndCounter
-                    .Replace("%Option%", vote.Detail)
-                    .Replace("%Counter%", VotingHandler.CurrentVoting.Counter[vote].ToString());
+                    .Replace("%VoteDetail%", vote.Detail)
+                    .Replace("%VoteCounter%", VotingHandler.CurrentVoting.Counter[vote].ToString());
             }
 
             SoftDependency.MessageProvider.DisplayMessage(

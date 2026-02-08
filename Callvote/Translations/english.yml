@@ -1,6 +1,6 @@
 Callvote:
   # Made by PatPeter and Unbistrackted
-  # %player%, %VotePercent%, %Offender%, %ThresholdKick%, %ThresholdRespawnWave%, %ThresholdNuke%, %ThresholdKill%, %ThresholdRestartRound%, %OptionKey%, %Option%, %Counter%, %Timer%, %Custom%, %Type%, %Number%
+  # %player%, %VotePercent%, %Offender%, %ThresholdKick%, %ThresholdRespawnWave%, %ThresholdNuke%, %ThresholdKill%, %ThresholdRestartRound%, %VoteDetail%, %VoteCommand%, %VoteCounter%, %Timer%, %Custom%, %Type%, %Number%
   wrong_syntax: 'Wrong Syntax, use callvote help'
   max_vote: 'Max amounts of votes done this round'
   voting_in_progress: 'A vote is currently in progress.'
@@ -19,8 +19,8 @@ Callvote:
   voting_stoped: 'Vote stopped.'
   results: |
     Final results:
-  option_and_counter: ' %Option% (%Counter%) '
-  options: '.%OptionKey% = %Option% '
+  option_and_counter: ' %VoteDetail% (%VoteCounter%) '
+  options: '.%VoteCommand% = %VoteDetail% '
   asked_question: |
     %Question% 
      <color=#bce3a3>Press ~ and type</color> or <color=#939383>Set the keybind in Server-specific!</color>
