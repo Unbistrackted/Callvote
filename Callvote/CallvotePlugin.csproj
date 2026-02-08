@@ -53,10 +53,6 @@
 			<HintPath>$(EXILED_REFERENCES)\Assembly-CSharp-firstpass.dll</HintPath>
 		</Reference>
 
-		<Reference Include="HintServiceMeow">
-			<HintPath>$(EXILED_REFERENCES)\HintServiceMeow-LabAPI.dll</HintPath>
-		</Reference>
-
 		<Reference Include="Mirror">
 			<HintPath>$(EXILED_REFERENCES)\Mirror.dll</HintPath>
 		</Reference>

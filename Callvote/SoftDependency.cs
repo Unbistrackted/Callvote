@@ -86,27 +86,25 @@ namespace Callvote
                 return true;
             }
 
-            provider = null;
+            provider = new BroadcastProvider();
             return false;
         }
 
         private static bool TryLoadHSM(out IMessageProvider provider)
         {
-            if (IsHSMPatched())
-            {
-                provider = new HSMHintProvider();
-                return true;
-            }
-
-            provider = null;
+            // if (IsHSMPatched())
+            // {
+            //     provider = new HSMHintProvider();
+            //     return true;
+            // }
+            provider = new BroadcastProvider();
             return false;
         }
 
-        private static bool IsHSMPatched()
-        {
-            return Harmony.GetAllPatchedMethods().Select(Harmony.GetPatchInfo).Any(info => info?.Postfixes?.Any(p => p.owner.Contains("HintServiceMeow")) == true || info?.Prefixes?.Any(p => p.owner.Contains("HintServiceMeow")) == true);
-        }
-
+        // private static bool IsHSMPatched()
+        // {
+        //     return Harmony.GetAllPatchedMethods().Select(Harmony.GetPatchInfo).Any(info => info?.Postfixes?.Any(p => p.owner.Contains("HintServiceMeow")) == true || info?.Prefixes?.Any(p => p.owner.Contains("HintServiceMeow")) == true);
+        // }
         private static bool IsRueiPatched()
         {
             return Harmony.GetAllPatchedMethods().Select(Harmony.GetPatchInfo).Any(info => info?.Postfixes?.Any(p => p.owner.Contains("RueI")) == true || info?.Transpilers?.Any(p => p.owner.Contains("RueI")) == true);
