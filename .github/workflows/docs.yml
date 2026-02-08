@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'Callvote.docfx/**'
 
 permissions:
   actions: read
