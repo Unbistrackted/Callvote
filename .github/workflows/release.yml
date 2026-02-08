@@ -1,0 +1,33 @@
+name: Release
+on:
+  push:
+    tags:
+      - "*.*.*"
+jobs:
+  build-and-release:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Restore Packages
+        run: nuget restore Callvote.sln
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1
+      - name: Download references
+        run: Invoke-WebRequest -Uri "https://exmod-team.github.io/SL-References/Dev.zip"
+          -OutFile "References.zip"
+      - name: Extract Refs
+        run: |
+          mkdir Callvote\lib
+          tar -xf References.zip -C Callvote/lib
+      - name: Build EXILED
+        run: msbuild Callvote.sln -p:Configuration=EXILED
+      - name: Build LabAPI
+        run: msbuild Callvote.sln -p:Configuration=Release
+      - name: Create Release with Dlls
+        uses: softprops/action-gh-release@v2
+        id: create_release
+        with:
+          generate_release_notes: true
+          files: |
+            Callvote/bin/EXILED/net48/Callvote-EXILED.dll
+            Callvote/bin/Release/net48/Callvote-LabAPI.dll
