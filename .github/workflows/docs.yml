@@ -1,3 +1,4 @@
+name: Release Docs
 on:
   push:
     branches:
@@ -17,7 +18,7 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
     - name: Checkout
       uses: actions/checkout@v3
@@ -26,11 +27,11 @@ jobs:
       with:
         dotnet-version: 8.x
     - name: Download references
-      run: Invoke-WebRequest -Uri "https://exmod-team.github.io/SL-References/Dev.zip" -OutFile "References.zip"
+      run: wget https://exmod-team.github.io/SL-References/Dev.zip -O References.zip
     - name: Extract references
       run: |
-        mkdir Callvote\lib
-        tar -xf References.zip -C Callvote/lib
+        mkdir -p Callvote/lib
+        unzip References.zip -d Callvote/lib
     - run: dotnet tool update -g docfx
     - run: docfx Callvote.docfx/docfx.json
     - name: Upload artifact
