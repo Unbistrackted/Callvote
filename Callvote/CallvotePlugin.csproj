@@ -17,8 +17,6 @@
 		<Configurations>Debug;Release;EXILED</Configurations>
 		<EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
-		<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-		<GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -41,11 +39,9 @@
 
 	<PropertyGroup Condition="'$(Configuration)' == 'Release'">
 		<AssemblyName>Callvote-LabAPI</AssemblyName>
-		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)' == 'EXILED'">
 		<AssemblyName>Callvote-EXILED</AssemblyName>
-		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -90,7 +86,7 @@
 		<PackageReference Include="Lib.Harmony" Version="2.2.2" />
 		<PackageReference Include="Northwood.LabAPI" Version="1.1.5" />
 		<PackageReference Include="RueI" Version="3.1.2" />
-		<PackageReference Include="System.Net.Http" Version="4.3.4" />
+		<PackageReference Include="System.Net.Http" Version="4.0.0" />
 		<PackageReference Include="YamlDotNet" Version="16.0.0" />
 		<PackageReference Include="StyleCop.Analyzers.Unstable" Version="1.2.0.556">
 			<PrivateAssets>all</PrivateAssets>
