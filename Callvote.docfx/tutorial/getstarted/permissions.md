@@ -5,6 +5,28 @@ uid: permission
 ### Permissions
 ``Permissions`` for each ``Command``.
 
+> [!CAUTION]
+> If you are using ``Cedmod``, please configure the permissions in your Server Instance!
+
+
+# [<span style="color:#43CCE5">LabAPI</span>](#tab/LabAPI)
+### Permission File Location
+
+> [!WINDOWS]
+> %AppData%\SCP Secret Laboratory\LabAPI\configs\permissions.yml
+
+> [!LINUX]
+> ~/.config/SCP Secret Laboratory/LabAPI/configs/permissions.yml
+
+# [<span style="color:#F53B3B">EXILED</span>](#tab/Exiled)
+### Permission File Location
+
+> [!WINDOWS]
+> %AppData%\EXILED\Configs\permissions.yml
+
+> [!LINUX]
+> ~/.config/EXILED/Configs/permissions.yml
+
  ``Permission``          | ``Command``                     | ``Description``
 -------------------------|---------------------------------|--------------------------------------------------------------------
  cv.callvote             | .callvote (Parameter)           | Allows players to use **.callvote**
