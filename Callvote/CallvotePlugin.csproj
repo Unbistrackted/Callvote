@@ -17,6 +17,8 @@
 		<Configurations>Debug;Release;EXILED</Configurations>
 		<EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+		<GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -48,7 +50,7 @@
 
 	<ItemGroup>
 		<Reference Include="System.Net.Http" />
-
+		
 		<Reference Include="Assembly-CSharp-firstpass">
 			<HintPath>$(EXILED_REFERENCES)\Assembly-CSharp-firstpass.dll</HintPath>
 		</Reference>
