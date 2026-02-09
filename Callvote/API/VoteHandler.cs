@@ -74,7 +74,7 @@ namespace Callvote.API
         /// the <see cref="Vote"/> is started immediately.
         /// </summary>
         /// <param name="vote">The <see cref="Vote"/> to start or enqueue.</param>
-        /// <returns>The response message set by operations on the handler (e.g. "Queue is full" or "Vote enqueued").</returns>
+        /// <returns>A <see cref="CallVoteStatusEnum"/> representing if the action was sucessfull, or for example, if the queue is full.</returns>
         public static CallVoteStatusEnum CallVote(Vote vote)
         {
             if (vote == null)
@@ -119,7 +119,7 @@ namespace Callvote.API
         /// Attempts to start the next <see cref="Vote"/> in the <see cref="VoteQueue"/>. If no <see cref="Vote"/> is in progress and the <see cref="VoteQueue"/> is not paused and contains items,
         /// dequeues the next <see cref="Vote"/> and starts it.
         /// </summary>
-        /// <returns>The response message set by operations on the handler (e.g. "Queue is full" or "Vote enqueued").</returns>
+        /// <returns>A <see cref="CallVoteStatusEnum"/> representing if the <see cref="CallVoteStatusEnum.VoteStarted"/>, or <see cref="CallVoteStatusEnum.VoteEnqueued"/> .</returns>
         public static CallVoteStatusEnum DequeueVote()
         {
             if (!IsVoteActive && VoteQueue.Count != 0 && !IsQueuePaused)
