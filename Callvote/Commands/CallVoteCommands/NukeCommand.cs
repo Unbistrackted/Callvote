@@ -55,7 +55,7 @@ namespace Callvote.Commands.CallVoteCommands
                 return false;
             }
 
-            CallVoteStatusEnum status = VoteHandler.CallVote(new NukeVote(player));
+            CallVoteStatus status = VoteHandler.CallVote(new NukeVote(player));
 
             response = VoteHandler.GetMessageFromCallVoteStatus(status);
             return true;

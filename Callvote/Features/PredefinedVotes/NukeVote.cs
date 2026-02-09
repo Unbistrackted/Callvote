@@ -16,7 +16,7 @@ namespace Callvote.Features.PredefinedVotes
     /// Initializes a new instance of the <see cref="NukeVote"/> class.
     /// </summary>
     /// <param name="player"><see cref="Vote.CallVotePlayer"/>.</param>
-    public class NukeVote(Player player) : BinaryVote(player, ReplacePlayer(player), nameof(VoteTypeEnum.Nuke), AddCallback), IPredefinedVote
+    public class NukeVote(Player player) : BinaryVote(player, ReplacePlayer(player), nameof(Enums.VoteType.Nuke), AddCallback), IPredefinedVote
     {
         private static Translation Translation => CallvotePlugin.Instance.Translation;
 

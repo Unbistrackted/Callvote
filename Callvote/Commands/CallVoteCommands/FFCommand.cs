@@ -67,7 +67,7 @@ namespace Callvote.Commands.CallVoteCommands
                 question = CallvotePlugin.Instance.Translation.AskedToEnableFf;
             }
 
-            CallVoteStatusEnum status = VoteHandler.CallVote(new FFVote(player));
+            CallVoteStatus status = VoteHandler.CallVote(new FFVote(player));
 
             response = VoteHandler.GetMessageFromCallVoteStatus(status);
             return true;

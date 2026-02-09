@@ -227,23 +227,24 @@ namespace Callvote.Features
         /// Rigs the <see cref="Vote"/> <see cref="Counter"/> .
         /// </summary>
         /// <param name="option">The option that will be rigged.</param>
+        /// <param name="vote">The <see cref="Features.VoteOption"/> from the <see cref="Vote"/>.</param>
         /// <param name="amount">The ammount of votes added to that option.</param>
-        /// <returns>A <see cref="string"/> representing if the vote rigging was sucessful or not.</returns>
+        /// <returns>If the vote rigging was sucessful or not.</returns>
         /// <remarks>
         /// The vote will only go through if the <see cref="voteCoroutine"/> is active.
         /// </remarks>
-        public string Rig(string option, int amount = 1)
+        public bool Rig(string option, out VoteOption vote, int amount = 1)
         {
-            VoteOption vote = this.GetVoteOptionFromCommand(option);
+            vote = this.GetVoteOptionFromCommand(option);
 
             if (!this.IsVoteOptionPresent(vote))
             {
-                return Translation.NoOptionAvailable.Replace("%Option%", option);
+                return false;
             }
 
             this.Counter.AddOrUpdate(vote, amount, (key, value) => value + amount);
 
-            return $"Rigged {amount} votes for {option}!";
+            return true;
         }
 
         /// <summary>

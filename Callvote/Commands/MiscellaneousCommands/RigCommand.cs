@@ -9,6 +9,7 @@ using LabApi.Features.Wrappers;
 using System;
 using System.Linq;
 using Callvote.API;
+using Callvote.Features;
 using CommandSystem;
 
 namespace Callvote.Commands.MiscellaneousCommands
@@ -51,7 +52,13 @@ namespace Callvote.Commands.MiscellaneousCommands
 
             if (arguments.Count == 1)
             {
-                response = VoteHandler.CurrentVote.Rig(arguments.ElementAt(0));
+                if (!VoteHandler.CurrentVote.Rig(arguments.ElementAt(0), out VoteOption v))
+                {
+                    response = CallvotePlugin.Instance.Translation.NoOptionAvailable.Replace("%Option%", arguments.ElementAt(0));
+                    return false;
+                }
+
+                response = $"Rigged 1 vote for {v.Detail}!";
                 return true;
             }
 
@@ -61,7 +68,13 @@ namespace Callvote.Commands.MiscellaneousCommands
                 return false;
             }
 
-            response = VoteHandler.CurrentVote.Rig(arguments.ElementAt(0), amount: votes);
+            if (!VoteHandler.CurrentVote.Rig(arguments.ElementAt(0), out VoteOption vote, votes))
+            {
+                response = CallvotePlugin.Instance.Translation.NoOptionAvailable.Replace("%Option%", arguments.ElementAt(0));
+                return false;
+            }
+
+            response = $"Rigged {votes} votes for {vote.Detail}!";
             return true;
         }
     }

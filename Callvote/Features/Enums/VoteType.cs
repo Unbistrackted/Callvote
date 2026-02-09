@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents the enumeration for <see cref="Vote"/> types.
     /// </summary>
-    public enum VoteTypeEnum
+    public enum VoteType
     {
 #pragma warning disable SA1602 // Enumeration items should be documented - The enum values are self-explanatory.
         Binary,

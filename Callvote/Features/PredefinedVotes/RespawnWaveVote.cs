@@ -27,7 +27,7 @@ namespace Callvote.Features.PredefinedVotes
         /// </summary>
         /// <param name="player"><see cref="Vote.CallVotePlayer"/>.</param>
         public RespawnWaveVote(Player player)
-            : base(player, ReplacePlayer(player), nameof(VoteTypeEnum.RespawnWave), AddCallback, AddOptions(out VoteOption no, out VoteOption mtf, out VoteOption ci))
+            : base(player, ReplacePlayer(player), nameof(Enums.VoteType.RespawnWave), AddCallback, AddOptions(out VoteOption no, out VoteOption mtf, out VoteOption ci))
         {
             this.NoVoteOption = no;
             this.MtfVoteOption = mtf;

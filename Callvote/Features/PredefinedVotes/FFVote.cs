@@ -16,7 +16,7 @@ namespace Callvote.Features.PredefinedVotes
     /// Initializes a new instance of the <see cref="FFVote"/> class.
     /// </summary>
     /// <param name="player"><see cref="Vote.CallVotePlayer"/>.</param>
-    public class FFVote(Player player) : BinaryVote(player, ReplacePlayer(player), nameof(VoteTypeEnum.Ff), AddCallback), IPredefinedVote
+    public class FFVote(Player player) : BinaryVote(player, ReplacePlayer(player), nameof(Enums.VoteType.Ff), AddCallback), IPredefinedVote
     {
         private static Translation Translation => CallvotePlugin.Instance.Translation;
 
@@ -66,7 +66,7 @@ namespace Callvote.Features.PredefinedVotes
 
         private static string ReplacePlayer(Player player)
         {
-            string baseQuestion = Server.FriendlyFire
+            string baseQuestion = Server.FriendlyFire // Not sure how I would do that but if the vote was queued and the FF state changed, the question would not reflect the new state.
                 ? Translation.AskedToDisableFf
                 : Translation.AskedToEnableFf;
 

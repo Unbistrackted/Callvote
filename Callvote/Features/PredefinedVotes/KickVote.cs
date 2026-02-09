@@ -19,7 +19,7 @@ namespace Callvote.Features.PredefinedVotes
     /// <param name="player"><see cref="Vote.CallVotePlayer"/>.</param>
     /// <param name="ofender">The <see cref="Player"/> that is going to be kicked.</param>
     /// <param name="reason">The reason for the kick.</param>
-    public class KickVote(Player player, Player ofender, string reason) : BinaryVote(player, ReplacePlayer(player, ofender, reason), nameof(VoteTypeEnum.Kick), vote => AddCallback(vote, player, ofender, reason)), IPredefinedVote
+    public class KickVote(Player player, Player ofender, string reason) : BinaryVote(player, ReplacePlayer(player, ofender, reason), nameof(Enums.VoteType.Kick), vote => AddCallback(vote, player, ofender, reason)), IPredefinedVote
     {
         private static Translation Translation => CallvotePlugin.Instance.Translation;
 

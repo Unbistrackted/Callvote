@@ -16,7 +16,7 @@ namespace Callvote.Features.PredefinedVotes
     /// Initializes a new instance of the <see cref="RestartRoundVote"/> class.
     /// </summary>
     /// <param name="player"><see cref="Vote.CallVotePlayer"/>.</param>
-    public class RestartRoundVote(Player player) : BinaryVote(player, ReplacePlayer(player), nameof(VoteTypeEnum.RestartRound), AddCallback), IPredefinedVote
+    public class RestartRoundVote(Player player) : BinaryVote(player, ReplacePlayer(player), nameof(Enums.VoteType.RestartRound), AddCallback), IPredefinedVote
     {
         private static Translation Translation => CallvotePlugin.Instance.Translation;
 

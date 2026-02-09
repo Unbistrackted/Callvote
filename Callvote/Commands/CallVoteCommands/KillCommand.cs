@@ -101,7 +101,7 @@ namespace Callvote.Commands.CallVoteCommands
 
             string reason = string.Join(" ", args.Skip(1));
 
-            CallVoteStatusEnum status = VoteHandler.CallVote(new KillVote(player, locatedPlayer, reason));
+            CallVoteStatus status = VoteHandler.CallVote(new KillVote(player, locatedPlayer, reason));
 
             response = VoteHandler.GetMessageFromCallVoteStatus(status);
             return true;

@@ -5,7 +5,7 @@ namespace Callvote.Features.Enums
     /// <summary>
     /// Represents the enumeration for the <see cref="VoteHandler.CallVote(Vote)"/> Status.
     /// </summary>
-    public enum CallVoteStatusEnum
+    public enum CallVoteStatus
     {
         /// <summary><see cref="Vote"/>  was enqueued.</summary>
         VoteEnqueued = -1,
