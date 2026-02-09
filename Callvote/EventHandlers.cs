@@ -72,7 +72,7 @@ namespace Callvote
                 switch (keybindSetting.SettingId)
                 {
                     case int id when id == Config.YesKeybindSettingId:
-                        if (VotingHandler.CurrentVoting.TryGetVote(Translation.CommandYes, out Vote yesVote))
+                        if (VotingHandler.CurrentVoting.TryGetVoteFromCommand(Translation.CommandYes, out Vote yesVote))
                         {
                             VotingHandler.CurrentVoting.VoteOption(Player.Get(sender), yesVote);
                         }
@@ -80,7 +80,7 @@ namespace Callvote
                         break;
 
                     case int id when id == Config.NoKeybindSettingId:
-                        if (VotingHandler.CurrentVoting.TryGetVote(Translation.CommandNo, out Vote noVote))
+                        if (VotingHandler.CurrentVoting.TryGetVoteFromCommand(Translation.CommandNo, out Vote noVote))
                         {
                             VotingHandler.CurrentVoting.VoteOption(Player.Get(sender), noVote);
                         }
@@ -88,7 +88,7 @@ namespace Callvote
                         break;
 
                     case int id when id == Config.MtfKeybindSettingId:
-                        if (VotingHandler.CurrentVoting.TryGetVote(Translation.CommandMobileTaskForce, out Vote mtfVote))
+                        if (VotingHandler.CurrentVoting.TryGetVoteFromCommand(Translation.CommandMobileTaskForce, out Vote mtfVote))
                         {
                             VotingHandler.CurrentVoting.VoteOption(Player.Get(sender), mtfVote);
                         }
@@ -96,7 +96,7 @@ namespace Callvote
                         break;
 
                     case int id when id == Config.CiKeybindSettingId:
-                        if (VotingHandler.CurrentVoting.TryGetVote(Translation.CommandChaosInsurgency, out Vote ciVote))
+                        if (VotingHandler.CurrentVoting.TryGetVoteFromCommand(Translation.CommandChaosInsurgency, out Vote ciVote))
                         {
                             VotingHandler.CurrentVoting.VoteOption(Player.Get(sender), ciVote);
                         }

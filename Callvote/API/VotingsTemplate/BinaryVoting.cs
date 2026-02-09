@@ -10,7 +10,7 @@ using Callvote.Features;
 namespace Callvote.API.VotingsTemplate
 {
     /// <summary>
-    /// Represents the type for the Binary Voting, which only contains the Yes and No options from the Translation File.
+    /// Represents the type for the <see cref="BinaryVoting"/>, which only contains the Yes and No options from the Translation File.
     /// </summary>
     public class BinaryVoting : Voting
     {
@@ -25,8 +25,8 @@ namespace Callvote.API.VotingsTemplate
         public BinaryVoting(Player player, string question, string votingType, Action<Voting> callback = null, IEnumerable<Player> players = null)
             : base(player, question, votingType, callback, AddVotes(out Vote yes, out Vote no), players)
         {
-            YesVote = yes;
-            NoVote = no;
+            this.YesVote = yes;
+            this.NoVote = no;
         }
 
         /// <summary>

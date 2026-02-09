@@ -33,7 +33,7 @@ namespace Callvote.Commands.VotingCommands
                 return false;
             }
 
-            if (!VotingHandler.CurrentVoting.TryGetVote(this.Command, out Vote vote))
+            if (!VotingHandler.CurrentVoting.TryGetVoteFromCommand(this.Command, out Vote vote))
             {
                 response = CallvotePlugin.Instance.Translation.NoOptionAvailable.Replace("%Option%", this.Command);
                 return false;

@@ -14,7 +14,8 @@ using MEC;
 namespace Callvote.Features
 {
     /// <summary>
-    /// Represents the type that manages and creates the voting.
+    /// Represents the type that manages and creates the <see cref="Voting"/>.
+    /// Responsible for the <see cref="Voting"/> cycle, and managing the <see cref="Vote"/>s.
     /// </summary>
     public class Voting
     {
@@ -77,8 +78,8 @@ namespace Callvote.Features
 
         /// <summary>
         /// Gets the <see cref="HashSet{Vote}"/> with the available <see cref="Vote"/>s in the <see cref="Voting"/> .
-        /// Key: Command/Option name. Value: Option/Label name for the command.
         /// </summary>
+        /// <remarks><see cref="Vote"/>s can have the same <see cref="Vote.Option"/>, but not the <see cref="Vote.Command"/>.</remarks>
         public HashSet<Vote> VoteOptions { get; init; }
 
         /// <summary>
@@ -123,7 +124,7 @@ namespace Callvote.Features
         /// </remarks>
         public string VoteOption(Player player, Vote vote)
         {
-            if (!votingCoroutine.IsRunning)
+            if (!this.votingCoroutine.IsRunning)
             {
                 return Translation.NoVotingInProgress;
             }
@@ -133,7 +134,7 @@ namespace Callvote.Features
                 return Translation.NoPermission;
             }
 
-            if (!IsVotePresent(vote))
+            if (!this.IsVotePresent(vote))
             {
                 return Translation.NoOptionAvailable.Replace("%Option%", vote.Option ?? string.Empty);
             }
@@ -164,10 +165,15 @@ namespace Callvote.Features
         /// </summary>
         /// <param name="command">The command that will be searched for.</param>
         /// <returns>A <see cref="Vote"/> if found, otherwise null.</returns>
-        public Vote GetVote(string command)
-        {
-            return this.VoteOptions.Where(vote => vote.Command.Command == command && vote.IsCommandRegistered).FirstOrDefault();
-        }
+        public Vote GetVoteFromCommand(string command) => this.VoteOptions.FirstOrDefault(vote => vote.Command.Command == command);
+
+        /// <summary>
+        /// Gets the <see cref="Vote"/> in a <see cref="Voting"/> .
+        /// </summary>
+        /// <param name="option">The option that will be searched for.</param>
+        /// <returns>A <see cref="HashSet{Vote}"/> .</returns>
+        /// <remarks><see cref="Vote"/>s in <see cref="VoteOptions"/> can have the same <see cref="Vote.Option"/>, consider using <see cref="GetVoteFromCommand"/> if you made sure the command is not already registed by another plugin.</remarks>
+        public HashSet<Vote> GetVotesFromOption(string option) => [.. this.VoteOptions.Where(vote => vote.Option == option)];
 
         /// <summary>
         /// Gets the <see cref="Vote"/> in a <see cref="Voting"/> .
@@ -175,11 +181,11 @@ namespace Callvote.Features
         /// <param name="command">The string option that will be searched for.</param>
         /// <param name="vote">Returns a <see cref="Vote"/> if found, otherwise null.</param>
         /// <returns>If the specific <see cref="Vote"/> was found.</returns>
-        public bool TryGetVote(string command, out Vote vote)
+        public bool TryGetVoteFromCommand(string command, out Vote vote)
         {
-            vote = GetVote(command);
+            vote = this.GetVoteFromCommand(command);
 
-            if (!IsVotePresent(vote))
+            if (!this.IsVotePresent(vote))
             {
                 return false;
             }
@@ -194,7 +200,7 @@ namespace Callvote.Features
         /// <returns>A true if found, otherwise false.</returns>
         public bool IsVotePresent(Vote vote)
         {
-            if (vote == null && vote.IsCommandRegistered)
+            if (vote == null)
             {
                 return false;
             }
@@ -209,12 +215,12 @@ namespace Callvote.Features
         /// <returns>A int value as a percentage.</returns>
         public int GetVotePercentage(Vote vote)
         {
-            if (!IsVotePresent(vote))
+            if (!this.IsVotePresent(vote))
             {
                 return 0;
             }
 
-            return (int)(Counter[vote] / (float)AllowedPlayers.Count * 100f);
+            return (int)(this.Counter[vote] / (float)this.AllowedPlayers.Count * 100f);
         }
 
         /// <summary>
@@ -228,9 +234,9 @@ namespace Callvote.Features
         /// </remarks>
         public string Rig(string option, int amount = 1)
         {
-            Vote vote = this.GetVote(option);
+            Vote vote = this.GetVoteFromCommand(option);
 
-            if (!IsVotePresent(vote))
+            if (!this.IsVotePresent(vote))
             {
                 return Translation.NoOptionAvailable.Replace("%Option%", option);
             }

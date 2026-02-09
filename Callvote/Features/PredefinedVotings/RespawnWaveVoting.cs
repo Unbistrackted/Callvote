@@ -22,10 +22,6 @@ namespace Callvote.Features.PredefinedVotings
     /// </summary>
     public class RespawnWaveVoting : CustomVoting, IVotingTemplate
     {
-        private static Translation Translation => CallvotePlugin.Instance.Translation;
-
-        private static Config Config => CallvotePlugin.Instance.Config;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="RespawnWaveVoting"/> class.
         /// </summary>
@@ -33,9 +29,9 @@ namespace Callvote.Features.PredefinedVotings
         public RespawnWaveVoting(Player player)
             : base(player, ReplacePlayer(player), nameof(VotingTypeEnum.RespawnWave), AddCallback, AddOptions(out Vote no, out Vote mtf, out Vote ci))
         {
-            NoVote = no;
-            MtfVote = mtf;
-            CiVote = ci;
+            this.NoVote = no;
+            this.MtfVote = mtf;
+            this.CiVote = ci;
         }
 
         /// <summary>
@@ -52,6 +48,10 @@ namespace Callvote.Features.PredefinedVotings
         /// Gets the Ci <see cref="Vote"/> option.
         /// </summary>
         public Vote CiVote { get; }
+
+        private static Translation Translation => CallvotePlugin.Instance.Translation;
+
+        private static Config Config => CallvotePlugin.Instance.Config;
 
         private static void AddCallback(Voting voting)
         {

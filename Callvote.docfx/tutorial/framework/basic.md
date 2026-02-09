@@ -13,7 +13,7 @@ Introduction to ``Callvote's`` Framework
 
 ### Nuget Package
 
-You can find ``Callvote's`` package in https://www.nuget.org/packages/Callvote. As of right now, it's only precompiled with the LabAPI wrappers and methods.
+You can find ``Callvote's`` package in [EXILED Nuget](https://www.nuget.org/packages/Callvote.EXILED/) or [LabAPI Nuget](https://www.nuget.org/packages/Callvote.LabAPI/)
 
 ### Custom and Binary Votings
 

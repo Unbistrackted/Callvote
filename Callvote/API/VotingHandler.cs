@@ -5,6 +5,7 @@ using Exiled.Permissions.Extensions;
 using LabApi.Features.Permissions;
 using LabApi.Features.Wrappers;
 #endif
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Callvote.Configuration;
@@ -35,19 +36,19 @@ namespace Callvote.API
         public static Dictionary<Player, int> PlayerCallVotingAmount { get; private set; } = [];
 
         /// <summary>
-        /// Gets temporary mapping for the commands and labels/options.
+        /// Gets temporary mapping for the <see cref="Vote"/>s.
         /// This is cleared when <see cref="CallVoting"/> is invoked.
-        /// Key: Command name. Value: Option/Label name for the command.
+        /// Cleared when the Voting starts.
         /// </summary>
         public static HashSet<Vote> TemporaryVoteOptions { get; private set; } = [];
 
         /// <summary>
-        /// Gets a value indicating whether gets whether the <see cref="Voting"/> is currently active.
+        /// Gets a value indicating whether the <see cref="Voting"/> is currently active.
         /// </summary>
         public static bool IsVotingActive => CurrentVoting != null;
 
         /// <summary>
-        /// Gets a value indicating whether gets if the Queue is full.
+        /// Gets a value indicating whether the Queue is full.
         /// </summary>
         public static bool IsQueueFull => VotingQueue.Count >= Config.QueueSize;
 
@@ -57,7 +58,7 @@ namespace Callvote.API
         public static bool IsQueuePaused { get; set; } = false;
 
         /// <summary>
-        /// Gets or sets a value indicating whether if the Discord Webhook will be able to send the message.
+        /// Gets or sets a value indicating whether the Discord Webhook will be able to send a webhook message.
         /// </summary>
         public static bool ShouldSendWebhookMessage { get; set; } = true;
 
@@ -67,14 +68,19 @@ namespace Callvote.API
 
         /// <summary>
         /// Request to start a <see cref="Voting"/>.
-        /// If queueing is enabled the <paramref name="vote"/> will be enqueued
+        /// If queueing is enabled the <paramref name="voting"/> will be enqueued
         /// and <see cref="DequeueVoting"/> will be called. If queueing is disabled and <see cref="CurrentVoting"/> is null,
         /// the <see cref="Voting"/> is started immediately.
         /// </summary>
-        /// <param name="vote">The <see cref="Voting"/> to start or enqueue.</param>
+        /// <param name="voting">The <see cref="Voting"/> to start or enqueue.</param>
         /// <returns>The response message set by operations on the handler (e.g. "Queue is full" or "Voting enqueued").</returns>
-        public static string CallVoting(Voting vote)
+        public static string CallVoting(Voting voting)
         {
+            if (voting == null)
+            {
+                throw new ArgumentNullException(nameof(voting), "Voting cannot be null!");
+            }
+
             TemporaryVoteOptions.Clear();
 
             if (Config.EnableQueue)
@@ -84,13 +90,13 @@ namespace Callvote.API
                     return Translation.QueueIsFull;
                 }
 
-                VotingQueue.Enqueue(vote);
+                VotingQueue.Enqueue(voting);
                 return DequeueVoting();
             }
 
             if (!IsVotingActive)
             {
-                CurrentVoting = vote;
+                CurrentVoting = voting;
                 return CurrentVoting.Start();
             }
 
@@ -100,7 +106,7 @@ namespace Callvote.API
         /// <summary>
         /// Finishes and clears the active <see cref="Voting"/>.
         /// Stops the vote, displays results (or invokes a callback when provided),
-        /// sends results to configured Discord webhook asynchronously, clears <see cref="CurrentVoting"/>, and starts the next
+        /// sends results to configured Discord webhook asynchronously if <see cref="ShouldSendWebhookMessage"/> is true, clears <see cref="CurrentVoting"/> and, starts the next
         /// queued <see cref="Voting"/> if queueing is enabled.
         /// </summary>
         public static void FinishVoting()
@@ -154,20 +160,36 @@ namespace Callvote.API
         }
 
         /// <summary>
-        /// Creates a <see cref="Vote"/> for the <see cref="Voting"/> to <see cref="TemporaryVoteOptions"/>.
+        /// Creates a <see cref="Vote"/> for the <see cref="Voting"/> creation process in <see cref="TemporaryVoteOptions"/>.
         /// </summary>
         /// <param name="option">The <see cref="Vote"/> Option.</param>
         /// <param name="detail">The <see cref="Vote"/> Detail.</param>
-        public static void CreateVoteForVoting(string option, string detail)
+        /// <param name="vote">The <see cref="Vote"/> that was created.</param>
+        public static void CreateVote(string option, string detail, out Vote vote)
         {
-            TemporaryVoteOptions.Add(new Vote(option, detail));
+            vote = new Vote(option, detail);
+            TemporaryVoteOptions.Add(vote);
         }
 
         /// <summary>
-        /// Checks if a player is able to call vote based on per-player call limits.
+        /// Adds a <see cref="Vote"/> for the <see cref="Voting"/> creation process in <see cref="TemporaryVoteOptions"/>.
         /// </summary>
-        /// <param name="player">Player to check if he is able to call a vote.</param>
-        /// <returns>If player is able to call a vote.</returns>
+        /// <param name="vote">The <see cref="Vote"/> that will be added.</param>
+        public static void AddVote(Vote vote)
+        {
+            if (vote == null)
+            {
+                return;
+            }
+
+            TemporaryVoteOptions.Add(vote);
+        }
+
+        /// <summary>
+        /// Checks if a Player is able to call a <see cref="Voting"/> based on per-player call limits in the config.
+        /// </summary>
+        /// <param name="player">Player to check if he is able to call a <see cref="Voting"/> .</param>
+        /// <returns>If player is able to call a <see cref="Voting"/>.</returns>
         public static bool IsCallVotingAllowed(Player player)
         {
             if (IsVotingActive && !Config.EnableQueue)

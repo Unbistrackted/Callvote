@@ -4,8 +4,10 @@ using RemoteAdmin;
 namespace Callvote.Features
 {
     /// <summary>
-    /// Represents the type that manages and creates a <see cref="Vote"/>.
+    /// Represents the type that manages and creates a <see cref="Vote"/> Option.
+    /// Responsible for the <see cref="Vote"/> Option, Detail and Command Registration.
     /// </summary>
+    /// <remarks>The Command syntax might change if a command is already registered.</remarks>
     public class Vote
     {
         /// <summary>
@@ -15,9 +17,9 @@ namespace Callvote.Features
         /// <param name="detail">The <see cref="Vote"/> <see cref="Detail"/>.</param>
         public Vote(string option, string detail)
         {
-            Option = option;
-            Detail = detail;
-            Command = new(option);
+            this.Option = option;
+            this.Detail = detail;
+            this.Command = new(option);
         }
 
         /// <summary>
@@ -38,19 +40,19 @@ namespace Callvote.Features
         /// <summary>
         /// Gets a value indicating whether the <see cref="Command"/> was registered.
         /// </summary>
-        public bool IsCommandRegistered => QueryProcessor.DotCommandHandler.TryGetCommand(Command.Command, out _);
+        public bool IsCommandRegistered => QueryProcessor.DotCommandHandler.TryGetCommand(this.Command.Command, out _);
 
         /// <summary>
         /// Registers the <see cref="Command"/>.
         /// </summary>
         internal void RegisterCommand()
         {
-            if (IsCommandRegistered)
+            if (this.IsCommandRegistered)
             {
-                Command.Command = "cv" + Option;
+                this.Command.Command = "cv" + this.Option;
             }
 
-            QueryProcessor.DotCommandHandler.RegisterCommand(Command);
+            QueryProcessor.DotCommandHandler.RegisterCommand(this.Command);
         }
 
         /// <summary>
@@ -58,9 +60,9 @@ namespace Callvote.Features
         /// </summary>
         internal void UnregisterCommand()
         {
-            if (IsCommandRegistered)
+            if (this.IsCommandRegistered)
             {
-                QueryProcessor.DotCommandHandler.UnregisterCommand(Command);
+                QueryProcessor.DotCommandHandler.UnregisterCommand(this.Command);
             }
         }
     }

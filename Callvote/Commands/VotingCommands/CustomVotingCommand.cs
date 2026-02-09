@@ -65,7 +65,7 @@ namespace Callvote.Commands.VotingCommands
                 string command = match.Groups[1].Value;
                 string detail = match.Groups[2].Value;
 
-                VotingHandler.CreateVoteForVoting(command, detail);
+                VotingHandler.CreateVote(command, detail, out _);
             }
 
             response = VotingHandler.CallVoting(new CustomVoting(player, CallvotePlugin.Instance.Translation.AskedCustom.Replace("%Player%", player.Nickname).Replace("%Custom%", separatedArgs.First()), nameof(VotingTypeEnum.Custom)));
