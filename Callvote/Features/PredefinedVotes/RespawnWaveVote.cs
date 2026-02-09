@@ -68,7 +68,9 @@ namespace Callvote.Features.PredefinedVotes
 
             if (mtfVotePercent >= Config.ThresholdRespawnWave)
             {
-                message = Translation.MtfRespawn.Replace("%VotePercent%", mtfVotePercent + "%");
+                message = Translation.MtfRespawn
+                    .Replace("%VotePercent%", mtfVotePercent + "%")
+                    .Replace("%VoteDetail%", respawnVote.MtfVoteOption.Detail);
 
                 SpawnableWaveBase mtfWave = WaveManager.Waves.Where(wave => wave.TargetFaction == Faction.FoundationStaff && wave.Configuration is not StandardWaveConfig<NtfMiniWave>).FirstOrDefault();
 
@@ -82,7 +84,9 @@ namespace Callvote.Features.PredefinedVotes
             }
             else if (ciVotePercent >= Config.ThresholdRespawnWave)
             {
-                message = Translation.CiRespawn.Replace("%VotePercent%", ciVotePercent + "%");
+                message = Translation.CiRespawn
+                    .Replace("%VotePercent%", ciVotePercent + "%")
+                    .Replace("%VoteDetail%", respawnVote.CiVoteOption.Detail);
 
                 SpawnableWaveBase ciWave = WaveManager.Waves.Where(wave => wave.TargetFaction == Faction.FoundationEnemy && wave.Configuration is not StandardWaveConfig<ChaosMiniWave>).FirstOrDefault();
 
@@ -98,7 +102,8 @@ namespace Callvote.Features.PredefinedVotes
             {
                 message = Translation.NoSuccessFullRespawn
                     .Replace("%VotePercent%", noVotePercent.ToString())
-                    .Replace("%ThresholdRespawnWave%", Config.ThresholdRespawnWave.ToString());
+                    .Replace("%ThresholdRespawnWave%", Config.ThresholdRespawnWave.ToString())
+                    .Replace("%VoteDetail%", respawnVote.NoVoteOption.Detail);
             }
 
             SoftDependency.MessageProvider.DisplayMessage(

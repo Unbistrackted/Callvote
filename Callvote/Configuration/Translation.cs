@@ -47,36 +47,36 @@ namespace Callvote.Configuration
         public string AskedToRestart { get; set; } = "%Player% <color=#EEDC8A>asks</color>: Restart the round?";
 
         [Description("Vote Passed Messages:")]
-        public string PlayerKilled { get; set; } = "%VotePercent%% voted yes. Killing player %Offender%";
+        public string PlayerKilled { get; set; } = "%VotePercent%% voted %VoteDetail%.. Killing player %Offender%";
 
-        public string RoundRestarting { get; set; } = "%VotePercent% voted yes. Restarting the round...";
+        public string RoundRestarting { get; set; } = "%VotePercent% voted %VoteDetail%.. Restarting the round...";
 
-        public string FoundationNuked { get; set; } = "%VotePercent%% voted yes. Nuking the facility...";
+        public string FoundationNuked { get; set; } = "%VotePercent%% voted %VoteDetail%.. Nuking the facility...";
 
-        public string CiRespawn { get; set; } = "%VotePercent%% voted <color=green>YES</color>. Forcing the reappearing of CI..";
+        public string CiRespawn { get; set; } = "%VotePercent%% voted %VoteDetail%. Forcing the reappearing of CI..";
 
-        public string EnablingFriendlyFire { get; set; } = "%VotePercent%% voted <color=green>YES</color>. Disabling Friendly Fire..";
+        public string EnablingFriendlyFire { get; set; } = "%VotePercent%% voted %VoteDetail%. Enabling Friendly Fire..";
 
-        public string DisablingFriendlyFire { get; set; } = "%VotePercent%% voted <color=green>YES</color>. Enabling Friendly Fire..";
+        public string DisablingFriendlyFire { get; set; } = "%VotePercent%% voted %VoteDetail%. Disabling Friendly Fire..";
 
-        public string MtfRespawn { get; set; } = "%VotePercent%% voted <color=green>YES</color>. Forcing the reappearing of MTF..";
+        public string MtfRespawn { get; set; } = "%VotePercent%% voted %VoteDetail%. Forcing the reappearing of MTF..";
 
         public string PlayerKicked { get; set; } = "%Offender% was kicked for %Reason%.";
 
         [Description("Vote Failed Messages:")]
-        public string NotSuccessFullKick { get; set; } = "%VotePercent%% voted yes, but %ThresholdKick%% was required to kick %Offender%.";
+        public string NotSuccessFullKick { get; set; } = "%VotePercent%% voted %VoteDetail%, but %ThresholdKick%% was required to kick %Offender%.";
 
-        public string NoSuccessFullRespawn { get; set; } = "%VotePercent%% voted no. %ThresholdRespawnWave%% was required to respawn the next wave.";
+        public string NoSuccessFullRespawn { get; set; } = "%VotePercent%% voted %VoteDetail%. %ThresholdRespawnWave%% was required to respawn the next wave.";
 
-        public string NoSuccessFullNuke { get; set; } = "Only %VotePercent%% voted yes. %ThresholdNuke%% was required to nuke the facility.";
+        public string NoSuccessFullNuke { get; set; } = "Only %VotePercent%% voted %VoteDetail%. %ThresholdNuke%% was required to nuke the facility.";
 
-        public string NoSuccessFullKill { get; set; } = "Only %VotePercent%% voted yes. %ThresholdKill%% was required to kill %Offender%";
+        public string NoSuccessFullKill { get; set; } = "Only %VotePercent%% voted %VoteDetail%. %ThresholdKill%% was required to kill %Offender%";
 
-        public string NoSuccessFullRestart { get; set; } = "Only %VotePercent%% voted yes. %ThresholdRestartRound%% was required to restart the round.";
+        public string NoSuccessFullRestart { get; set; } = "Only %VotePercent%% voted %VoteDetail%. %ThresholdRestartRound%% was required to restart the round.";
 
-        public string NoSuccessFullEnableFf { get; set; } = "Only %VotePercent%% voted yes. %ThresholdFF%% was required to disable Friendly Fire.";
+        public string NoSuccessFullEnableFf { get; set; } = "Only %VotePercent%% voted %VoteDetail%. %ThresholdFF%% was required to disable Friendly Fire.";
 
-        public string NoSuccessFullDisableFf { get; set; } = "Only %VotePercent%% voted yes. %ThresholdFF%% was required to enable Friendly Fire.";
+        public string NoSuccessFullDisableFf { get; set; } = "Only %VotePercent%% voted %VoteDetail%. %ThresholdFF%% was required to enable Friendly Fire.";
 
         public string Untouchable { get; set; } = "%VotePercent%% voted to kill or kick you.";
 

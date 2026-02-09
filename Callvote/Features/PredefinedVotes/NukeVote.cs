@@ -36,7 +36,9 @@ namespace Callvote.Features.PredefinedVotes
 
             if (yesVotePercent >= Config.ThresholdNuke && yesVotePercent > noVotePercent)
             {
-                message = Translation.FoundationNuked.Replace("%VotePercent%", yesVotePercent.ToString());
+                message = Translation.FoundationNuked
+                    .Replace("%VotePercent%", yesVotePercent.ToString())
+                    .Replace("%VoteDetail%", binaryVote.YesVoteOption.Detail);
 
                 Warhead.Detonate();
             }
@@ -44,7 +46,8 @@ namespace Callvote.Features.PredefinedVotes
             {
                 message = Translation.NoSuccessFullNuke
                     .Replace("%VotePercent%", yesVotePercent.ToString())
-                    .Replace("%ThresholdNuke%", Config.ThresholdNuke.ToString());
+                    .Replace("%ThresholdNuke%", Config.ThresholdNuke.ToString())
+                    .Replace("%VoteDetail%", binaryVote.YesVoteOption.Detail);
             }
 
             SoftDependency.MessageProvider.DisplayMessage(

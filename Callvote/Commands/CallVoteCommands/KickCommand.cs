@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Callvote.API;
+using Callvote.Features.Enums;
 using Callvote.Features.PredefinedVotes;
 using CommandSystem;
 
@@ -99,7 +100,9 @@ namespace Callvote.Commands.CallVoteCommands
 
             string reason = string.Join(" ", args.Skip(1));
 
-            response = VoteHandler.CallVote(new KickVote(player, locatedPlayer, reason));
+            CallVoteStatusEnum status = VoteHandler.CallVote(new KickVote(player, locatedPlayer, reason));
+
+            response = VoteHandler.GetMessageFromCallVoteStatus(status);
             return true;
         }
     }

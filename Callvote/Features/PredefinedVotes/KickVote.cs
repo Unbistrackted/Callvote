@@ -52,7 +52,8 @@ namespace Callvote.Features.PredefinedVotes
                 message = Translation.NotSuccessFullKick
                     .Replace("%VotePercent%", yesVotePercent.ToString())
                     .Replace("%ThresholdKick%", CallvotePlugin.Instance.Config.ThresholdKick.ToString())
-                    .Replace("%Offender%", ofender.Nickname);
+                    .Replace("%Offender%", ofender.Nickname)
+                    .Replace("%VoteDetail%", binaryVote.YesVoteOption.Detail);
             }
 
             SoftDependency.MessageProvider.DisplayMessage(

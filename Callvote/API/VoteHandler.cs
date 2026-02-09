@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Callvote.Configuration;
 using Callvote.Features;
+using Callvote.Features.Enums;
 
 namespace Callvote.API
 {
@@ -74,7 +75,7 @@ namespace Callvote.API
         /// </summary>
         /// <param name="vote">The <see cref="Vote"/> to start or enqueue.</param>
         /// <returns>The response message set by operations on the handler (e.g. "Queue is full" or "Vote enqueued").</returns>
-        public static string CallVote(Vote vote)
+        public static CallVoteStatusEnum CallVote(Vote vote)
         {
             if (vote == null)
             {
@@ -83,11 +84,21 @@ namespace Callvote.API
 
             TemporaryVoteOptions.Clear();
 
+            if (!IsCallVoteAllowed(vote.CallVotePlayer))
+            {
+                return CallVoteStatusEnum.MaxedCallVotes;
+            }
+
             if (Config.EnableQueue)
             {
                 if (IsQueueFull)
                 {
-                    return Translation.QueueIsFull;
+                    return CallVoteStatusEnum.QueueIsFull;
+                }
+
+                if (IsQueuePaused)
+                {
+                    return CallVoteStatusEnum.QueueDisabled;
                 }
 
                 VoteQueue.Enqueue(vote);
@@ -97,10 +108,28 @@ namespace Callvote.API
             if (!IsVoteActive)
             {
                 CurrentVote = vote;
-                return CurrentVote.Start();
+                CurrentVote.Start();
+                return CallVoteStatusEnum.VoteStarted;
             }
 
-            return Translation.VoteInProgress;
+            return CallVoteStatusEnum.VoteInProgress;
+        }
+
+        /// <summary>
+        /// Attempts to start the next <see cref="Vote"/> in the <see cref="VoteQueue"/>. If no <see cref="Vote"/> is in progress and the <see cref="VoteQueue"/> is not paused and contains items,
+        /// dequeues the next <see cref="Vote"/> and starts it.
+        /// </summary>
+        /// <returns>The response message set by operations on the handler (e.g. "Queue is full" or "Vote enqueued").</returns>
+        public static CallVoteStatusEnum DequeueVote()
+        {
+            if (!IsVoteActive && VoteQueue.Count != 0 && !IsQueuePaused)
+            {
+                CurrentVote = VoteQueue.Dequeue();
+                CurrentVote.Start();
+                return CallVoteStatusEnum.VoteStarted;
+            }
+
+            return CallVoteStatusEnum.VoteEnqueued;
         }
 
         /// <summary>
@@ -136,27 +165,6 @@ namespace Callvote.API
             {
                 DequeueVote();
             }
-        }
-
-        /// <summary>
-        /// Attempts to start the next <see cref="Vote"/> in the <see cref="VoteQueue"/>. If no <see cref="Vote"/> is in progress and the <see cref="VoteQueue"/> is not paused and contains items,
-        /// dequeues the next <see cref="Vote"/> and starts it.
-        /// </summary>
-        /// <returns>The response message set by operations on the handler (e.g. "Queue is full" or "Vote enqueued").</returns>
-        public static string DequeueVote()
-        {
-            if (!IsVoteActive && VoteQueue.Count != 0 && !IsQueuePaused)
-            {
-                CurrentVote = VoteQueue.Dequeue();
-                return CurrentVote.Start();
-            }
-
-            if (IsQueuePaused)
-            {
-                return Translation.QueueDisabled;
-            }
-
-            return Translation.VoteEnqueued;
         }
 
         /// <summary>
@@ -215,6 +223,26 @@ namespace Callvote.API
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Returns the status message corresponding to the specified <see cref="CallVoteStatusEnum"/>.
+        /// </summary>
+        /// <param name="status">The <see cref="CallVoteStatusEnum"/> for which to retrieve the message.</param>
+        /// <returns>A string containing the message for the given status; returns an empty string if the status is not
+        /// recognized.</returns>
+        public static string GetMessageFromCallVoteStatus(CallVoteStatusEnum status)
+        {
+            return status switch
+            {
+                CallVoteStatusEnum.VoteStarted => Translation.VoteStarted,
+                CallVoteStatusEnum.VoteInProgress => Translation.VoteInProgress,
+                CallVoteStatusEnum.VoteEnqueued => Translation.VoteEnqueued,
+                CallVoteStatusEnum.QueueIsFull => Translation.QueueIsFull,
+                CallVoteStatusEnum.QueueDisabled => Translation.QueueDisabled,
+                CallVoteStatusEnum.MaxedCallVotes => Translation.MaxVote,
+                _ => string.Empty,
+            };
         }
 
         /// <summary>

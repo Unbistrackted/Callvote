@@ -8,6 +8,7 @@ using LabApi.Features.Wrappers;
 #endif
 using System;
 using Callvote.API;
+using Callvote.Features.Enums;
 using Callvote.Features.PredefinedVotes;
 using CommandSystem;
 
@@ -55,7 +56,9 @@ namespace Callvote.Commands.CallVoteCommands
                 return false;
             }
 
-            response = VoteHandler.CallVote(new RestartRoundVote(player));
+            CallVoteStatusEnum status = VoteHandler.CallVote(new RestartRoundVote(player));
+
+            response = VoteHandler.GetMessageFromCallVoteStatus(status);
             return true;
         }
     }

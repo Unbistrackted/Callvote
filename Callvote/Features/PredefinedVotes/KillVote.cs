@@ -43,6 +43,7 @@ namespace Callvote.Features.PredefinedVotes
                     .Replace("%VotePercent%", yesVotePercent.ToString())
                     .Replace("%Player%", player.Nickname)
                     .Replace("%Offender%", ofender.Nickname)
+                    .Replace("%VoteDetail%", binaryVote.YesVoteOption.Detail)
                     .Replace("%Reason%", reason);
 
                 ofender.Kill(reason);
@@ -52,7 +53,8 @@ namespace Callvote.Features.PredefinedVotes
                 message = Translation.NoSuccessFullKill
                     .Replace("%VotePercent%", yesVotePercent.ToString())
                     .Replace("%ThresholdKill%", Config.ThresholdKick.ToString())
-                    .Replace("%Offender%", ofender.Nickname);
+                    .Replace("%Offender%", ofender.Nickname)
+                    .Replace("%VoteDetail%", binaryVote.YesVoteOption.Detail);
             }
 
             SoftDependency.MessageProvider.DisplayMessage(

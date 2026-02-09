@@ -36,7 +36,9 @@ namespace Callvote.Features.PredefinedVotes
 
             if (yesVotePercent >= Config.ThresholdRestartRound && yesVotePercent > noVotePercent)
             {
-                message = Translation.RoundRestarting.Replace("%VotePercent%", yesVotePercent.ToString());
+                message = Translation.RoundRestarting
+                    .Replace("%VotePercent%", yesVotePercent.ToString())
+                    .Replace("%VoteDetail%", binaryVote.YesVoteOption.Detail);
 #if EXILED
                 Round.EndRound(true);
 #else
@@ -47,7 +49,9 @@ namespace Callvote.Features.PredefinedVotes
             {
                 message = Translation.NoSuccessFullRestart
                     .Replace("%VotePercent%", yesVotePercent.ToString())
-                    .Replace("%ThresholdRestartRound%", Config.ThresholdRestartRound.ToString());
+                    .Replace("%ThresholdRestartRound%", Config.ThresholdRestartRound.ToString())
+                    .Replace("%VoteDetail%", binaryVote.YesVoteOption.Detail)
+                    .Replace("%VoteDetail%", binaryVote.YesVoteOption.Detail);
             }
 
             SoftDependency.MessageProvider.DisplayMessage(

@@ -33,13 +33,31 @@ namespace Callvote.Commands.MiscellaneousCommands
                 return false;
             }
 
-            if (!VoteHandler.CurrentVote.TryGetVoteOptionFromCommand(Command, out VoteOption vote))
+            if (!VoteHandler.CurrentVote.AllowedPlayers.Contains(player))
             {
-                response = CallvotePlugin.Instance.Translation.NoOptionAvailable.Replace("%Option%", Command);
+                response = CallvotePlugin.Instance.Translation.NoPermission;
                 return false;
             }
 
-            response = VoteHandler.CurrentVote.SubmitVoteOption(player, vote);
+            if (!VoteHandler.CurrentVote.TryGetVoteOptionFromCommand(this.Command, out VoteOption vote))
+            {
+                response = CallvotePlugin.Instance.Translation.NoOptionAvailable.Replace("%Option%", this.Command);
+                return false;
+            }
+
+            if (VoteHandler.CurrentVote.PlayerVote.TryGetValue(player, out VoteOption v) && v == vote)
+            {
+                response = CallvotePlugin.Instance.Translation.AlreadyVoted;
+                return false;
+            }
+
+            if (!VoteHandler.CurrentVote.SubmitVoteOption(player, vote))
+            {
+                response = "Something went wrong.";
+                return false;
+            }
+
+            response = CallvotePlugin.Instance.Translation.VoteAccepted.Replace("%Option%", vote.Detail);
             return true;
         }
     }

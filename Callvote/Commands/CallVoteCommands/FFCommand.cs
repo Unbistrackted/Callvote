@@ -8,6 +8,7 @@ using LabApi.Features.Wrappers;
 #endif
 using System;
 using Callvote.API;
+using Callvote.Features.Enums;
 using Callvote.Features.PredefinedVotes;
 using CommandSystem;
 
@@ -66,7 +67,9 @@ namespace Callvote.Commands.CallVoteCommands
                 question = CallvotePlugin.Instance.Translation.AskedToEnableFf;
             }
 
-            response = VoteHandler.CallVote(new FFVote(player));
+            CallVoteStatusEnum status = VoteHandler.CallVote(new FFVote(player));
+
+            response = VoteHandler.GetMessageFromCallVoteStatus(status);
             return true;
         }
     }

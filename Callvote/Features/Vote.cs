@@ -118,32 +118,32 @@ namespace Callvote.Features
         /// </summary>
         /// <param name="player">The <see cref="Player"/> who is will be submiting the vote option.</param>
         /// <param name="vote">The <see cref="Features.VoteOption"/> that will be selected.</param>
-        /// <returns>A <see cref="string"/> representing if the vote process was sucessful or not.</returns>
+        /// <returns>A <see cref="bool"/> representing if the vote process was sucessful or not.</returns>
         /// <remarks>
         /// The vote will only go through if the <see cref="voteCoroutine"/> is active.
         /// </remarks>
-        public string SubmitVoteOption(Player player, VoteOption vote)
+        public bool SubmitVoteOption(Player player, VoteOption vote)
         {
             if (!this.voteCoroutine.IsRunning)
             {
-                return Translation.NoVoteInProgress;
+                return false;
             }
 
             if (!this.AllowedPlayers.Contains(player))
             {
-                return Translation.NoPermission;
+                return false;
             }
 
             if (!this.IsVoteOptionPresent(vote))
             {
-                return Translation.NoOptionAvailable.Replace("%Option%", vote.Option ?? string.Empty);
+                return false;
             }
 
             if (this.PlayerVote.ContainsKey(player))
             {
                 if (this.PlayerVote[player] == vote)
                 {
-                    return Translation.AlreadyVoted;
+                    return false;
                 }
 
                 this.Counter.AddOrUpdate(this.PlayerVote[player], 0, (key, value) => Math.Max(0, value - 1)); // Removes the Value of the previous vote of the player
@@ -157,7 +157,7 @@ namespace Callvote.Features
 
             this.Counter.AddOrUpdate(vote, 1, (key, value) => value + 1);
 
-            return Translation.VoteAccepted.Replace("%Option%", vote.Option);
+            return true;
         }
 
         /// <summary>
@@ -249,18 +249,10 @@ namespace Callvote.Features
         /// <summary>
         /// Starts the <see cref="Vote"/> by registering the commands and starting the coroutine.
         /// </summary>
-        /// <returns>The response message set by operations on the handler (e.g. "Queue is full" or "Vote enqueued").</returns>
-        internal string Start()
+        internal void Start()
         {
-            if (!VoteHandler.IsCallVoteAllowed(this.CallVotePlayer))
-            {
-                return Translation.MaxVote;
-            }
-
             this.RegisterVoteOptionsCommand();
             this.StartVoteCoroutine();
-
-            return Translation.VoteStarted;
         }
 
         /// <summary>

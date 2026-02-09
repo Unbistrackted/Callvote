@@ -1,5 +1,4 @@
 ﻿#if EXILED
-using Exiled.API.Features;
 using Callvote.Commands.QueueCommands;
 #else
 using LabApi.Features.Wrappers;
@@ -27,12 +26,12 @@ namespace Callvote.Commands.ParentCommands
         public override void LoadGeneratedCommands()
         {
 #if EXILED
-            RegisterCommand(new CheckQueueCommand());
-            RegisterCommand(new ClearQueueCommand());
-            RegisterCommand(new RemovePlayerFromQueueCommand());
-            RegisterCommand(new RemoveTypeFromQueueCommand());
-            RegisterCommand(new RemoveXFromQueueCommand());
-            RegisterCommand(new PauseQueueCommand());
+            this.RegisterCommand(new CheckQueueCommand());
+            this.RegisterCommand(new ClearQueueCommand());
+            this.RegisterCommand(new RemovePlayerFromQueueCommand());
+            this.RegisterCommand(new RemoveTypeFromQueueCommand());
+            this.RegisterCommand(new RemoveXFromQueueCommand());
+            this.RegisterCommand(new PauseQueueCommand());
 #endif
         }
 

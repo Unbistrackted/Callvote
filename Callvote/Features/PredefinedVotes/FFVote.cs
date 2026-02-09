@@ -37,22 +37,25 @@ namespace Callvote.Features.PredefinedVotes
             if (yesVotePercent >= Config.ThresholdFf && yesVotePercent > noVotePercent)
             {
                 message = Server.FriendlyFire
-                    ? Translation.DisablingFriendlyFire
-                    : Translation.EnablingFriendlyFire;
+                    ? Translation.EnablingFriendlyFire
+                    : Translation.DisablingFriendlyFire;
 
-                message = message.Replace("%VotePercent%", yesVotePercent.ToString());
+                message = message
+                    .Replace("%VotePercent%", yesVotePercent.ToString())
+                    .Replace("%VoteDetail%", binaryVote.YesVoteOption.Detail);
 
                 Server.FriendlyFire = !Server.FriendlyFire;
             }
             else
             {
                 message = Server.FriendlyFire
-                    ? Translation.NoSuccessFullEnableFf
-                    : Translation.NoSuccessFullDisableFf;
+                    ? Translation.NoSuccessFullDisableFf
+                    : Translation.NoSuccessFullEnableFf;
 
                 message = message
                     .Replace("%VotePercent%", yesVotePercent.ToString())
-                    .Replace("%ThresholdFF%", Config.ThresholdFf.ToString());
+                    .Replace("%ThresholdFF%", Config.ThresholdFf.ToString())
+                    .Replace("%VoteDetail%", binaryVote.YesVoteOption.Detail);
             }
 
             SoftDependency.MessageProvider.DisplayMessage(

@@ -1,11 +1,11 @@
 ﻿namespace Callvote.Features.Enums
 {
     /// <summary>
-    /// Represents the enumeration for Vote types.
+    /// Represents the enumeration for <see cref="Vote"/> types.
     /// </summary>
-    internal enum VoteTypeEnum
+    public enum VoteTypeEnum
     {
-#pragma warning disable SA1602 // Enumeration items should be documented
+#pragma warning disable SA1602 // Enumeration items should be documented - The enum values are self-explanatory.
         Binary,
         Ff,
         Kick,
@@ -14,6 +14,6 @@
         RespawnWave,
         RestartRound,
         Custom,
-#pragma warning restore SA1602 // Enumeration items should be documented
+#pragma warning restore SA1602 // Enumeration items should be documented - The enum values are self-explanatory.
     }
 }
