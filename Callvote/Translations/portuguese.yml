@@ -5,8 +5,8 @@
   max_vote: 'Quantidade máxima de chamada de votação feita nessa partida.'
   vote_in_progress: 'Uma votação está atualmente em progresso'
   players_with_same_name: 'Múltiplos jogadores têm um nome ou nome parcial de %Player%. Por favor, use um argumento de pesquisa diferente.'
-  option_yes: '<color=green>SIM</color>'
-  option_no: '<color=red>NÃO</color>'
+  detail_yes: '<color=green>SIM</color>'
+  detail_no: '<color=red>NÃO</color>'
   player_kicked: '%Offender% foi expulso por %Reason%.'
   asked_to_kill: '%Player% <color=#EEDC8A>pergunta</color>: Expulsar %Offender% por %Reason%?'
   untouchable: '%VotePercent%% votaram para matar ou expulsar você.'
@@ -24,8 +24,8 @@
   asked_question: |
     %Question% 
      <color=#bce3a3>Pressione ' e digite</color> ou <color=#939383>Defina um atalho em Server-specific!</color>
-  option_mtf: '<color=blue>MTF</color>'
-  option_ci: '<color=green>CI</color>'
+  detail_mtf: '<color=blue>MTF</color>'
+  detail_ci: '<color=green>CI</color>'
   ci_respawn: '%VotePercent%% votaram <color=green>SIM</color>. Forçando o reaparecimento da CI...'
   enabling_friendly_fire: '%VotePercent%% votaram <color=green>YES</color>. Desabilitando o Friendly Fire..'
   disabling_friendly_fire: '%VotePercent%% votaram <color=green>YES</color>. Habilitando o Friendly Fire..'

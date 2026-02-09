@@ -109,9 +109,9 @@ namespace Callvote.Features.PredefinedVotes
 
         private static HashSet<VoteOption> AddOptions(out VoteOption no, out VoteOption mtf, out VoteOption ci)
         {
-            no = new VoteOption(Translation.CommandNo, Translation.OptionNo);
-            mtf = new VoteOption(Translation.CommandMobileTaskForce, Translation.OptionMtf);
-            ci = new VoteOption(Translation.CommandChaosInsurgency, Translation.OptionCi);
+            no = new VoteOption(Translation.CommandNo, Translation.DetailNo);
+            mtf = new VoteOption(Translation.CommandMobileTaskForce, Translation.DetailMtf);
+            ci = new VoteOption(Translation.CommandChaosInsurgency, Translation.DetailCi);
 
             return [no, mtf, ci];
         }

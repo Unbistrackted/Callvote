@@ -5,8 +5,8 @@
   max_vote: '<color=#F5CBA7>Bu turda kullanılabilecek maksimum oylama sayısına ulaşıldı</color>'
   vote_n_progress: 'Şu anda bir oylama devam ediyor.'
   players_with_same_name: '<color=#FADBD8>%Player% ile eşleşen birden fazla oyuncu bulundu. Lütfen daha özgün bir arama terimi kullanın.</color>'
-  option_yes: '<color=#58D68D><b>EVET</b></color>'
-  option_no: '<color=#EC7063><b>HAYIR</b></color>'
+  detail_yes: '<color=#58D68D><b>EVET</b></color>'
+  detail_no: '<color=#EC7063><b>HAYIR</b></color>'
   player_kicked: '<color=#F5CBA7>%Offender%</color> <color=#E59866>şu nedenle oyla atıldı:</color> %Reason%'
   asked_to_kill: '%Player% <color=#F9E79F>talep ediyor</color>: <color=#F7DC6F>%Offender%</color> <color=#E59866>öldürülsün mü? Sebep:</color> %Reason%'
   untouchable: '<color=#E74C3C>%VotePercent%%</color> <color=#A9CCE3>oyuncu sizi öldürmek ya da atmak için oy verdi.</color>'
@@ -24,8 +24,8 @@
   asked_question: |
     <color=#FADBD8>%Question%</color>
     <color=#D6EAF8>~ tuşuna basarak yaz</color> ya da <color=#F9E79F>sunucu ayarlarından kısayol ata!</color>
-  option_mtf: '<color=#85C1E9><b>MTF</b></color>'
-  option_ci: '<color=#82E0AA><b>CI</b></color>'
+  detail_mtf: '<color=#85C1E9><b>MTF</b></color>'
+  detail_ci: '<color=#82E0AA><b>CI</b></color>'
   ci_respawn: '<color=#82E0AA>%VotePercent%%</color> EVET dedi. CI yeniden doğuyor...'
   enabling_friendly_fire: '<color=#A3E4D7>%VotePercent%%</color> EVET dedi. Dost ateşi devre dışı bırakılıyor...'
   disabling_friendly_fire: '<color=#F9E79F>%VotePercent%%</color> EVET dedi. Dost ateşi etkinleştiriliyor...'

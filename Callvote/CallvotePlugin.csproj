@@ -26,7 +26,7 @@
 		<PackageId>Callvote</PackageId>
 		<Title>Callvote</Title>
 		<Product>Callvote</Product>
-		<Version>6.7.1</Version>
+		<Version>7.0.0</Version>
 		<Authors>Unbistrackted,PatPeter</Authors>
 		<Copyright>Modified BSD</Copyright>
 		<Description>Callvote command like in the Source engine. Vote to kick users, restart round, or make your own custom votes.</Description>
@@ -43,12 +43,12 @@
 	<PropertyGroup Condition="'$(Configuration)' == 'Release'">
 		<PackageId>Callvote.LabAPI</PackageId>
 		<AssemblyName>Callvote-LabAPI</AssemblyName>
-		<Version>6.7.1+LabAPI</Version>
+		<Version>7.0.0+LabAPI</Version>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)' == 'EXILED'">
 		<PackageId>Callvote.EXILED</PackageId>
 		<AssemblyName>Callvote-EXILED</AssemblyName>
-		<Version>6.7.1+EXILED</Version>
+		<Version>7.0.0+EXILED</Version>
 	</PropertyGroup>
 
 	<ItemGroup>

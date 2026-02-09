@@ -5,8 +5,8 @@ Callvote:
   max_vote: 'Osiągnięto maksymalną ilość głosowań w tej rundzie.'
   vote_in_progress: 'Głosowanie jest w trakcie.'
   players_with_same_name: 'Wielu graczy ma nazwę lub fragment nazwy %Player%. Użyj innego ciągu wyszukiwania.'
-  option_yes: '<color=green>TAK</color>'
-  option_no: '<color=red>NIE</color>'
+  detail_yes: '<color=green>TAK</color>'
+  detail_no: '<color=red>NIE</color>'
   player_kicked: '%Offender% został wyrzucony za %Reason%.'
   asked_to_kill: '%Player% <color=#EEDC8A>pyta o</color>: wyrzucenie %Offender% za %Reason%?'
   untouchable: '%VotePercent%% zagłosowało, aby cie wyrzucić lub zabić.'
@@ -22,10 +22,10 @@ Callvote:
   option_and_counter: ' %VoteDetail% (%VoteCounter%) '
   options: '.%VoteCommand% = %VoteDetail% '
   asked_question: |
-    %Question% 
+    %Question%
      <color=#bce3a3>Naciśnij ~ i wpisz</color> lub <color=#939383>Ustaw przycisk w Server-specific!</color>
-  option_mtf: '<color=blue>MTF</color>'
-  option_ci: '<color=green>CI</color>'
+  detail_mtf: '<color=blue>MTF</color>'
+  detail_ci: '<color=green>CI</color>'
   ci_respawn: '%VotePercent%% zagłosowało <color=green>TAK</color>. Wymuszanie odrodzenia CI..'
   enabling_friendly_fire: '%VotePercent%% zagłosowało <color=green>TAK</color>. Wyłączanie Friendly Fire..'
   disabling_friendly_fire: '%VotePercent%% zagłosowało <color=green>TAK</color>. Włączanie Friendly Fire..'

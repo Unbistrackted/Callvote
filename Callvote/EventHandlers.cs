@@ -62,7 +62,7 @@ namespace Callvote
 
         private void OnUserInput(ReferenceHub sender, ServerSpecificSettingBase settingBase)
         {
-            if (!VoteHandler.IsVoteActive)
+            if (!VoteHandler.IsVoteActive || !Config.EnableSSMenu)
             {
                 return;
             }

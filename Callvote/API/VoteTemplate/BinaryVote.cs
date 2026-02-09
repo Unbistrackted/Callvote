@@ -41,8 +41,8 @@ namespace Callvote.API.VoteTemplate
 
         private static HashSet<VoteOption> AddVotes(out VoteOption yes, out VoteOption no)
         {
-            yes = new VoteOption(CallvotePlugin.Instance.Translation.CommandYes, CallvotePlugin.Instance.Translation.OptionYes);
-            no = new VoteOption(CallvotePlugin.Instance.Translation.CommandNo, CallvotePlugin.Instance.Translation.OptionNo);
+            yes = new VoteOption(CallvotePlugin.Instance.Translation.CommandYes, CallvotePlugin.Instance.Translation.DetailYes);
+            no = new VoteOption(CallvotePlugin.Instance.Translation.CommandNo, CallvotePlugin.Instance.Translation.DetailNo);
 
             return [yes, no];
         }

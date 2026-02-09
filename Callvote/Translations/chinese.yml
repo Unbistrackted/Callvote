@@ -5,8 +5,8 @@ Callvote:
   max_vote: '本场游戏最多的投票数。'
   vote_in_progress: '当前正在进行一场投票'
   players_with_same_name: '有多个玩家名称或部分名称为 %Player%。请使用与之不同的名字'
-  option_yes: '<color=green>是</color>'
-  option_no: '<color=red>否</color>'
+  detail_yes: '<color=green>是</color>'
+  detail_no: '<color=red>否</color>'
   player_kicked: '%Offender% 因 %Reason% 被踢出。'
   asked_to_kill: '%Player% 发起投票：是否因为 %Reason% 的原因驱逐 %Offender%？'
   untouchable: '%VotePercent%% 的玩家投票要杀死或将你踢出。'
@@ -24,8 +24,8 @@ Callvote:
   asked_question: |
     %Question% 
      <color=#bce3a3>按 ' 并输入</color> 或 <color=#939383>在Server-specific设置中设置快捷键！</color>
-  option_mtf: '<color=blue>基金会成员</color>'
-  option_ci: '<color=green>混沌分裂者</color>'
+  detail_mtf: '<color=blue>基金会成员</color>'
+  detail_ci: '<color=green>混沌分裂者</color>'
   ci_respawn: '%VotePercent%% 投了 是。强制重生混沌分裂者...'
   enabling_friendly_fire: '%VotePercent%% 投了 <color=green>是</color>。正在禁用队友伤害...'
   disabling_friendly_fire: '%VotePercent%% 投了 <color=green>是</color>。正在启用队友伤害...'

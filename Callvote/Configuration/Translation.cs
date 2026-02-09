@@ -18,16 +18,16 @@ namespace Callvote.Configuration
 
         public string OptionAndCounter { get; set; } = " %VoteDetail% (%VoteCounter%) ";
 
-        [Description("Options:")]
-        public string OptionYes { get; set; } = "<color=green>YES</color>";
-
-        public string OptionNo { get; set; } = "<color=red>NO</color>";
-
-        public string OptionMtf { get; set; } = "<color=blue>MTF</color>";
-
-        public string OptionCi { get; set; } = "<color=green>CI</color>";
-
         public string Options { get; set; } = ".%VoteCommand% = %VoteDetail% ";
+
+        [Description("Details:")]
+        public string DetailYes { get; set; } = "<color=green>YES</color>";
+
+        public string DetailNo { get; set; } = "<color=red>NO</color>";
+
+        public string DetailMtf { get; set; } = "<color=blue>MTF</color>";
+
+        public string DetailCi { get; set; } = "<color=green>CI</color>";
 
         [Description("Questions:")]
         public string AskedCustom { get; set; } = "%Player% <color=#EEDC8A>asks</color>: %Custom%";

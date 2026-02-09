@@ -19,7 +19,7 @@ namespace Callvote.Configuration
         public bool Debug { get; set; } = false;
 
 #endif
-        [Description("Which message provider should Callvote use? You can choose between auto, hsm, ruei, or broadcasts / bc. (In auto mode, if both HSM and RUEI are present on the server, it falls back to broadcasts.)")]
+        [Description("Which message provider should Callvote use? You can choose between auto, ruei, or broadcasts / bc.")]
         public string MessageProvider { get; set; } = "auto";
 
         [Description("Sets the Y coordinate of the hint on a scale from 0-1000, where 0 represents the bottom of the screen (Doesn't apply for broadcasts)")]
@@ -87,7 +87,9 @@ namespace Callvote.Configuration
         [Description("Add a Discord Webhook if you want to send a Vote Result message to discord.")]
         public string DiscordWebhook { get; set; } = string.Empty;
 
-        [Description("Changes Callvote's SS Menu settings ID.")]
+        [Description("Callvote's SS Menu related settings.")]
+        public bool EnableSSMenu { get; set; } = true;
+
         public int HeaderSettingId { get; set; } = 887;
 
         public int YesKeybindSettingId { get; set; } = 888;

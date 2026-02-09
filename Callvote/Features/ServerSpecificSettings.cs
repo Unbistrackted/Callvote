@@ -28,15 +28,20 @@ namespace Callvote.Features
 
         internal static void RegisterSettings()
         {
+            if (!Config.EnableSSMenu)
+            {
+                return;
+            }
+
             settingsHeader = new(Config.HeaderSettingId, AssemblyInfo.Name);
 
-            yesKeybindSetting = new SSKeybindSetting(Config.YesKeybindSettingId, Translation.VoteKeybind.Replace("%Option%", Translation.OptionYes), KeyCode.Y, hint: Translation.KeybindHint.Replace("%Option%", Translation.OptionYes));
-            noKeybindSetting = new SSKeybindSetting(Config.NoKeybindSettingId, Translation.VoteKeybind.Replace("%Option%", Translation.OptionNo), KeyCode.U, hint: Translation.KeybindHint.Replace("%Option%", Translation.OptionNo));
+            yesKeybindSetting = new SSKeybindSetting(Config.YesKeybindSettingId, Translation.VoteKeybind.Replace("%Option%", Translation.DetailYes), KeyCode.Y, hint: Translation.KeybindHint.Replace("%Option%", Translation.DetailYes));
+            noKeybindSetting = new SSKeybindSetting(Config.NoKeybindSettingId, Translation.VoteKeybind.Replace("%Option%", Translation.DetailNo), KeyCode.U, hint: Translation.KeybindHint.Replace("%Option%", Translation.DetailNo));
 
             if (Config.EnableRespawnWave)
             {
-                mtfKeybindSetting = new SSKeybindSetting(Config.MtfKeybindSettingId, Translation.VoteKeybind.Replace("%Option%", Translation.OptionMtf), KeyCode.I, hint: Translation.KeybindHint.Replace("%Option%", Translation.OptionMtf));
-                ciKeybindSetting = new SSKeybindSetting(Config.CiKeybindSettingId, Translation.VoteKeybind.Replace("%Option%", Translation.OptionCi), KeyCode.O, hint: Translation.KeybindHint.Replace("%Option%", Translation.OptionCi));
+                mtfKeybindSetting = new SSKeybindSetting(Config.MtfKeybindSettingId, Translation.VoteKeybind.Replace("%Option%", Translation.DetailMtf), KeyCode.I, hint: Translation.KeybindHint.Replace("%Option%", Translation.DetailMtf));
+                ciKeybindSetting = new SSKeybindSetting(Config.CiKeybindSettingId, Translation.VoteKeybind.Replace("%Option%", Translation.DetailCi), KeyCode.O, hint: Translation.KeybindHint.Replace("%Option%", Translation.DetailCi));
             }
 
             CallvoteSettings =

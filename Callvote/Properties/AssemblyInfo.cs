@@ -50,6 +50,6 @@ namespace Callvote.Properties
         internal const string Id = "unbistrackted.Callvote";
         internal const string ConfigPrefix = "Callvote";
         internal const string LangFile = "Callvote";
-        internal const string Version = "6.7.1";
+        internal const string Version = "7.0.0";
     }
 }

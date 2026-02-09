@@ -5,8 +5,8 @@ Callvote:
   max_vote: 'Максимальное количество голосов, сделаных в этом раунде'
   vote_in_progress: 'В настоящее время идет голосование.'
   players_with_same_name: 'У нескольких игроков есть имя или часть имени %Player%. Пожалуйста, используйте другую строку поиска.'
-  option_yes: '<color=green>ДА</color>'
-  option_no: '<color=red>НЕТ</color>'
+  detail_yes: '<color=green>ДА</color>'
+  detail_no: '<color=red>НЕТ</color>'
   player_kicked: '%Offender% был исключен по %Reason%.'
   asked_to_kill: '%Player% <color=#EEDC8A>спрашивает</color>: Выгнать %Offender% за %Reason%?'
   untouchable: '%VotePercent%% проголосовали выгнать или убить тебя.'
@@ -24,8 +24,8 @@ Callvote:
   asked_question: |
     %Question% 
      <color=#bce3a3>Нажми ~ и голосуй</color> или <color=#939383>Поставь кейбинд в Сервер-специфичный!</color>
-  option_mtf: '<color=blue>Мобильная Оперативная Группа</color>'
-  option_ci: '<color=green>Повстанцы Хаоса</color>'
+  detail_mtf: '<color=blue>Мобильная Оперативная Группа</color>'
+  detail_ci: '<color=green>Повстанцы Хаоса</color>'
   ci_respawn: '%VotePercent%% проголосовали <color=green>ДА</color>. Отправляем Повстанцев Хаоса в Фонд..'
   enabling_friendly_fire: '%VotePercent%% проголосовали <color=green>ДА</color>. Включаем Френдли Фаер..'
   disabling_friendly_fire: '%VotePercent%% проголосовали <color=green>ДА</color>. Выключаем Френдли Фаер..'

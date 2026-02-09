@@ -5,8 +5,8 @@ Callvote:
   max_vote: 'Le nombre maximal de votes sur ce round a été atteint.'
   vote_in_progress: 'Un vote est actuellement en cours.'
   players_with_same_name: 'Plusieurs joueurs ont un nom complet ou partiel de %Player%. Veuillez utiliser un texte de recherche plus précis.'
-  option_yes: '<color=green>OUI</color>'
-  option_no: '<color=red>NON</color>'
+  detail_yes: '<color=green>OUI</color>'
+  detail_no: '<color=red>NON</color>'
   player_kicked: '%Offender% a été éjecté pour %Reason%.'
   asked_to_kill: '%Player% <color=#EEDC8A>demande</color>: Éjection de %Offender% pour %Reason%?'
   untouchable: '%VotePercent%% ont voté pour vous éjecter ou vous tuer.'
@@ -24,8 +24,8 @@ Callvote:
   asked_question: |
     %Question% 
      <color=#bce3a3>Pressez ~ et écrivez</color> ou <color=#939383>Définissez la touche dans *ServerSpecific* !</color>
-  option_mtf: '<color=blue>NTF</color>'
-  option_ci: '<color=green>Chaos</color>'
+  detail_mtf: '<color=blue>NTF</color>'
+  detail_ci: '<color=green>Chaos</color>'
   ci_respawn: '%VotePercent%% ont voté <color=green>OUI</color>. Forçant la réapparition des Chaos...'
   enabling_friendly_fire: '%VotePercent%% ont voté <color=green>OUI</color>. Désactivant le tir allié...'
   disabling_friendly_fire: '%VotePercent%% ont voté <color=green>OUI</color>. Activation du tir allié...'
