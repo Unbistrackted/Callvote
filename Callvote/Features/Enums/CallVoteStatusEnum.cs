@@ -7,13 +7,22 @@ namespace Callvote.Features.Enums
     /// </summary>
     public enum CallVoteStatusEnum
     {
-#pragma warning disable SA1602 // Enumeration items should be documented - The enum values are self-explanatory.
+        /// <summary><see cref="Vote"/>  was enqueued.</summary>
         VoteEnqueued = -1,
+
+        /// <summary><see cref="Vote"/>  has started.</summary>
         VoteStarted,
+
+        /// <summary>There is a <see cref="Vote"/> currently in progress.</summary>
         VoteInProgress,
+
+        /// <summary>The <see cref="VoteHandler.VoteQueue"/> is full.</summary>
         QueueIsFull,
+
+        /// <summary>The <see cref="VoteHandler.VoteQueue"/> is disabled.</summary>
         QueueDisabled,
+
+        /// <summary>The Player reached the maximum ammount of votes in a round.</summary>
         MaxedCallVotes,
-#pragma warning restore SA1602 // Enumeration items should be documented - The enum values are self-explanatory.
     }
 }
