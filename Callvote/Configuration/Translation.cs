@@ -32,7 +32,7 @@ namespace Callvote.Configuration
         [Description("Questions:")]
         public string AskedCustom { get; set; } = "%Player% <color=#EEDC8A>asks</color>: %Custom%";
 
-        public string AskedToKill { get; set; } = "%Player% <color=#EEDC8A>asks</color>: Kick %Offender% for %Reason%?";
+        public string AskedToKill { get; set; } = "%Player% <color=#EEDC8A>asks</color>: Kill %Offender% for %Reason%?";
 
         public string AskedToRespawn { get; set; } = "%Player% <color=#EEDC8A>asks</color>: Respawn the next wave?";
 
