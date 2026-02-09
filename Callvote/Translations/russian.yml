@@ -3,7 +3,7 @@ Callvote:
   # %player%, %VotePercent%, %Offender%, %ThresholdKick%, %ThresholdRespawnWave%, %ThresholdNuke%, %ThresholdKill%, %ThresholdRestartRound%, %VoteDetail%, %VoteCommand%, %VoteCounter%, %Timer%, %Custom%, %Type%, %Number%
   wrong_syntax: "Неверный синтаксис, используйте callvote help"
   max_vote: 'Максимальное количество голосов, сделаных в этом раунде'
-  voting_in_progress: 'В настоящее время идет голосование.'
+  vote_in_progress: 'В настоящее время идет голосование.'
   players_with_same_name: 'У нескольких игроков есть имя или часть имени %Player%. Пожалуйста, используйте другую строку поиска.'
   option_yes: '<color=green>ДА</color>'
   option_no: '<color=red>НЕТ</color>'
@@ -16,7 +16,7 @@ Callvote:
   already_voted: 'Ты уже проголосовал.'
   vote_accepted: 'Ты проголосовал за %Option%.'
   no_permission: 'У вас нет прав на выполнение этой команды!'
-  voting_stoped: 'Голосование приостановлено.'
+  vote_stoped: 'Голосование приостановлено.'
   results: |
     Final results:
   option_and_counter: ' %VoteDetail% (%VoteCounter%) '
@@ -51,8 +51,8 @@ Callvote:
   no_success_full_restart: 'Только %VotePercent%% проголосовали за. %ThresholdRestartRound%% требовалось перезапустить раунд.'
   no_success_full_enable_ff: 'Только %VotePercent%% проголосовали за. %ThresholdFF%% требовалось включить Френдли Фаер.'
   no_success_full_disable_ff: 'Только %VotePercent%% проголосовали за. %ThresholdFF%% требовалось отключить Френдли Фаер.'
-  voting_started: 'Голосование началось!'
-  no_voting_in_progress: 'Голосование не проводится.'
+  vote_started: 'Голосование началось!'
+  no_vote_in_progress: 'Голосование не проводится.'
   wait_to_vote: 'Ты должен подождать %Timer%s прежде чем использовать эту команду.'
   asked_custom: '%Player% <color=#EEDC8A>спрашивает</color>: %Custom%'
   pass_reason: 'Вам необходимо указать причину!'
@@ -64,10 +64,10 @@ Callvote:
   queue_cleared: 'Очередь Голосований Отчищена.'
   queue_paused: 'Очередь на паузе.'
   queue_resumed: 'Очередь голосований возобновлена.'
-  removed_from_queue: 'Removed %Number% Voting(s)'
-  no_voting_in_queue: 'В очереди нету других голосов.'
+  removed_from_queue: 'Removed %Number% Vote(s)'
+  no_vote_in_queue: 'В очереди нету других голосов.'
   queue_is_full: '<color=red>Очередь полна.</color>'
-  voting_enqueued: '<color=#EDF193>Голосование поставлено в очередь.</color>'
+  vote_enqueued: '<color=#EDF193>Голосование поставлено в очередь.</color>'
   type_not_found: 'Не найдено ни одного голосования с типом <color=red>%Type%</color>'
   invalid_argument: 'Неверный аргумент.'
   translation_changed: "Изменён перевод на: Русский (by wand098)"

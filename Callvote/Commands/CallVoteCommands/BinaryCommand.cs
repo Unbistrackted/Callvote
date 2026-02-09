@@ -8,14 +8,14 @@ using LabApi.Features.Wrappers;
 #endif
 using System;
 using Callvote.API;
-using Callvote.API.VotingsTemplate;
+using Callvote.API.VoteTemplate;
 using Callvote.Features.Enums;
 using CommandSystem;
 
-namespace Callvote.Commands.VotingCommands
+namespace Callvote.Commands.CallVoteCommands
 {
 #if !EXILED
-    [CommandHandler(typeof(CallVoteCommand))]
+    [CommandHandler(typeof(CallVoteParentCommand))]
 #endif
     public class BinaryCommand : ICommand
     {
@@ -23,7 +23,7 @@ namespace Callvote.Commands.VotingCommands
 
         public string[] Aliases => ["binario", "bi", "b", "yesno"];
 
-        public string Description => "Calls a binary voting.";
+        public string Description => "Calls a binary vote.";
 
         public bool Execute(ArraySegment<string> args, ICommandSender sender, out string response)
         {
@@ -39,7 +39,7 @@ namespace Callvote.Commands.VotingCommands
                 return false;
             }
 
-            response = VotingHandler.CallVoting(new BinaryVoting(player, CallvotePlugin.Instance.Translation.AskedCustom.Replace("%Player%", player.Nickname).Replace("%Custom%", string.Join(" ", args)), nameof(VotingTypeEnum.Binary), null));
+            response = VoteHandler.CallVote(new BinaryVote(player, CallvotePlugin.Instance.Translation.AskedCustom.Replace("%Player%", player.Nickname).Replace("%Custom%", string.Join(" ", args)), nameof(VoteTypeEnum.Binary), null));
             return true;
         }
     }

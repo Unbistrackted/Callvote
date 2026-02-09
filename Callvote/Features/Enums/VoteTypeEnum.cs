@@ -1,9 +1,9 @@
 ﻿namespace Callvote.Features.Enums
 {
     /// <summary>
-    /// Represents the enumeration for votings type.
+    /// Represents the enumeration for Vote types.
     /// </summary>
-    internal enum VotingTypeEnum
+    internal enum VoteTypeEnum
     {
 #pragma warning disable SA1602 // Enumeration items should be documented
         Binary,

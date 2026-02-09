@@ -4,33 +4,33 @@ using Exiled.API.Features;
 using LabApi.Features.Wrappers;
 #endif
 using System;
-using Callvote.API.VotingsTemplate;
+using Callvote.API.VoteTemplate;
 using Callvote.Configuration;
 using Callvote.Features.Enums;
 using Callvote.Features.Interfaces;
 
-namespace Callvote.Features.PredefinedVotings
+namespace Callvote.Features.PredefinedVotes
 {
     /// <summary>
-    /// Represents the type for the Friendly Fire enable/disable Predefined Voting.
-    /// Initializes a new instance of the <see cref="FFVoting"/> class.
+    /// Represents the type for the Friendly Fire enable/disable Predefined Vote.
+    /// Initializes a new instance of the <see cref="FFVote"/> class.
     /// </summary>
-    /// <param name="player"><see cref="Voting.CallVotePlayer"/>.</param>
-    public class FFVoting(Player player) : BinaryVoting(player, ReplacePlayer(player), nameof(VotingTypeEnum.Ff), AddCallback), IVotingTemplate
+    /// <param name="player"><see cref="Vote.CallVotePlayer"/>.</param>
+    public class FFVote(Player player) : BinaryVote(player, ReplacePlayer(player), nameof(VoteTypeEnum.Ff), AddCallback), IPredefinedVote
     {
         private static Translation Translation => CallvotePlugin.Instance.Translation;
 
         private static Config Config => CallvotePlugin.Instance.Config;
 
-        private static void AddCallback(Voting voting)
+        private static void AddCallback(Vote vote)
         {
-            if (voting is not BinaryVoting binaryVoting)
+            if (vote is not BinaryVote binaryVote)
             {
                 return;
             }
 
-            int yesVotePercent = voting.GetVotePercentage(binaryVoting.YesVote);
-            int noVotePercent = voting.GetVotePercentage(binaryVoting.NoVote);
+            int yesVotePercent = vote.GetVoteOptionPercentage(binaryVote.YesVoteOption);
+            int noVotePercent = vote.GetVoteOptionPercentage(binaryVote.NoVoteOption);
 
             string message;
 
@@ -58,7 +58,7 @@ namespace Callvote.Features.PredefinedVotings
             SoftDependency.MessageProvider.DisplayMessage(
                 TimeSpan.FromSeconds(Config.FinalResultsDuration),
                 $"<size={DisplayMessageHelper.CalculateMessageSize(message)}>{message}</size>",
-                voting.AllowedPlayers);
+                vote.AllowedPlayers);
         }
 
         private static string ReplacePlayer(Player player)

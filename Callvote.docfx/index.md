@@ -8,9 +8,9 @@ _layout: landing
 
 ### What is Callvote?
 
-Callvote is a **Voting** plugin and framework for SCP:SL, written with usability in mind.
+Callvote is a **Vote** plugin and framework for SCP:SL, written with usability in mind.
 
-Callvote main purpose is to bring **Democracy🦅**to Secret Lab, so Players and Plugin Developers have an easy time creating votes for everyone to participate or ~~rig the system~~.
+Callvote main purpose is to bring **Democracy🦅**to SL, so Players and Plugin Developers have an easy time creating votes for everyone to participate or ~~rig the system~~.
 
 If you want to learn how to develop or use the plugin, please continue to [Installation](xref:install).<br><br>
 

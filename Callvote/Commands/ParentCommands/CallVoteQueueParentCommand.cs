@@ -1,22 +1,22 @@
 ﻿#if EXILED
 using Exiled.API.Features;
+using Callvote.Commands.QueueCommands;
 #else
 using LabApi.Features.Wrappers;
 #endif
 using System;
 using Callvote.API;
-using Callvote.Commands.QueueCommands;
 using Callvote.Features;
 using CommandSystem;
 
 namespace Callvote.Commands.ParentCommands
 {
 #if !EXILED
-    [CommandHandler(typeof(CallVoteCommand))]
+    [CommandHandler(typeof(CallVoteParentCommand))]
 #endif
-    public class CallVoteQueueCommand : ParentCommand
+    public class CallVoteQueueParentCommand : ParentCommand
     {
-        public CallVoteQueueCommand() => this.LoadGeneratedCommands();
+        public CallVoteQueueParentCommand() => this.LoadGeneratedCommands();
 
         public override string Command => "queue";
 
@@ -44,23 +44,21 @@ namespace Callvote.Commands.ParentCommands
                 return false;
             }
 
-            Player player = Player.Get(sender);
-
-            if (VotingHandler.VotingQueue.Count == 0)
+            if (VoteHandler.VoteQueue.Count == 0)
             {
-                response = CallvotePlugin.Instance.Translation.NoVotingInQueue;
+                response = CallvotePlugin.Instance.Translation.NoVoteInQueue;
                 return false;
             }
 
-            string votingsInfo = string.Empty;
+            string votesInfo = string.Empty;
             int counter = 0;
-            foreach (Voting voting in VotingHandler.VotingQueue)
+            foreach (Vote vote in VoteHandler.VoteQueue)
             {
-                votingsInfo += $"\nVoting {counter} ----- Type {voting.VotingType} ----- {voting.Question}\n";
+                votesInfo += $"\nVote {counter} ----- Type {vote.VoteType} ----- {vote.Question}\n";
                 counter++;
             }
 
-            response = votingsInfo;
+            response = votesInfo;
             return true;
         }
     }

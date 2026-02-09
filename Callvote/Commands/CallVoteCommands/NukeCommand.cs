@@ -8,13 +8,13 @@ using LabApi.Features.Wrappers;
 #endif
 using System;
 using Callvote.API;
-using Callvote.Features.PredefinedVotings;
+using Callvote.Features.PredefinedVotes;
 using CommandSystem;
 
-namespace Callvote.Commands.VotingCommands
+namespace Callvote.Commands.CallVoteCommands
 {
 #if !EXILED
-    [CommandHandler(typeof(CallVoteCommand))]
+    [CommandHandler(typeof(CallVoteParentCommand))]
 #endif
     public class NukeCommand : ICommand
     {
@@ -22,7 +22,7 @@ namespace Callvote.Commands.VotingCommands
 
         public string[] Aliases => ["nu", "bomba"];
 
-        public string Description => "Calls a nuke voting.";
+        public string Description => "Calls a nuke vote.";
 
         public bool Execute(ArraySegment<string> args, ICommandSender sender, out string response)
         {
@@ -54,7 +54,7 @@ namespace Callvote.Commands.VotingCommands
                 return false;
             }
 
-            response = VotingHandler.CallVoting(new NukeVoting(player));
+            response = VoteHandler.CallVote(new NukeVote(player));
             return true;
         }
     }

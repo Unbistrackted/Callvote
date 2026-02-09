@@ -11,16 +11,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Callvote.API;
-using Callvote.API.VotingsTemplate;
+using Callvote.API.VoteTemplate;
 using Callvote.Features.Enums;
 using CommandSystem;
 
-namespace Callvote.Commands.VotingCommands
+namespace Callvote.Commands.CallVoteCommands
 {
 #if !EXILED
-    [CommandHandler(typeof(CallVoteCommand))]
+    [CommandHandler(typeof(CallVoteParentCommand))]
 #endif
-    public class CustomVotingCommand : ICommand
+    public class CustomCommand : ICommand
     {
         private static readonly Regex CommandDetailRegex = new(@"^(\w+)\(([^)]+)\)$");
 
@@ -28,7 +28,7 @@ namespace Callvote.Commands.VotingCommands
 
         public string[] Aliases => ["c"];
 
-        public string Description => "Calls a custom voting.";
+        public string Description => "Calls a custom vote.";
 
         public bool Execute(ArraySegment<string> args, ICommandSender sender, out string response)
         {
@@ -65,10 +65,10 @@ namespace Callvote.Commands.VotingCommands
                 string command = match.Groups[1].Value;
                 string detail = match.Groups[2].Value;
 
-                VotingHandler.CreateVote(command, detail, out _);
+                VoteHandler.CreateVoteOption(command, detail, out _);
             }
 
-            response = VotingHandler.CallVoting(new CustomVoting(player, CallvotePlugin.Instance.Translation.AskedCustom.Replace("%Player%", player.Nickname).Replace("%Custom%", separatedArgs.First()), nameof(VotingTypeEnum.Custom)));
+            response = VoteHandler.CallVote(new CustomVote(player, CallvotePlugin.Instance.Translation.AskedCustom.Replace("%Player%", player.Nickname).Replace("%Custom%", separatedArgs.First()), nameof(VoteTypeEnum.Custom)));
             return true;
         }
 

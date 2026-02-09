@@ -8,7 +8,7 @@ using Callvote.API;
 using Callvote.Features;
 using CommandSystem;
 
-namespace Callvote.Commands.VotingCommands
+namespace Callvote.Commands.MiscellaneousCommands
 {
     public class VoteCommand : ICommand
     {
@@ -27,19 +27,19 @@ namespace Callvote.Commands.VotingCommands
         {
             Player player = Player.Get(sender);
 
-            if (!VotingHandler.IsVotingActive)
+            if (!VoteHandler.IsVoteActive)
             {
-                response = CallvotePlugin.Instance.Translation.NoVotingInProgress;
+                response = CallvotePlugin.Instance.Translation.NoVoteInProgress;
                 return false;
             }
 
-            if (!VotingHandler.CurrentVoting.TryGetVoteFromCommand(this.Command, out Vote vote))
+            if (!VoteHandler.CurrentVote.TryGetVoteOptionFromCommand(Command, out VoteOption vote))
             {
-                response = CallvotePlugin.Instance.Translation.NoOptionAvailable.Replace("%Option%", this.Command);
+                response = CallvotePlugin.Instance.Translation.NoOptionAvailable.Replace("%Option%", Command);
                 return false;
             }
 
-            response = VotingHandler.CurrentVoting.VoteOption(player, vote);
+            response = VoteHandler.CurrentVote.SubmitVoteOption(player, vote);
             return true;
         }
     }

@@ -6,7 +6,7 @@ using LabApi.Features.Wrappers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Callvote.API.VotingsTemplate;
+using Callvote.API.VoteTemplate;
 using Callvote.Configuration;
 using Callvote.Features.Enums;
 using Callvote.Features.Interfaces;
@@ -15,54 +15,54 @@ using Respawning;
 using Respawning.Config;
 using Respawning.Waves;
 
-namespace Callvote.Features.PredefinedVotings
+namespace Callvote.Features.PredefinedVotes
 {
     /// <summary>
-    /// Represents the type for the Respawn Wave Predefined Voting.
+    /// Represents the type for the Respawn Wave Predefined Vote.
     /// </summary>
-    public class RespawnWaveVoting : CustomVoting, IVotingTemplate
+    public class RespawnWaveVote : CustomVote, IPredefinedVote
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="RespawnWaveVoting"/> class.
+        /// Initializes a new instance of the <see cref="RespawnWaveVote"/> class.
         /// </summary>
-        /// <param name="player"><see cref="Voting.CallVotePlayer"/>.</param>
-        public RespawnWaveVoting(Player player)
-            : base(player, ReplacePlayer(player), nameof(VotingTypeEnum.RespawnWave), AddCallback, AddOptions(out Vote no, out Vote mtf, out Vote ci))
+        /// <param name="player"><see cref="Vote.CallVotePlayer"/>.</param>
+        public RespawnWaveVote(Player player)
+            : base(player, ReplacePlayer(player), nameof(VoteTypeEnum.RespawnWave), AddCallback, AddOptions(out VoteOption no, out VoteOption mtf, out VoteOption ci))
         {
-            this.NoVote = no;
-            this.MtfVote = mtf;
-            this.CiVote = ci;
+            this.NoVoteOption = no;
+            this.MtfVoteOption = mtf;
+            this.CiVoteOption = ci;
         }
 
         /// <summary>
-        /// Gets the No <see cref="Vote"/> option.
+        /// Gets the No <see cref="VoteOption"/> option.
         /// </summary>
-        public Vote NoVote { get; }
+        public VoteOption NoVoteOption { get; }
 
         /// <summary>
-        /// Gets the Mtf <see cref="Vote"/> option.
+        /// Gets the Mtf <see cref="VoteOption"/> option.
         /// </summary>
-        public Vote MtfVote { get; }
+        public VoteOption MtfVoteOption { get; }
 
         /// <summary>
-        /// Gets the Ci <see cref="Vote"/> option.
+        /// Gets the Ci <see cref="VoteOption"/> option.
         /// </summary>
-        public Vote CiVote { get; }
+        public VoteOption CiVoteOption { get; }
 
         private static Translation Translation => CallvotePlugin.Instance.Translation;
 
         private static Config Config => CallvotePlugin.Instance.Config;
 
-        private static void AddCallback(Voting voting)
+        private static void AddCallback(Vote vote)
         {
-            if (voting is not RespawnWaveVoting respawnVoting)
+            if (vote is not RespawnWaveVote respawnVote)
             {
                 return;
             }
 
-            int noVotePercent = voting.GetVotePercentage(respawnVoting.NoVote);
-            int mtfVotePercent = voting.GetVotePercentage(respawnVoting.MtfVote);
-            int ciVotePercent = voting.GetVotePercentage(respawnVoting.CiVote);
+            int noVotePercent = vote.GetVoteOptionPercentage(respawnVote.NoVoteOption);
+            int mtfVotePercent = vote.GetVoteOptionPercentage(respawnVote.MtfVoteOption);
+            int ciVotePercent = vote.GetVoteOptionPercentage(respawnVote.CiVoteOption);
 
             string message;
 
@@ -104,14 +104,14 @@ namespace Callvote.Features.PredefinedVotings
             SoftDependency.MessageProvider.DisplayMessage(
                 TimeSpan.FromSeconds(Config.FinalResultsDuration),
                 $"<size={DisplayMessageHelper.CalculateMessageSize(message)}>{message}</size>",
-                voting.AllowedPlayers);
+                vote.AllowedPlayers);
         }
 
-        private static HashSet<Vote> AddOptions(out Vote no, out Vote mtf, out Vote ci)
+        private static HashSet<VoteOption> AddOptions(out VoteOption no, out VoteOption mtf, out VoteOption ci)
         {
-            no = new Vote(Translation.CommandNo, Translation.OptionNo);
-            mtf = new Vote(Translation.CommandMobileTaskForce, Translation.OptionMtf);
-            ci = new Vote(Translation.CommandChaosInsurgency, Translation.OptionCi);
+            no = new VoteOption(Translation.CommandNo, Translation.OptionNo);
+            mtf = new VoteOption(Translation.CommandMobileTaskForce, Translation.OptionMtf);
+            ci = new VoteOption(Translation.CommandChaosInsurgency, Translation.OptionCi);
 
             return [no, mtf, ci];
         }

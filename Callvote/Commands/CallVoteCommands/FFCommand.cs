@@ -8,13 +8,13 @@ using LabApi.Features.Wrappers;
 #endif
 using System;
 using Callvote.API;
-using Callvote.Features.PredefinedVotings;
+using Callvote.Features.PredefinedVotes;
 using CommandSystem;
 
-namespace Callvote.Commands.VotingCommands
+namespace Callvote.Commands.CallVoteCommands
 {
 #if !EXILED
-    [CommandHandler(typeof(CallVoteCommand))]
+    [CommandHandler(typeof(CallVoteParentCommand))]
 #endif
     public class FFCommand : ICommand
     {
@@ -22,7 +22,7 @@ namespace Callvote.Commands.VotingCommands
 
         public string[] Aliases => ["ff"];
 
-        public string Description => "Calls a enable/disable ff voting.";
+        public string Description => "Calls a enable/disable ff vote.";
 
         public bool Execute(ArraySegment<string> args, ICommandSender sender, out string response)
         {
@@ -66,7 +66,7 @@ namespace Callvote.Commands.VotingCommands
                 question = CallvotePlugin.Instance.Translation.AskedToEnableFf;
             }
 
-            response = VotingHandler.CallVoting(new FFVoting(player));
+            response = VoteHandler.CallVote(new FFVote(player));
             return true;
         }
     }

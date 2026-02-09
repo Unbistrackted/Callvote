@@ -13,7 +13,7 @@ using CommandSystem;
 namespace Callvote.Commands.QueueCommands
 {
 #if !EXILED
-    [CommandHandler(typeof(CallVoteQueueCommand))]
+    [CommandHandler(typeof(CallVoteQueueParentCommand))]
 #endif
     public class ClearQueueCommand : ICommand
     {
@@ -21,7 +21,7 @@ namespace Callvote.Commands.QueueCommands
 
         public string[] Aliases => ["clq"];
 
-        public string Description => "Clears the voting queue.";
+        public string Description => "Clears the Vote Queue.";
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
@@ -42,7 +42,7 @@ namespace Callvote.Commands.QueueCommands
                 return false;
             }
 
-            VotingHandler.VotingQueue.Clear();
+            VoteHandler.VoteQueue.Clear();
             response = CallvotePlugin.Instance.Translation.QueueCleared;
             return true;
         }

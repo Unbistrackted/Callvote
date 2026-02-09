@@ -17,7 +17,7 @@ using CommandSystem;
 namespace Callvote.Commands.QueueCommands
 {
 #if !EXILED
-    [CommandHandler(typeof(CallVoteQueueCommand))]
+    [CommandHandler(typeof(CallVoteQueueParentCommand))]
 #endif
     public class RemovePlayerFromQueueCommand : ICommand
     {
@@ -25,7 +25,7 @@ namespace Callvote.Commands.QueueCommands
 
         public string[] Aliases => ["rplayer", "rp"];
 
-        public string Description => "Remove a certain Player from Voting queue.";
+        public string Description => "Remove a certain Player from Vote Queue.";
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
@@ -48,20 +48,20 @@ namespace Callvote.Commands.QueueCommands
 
             Player playerToRemove = Player.Get(arguments.At(0));
 
-            List<Voting> votingsToRemove = VotingHandler.VotingQueue.Where(voting => voting.CallVotePlayer.Equals(playerToRemove)).ToList();
+            List<Vote> votesToRemove = VoteHandler.VoteQueue.Where(v => v.CallVotePlayer.Equals(playerToRemove)).ToList();
 
-            if (votingsToRemove.Count() == 0)
+            if (votesToRemove.Count() == 0)
             {
                 response = CallvotePlugin.Instance.Translation.PlayerNotFound.Replace("%Player%", playerToRemove.Nickname);
                 return false;
             }
 
-            foreach (Voting vote in votingsToRemove)
+            foreach (Vote vote in votesToRemove)
             {
-                VotingHandler.VotingQueue.RemoveItemFromQueue(vote);
+                VoteHandler.VoteQueue.RemoveItemFromQueue(vote);
             }
 
-            response = CallvotePlugin.Instance.Translation.RemovedFromQueue.Replace("%Number%", votingsToRemove.Count.ToString());
+            response = CallvotePlugin.Instance.Translation.RemovedFromQueue.Replace("%Number%", votesToRemove.Count.ToString());
             return true;
         }
     }

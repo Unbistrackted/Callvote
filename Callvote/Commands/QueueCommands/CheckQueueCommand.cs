@@ -12,7 +12,7 @@ using CommandSystem;
 namespace Callvote.Commands.QueueCommands
 {
 #if !EXILED
-    [CommandHandler(typeof(CallVoteQueueCommand))]
+    [CommandHandler(typeof(CallVoteQueueParentCommand))]
 #endif
     public class CheckQueueCommand : ICommand
     {
@@ -20,7 +20,7 @@ namespace Callvote.Commands.QueueCommands
 
         public string[] Aliases => ["chk"];
 
-        public string Description => "Checks the voting queue.";
+        public string Description => "Checks the vote queue.";
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
@@ -32,22 +32,22 @@ namespace Callvote.Commands.QueueCommands
 
             Player player = Player.Get(sender);
 
-            if (VotingHandler.VotingQueue.Count == 0)
+            if (VoteHandler.VoteQueue.Count == 0)
             {
-                response = CallvotePlugin.Instance.Translation.NoVotingInQueue;
+                response = CallvotePlugin.Instance.Translation.NoVoteInQueue;
                 return false;
             }
 
-            string votingsInfo = string.Empty;
+            string votesInfo = string.Empty;
             int counter = 0;
 
-            foreach (Voting voting in VotingHandler.VotingQueue)
+            foreach (Vote vote in VoteHandler.VoteQueue)
             {
-                votingsInfo += $"\nVoting {counter} ----- Type {voting.VotingType} ----- {voting.Question}\n";
+                votesInfo += $"\nVote {counter} ----- Type {vote.VoteType} ----- {vote.Question}\n";
                 counter++;
             }
 
-            response = votingsInfo;
+            response = votesInfo;
             return true;
         }
     }

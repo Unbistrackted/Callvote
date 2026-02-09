@@ -1,69 +1,327 @@
-﻿using Callvote.Commands.VotingCommands;
-using RemoteAdmin;
+﻿#if EXILED
+using Exiled.API.Features;
+#else
+using LabApi.Features.Wrappers;
+#endif
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
+using Callvote.API;
+using Callvote.Configuration;
+using MEC;
 
 namespace Callvote.Features
 {
     /// <summary>
-    /// Represents the type that manages and creates a <see cref="Vote"/> Option.
-    /// Responsible for the <see cref="Vote"/> Option, Detail and Command Registration.
+    /// Represents the type that manages and creates the <see cref="Vote"/>.
+    /// Responsible for the <see cref="Vote"/> cycle, and managing the <see cref="Features.VoteOption"/>s.
     /// </summary>
-    /// <remarks>The Command syntax might change if a command is already registered.</remarks>
     public class Vote
     {
+        private CoroutineHandle voteCoroutine;
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="Vote"/> class with the specified option and detail.
+        /// Initializes a new instance of the <see cref="Vote"/> class.
         /// </summary>
-        /// <param name="option">The <see cref="Vote"/> Option.</param>
-        /// <param name="detail">The <see cref="Vote"/> <see cref="Detail"/>.</param>
-        public Vote(string option, string detail)
+#pragma warning disable SA1611 // Not Public
+        internal Vote(Player player, string question, string voteType, Action<Vote> callback, HashSet<VoteOption> voteOptions = null, IEnumerable<Player> players = null)
+#pragma warning restore SA1611
         {
-            this.Option = option;
-            this.Detail = detail;
-            this.Command = new(option);
+            this.CallVotePlayer = player;
+            this.Question = question;
+            this.Callback = callback;
+            this.VoteOptions = [.. voteOptions ?? VoteHandler.TemporaryVoteOptions];
+
+#if EXILED
+            this.AllowedPlayers = [.. players ?? Player.List.Where(p => p.ReferenceHub.nicknameSync.NickSet && p.ReferenceHub.authManager.InstanceMode != 0)];
+#else
+            this.AllowedPlayers = [.. players ?? Player.ReadyList];
+#endif
+            this.PlayerVote = [];
+            this.Counter = new ConcurrentDictionary<VoteOption, int>();
+            this.voteCoroutine = default;
+
+            foreach (VoteOption vote in this.VoteOptions)
+            {
+                this.Counter[vote] = 0;
+            }
+
+            this.VoteType = voteType;
+            this.VoteId = DateTime.Now.ToBinary() + this.RandomNumber();
         }
 
         /// <summary>
-        /// Gets the <see cref="Vote"/> Option.
+        /// Gets the player who called the <see cref="Vote"/> .
         /// </summary>
-        public string Option { get; init; }
+        public Player CallVotePlayer { get; init; }
 
         /// <summary>
-        /// Gets the <see cref="Vote"/> Detail, which is the description of the option.
+        /// Gets the <see cref="Vote"/> question.
         /// </summary>
-        public string Detail { get; init; }
+        public string Question { get; init; }
 
         /// <summary>
-        /// Gets the <see cref="Vote"/> Command.
+        /// Gets the <see cref="Vote"/> type.
         /// </summary>
-        public VoteCommand Command { get; }
+        public string VoteType { get; init; }
 
         /// <summary>
-        /// Gets a value indicating whether the <see cref="Command"/> was registered.
+        /// Gets the <see cref="Vote"/> callback.
         /// </summary>
-        public bool IsCommandRegistered => QueryProcessor.DotCommandHandler.TryGetCommand(this.Command.Command, out _);
+        public Action<Vote> Callback { get; init; }
 
         /// <summary>
-        /// Registers the <see cref="Command"/>.
+        /// Gets the allowed players that can see and vote on the <see cref="Vote"/> .
         /// </summary>
-        internal void RegisterCommand()
+        public HashSet<Player> AllowedPlayers { get; init; }
+
+        /// <summary>
+        /// Gets the <see cref="HashSet{Vote}"/> with the available <see cref="Features.VoteOption"/>s in the <see cref="Vote"/> .
+        /// </summary>
+        /// <remarks><see cref="Features.VoteOption"/>s can have the same <see cref="VoteOption.Option"/>, but not the <see cref="VoteOption.Command"/>.</remarks>
+        public HashSet<VoteOption> VoteOptions { get; init; }
+
+        /// <summary>
+        /// Gets a value indicating whether it should only show the configured question and the counter.
+        /// </summary>
+        public bool ShouldOnlyShowQuestionAndCounter { get; init; } = false;
+
+        /// <summary>
+        /// Gets a value indicating whether it can show messages.
+        /// </summary>
+        public bool CanShowMessages { get; init; } = true;
+
+        /// <summary>
+        /// Gets the <see cref="Vote"/> ID.
+        /// </summary>
+        public long VoteId { get; private set; }
+
+        /// <summary>
+        /// Gets the Dictionary of Players with their <see cref="Features.VoteOption"/> in the <see cref="Vote"/> .
+        /// Key: Player. Value: <see cref="Features.VoteOption"/>.
+        /// </summary>
+        public Dictionary<Player, VoteOption> PlayerVote { get; private set; }
+
+        /// <summary>
+        /// Gets the ammount of votes of a <see cref="Features.VoteOption"/> in a <see cref="Vote"/>.
+        /// Key: <see cref="Features.VoteOption"/>. Value: Ammount of votes.
+        /// </summary>
+        public ConcurrentDictionary<VoteOption, int> Counter { get; }
+
+        private static Translation Translation => CallvotePlugin.Instance.Translation;
+
+        private static Config Config => CallvotePlugin.Instance.Config;
+
+        /// <summary>
+        /// Makes a <see cref="Player"/> vote on a <see cref="Features.VoteOption"/> of a <see cref="Vote"/>.
+        /// </summary>
+        /// <param name="player">The <see cref="Player"/> who is will be submiting the vote option.</param>
+        /// <param name="vote">The <see cref="Features.VoteOption"/> that will be selected.</param>
+        /// <returns>A <see cref="string"/> representing if the vote process was sucessful or not.</returns>
+        /// <remarks>
+        /// The vote will only go through if the <see cref="voteCoroutine"/> is active.
+        /// </remarks>
+        public string SubmitVoteOption(Player player, VoteOption vote)
         {
-            if (this.IsCommandRegistered)
+            if (!this.voteCoroutine.IsRunning)
             {
-                this.Command.Command = "cv" + this.Option;
+                return Translation.NoVoteInProgress;
             }
 
-            QueryProcessor.DotCommandHandler.RegisterCommand(this.Command);
+            if (!this.AllowedPlayers.Contains(player))
+            {
+                return Translation.NoPermission;
+            }
+
+            if (!this.IsVoteOptionPresent(vote))
+            {
+                return Translation.NoOptionAvailable.Replace("%Option%", vote.Option ?? string.Empty);
+            }
+
+            if (this.PlayerVote.ContainsKey(player))
+            {
+                if (this.PlayerVote[player] == vote)
+                {
+                    return Translation.AlreadyVoted;
+                }
+
+                this.Counter.AddOrUpdate(this.PlayerVote[player], 0, (key, value) => Math.Max(0, value - 1)); // Removes the Value of the previous vote of the player
+
+                this.PlayerVote[player] = vote;
+            }
+            else
+            {
+                this.PlayerVote.Add(player, vote);
+            }
+
+            this.Counter.AddOrUpdate(vote, 1, (key, value) => value + 1);
+
+            return Translation.VoteAccepted.Replace("%Option%", vote.Option);
         }
 
         /// <summary>
-        /// Unregisters the <see cref="Command"/>.
+        /// Gets the <see cref="Features.VoteOption"/> in a <see cref="Vote"/> .
         /// </summary>
-        internal void UnregisterCommand()
+        /// <param name="command">The command that will be searched for.</param>
+        /// <returns>A <see cref="Features.VoteOption"/> if found, otherwise null.</returns>
+        public VoteOption GetVoteOptionFromCommand(string command) => this.VoteOptions.FirstOrDefault(vote => vote.Command.Command == command);
+
+        /// <summary>
+        /// Gets the <see cref="Features.VoteOption"/> in a <see cref="Vote"/> .
+        /// </summary>
+        /// <param name="option">The option that will be searched for.</param>
+        /// <returns>A <see cref="HashSet{Vote}"/> .</returns>
+        /// <remarks><see cref="Features.VoteOption"/>s in <see cref="VoteOptions"/> can have the same <see cref="VoteOption.Option"/>, consider using <see cref="GetVoteOptionFromCommand"/> if you made sure the command is not already registed by another plugin.</remarks>
+        public HashSet<VoteOption> GetVoteOptions(string option) => [.. this.VoteOptions.Where(vote => vote.Option == option)];
+
+        /// <summary>
+        /// Gets the <see cref="Features.VoteOption"/> in a <see cref="Vote"/> .
+        /// </summary>
+        /// <param name="command">The string option that will be searched for.</param>
+        /// <param name="vote">Returns a <see cref="Features.VoteOption"/> if found, otherwise null.</param>
+        /// <returns>If the specific <see cref="Features.VoteOption"/> was found.</returns>
+        public bool TryGetVoteOptionFromCommand(string command, out VoteOption vote)
         {
-            if (this.IsCommandRegistered)
+            vote = this.GetVoteOptionFromCommand(command);
+
+            if (!this.IsVoteOptionPresent(vote))
             {
-                QueryProcessor.DotCommandHandler.UnregisterCommand(this.Command);
+                return false;
             }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Checks if a <see cref="Features.VoteOption"/> exists in a <see cref="Vote"/> .
+        /// </summary>
+        /// <param name="vote">The <see cref="Features.VoteOption"/> that will be searched for.</param>
+        /// <returns>A true if found, otherwise false.</returns>
+        public bool IsVoteOptionPresent(VoteOption vote)
+        {
+            if (vote == null)
+            {
+                return false;
+            }
+
+            return this.VoteOptions.Contains(vote);
+        }
+
+        /// <summary>
+        /// Gets a <see cref="Features.VoteOption"/> percentage based on <see cref="AllowedPlayers"/> in a <see cref="Vote"/> .
+        /// </summary>
+        /// <param name="vote">The <see cref="Features.VoteOption"/> that will be searched for.</param>
+        /// <returns>A int value as a percentage.</returns>
+        public int GetVoteOptionPercentage(VoteOption vote)
+        {
+            if (!this.IsVoteOptionPresent(vote))
+            {
+                return 0;
+            }
+
+            return (int)(this.Counter[vote] / (float)this.AllowedPlayers.Count * 100f);
+        }
+
+        /// <summary>
+        /// Rigs the <see cref="Vote"/> <see cref="Counter"/> .
+        /// </summary>
+        /// <param name="option">The option that will be rigged.</param>
+        /// <param name="amount">The ammount of votes added to that option.</param>
+        /// <returns>A <see cref="string"/> representing if the vote rigging was sucessful or not.</returns>
+        /// <remarks>
+        /// The vote will only go through if the <see cref="voteCoroutine"/> is active.
+        /// </remarks>
+        public string Rig(string option, int amount = 1)
+        {
+            VoteOption vote = this.GetVoteOptionFromCommand(option);
+
+            if (!this.IsVoteOptionPresent(vote))
+            {
+                return Translation.NoOptionAvailable.Replace("%Option%", option);
+            }
+
+            this.Counter.AddOrUpdate(vote, amount, (key, value) => value + amount);
+
+            return $"Rigged {amount} votes for {option}!";
+        }
+
+        /// <summary>
+        /// Starts the <see cref="Vote"/> by registering the commands and starting the coroutine.
+        /// </summary>
+        /// <returns>The response message set by operations on the handler (e.g. "Queue is full" or "Vote enqueued").</returns>
+        internal string Start()
+        {
+            if (!VoteHandler.IsCallVoteAllowed(this.CallVotePlayer))
+            {
+                return Translation.MaxVote;
+            }
+
+            this.RegisterVoteOptionsCommand();
+            this.StartVoteCoroutine();
+
+            return Translation.VoteStarted;
+        }
+
+        /// <summary>
+        /// Stops the <see cref="Vote"/> by unregistering the command and stopping the coroutine.
+        /// </summary>
+        internal void Stop()
+        {
+            this.UnregisterVoteOptionsCommand();
+            this.StopVoteCoroutine();
+        }
+
+        private IEnumerator<float> VoteCoroutine()
+        {
+            int timerCounter = 0;
+            DisplayMessageHelper.DisplayFirstMessage(this.Question, out string firstMessage);
+            yield return Timing.WaitForSeconds(5f);
+
+            while (true)
+            {
+                if (timerCounter >= Config.VoteDuration + 1)
+                {
+                    VoteHandler.FinishVote();
+                    yield break;
+                }
+
+                DisplayMessageHelper.DisplayWhileVoteMessage(firstMessage);
+                timerCounter++;
+                yield return Timing.WaitForSeconds(Config.RefreshInterval);
+            }
+        }
+
+        private void RegisterVoteOptionsCommand()
+        {
+            foreach (VoteOption vote in this.VoteOptions)
+            {
+                vote.RegisterCommand();
+            }
+        }
+
+        private void UnregisterVoteOptionsCommand()
+        {
+            foreach (VoteOption vote in this.VoteOptions)
+            {
+                vote.UnregisterCommand();
+            }
+        }
+
+        private void StartVoteCoroutine()
+        {
+            this.voteCoroutine = Timing.RunCoroutine(this.VoteCoroutine());
+        }
+
+        private void StopVoteCoroutine()
+        {
+            Timing.KillCoroutines(this.voteCoroutine);
+        }
+
+        private long RandomNumber()
+        {
+            Random rng = new();
+            return rng.Next(-1000, 1000);
         }
     }
 }

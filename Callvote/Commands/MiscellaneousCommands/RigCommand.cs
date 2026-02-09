@@ -11,10 +11,10 @@ using System.Linq;
 using Callvote.API;
 using CommandSystem;
 
-namespace Callvote.Commands.VotingCommands
+namespace Callvote.Commands.MiscellaneousCommands
 {
 #if !EXILED
-    [CommandHandler(typeof(CallVoteCommand))]
+    [CommandHandler(typeof(CallVoteParentCommand))]
 #endif
     public class RigCommand : ICommand
     {
@@ -37,31 +37,31 @@ namespace Callvote.Commands.VotingCommands
                 return false;
             }
 
-            if (!VotingHandler.IsVotingActive)
+            if (!VoteHandler.IsVoteActive)
             {
-                response = CallvotePlugin.Instance.Translation.NoVotingInProgress;
+                response = CallvotePlugin.Instance.Translation.NoVoteInProgress;
                 return false;
             }
 
             if (arguments.Count < 0)
             {
-                response = "You need to pass an option.";
+                response = CallvotePlugin.Instance.Translation.WrongSyntax;
                 return false;
             }
 
             if (arguments.Count == 1)
             {
-                response = VotingHandler.CurrentVoting.Rig(arguments.ElementAt(0));
+                response = VoteHandler.CurrentVote.Rig(arguments.ElementAt(0));
                 return true;
             }
 
             if (!int.TryParse(arguments.ElementAt(1), out int votes))
             {
-                response = "Invalid Argument";
+                response = CallvotePlugin.Instance.Translation.InvalidArgument;
                 return false;
             }
 
-            response = VotingHandler.CurrentVoting.Rig(arguments.ElementAt(0), amount: votes);
+            response = VoteHandler.CurrentVote.Rig(arguments.ElementAt(0), amount: votes);
             return true;
         }
     }

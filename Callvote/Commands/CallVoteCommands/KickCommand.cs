@@ -10,13 +10,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Callvote.API;
-using Callvote.Features.PredefinedVotings;
+using Callvote.Features.PredefinedVotes;
 using CommandSystem;
 
-namespace Callvote.Commands.VotingCommands
+namespace Callvote.Commands.CallVoteCommands
 {
 #if !EXILED
-    [CommandHandler(typeof(CallVoteCommand))]
+    [CommandHandler(typeof(CallVoteParentCommand))]
 #endif
     public class KickCommand : ICommand
     {
@@ -24,7 +24,7 @@ namespace Callvote.Commands.VotingCommands
 
         public string[] Aliases => ["ki", "k"];
 
-        public string Description => "Calls a kick voting.";
+        public string Description => "Calls a kick vote.";
 
         public bool Execute(ArraySegment<string> args, ICommandSender sender, out string response)
         {
@@ -99,7 +99,7 @@ namespace Callvote.Commands.VotingCommands
 
             string reason = string.Join(" ", args.Skip(1));
 
-            response = VotingHandler.CallVoting(new KickVoting(player, locatedPlayer, reason));
+            response = VoteHandler.CallVote(new KickVote(player, locatedPlayer, reason));
             return true;
         }
     }

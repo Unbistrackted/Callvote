@@ -8,13 +8,13 @@ using LabApi.Features.Wrappers;
 #endif
 using System;
 using Callvote.API;
-using Callvote.Features.PredefinedVotings;
+using Callvote.Features.PredefinedVotes;
 using CommandSystem;
 
-namespace Callvote.Commands.VotingCommands
+namespace Callvote.Commands.CallVoteCommands
 {
 #if !EXILED
-    [CommandHandler(typeof(CallVoteCommand))]
+    [CommandHandler(typeof(CallVoteParentCommand))]
 #endif
     public class RestartRoundCommand : ICommand
     {
@@ -22,7 +22,7 @@ namespace Callvote.Commands.VotingCommands
 
         public string[] Aliases => ["restart", "rround"];
 
-        public string Description => "Calls a restart round voting.";
+        public string Description => "Calls a restart round vote.";
 
         public bool Execute(ArraySegment<string> args, ICommandSender sender, out string response)
         {
@@ -55,7 +55,7 @@ namespace Callvote.Commands.VotingCommands
                 return false;
             }
 
-            response = VotingHandler.CallVoting(new RestartRoundVoting(player));
+            response = VoteHandler.CallVote(new RestartRoundVote(player));
             return true;
         }
     }

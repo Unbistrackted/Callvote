@@ -7,7 +7,7 @@ using CommandSystem;
 namespace Callvote.Commands
 {
 #if !EXILED
-    [CommandHandler(typeof(CallVoteCommand))]
+    [CommandHandler(typeof(CallVoteParentCommand))]
 #endif
     public class HelpCommand : ICommand
     {

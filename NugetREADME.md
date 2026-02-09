@@ -2,7 +2,7 @@
 
 **The sucessor of [callvote](https://github.com/PatPeter/callvote).**
 
-A plugin that allows calling and voting for **Kick**,
+A plugin that allows calling and vote for **Kick**,
  **RestartRound**,  **Kill**,
 **RespawnWave**, **FriendlyFire**, or **Custom** Votes using **KEYBINDS** or **CONSOLE COMMANDS** in the same format as the Source Engine (Left 4
 Dead
@@ -12,38 +12,29 @@ If you want to develop using Callvote, please install the [EXILED Nuget Package]
 
 ## Examples
 ```cs
-VotingHandler.AddOptionToVoting("nothing", "<size=100>NOTHING!!!</color>");
-VotingHandler.AddOptionToVoting("nothing1", "<size=100>NOTHING1!!!</color>");
-VotingHandler.CallVoting(new CustomVoting(player, $"{player.Nickname} asks: Do nothing!!!!!", "NothingBurguerPlugin.DoNothing"));
+VoteHandler.CreateVoteOption("command", "<color=red>detail</color>", out _);
+VoteHandler.CreateVoteOption("command2", "<color=green>detail2</color>", out _);
+VoteHandler.CallVote(new CustomVote(player, $"<color=#D681DE>question</color>", "CallvoteExample.Template"));
 ```
-```cs
-VotingHandler.CallVoting(new CustomVoting(player, $"{player.Nickname} asks: Enable FF?", "NothingBurguerPlugin.FF", new FFVoting(player)));
-```
-```cs
-Dictionary<string, string> options = new()
-{
-   ["nothing"] = "<size=100>NOTHING!!!</color>",
-   ["nothing1"] = "<size=100>NOTHING2!!!</color>"
-};
 
-CustomVoting vote = new CustomVoting(player, $"{player.Nickname} asks: Do nothing!!!!!", "NothingBurguerPlugin.DoNothing", null, options);
-
-VotingHandler.CallVoting(vote);
+```cs
+VoteHandler.CallVote(new CustomVote(player, $"{player.Nickname} asks: Enable FF?", "CallvoteExample.FF", new FFVote(player)));
 ```
+
 ```cs
 private void ReviveSCPs(DiedEventArgs ev)
 {
     if (ev.Player.IsScp)
     {
-        void Callback(Voting voting)
+        void Callback(Vote vote)
         {
-            if (voting is not BinaryVoting binaryVoting)
+            if (vote is not BinaryVote binaryVote)
             {
                 return;
             }
 
-            int yesPercentage = voting.GetVotePercentage(binaryVoting.YesVote);
-            int noPercentage = voting.GetVotePercentage(binaryVoting.NoVote);
+            int yesPercentage = vote.GetVoteOptionPercentage(binaryVote.YesVoteOption);
+            int noPercentage = vote.GetVoteOptionPercentage(binaryVote.NoVoteOption);
 
             if (yesPercentage > noPercentage)
             {
@@ -52,11 +43,11 @@ private void ReviveSCPs(DiedEventArgs ev)
                 return;
             }
 
-            Map.Broadcast(5, "The Voting Failed.");
+            Map.Broadcast(5, "The Vote Failed.");
         }
 
-        BinaryVoting reviveSCP = new BinaryVoting(Server.Host, $"Revive {ev.TargetOldRole}?", $"NothingBurguerPlugin.Respawn", Callback);
-        VotingHandler.CallVoting(reviveSCP);
+        BinaryVote reviveSCP = new BinaryVote(Server.Host, $"Revive {ev.TargetOldRole}?", $"NothingBurguerPlugin.Respawn", Callback);
+        VoteHandler.CallVote(reviveSCP);
     }
 }
 ```

@@ -17,7 +17,7 @@ using MEC;
 namespace Callvote.Commands
 {
 #if !EXILED
-    [CommandHandler(typeof(CallVoteCommand))]
+    [CommandHandler(typeof(CallVoteParentCommand))]
 #endif
     public class TranslationCommand : ICommand
     {
@@ -40,9 +40,9 @@ namespace Callvote.Commands
                 return false;
             }
 
-            if (VotingHandler.IsVotingActive || VotingHandler.VotingQueue.Count > 0)
+            if (VoteHandler.IsVoteActive || VoteHandler.VoteQueue.Count > 0)
             {
-                response = CallvotePlugin.Instance.Translation.VotingInProgress;
+                response = CallvotePlugin.Instance.Translation.VoteInProgress;
                 return false;
             }
 

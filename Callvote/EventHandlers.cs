@@ -47,22 +47,22 @@ namespace Callvote
 
         private void OnWaitingForPlayers()
         {
-            VotingHandler.Clear();
+            VoteHandler.Clear();
         }
 
         private void OnRoundEnded(RoundEndedEventArgs ev)
         {
-            VotingHandler.Clear();
+            VoteHandler.Clear();
         }
 
         private void OnRoundRestarting()
         {
-            VotingHandler.Clear();
+            VoteHandler.Clear();
         }
 
         private void OnUserInput(ReferenceHub sender, ServerSpecificSettingBase settingBase)
         {
-            if (!VotingHandler.IsVotingActive)
+            if (!VoteHandler.IsVoteActive)
             {
                 return;
             }
@@ -72,33 +72,33 @@ namespace Callvote
                 switch (keybindSetting.SettingId)
                 {
                     case int id when id == Config.YesKeybindSettingId:
-                        if (VotingHandler.CurrentVoting.TryGetVoteFromCommand(Translation.CommandYes, out Vote yesVote))
+                        if (VoteHandler.CurrentVote.TryGetVoteOptionFromCommand(Translation.CommandYes, out VoteOption yesVote))
                         {
-                            VotingHandler.CurrentVoting.VoteOption(Player.Get(sender), yesVote);
+                            VoteHandler.CurrentVote.SubmitVoteOption(Player.Get(sender), yesVote);
                         }
 
                         break;
 
                     case int id when id == Config.NoKeybindSettingId:
-                        if (VotingHandler.CurrentVoting.TryGetVoteFromCommand(Translation.CommandNo, out Vote noVote))
+                        if (VoteHandler.CurrentVote.TryGetVoteOptionFromCommand(Translation.CommandNo, out VoteOption noVote))
                         {
-                            VotingHandler.CurrentVoting.VoteOption(Player.Get(sender), noVote);
+                            VoteHandler.CurrentVote.SubmitVoteOption(Player.Get(sender), noVote);
                         }
 
                         break;
 
                     case int id when id == Config.MtfKeybindSettingId:
-                        if (VotingHandler.CurrentVoting.TryGetVoteFromCommand(Translation.CommandMobileTaskForce, out Vote mtfVote))
+                        if (VoteHandler.CurrentVote.TryGetVoteOptionFromCommand(Translation.CommandMobileTaskForce, out VoteOption mtfVote))
                         {
-                            VotingHandler.CurrentVoting.VoteOption(Player.Get(sender), mtfVote);
+                            VoteHandler.CurrentVote.SubmitVoteOption(Player.Get(sender), mtfVote);
                         }
 
                         break;
 
                     case int id when id == Config.CiKeybindSettingId:
-                        if (VotingHandler.CurrentVoting.TryGetVoteFromCommand(Translation.CommandChaosInsurgency, out Vote ciVote))
+                        if (VoteHandler.CurrentVote.TryGetVoteOptionFromCommand(Translation.CommandChaosInsurgency, out VoteOption ciVote))
                         {
-                            VotingHandler.CurrentVoting.VoteOption(Player.Get(sender), ciVote);
+                            VoteHandler.CurrentVote.SubmitVoteOption(Player.Get(sender), ciVote);
                         }
 
                         break;

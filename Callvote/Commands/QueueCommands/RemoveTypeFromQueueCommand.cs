@@ -17,7 +17,7 @@ using CommandSystem;
 namespace Callvote.Commands.QueueCommands
 {
 #if !EXILED
-    [CommandHandler(typeof(CallVoteQueueCommand))]
+    [CommandHandler(typeof(CallVoteQueueParentCommand))]
 #endif
     public class RemoveTypeFromQueueCommand : ICommand
     {
@@ -25,7 +25,7 @@ namespace Callvote.Commands.QueueCommands
 
         public string[] Aliases => ["rtype", "rt"];
 
-        public string Description => "Remove a certain Voting type from Voting queue.";
+        public string Description => "Remove a certain Vote type from Vote queue.";
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
@@ -46,22 +46,22 @@ namespace Callvote.Commands.QueueCommands
                 return false;
             }
 
-            string votingType = arguments.At(0);
+            string voteType = arguments.At(0);
 
-            List<Voting> votingsToRemove = VotingHandler.VotingQueue.Where(voting => voting.VotingType.ToLower().Equals(votingType.ToLower())).ToList();
+            List<Vote> voteToRemove = VoteHandler.VoteQueue.Where(v => v.VoteType.ToLower().Equals(voteType.ToLower())).ToList();
 
-            if (votingsToRemove.Count() == 0)
+            if (voteToRemove.Count() == 0)
             {
                 response = CallvotePlugin.Instance.Translation.TypeNotFound.Replace("%Type%", arguments.At(0));
                 return false;
             }
 
-            foreach (Voting vote in votingsToRemove)
+            foreach (Vote vote in voteToRemove)
             {
-                VotingHandler.VotingQueue.RemoveItemFromQueue(vote);
+                VoteHandler.VoteQueue.RemoveItemFromQueue(vote);
             }
 
-            response = CallvotePlugin.Instance.Translation.RemovedFromQueue.Replace("%Number%", votingsToRemove.Count.ToString());
+            response = CallvotePlugin.Instance.Translation.RemovedFromQueue.Replace("%Number%", voteToRemove.Count.ToString());
             return true;
         }
     }

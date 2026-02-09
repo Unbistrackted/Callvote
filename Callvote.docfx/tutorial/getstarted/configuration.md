@@ -5,7 +5,7 @@ uid: config
 # Configuration
 How to customize and work with your ``Callvote Instance``
 
-Callvote allows fully customization over the ``Votings``, and it shouldn't be a suprise that  we also allow configuring the ``Voting Time`` and changing their ``Texts``.
+Callvote allows fully customization over the ``Vote``, and it shouldn't be a suprise that  we also allow configuring the ``Vote Time`` and changing their ``Texts``.
 
 Anything related to ``Callvote's`` Behaviour is located at the Config file:
 

@@ -10,10 +10,10 @@ using System;
 using Callvote.API;
 using CommandSystem;
 
-namespace Callvote.Commands.VotingCommands
+namespace Callvote.Commands.MiscellaneousCommands
 {
 #if !EXILED
-    [CommandHandler(typeof(CallVoteCommand))]
+    [CommandHandler(typeof(CallVoteParentCommand))]
 #endif
     public class StopVoteCommand : ICommand
     {
@@ -21,15 +21,15 @@ namespace Callvote.Commands.VotingCommands
 
         public string[] Aliases => ["stop"];
 
-        public string Description => "Stops a voting session.";
+        public string Description => "Stops a vote session.";
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             Player player = Player.Get(sender);
 
-            if (!VotingHandler.IsVotingActive)
+            if (!VoteHandler.IsVoteActive)
             {
-                response = CallvotePlugin.Instance.Translation.NoVotingInProgress;
+                response = CallvotePlugin.Instance.Translation.NoVoteInProgress;
                 return false;
             }
 #if EXILED
@@ -42,8 +42,8 @@ namespace Callvote.Commands.VotingCommands
                 return false;
             }
 
-            VotingHandler.FinishVoting();
-            response = CallvotePlugin.Instance.Translation.VotingStoped;
+            VoteHandler.FinishVote();
+            response = CallvotePlugin.Instance.Translation.VoteStoped;
             return true;
         }
     }

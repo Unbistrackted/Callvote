@@ -14,7 +14,7 @@ using CommandSystem;
 namespace Callvote.Commands.QueueCommands
 {
 #if !EXILED
-    [CommandHandler(typeof(CallVoteQueueCommand))]
+    [CommandHandler(typeof(CallVoteQueueParentCommand))]
 #endif
     public class RemoveXFromQueueCommand : ICommand
     {
@@ -22,7 +22,7 @@ namespace Callvote.Commands.QueueCommands
 
         public string[] Aliases => ["rid", "rd", "ri"];
 
-        public string Description => "Removes X voting from voting queue.";
+        public string Description => "Removes X Vote from Vote Queue.";
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
@@ -50,11 +50,11 @@ namespace Callvote.Commands.QueueCommands
                 return false;
             }
 
-            int size = VotingHandler.VotingQueue.Count;
+            int size = VoteHandler.VoteQueue.Count;
 
-            VotingHandler.VotingQueue.RemoveFromQueue(number);
+            VoteHandler.VoteQueue.RemoveFromQueue(number);
 
-            response = CallvotePlugin.Instance.Translation.RemovedFromQueue.Replace("%Number%", (size - VotingHandler.VotingQueue.Count).ToString());
+            response = CallvotePlugin.Instance.Translation.RemovedFromQueue.Replace("%Number%", (size - VoteHandler.VoteQueue.Count).ToString());
             return true;
         }
     }

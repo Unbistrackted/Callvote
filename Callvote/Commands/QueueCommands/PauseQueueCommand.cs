@@ -13,7 +13,7 @@ using CommandSystem;
 namespace Callvote.Commands.QueueCommands
 {
 #if !EXILED
-    [CommandHandler(typeof(CallVoteQueueCommand))]
+    [CommandHandler(typeof(CallVoteQueueParentCommand))]
 #endif
     public class PauseQueueCommand : ICommand
     {
@@ -21,7 +21,7 @@ namespace Callvote.Commands.QueueCommands
 
         public string[] Aliases => ["p"];
 
-        public string Description => "Pauses the voting queue.";
+        public string Description => "Pauses the vote queue.";
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
@@ -42,15 +42,15 @@ namespace Callvote.Commands.QueueCommands
                 return false;
             }
 
-            if (!VotingHandler.IsQueuePaused)
+            if (!VoteHandler.IsQueuePaused)
             {
-                VotingHandler.IsQueuePaused = true;
+                VoteHandler.IsQueuePaused = true;
                 response = CallvotePlugin.Instance.Translation.QueuePaused;
                 return true;
             }
 
-            VotingHandler.IsQueuePaused = false;
-            VotingHandler.DequeueVoting();
+            VoteHandler.IsQueuePaused = false;
+            VoteHandler.DequeueVote();
 
             response = CallvotePlugin.Instance.Translation.QueueResumed;
             return true;

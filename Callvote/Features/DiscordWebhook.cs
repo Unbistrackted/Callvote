@@ -13,7 +13,7 @@ namespace Callvote.Features
 
         private static Config Config => CallvotePlugin.Instance.Config;
 
-        internal static async Task ResultsMessage(Voting voting)
+        internal static async Task ResultsMessage(Vote vote)
         {
             string webhook = Config.DiscordWebhook;
 
@@ -24,17 +24,17 @@ namespace Callvote.Features
 
             string resultsMessage = string.Empty;
 
-            foreach (Vote vote in voting.VoteOptions)
+            foreach (VoteOption voteOption in vote.VoteOptions)
             {
                 resultsMessage += Translation.OptionAndCounter
-                    .Replace("%VoteCommand%", vote.Command.Command)
-                    .Replace("%VoteDetail%", vote.Detail)
-                    .Replace("%VoteCounter%", voting.Counter[vote].ToString());
+                    .Replace("%VoteCommand%", voteOption.Command.Command)
+                    .Replace("%VoteDetail%", voteOption.Detail)
+                    .Replace("%VoteCounter%", vote.Counter[voteOption].ToString());
             }
 
-            string question = Escape(voting.Question);
+            string question = Escape(vote.Question);
             string results = Escape(resultsMessage);
-            string callvotePlayerInfo = Escape($"{voting.CallVotePlayer.Nickname}");
+            string callvotePlayerInfo = Escape($"{vote.CallVotePlayer.Nickname}");
             string payload = $@"{{""content"":null,""embeds"":[{{""title"":""{Translation.WebhookTitle}"",""color"":255,""fields"":[{{""name"":""{Translation.WebhookPlayer}"",""value"":""{callvotePlayerInfo}""}},{{""name"":""{Translation.WebhookQuestion}"",""value"":""{question.Replace($"{callvotePlayerInfo} asks: ", string.Empty)}""}},{{""name"":""{Translation.WebhookVotes}"",""value"":""{results}""}}]}}]}}";
             try
             {

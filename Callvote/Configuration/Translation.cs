@@ -81,35 +81,35 @@ namespace Callvote.Configuration
         public string Untouchable { get; set; } = "%VotePercent%% voted to kill or kick you.";
 
         [Description("Console Messages:")]
-        public string VotingStarted { get; set; } = "Vote has been started!";
+        public string VoteStarted { get; set; } = "Vote has been started!";
 
-        public string NoVotingInProgress { get; set; } = "There is no vote in progress.";
+        public string NoVoteInProgress { get; set; } = "There is no vote in progress.";
 
         public string WaitToVote { get; set; } = "You should wait %Timer%s before using this command.";
 
         public string PassReason { get; set; } = "You need to pass a reason!";
 
-        public string LessThanTwoOptions { get; set; } = "You cannot create a custom voting without 2 options!";
+        public string LessThanTwoOptions { get; set; } = "You cannot create a custom vote without 2 options!";
 
         public string DuplicateCommand { get; set; } = "It's not possible to create a custom command with the same name!";
 
         public string QueueDisabled { get; set; } = "Callvote queue disabled.";
 
-        public string QueueCleared { get; set; } = "Votings Queue Cleared.";
+        public string QueueCleared { get; set; } = "Vote Queue Cleared.";
 
         public string QueuePaused { get; set; } = "Queue Paused";
 
-        public string QueueResumed { get; set; } = "Votings Queue resumed.";
+        public string QueueResumed { get; set; } = "Vote Queue resumed.";
 
-        public string RemovedFromQueue { get; set; } = "Removed %Number% Voting(s)";
+        public string RemovedFromQueue { get; set; } = "Removed %Number% Vote(s)";
 
-        public string NoVotingInQueue { get; set; } = "There's no voting in the queue.";
+        public string NoVoteInQueue { get; set; } = "There's no vote in the queue.";
 
         public string QueueIsFull { get; set; } = "<color=red>Queue is full.</color>";
 
-        public string VotingEnqueued { get; set; } = "<color=#EDF193>Voting Enqueued.</color>";
+        public string VoteEnqueued { get; set; } = "<color=#EDF193>Vote Enqueued.</color>";
 
-        public string TypeNotFound { get; set; } = "Did not find any Voting with the type <color=red>%Type%</color>";
+        public string TypeNotFound { get; set; } = "Did not find any Vote with the type <color=red>%Type%</color>";
 
         public string InvalidArgument { get; set; } = "Invalid argument.";
 
@@ -137,11 +137,11 @@ namespace Callvote.Configuration
 
         public string NoPermission { get; set; } = "You do not have permission to run this command!";
 
-        public string VotingStoped { get; set; } = "Vote stopped.";
+        public string VoteStoped { get; set; } = "Vote stopped.";
 
         public string MaxVote { get; set; } = "Max amounts of votes done this round";
 
-        public string VotingInProgress { get; set; } = "A vote is currently in progress.";
+        public string VoteInProgress { get; set; } = "A vote is currently in progress.";
 
         public string PlayersWithSameName { get; set; } = "Multiple players have a name or partial name of %Player%. Please use a different search string.";
 
@@ -162,7 +162,7 @@ namespace Callvote.Configuration
         public string CommandMobileTaskForce { get; set; } = "mtf";
 
         [Description("Webhook:")]
-        public string WebhookTitle { get; set; } = "Voting Results:";
+        public string WebhookTitle { get; set; } = "Vote Results:";
 
         public string WebhookPlayer { get; set; } = "Player:";
 

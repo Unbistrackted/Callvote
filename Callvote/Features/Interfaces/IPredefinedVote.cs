@@ -9,18 +9,18 @@ using System.Collections.Generic;
 namespace Callvote.Features.Interfaces
 {
     /// <summary>
-    /// Represents the interface for voting templates.
+    /// Represents the interface for Vote templates.
     /// </summary>
-    public interface IVotingTemplate
+    public interface IPredefinedVote
     {
         /// <summary>
-        /// Gets <see cref="Voting.Callback"/> of the template.
+        /// Gets <see cref="Vote.Callback"/> of the template.
         /// </summary>
-        Action<Voting> Callback { get; }
+        Action<Vote> Callback { get; }
 
         /// <summary>
-        /// Gets <see cref="Voting.VoteOptions"/> of the template.
+        /// Gets <see cref="Vote.VoteOptions"/> of the template.
         /// </summary>
-        HashSet<Vote> VoteOptions { get; }
+        HashSet<VoteOption> VoteOptions { get; }
     }
 }

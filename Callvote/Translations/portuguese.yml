@@ -3,7 +3,7 @@
 # %player%, %VotePercent%, %Offender%, %ThresholdKick%, %ThresholdRespawnWave%, %ThresholdNuke%, %ThresholdKill%, %ThresholdRestartRound%, %VoteDetail%, %VoteCommand%, %VoteCounter%, %Timer%, %Custom%, %Type%, %Number%
   wrong_syntax: "Sintaxe errada. Por favor use callvote help"
   max_vote: 'Quantidade máxima de chamada de votação feita nessa partida.'
-  voting_in_progress: 'Uma votação está atualmente em progresso'
+  vote_in_progress: 'Uma votação está atualmente em progresso'
   players_with_same_name: 'Múltiplos jogadores têm um nome ou nome parcial de %Player%. Por favor, use um argumento de pesquisa diferente.'
   option_yes: '<color=green>SIM</color>'
   option_no: '<color=red>NÃO</color>'
@@ -16,7 +16,7 @@
   already_voted: 'Você já votou'
   vote_accepted: 'Você votou %Option%.'
   no_permission: 'Você não tem permissão para executar esse comando!'
-  voting_stoped: 'Votação parada.'
+  vote_stoped: 'Votação parada.'
   results: |
     Resultados finais:
   option_and_counter: ' %VoteDetail% (%VoteCounter%) '
@@ -51,8 +51,8 @@
   no_success_full_restart: 'Apenas %VotePercent%% votaram sim. %ThresholdRestartRound%% era necessário para reiniciar a partida.'
   no_success_full_enable_ff: 'Apenas %VotePercent%% votaram sim. %ThresholdFF%% era necessário para habilitar o Friendly Fire.'
   no_success_full_disable_ff: 'Apenas %VotePercent%% votaram sim. %ThresholdFF%% era necessário para desabilitar o Friendly Fire.'
-  voting_started: 'A votação começou!'
-  no_voting_in_progress: 'Não há nenhuma votação em progresso.'
+  vote_started: 'A votação começou!'
+  no_vote_in_progress: 'Não há nenhuma votação em progresso.'
   wait_to_vote: 'Você deve esperar %Timer%s antes de usar esse comando.'
   asked_custom: '%Player% <color=#EEDC8A>pergunta</color>: %Custom%'
   pass_reason: 'Você precisa passar um motivo!'
@@ -65,9 +65,9 @@
   queue_paused: 'Fila de votação pausada.'
   queue_resumed: 'Fila de votação resumida.'
   removed_from_queue: 'Removido %Number% de votação(s)'
-  no_voting_in_queue: 'Não existe nenhuma votação em fila.'
+  no_vote_in_queue: 'Não existe nenhuma votação em fila.'
   queue_is_full: '<color=red>A fila de votação está cehia.</color>'
-  voting_enqueued: '<color=#EDF193>Votação colocada na fila.</color>'
+  vote_enqueued: '<color=#EDF193>Votação colocada na fila.</color>'
   type_not_found: 'Não foi possível achar nenhuma votação com o tipo: <color=red>%Type%</color>'
   invalid_argument: 'Argumento invalido.'
   translation_changed: 'Tradução mudada para: Português (by Firething and Unbistrackted)'

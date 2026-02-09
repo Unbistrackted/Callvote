@@ -7,7 +7,7 @@ using UnityEngine;
 namespace Callvote.Features
 {
     /// <summary>
-    /// Represents the type that displays the messages during the voting lifecycle, such as the first message with the question and options, the message that updates while voting is active, and the final results message.
+    /// Represents the type that displays the messages during the vote lifecycle, such as the first message with the question and options, the message that updates while vote is active, and the final results message.
     /// </summary>
     internal static class DisplayMessageHelper
     {
@@ -16,7 +16,7 @@ namespace Callvote.Features
         private static Config Config => CallvotePlugin.Instance.Config;
 
         /// <summary>
-        /// Displays the initial message to <see cref="Voting.AllowedPlayers"/> based on the <see cref="IMessageProvider"/>.
+        /// Displays the initial message to <see cref="Vote.AllowedPlayers"/> based on the <see cref="IMessageProvider"/>.
         /// </summary>
         /// <param name="question">The question to be displayed.</param>
         /// <param name="firstMessage">The message that was sent.</param>
@@ -25,16 +25,16 @@ namespace Callvote.Features
         /// </remarks>
         internal static void DisplayFirstMessage(string question, out string firstMessage)
         {
-            if (!VotingHandler.CurrentVoting.CanShowMessages)
+            if (!VoteHandler.CurrentVote.CanShowMessages)
             {
                 firstMessage = string.Empty;
                 return;
             }
 
-            firstMessage = VotingHandler.CurrentVoting.ShouldOnlyShowQuestionAndCounter ? Translation.AskedQuestion.Replace("%Question%", question) : question;
+            firstMessage = VoteHandler.CurrentVote.ShouldOnlyShowQuestionAndCounter ? question : Translation.AskedQuestion.Replace("%Question%", question);
 
             int counter = 0;
-            foreach (Vote vote in VotingHandler.CurrentVoting.VoteOptions)
+            foreach (VoteOption vote in VoteHandler.CurrentVote.VoteOptions)
             {
                 if (counter == 0)
                 {
@@ -51,61 +51,61 @@ namespace Callvote.Features
             SoftDependency.MessageProvider.DisplayMessage(
                 TimeSpan.FromSeconds(5),
                 $"<size={CalculateMessageSize(firstMessage)}>{firstMessage}</size>",
-                VotingHandler.CurrentVoting.AllowedPlayers);
+                VoteHandler.CurrentVote.AllowedPlayers);
         }
 
         /// <summary>
-        /// Displays the message while <see cref="VotingHandler.IsVotingActive"/> to <see cref="Voting.AllowedPlayers"/> based on the <see cref="IMessageProvider"/>.
+        /// Displays the message while <see cref="VoteHandler.IsVoteActive"/> to <see cref="Vote.AllowedPlayers"/> based on the <see cref="IMessageProvider"/>.
         /// </summary>
-        /// <param name="firstMessage">The first message sent when the <see cref="Voting"/> started.</param>
+        /// <param name="firstMessage">The first message sent when the <see cref="Vote"/> started.</param>
         /// <remarks>
         /// This message contains the first message and the options with their respective counters.
         /// </remarks>
-        internal static void DisplayWhileVotingMessage(string firstMessage)
+        internal static void DisplayWhileVoteMessage(string firstMessage)
         {
-            if (!VotingHandler.CurrentVoting.CanShowMessages)
+            if (!VoteHandler.CurrentVote.CanShowMessages)
             {
                 return;
             }
 
             string timerMessage = firstMessage + "\n";
 
-            foreach (Vote vote in VotingHandler.CurrentVoting.VoteOptions)
+            foreach (VoteOption vote in VoteHandler.CurrentVote.VoteOptions)
             {
                 timerMessage += Translation.OptionAndCounter
                     .Replace("%VoteDetail%", vote.Detail)
-                    .Replace("%VoteCounter%", VotingHandler.CurrentVoting.Counter[vote].ToString());
+                    .Replace("%VoteCounter%", VoteHandler.CurrentVote.Counter[vote].ToString());
             }
 
             SoftDependency.MessageProvider.DisplayMessage(
                 TimeSpan.FromSeconds(Config.RefreshInterval),
                 $"<size={CalculateMessageSize(timerMessage)}>{timerMessage}</size>",
-                VotingHandler.CurrentVoting.AllowedPlayers);
+                VoteHandler.CurrentVote.AllowedPlayers);
         }
 
         /// <summary>
-        /// Displays the results message based on <see cref="Voting.Counter"/> and <see cref="Voting.VoteOptions"/>.
+        /// Displays the results message based on <see cref="Vote.Counter"/> and <see cref="Vote.VoteOptions"/>.
         /// </summary>
         internal static void DisplayResultsMessage()
         {
-            if (!VotingHandler.CurrentVoting.CanShowMessages)
+            if (!VoteHandler.CurrentVote.CanShowMessages)
             {
                 return;
             }
 
             string resultsMessage = Translation.Results;
 
-            foreach (Vote vote in VotingHandler.CurrentVoting.VoteOptions)
+            foreach (VoteOption vote in VoteHandler.CurrentVote.VoteOptions)
             {
                 resultsMessage += Translation.OptionAndCounter
                     .Replace("%VoteDetail%", vote.Detail)
-                    .Replace("%VoteCounter%", VotingHandler.CurrentVoting.Counter[vote].ToString());
+                    .Replace("%VoteCounter%", VoteHandler.CurrentVote.Counter[vote].ToString());
             }
 
             SoftDependency.MessageProvider.DisplayMessage(
                 TimeSpan.FromSeconds(Config.FinalResultsDuration),
                 $"<size={CalculateMessageSize(resultsMessage)}>{resultsMessage}</size>",
-                VotingHandler.CurrentVoting.AllowedPlayers);
+                VoteHandler.CurrentVote.AllowedPlayers);
         }
 
         /// <summary>
