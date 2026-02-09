@@ -42,7 +42,15 @@ namespace Callvote.Commands.MiscellaneousCommands
                 return false;
             }
 
-            VoteHandler.FinishVote();
+            if (arguments.Count == 0)
+            {
+                VoteHandler.FinishVote();
+                response = CallvotePlugin.Instance.Translation.VoteStoped;
+                return false;
+            }
+
+            VoteHandler.FinishVote(isForced: true);
+
             response = CallvotePlugin.Instance.Translation.VoteStoped;
             return true;
         }

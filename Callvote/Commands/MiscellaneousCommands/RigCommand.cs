@@ -43,7 +43,7 @@ namespace Callvote.Commands.MiscellaneousCommands
                 return false;
             }
 
-            if (arguments.Count < 0)
+            if (arguments.Count == 0)
             {
                 response = CallvotePlugin.Instance.Translation.WrongSyntax;
                 return false;

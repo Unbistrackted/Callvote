@@ -87,8 +87,6 @@ private void ReviveSCPs(DiedEventArgs ev)
 }
 ```
 
-<xref:Callvote.API.VoteHandler.CallVote(Callvote.Features.Vote)> returns the vote status as a string, subject to change to an enum in the future.
-
 
 
 

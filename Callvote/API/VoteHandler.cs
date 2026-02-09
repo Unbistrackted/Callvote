@@ -138,11 +138,12 @@ namespace Callvote.API
         /// sends results to configured Discord webhook asynchronously if <see cref="ShouldSendWebhookMessage"/> is true, clears <see cref="CurrentVote"/> and, starts the next
         /// queued <see cref="Vote"/> if queueing is enabled.
         /// </summary>
-        public static void FinishVote()
+        /// <param name="isForced">If the voting will display the results message or invoke the Callback.</param>
+        public static void FinishVote(bool isForced = false)
         {
             CurrentVote?.Stop();
 
-            if (IsVoteActive)
+            if (IsVoteActive && !isForced)
             {
                 if (CurrentVote.Callback == null)
                 {
