@@ -13,7 +13,7 @@ detail_mtf: '<color=blue>MTF</color>'
 detail_ci: '<color=green>CI</color>'
 # Questions:
 asked_custom: '%Player% <color=#EEDC8A>asks</color>: %Custom%'
-asked_to_kill: '%Player% <color=#EEDC8A>asks</color>: Kick %Offender% for %Reason%?'
+asked_to_kill: '%Player% <color=#EEDC8A>asks</color>: Kill %Offender% for %Reason%?'
 asked_to_respawn: '%Player% <color=#EEDC8A>asks</color>: Respawn the next wave?'
 asked_to_nuke: '%Player% <color=#EEDC8A>asks</color>: NUKE THE FACILITY?!??'
 asked_to_disable_ff: '%Player% <color=#EEDC8A>asks</color>: Disable Friendly Fire for the current round?'
