@@ -73,12 +73,12 @@ namespace Callvote.Features
         {
             List<ServerSpecificSettingBase> list = [.. ServerSpecificSettingsSync.DefinedSettings ?? []];
 
-            foreach (ServerSpecificSettingBase setting in settings)
+            foreach (ServerSpecificSettingBase setting in settings ?? [])
             {
                 list.Remove(setting);
             }
 
-            ServerSpecificSettingsSync.DefinedSettings = list.ToArray();
+            ServerSpecificSettingsSync.DefinedSettings = [.. list];
             ServerSpecificSettingsSync.SendToAll();
         }
     }
