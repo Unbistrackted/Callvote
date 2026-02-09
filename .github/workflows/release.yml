@@ -9,6 +9,8 @@ jobs:
     environment: publish
     permissions:
       id-token: write 
+      contents: write
+      packages: write
       
     steps:
       - name: NuGet login (OIDC → temp API key)
