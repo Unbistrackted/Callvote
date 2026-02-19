@@ -5,11 +5,11 @@ using Player = LabApi.Features.Wrappers.Player;
 #endif
 using System;
 using System.Collections.Generic;
-using Callvote.Features.Interfaces;
+using Callvote.SoftDependencies.Interfaces;
 using RueI.API;
 using RueI.API.Elements;
 
-namespace Callvote.Features.MessageProviders
+namespace Callvote.SoftDependencies.MessageProviders
 {
     /// <summary>
     /// Represents the type that provides RueI messages.
@@ -17,7 +17,7 @@ namespace Callvote.Features.MessageProviders
     public class RueIHintProvider : IMessageProvider
     {
         /// <inheritdoc/>
-        public void DisplayMessage(TimeSpan timer, string content, HashSet<Player> players)
+        public void Show(TimeSpan timer, string content, HashSet<Player> players)
         {
             foreach (Player player in players)
             {

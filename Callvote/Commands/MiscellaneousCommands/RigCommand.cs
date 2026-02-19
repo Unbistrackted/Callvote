@@ -29,9 +29,9 @@ namespace Callvote.Commands.MiscellaneousCommands
         {
             Player player = Player.Get(sender);
 #if EXILED
-            if (!player.CheckPermission("cv.superadmin+") && player != null)
+            if ((player != null && !player.CheckPermission("cv.superadmin+")) || (player == null && sender is not ServerConsoleSender))
 #else
-            if (!player.HasPermissions("cv.superadmin+") && player != null)
+            if ((player != null && !player.HasPermissions("cv.superadmin+")) || (player == null && sender is not ServerConsoleSender))
 #endif
             {
                 response = CallvotePlugin.Instance.Translation.NoPermission;

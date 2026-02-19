@@ -35,9 +35,9 @@ namespace Callvote.Commands.CallVoteCommands
                 return false;
             }
 #if EXILED
-            if (!player.CheckPermission("cv.callvoteff") && player != null)
+            if ((player != null && !player.CheckPermission("cv.callvoteff")) || (player == null && sender is not ServerConsoleSender))
 #else
-            if (!player.HasPermissions("cv.callvoteff") && player != null)
+            if ((player != null && !player.HasPermissions("cv.callvoteff"))  || (player == null && sender is not ServerConsoleSender))
 #endif
             {
                 response = CallvotePlugin.Instance.Translation.NoPermission;
@@ -45,11 +45,11 @@ namespace Callvote.Commands.CallVoteCommands
             }
 
 #if EXILED
-            if (!player.CheckPermission("cv.bypass") && Round.ElapsedTime.TotalSeconds < CallvotePlugin.Instance.Config.MaxWaitFf)
+            if (player != null && !player.CheckPermission("cv.bypass") && Round.ElapsedTime.TotalSeconds < CallvotePlugin.Instance.Config.MaxWaitFf)
             {
                 response = CallvotePlugin.Instance.Translation.WaitToVote.Replace("%Timer%", $"{CallvotePlugin.Instance.Config.MaxWaitFf - Round.ElapsedTime.TotalSeconds:F0}");
 #else
-            if (!player.HasPermissions("cv.bypass") && Round.Duration.TotalSeconds < CallvotePlugin.Instance.Config.MaxWaitFf)
+            if (player != null && !player.HasPermissions("cv.bypass") && Round.Duration.TotalSeconds < CallvotePlugin.Instance.Config.MaxWaitFf)
             {
                 response = CallvotePlugin.Instance.Translation.WaitToVote.Replace("%Timer%", $"{CallvotePlugin.Instance.Config.MaxWaitFf - Round.Duration.TotalSeconds:F0}");
 #endif
@@ -67,7 +67,7 @@ namespace Callvote.Commands.CallVoteCommands
                 question = CallvotePlugin.Instance.Translation.AskedToEnableFf;
             }
 
-            CallVoteStatus status = VoteHandler.CallVote(new FFVote(player));
+            CallVoteStatus status = VoteHandler.CallVote(new FFVote(player ?? Server.Host));
 
             response = VoteHandler.GetMessageFromCallVoteStatus(status);
             return true;

@@ -6,8 +6,8 @@ using LabApi.Features.Wrappers;
 using System;
 using Callvote.API.VoteTemplate;
 using Callvote.Configuration;
-using Callvote.Features.Enums;
 using Callvote.Features.Interfaces;
+using Callvote.SoftDependencies;
 
 namespace Callvote.Features.PredefinedVotes
 {
@@ -58,7 +58,7 @@ namespace Callvote.Features.PredefinedVotes
                     .Replace("%VoteDetail%", binaryVote.YesVoteOption.Detail);
             }
 
-            SoftDependency.MessageProvider.DisplayMessage(
+            DisplayMessage.Provider.Show(
                 TimeSpan.FromSeconds(Config.FinalResultsDuration),
                 $"<size={DisplayMessageHelper.CalculateMessageSize(message)}>{message}</size>",
                 vote.AllowedPlayers);

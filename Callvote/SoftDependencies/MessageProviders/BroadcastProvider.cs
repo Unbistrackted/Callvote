@@ -5,10 +5,10 @@ using Player = LabApi.Features.Wrappers.Player;
 #endif
 using System;
 using System.Collections.Generic;
-using Callvote.Features.Interfaces;
+using Callvote.SoftDependencies.Interfaces;
 using LabApi.Features.Wrappers;
 
-namespace Callvote.Features.MessageProviders
+namespace Callvote.SoftDependencies.MessageProviders
 {
     /// <summary>
     /// Represents the type that provides broadcasts messages.
@@ -16,7 +16,7 @@ namespace Callvote.Features.MessageProviders
     public class BroadcastProvider : IMessageProvider
     {
         /// <inheritdoc/>
-        public void DisplayMessage(TimeSpan duration1, string content, HashSet<Player> players)
+        public void Show(TimeSpan duration1, string content, HashSet<Player> players)
         {
             foreach (Player player in players)
             {

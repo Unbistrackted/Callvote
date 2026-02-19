@@ -16,11 +16,11 @@ namespace Callvote.Features.Interfaces
         /// <summary>
         /// Gets <see cref="Vote.Callback"/> of the template.
         /// </summary>
-        Action<Vote> Callback { get; }
+        public abstract Action<Vote> Callback { get; }
 
         /// <summary>
         /// Gets <see cref="Vote.VoteOptions"/> of the template.
         /// </summary>
-        HashSet<VoteOption> VoteOptions { get; }
+        public abstract HashSet<VoteOption> VoteOptions { get; }
     }
 }

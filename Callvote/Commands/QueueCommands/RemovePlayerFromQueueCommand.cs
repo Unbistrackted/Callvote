@@ -37,9 +37,9 @@ namespace Callvote.Commands.QueueCommands
 
             Player player = Player.Get(sender);
 #if EXILED
-            if (!player.CheckPermission("cv.managequeue"))
+            if ((player != null && !player.CheckPermission("cv.managequeue")) || (player == null && sender is not ServerConsoleSender))
 #else
-            if (!player.HasPermissions("cv.managequeue"))
+            if ((player != null && !player.HasPermissions("cv.managequeue")) || (player == null && sender is not ServerConsoleSender))
 #endif
             {
                 response = CallvotePlugin.Instance.Translation.NoPermission;

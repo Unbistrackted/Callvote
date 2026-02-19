@@ -1,23 +1,28 @@
 ﻿using System;
 using System.Net.Http;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Callvote.Configuration;
+using Callvote.Features;
+using Callvote.SoftDependencies.Interfaces;
 
-namespace Callvote.Features
+namespace Callvote.SoftDependencies.WebhookProviders
 {
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:Elements should be documented", Justification = "Only public API documentation is required")]
-    internal static class DiscordWebhook
+    /// <summary>
+    /// Represents the type that sends a vote result via Callvote's implementation of a webhook.
+    /// </summary>
+    internal class WebhookProvider : IWebhookProvider
     {
         private static Translation Translation => CallvotePlugin.Instance.Translation;
 
         private static Config Config => CallvotePlugin.Instance.Config;
 
-        internal static async Task ResultsMessage(Vote vote)
+        /// <inheritdoc/>
+        public void SendVoteResults(Vote vote)
         {
-            string webhook = Config.DiscordWebhook;
-
-            if (string.IsNullOrWhiteSpace(webhook))
+            // Made by Playeroth and Edi, and I'm too lazy to organize this mess
+            if (string.IsNullOrWhiteSpace(Config.DiscordWebhook))
             {
                 return;
             }
@@ -38,18 +43,7 @@ namespace Callvote.Features
             string payload = $@"{{""content"":null,""embeds"":[{{""title"":""{Translation.WebhookTitle}"",""color"":255,""fields"":[{{""name"":""{Translation.WebhookPlayer}"",""value"":""{callvotePlayerInfo}""}},{{""name"":""{Translation.WebhookQuestion}"",""value"":""{question.Replace($"{callvotePlayerInfo} asks: ", string.Empty)}""}},{{""name"":""{Translation.WebhookVotes}"",""value"":""{results}""}}]}}]}}";
             try
             {
-                using (HttpClient client = new())
-                {
-                    var request = new StringContent(payload, System.Text.Encoding.UTF8, "application/json");
-
-                    HttpResponseMessage response = await client.PostAsync(webhook, request);
-
-                    if (!response.IsSuccessStatusCode)
-                    {
-                        ServerConsole.AddLog($"[ERROR] [Callvote] Webhook Error: {response.StatusCode} - {await response.Content.ReadAsStringAsync()}", ConsoleColor.Red);
-                        return;
-                    }
-                }
+                _ = Task.Run(async () => await this.SendWebhook(payload, Config.DiscordWebhook));
             }
             catch (Exception ex)
             {
@@ -76,6 +70,20 @@ namespace Callvote.Features
                 .Replace("\"", "\\\"")
                 .Replace("\n", "\\n")
                 .Replace("\r", "\\r");
+        }
+
+        private async Task SendWebhook(string payload, string webhook)
+        {
+            using HttpClient client = new();
+            var request = new StringContent(payload, Encoding.UTF8, "application/json");
+
+            HttpResponseMessage response = await client.PostAsync(webhook, request);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                ServerConsole.AddLog($"[ERROR] [Callvote] Webhook Error: {response.StatusCode} - {await response.Content.ReadAsStringAsync()}", ConsoleColor.Red);
+                return;
+            }
         }
     }
 }

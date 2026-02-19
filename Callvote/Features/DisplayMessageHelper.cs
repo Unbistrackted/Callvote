@@ -1,7 +1,8 @@
 ﻿using System;
 using Callvote.API;
 using Callvote.Configuration;
-using Callvote.Features.Interfaces;
+using Callvote.SoftDependencies;
+using Callvote.SoftDependencies.Interfaces;
 using UnityEngine;
 
 namespace Callvote.Features
@@ -48,7 +49,7 @@ namespace Callvote.Features
                 counter++;
             }
 
-            SoftDependency.MessageProvider.DisplayMessage(
+            DisplayMessage.Provider.Show(
                 TimeSpan.FromSeconds(5),
                 $"<size={CalculateMessageSize(firstMessage)}>{firstMessage}</size>",
                 VoteHandler.CurrentVote.AllowedPlayers);
@@ -77,7 +78,7 @@ namespace Callvote.Features
                     .Replace("%VoteCounter%", VoteHandler.CurrentVote.Counter[vote].ToString());
             }
 
-            SoftDependency.MessageProvider.DisplayMessage(
+            DisplayMessage.Provider.Show(
                 TimeSpan.FromSeconds(Config.RefreshInterval),
                 $"<size={CalculateMessageSize(timerMessage)}>{timerMessage}</size>",
                 VoteHandler.CurrentVote.AllowedPlayers);
@@ -102,7 +103,7 @@ namespace Callvote.Features
                     .Replace("%VoteCounter%", VoteHandler.CurrentVote.Counter[vote].ToString());
             }
 
-            SoftDependency.MessageProvider.DisplayMessage(
+            DisplayMessage.Provider.Show(
                 TimeSpan.FromSeconds(Config.FinalResultsDuration),
                 $"<size={CalculateMessageSize(resultsMessage)}>{resultsMessage}</size>",
                 VoteHandler.CurrentVote.AllowedPlayers);

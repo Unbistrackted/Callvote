@@ -9,7 +9,6 @@
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 		<DebugType>embedded</DebugType>
 		<RootNamespace>Callvote</RootNamespace>
-		<AssemblyName>Callvote</AssemblyName>
 		<Optimize>true</Optimize>
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -26,7 +25,7 @@
 		<PackageId>Callvote</PackageId>
 		<Title>Callvote</Title>
 		<Product>Callvote</Product>
-		<Version>6.8.0</Version>
+		<Version>6.9.0</Version>
 		<Authors>Unbistrackted,PatPeter</Authors>
 		<Copyright>Modified BSD</Copyright>
 		<Description>Callvote command like in the Source engine. Vote to kick users, restart round, or make your own custom votes.</Description>
@@ -42,20 +41,47 @@
 
 	<PropertyGroup Condition="'$(Configuration)' == 'Release'">
 		<PackageId>Callvote.LabAPI</PackageId>
-		<AssemblyName>Callvote-LabAPI</AssemblyName>
-		<Version>6.8.0+LabAPI</Version>
+		<TargetName>Callvote-LabAPI</TargetName>
+		<Version>6.9.0+LabAPI</Version>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)' == 'EXILED'">
 		<PackageId>Callvote.EXILED</PackageId>
-		<AssemblyName>Callvote-EXILED</AssemblyName>
-		<Version>6.8.0+EXILED</Version>
+		<TargetName>Callvote-EXILED</TargetName>
+		<Version>6.9.0+EXILED</Version>
 	</PropertyGroup>
+
+	<ItemGroup Condition="'$(Configuration)' == 'EXILED'">
+		<PackageReference Include="ExMod.Exiled" Version="9.12.6" />
+		
+		<Reference Include="HSM">
+			<HintPath>$(EXILED_REFERENCES)\HintServiceMeow-EXILED.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(Configuration)' == 'Release'">
+		<PackageReference Include="Northwood.LabAPI" Version="1.1.5" />
+		
+		<Reference Include="HSM">
+			<HintPath>$(EXILED_REFERENCES)\HintServiceMeow-LabAPI.dll</HintPath>
+		</Reference>
+
+		<Reference Include="CommandSystem.Core">
+			<HintPath>$(EXILED_REFERENCES)\CommandSystem.Core.dll</HintPath>
+		</Reference>
+
+		<Reference Include="NorthwoodLib">
+			<HintPath>$(EXILED_REFERENCES)\NorthwoodLib.dll</HintPath>
+		</Reference>
+
+		<Reference Include="Assembly-CSharp-Publicized">
+			<HintPath>$(EXILED_REFERENCES)\Assembly-CSharp-Publicized.dll</HintPath>
+		</Reference>
+	</ItemGroup>
 
 	<ItemGroup>
 		<Reference Include="Assembly-CSharp-firstpass">
 			<HintPath>$(EXILED_REFERENCES)\Assembly-CSharp-firstpass.dll</HintPath>
 		</Reference>
-
 		<Reference Include="Mirror">
 			<HintPath>$(EXILED_REFERENCES)\Mirror.dll</HintPath>
 		</Reference>
@@ -76,9 +102,10 @@
 			<HintPath>$(EXILED_REFERENCES)\UnityEngine.PhysicsModule.dll</HintPath>
 		</Reference>
 
-		<Reference Include="CommandSystem.Core">
-			<HintPath>$(EXILED_REFERENCES)\CommandSystem.Core.dll</HintPath>
+		<Reference Include="SCPDiscord">
+			<HintPath>$(EXILED_REFERENCES)\SCPDiscord.dll</HintPath>
 		</Reference>
+
 	</ItemGroup>
 
 	<ItemGroup>
@@ -89,13 +116,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="ExMod.Exiled" Version="9.12.6" />
+		<PackageReference Include="DiscordLab.Bot" Version="2.2.1" />
+		<PackageReference Include="Google.Protobuf" Version="3.33.5" />
 		<PackageReference Include="Lib.Harmony" Version="2.2.2" />
-		<PackageReference Include="Northwood.LabAPI" Version="1.1.5" />
 		<PackageReference Include="RueI" Version="3.1.2" />
 		<PackageReference Include="System.Net.Http" Version="4.3.4" />
 		<PackageReference Include="YamlDotNet" Version="16.0.0" />
-		<PackageReference Include="StyleCop.Analyzers.Unstable" Version="1.2.0.556">
+			<PackageReference Include="StyleCop.Analyzers.Unstable" Version="1.2.0.556">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>

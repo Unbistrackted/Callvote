@@ -84,8 +84,11 @@ namespace Callvote.Configuration
         [Description("Changes Callvote's Queue size if enabled.")]
         public int QueueSize { get; set; } = 5;
 
-        [Description("Add a Discord Webhook if you want to send a Vote Result message to discord.")]
+        [Description("Add a Discord Webhook if you want to send a Vote Result message to using discord's webhook.")]
         public string DiscordWebhook { get; set; } = string.Empty;
+
+        [Description("If DiscordLab or SCPDiscord is present and this is set to a valid Channel Id, sends the vote results there. 0 = disabled")]
+        public ulong DiscordChannelId { get; set; } = 0;
 
         [Description("Callvote's SS Menu related settings.")]
         public bool EnableSSMenu { get; set; } = true;

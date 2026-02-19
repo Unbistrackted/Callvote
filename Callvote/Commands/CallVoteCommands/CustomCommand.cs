@@ -36,9 +36,9 @@ namespace Callvote.Commands.CallVoteCommands
             Player player = Player.Get(sender);
 
 #if EXILED
-            if (player == null || !player.CheckPermission("cv.callvotecustom"))
+            if ((player != null && !player.CheckPermission("cv.callvotecustom")) || (player == null && sender is not ServerConsoleSender))
 #else
-            if (player == null || !player.HasPermissions("cv.callvotecustom"))
+            if ((player != null && !player.HasPermissions("cv.callvotecustom")) || (player == null && sender is not ServerConsoleSender))
 #endif
             {
                 response = CallvotePlugin.Instance.Translation.NoPermission;
@@ -68,7 +68,7 @@ namespace Callvote.Commands.CallVoteCommands
                 VoteHandler.CreateVoteOption(command, detail, out _);
             }
 
-            CallVoteStatus status = VoteHandler.CallVote(new CustomVote(player, CallvotePlugin.Instance.Translation.AskedCustom.Replace("%Player%", player.Nickname).Replace("%Custom%", separatedArgs.First()), nameof(VoteType.Custom)));
+            CallVoteStatus status = VoteHandler.CallVote(new CustomVote(player ?? Server.Host, CallvotePlugin.Instance.Translation.AskedCustom.Replace("%Player%", player?.Nickname ?? Server.Host.Nickname).Replace("%Custom%", separatedArgs.First()), nameof(VoteType.Custom)));
 
             response = VoteHandler.GetMessageFromCallVoteStatus(status);
             return true;

@@ -29,6 +29,7 @@ namespace Callvote.Features
 #pragma warning restore SA1611
         {
             this.CallVotePlayer = player;
+            this.CallVotePlayerId = player.UserId;
             this.Question = question;
             this.Callback = callback;
             this.VoteOptions = [.. voteOptions ?? VoteHandler.TemporaryVoteOptions];
@@ -55,6 +56,11 @@ namespace Callvote.Features
         /// Gets the player who called the <see cref="Vote"/> .
         /// </summary>
         public Player CallVotePlayer { get; init; }
+
+        /// <summary>
+        /// Gets the id of the player who called the <see cref="Vote"/> .
+        /// </summary>
+        public string CallVotePlayerId { get; init; }
 
         /// <summary>
         /// Gets the <see cref="Vote"/> question.
@@ -211,16 +217,42 @@ namespace Callvote.Features
         /// <summary>
         /// Gets a <see cref="Features.VoteOption"/> percentage based on <see cref="AllowedPlayers"/> in a <see cref="Vote"/> .
         /// </summary>
-        /// <param name="vote">The <see cref="Features.VoteOption"/> that will be searched for.</param>
+        /// <param name="voteOption">The <see cref="Features.VoteOption"/> that will be searched for.</param>
         /// <returns>A int value as a percentage.</returns>
-        public int GetVoteOptionPercentage(VoteOption vote)
+        public int GetVoteOptionPercentage(VoteOption voteOption)
         {
-            if (!this.IsVoteOptionPresent(vote))
+            if (!this.IsVoteOptionPresent(voteOption))
             {
                 return 0;
             }
 
-            return (int)(this.Counter[vote] / (float)this.AllowedPlayers.Count * 100f);
+            return (int)(this.Counter[voteOption] / (float)this.AllowedPlayers.Count * 100f);
+        }
+
+        /// <summary>
+        /// Gets the <see cref="Features.VoteOption"/> that has the most ammount of votes .
+        /// </summary>
+        /// <returns>Ai<see cref="Features.VoteOption"/> with the most ammount of votes in this <see cref="Vote"/>.</returns>
+        public VoteOption GetWinningVoteOption()
+        {
+            if (this.Counter.Count == 0)
+            {
+                return null;
+            }
+
+            VoteOption winningOption = this.VoteOptions.First();
+            int highestVotes = 0;
+
+            foreach (KeyValuePair<VoteOption, int> voteOptionAndAmmount in this.Counter)
+            {
+                if (voteOptionAndAmmount.Value >= highestVotes)
+                {
+                    highestVotes = voteOptionAndAmmount.Value;
+                    winningOption = voteOptionAndAmmount.Key;
+                }
+            }
+
+            return winningOption;
         }
 
         /// <summary>

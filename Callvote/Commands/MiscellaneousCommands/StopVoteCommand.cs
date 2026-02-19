@@ -33,9 +33,9 @@ namespace Callvote.Commands.MiscellaneousCommands
                 return false;
             }
 #if EXILED
-            if (!player.CheckPermission("cv.stopvote") && player != null)
+            if ((player != null && !player.CheckPermission("cv.stopvote")) || (player == null && sender is not ServerConsoleSender))
 #else
-            if (!player.HasPermissions("cv.stopvote") && player != null)
+            if ((player != null && !player.HasPermissions("cv.stopvote")) || (player == null && sender is not ServerConsoleSender))
 #endif
             {
                 response = CallvotePlugin.Instance.Translation.NoPermission;

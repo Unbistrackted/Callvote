@@ -11,6 +11,7 @@ using Callvote.API;
 using Callvote.API.VoteTemplate;
 using Callvote.Features.Enums;
 using CommandSystem;
+using LabApi.Features.Console;
 
 namespace Callvote.Commands.CallVoteCommands
 {
@@ -30,16 +31,16 @@ namespace Callvote.Commands.CallVoteCommands
             Player player = Player.Get(sender);
 
 #if EXILED
-            if (!player.CheckPermission("cv.callvotecustom") && player != null)
+            if ((player != null && !player.CheckPermission("cv.callvotecustom")) || (player == null && sender is not ServerConsoleSender))
 #else
-            if (!player.HasPermissions("cv.callvotecustom") && player != null)
+            if (player != null && !player.HasPermissions("cv.callvotecustom") || (player == null && sender is not ServerConsoleSender))
 #endif
             {
                 response = CallvotePlugin.Instance.Translation.NoPermission;
                 return false;
             }
 
-            CallVoteStatus status = VoteHandler.CallVote(new BinaryVote(player, CallvotePlugin.Instance.Translation.AskedCustom.Replace("%Player%", player.Nickname).Replace("%Custom%", string.Join(" ", args)), nameof(VoteType.Binary), null));
+            CallVoteStatus status = VoteHandler.CallVote(new BinaryVote(player ?? Server.Host, CallvotePlugin.Instance.Translation.AskedCustom.Replace("%Player%", player?.Nickname ?? Server.Host.Nickname).Replace("%Custom%", string.Join(" ", args)), nameof(VoteType.Binary), null));
 
             response = VoteHandler.GetMessageFromCallVoteStatus(status);
             return true;

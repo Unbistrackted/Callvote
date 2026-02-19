@@ -8,8 +8,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Callvote.API.VoteTemplate;
 using Callvote.Configuration;
-using Callvote.Features.Enums;
 using Callvote.Features.Interfaces;
+using Callvote.SoftDependencies;
 using PlayerRoles;
 using Respawning;
 using Respawning.Config;
@@ -106,7 +106,7 @@ namespace Callvote.Features.PredefinedVotes
                     .Replace("%VoteDetail%", respawnVote.NoVoteOption.Detail);
             }
 
-            SoftDependency.MessageProvider.DisplayMessage(
+            DisplayMessage.Provider.Show(
                 TimeSpan.FromSeconds(Config.FinalResultsDuration),
                 $"<size={DisplayMessageHelper.CalculateMessageSize(message)}>{message}</size>",
                 vote.AllowedPlayers);

@@ -35,27 +35,27 @@ namespace Callvote.Commands.CallVoteCommands
                 return false;
             }
 #if EXILED
-            if (!player.CheckPermission("cv.callvoterespawnwave") && player != null)
+            if ((player != null && !player.CheckPermission("cv.callvoterespawnwave")) || (player == null && sender is not ServerConsoleSender))
 #else
-            if (!player.HasPermissions("cv.callvoterespawnwave") && player != null)
+            if ((player != null && !player.HasPermissions("cv.callvoterespawnwave")) || (player == null && sender is not ServerConsoleSender))
 #endif
             {
                 response = CallvotePlugin.Instance.Translation.NoPermission;
                 return false;
             }
 #if EXILED
-            if (!player.CheckPermission("cv.bypass") && Round.ElapsedTime.TotalSeconds < CallvotePlugin.Instance.Config.MaxWaitRespawnWave)
+            if (player != null && !player.CheckPermission("cv.bypass") && Round.ElapsedTime.TotalSeconds < CallvotePlugin.Instance.Config.MaxWaitRespawnWave)
             {
                 response = CallvotePlugin.Instance.Translation.WaitToVote.Replace("%Timer%", $"{CallvotePlugin.Instance.Config.MaxWaitRespawnWave - Round.ElapsedTime.TotalSeconds:F0}");
 #else
-            if (!player.HasPermissions("cv.bypass") && Round.Duration.TotalSeconds < CallvotePlugin.Instance.Config.MaxWaitRespawnWave)
+            if (player != null && !player.HasPermissions("cv.bypass") && Round.Duration.TotalSeconds < CallvotePlugin.Instance.Config.MaxWaitRespawnWave)
             {
                 response = CallvotePlugin.Instance.Translation.WaitToVote.Replace("%Timer%", $"{CallvotePlugin.Instance.Config.MaxWaitRespawnWave - Round.Duration.TotalSeconds:F0}");
 #endif
                 return false;
             }
 
-            CallVoteStatus status = VoteHandler.CallVote(new RespawnWaveVote(player));
+            CallVoteStatus status = VoteHandler.CallVote(new RespawnWaveVote(player ?? Server.Host));
 
             response = VoteHandler.GetMessageFromCallVoteStatus(status);
             return true;

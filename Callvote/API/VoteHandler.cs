@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 using Callvote.Configuration;
 using Callvote.Features;
 using Callvote.Features.Enums;
+using Callvote.Features.Interfaces;
+using Callvote.SoftDependencies;
 
 namespace Callvote.API
 {
@@ -156,7 +158,8 @@ namespace Callvote.API
 
                 if (ShouldSendWebhookMessage)
                 {
-                    _ = Task.Run(async () => await Features.DiscordWebhook.ResultsMessage(CurrentVote));
+                    Vote vote = CurrentVote;
+                    SoftDependencies.DiscordEmbed.Provider.SendVoteResults(vote);
                 }
             }
 

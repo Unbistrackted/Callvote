@@ -37,9 +37,9 @@ namespace Callvote.Commands.CallVoteCommands
                 return false;
             }
 #if EXILED
-            if (!player.CheckPermission("cv.callvotekick") && player != null)
+            if ((player != null && !player.CheckPermission("cv.callvotekick")) || (player == null && sender is not ServerConsoleSender))
 #else
-            if (!player.HasPermissions("cv.callvotekick") && player != null)
+            if ((player != null && !player.HasPermissions("cv.callvotekick"))  || (player == null && sender is not ServerConsoleSender))
 #endif
             {
                 response = CallvotePlugin.Instance.Translation.NoPermission;
@@ -52,11 +52,11 @@ namespace Callvote.Commands.CallVoteCommands
                 return false;
             }
 #if EXILED
-            if (!player.CheckPermission("cv.bypass") && Round.ElapsedTime.TotalSeconds < CallvotePlugin.Instance.Config.MaxWaitKick)
+            if (player != null && !player.CheckPermission("cv.bypass") && Round.ElapsedTime.TotalSeconds < CallvotePlugin.Instance.Config.MaxWaitKick)
             {
                 response = CallvotePlugin.Instance.Translation.WaitToVote.Replace("%Timer%", $"{CallvotePlugin.Instance.Config.MaxWaitKick - Round.ElapsedTime.TotalSeconds:F0}");
 #else
-            if (!player.HasPermissions("cv.bypass") && Round.Duration.TotalSeconds < CallvotePlugin.Instance.Config.MaxWaitKick)
+            if (player != null && !player.HasPermissions("cv.bypass") && Round.Duration.TotalSeconds < CallvotePlugin.Instance.Config.MaxWaitKick)
             {
                 response = CallvotePlugin.Instance.Translation.WaitToVote.Replace("%Timer%", $"{CallvotePlugin.Instance.Config.MaxWaitKick - Round.Duration.TotalSeconds:F0}");
 #endif
@@ -100,7 +100,7 @@ namespace Callvote.Commands.CallVoteCommands
 
             string reason = string.Join(" ", args.Skip(1));
 
-            CallVoteStatus status = VoteHandler.CallVote(new KickVote(player, locatedPlayer, reason));
+            CallVoteStatus status = VoteHandler.CallVote(new KickVote(player ?? Server.Host, locatedPlayer, reason));
 
             response = VoteHandler.GetMessageFromCallVoteStatus(status);
             return true;
