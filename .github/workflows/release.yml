@@ -46,7 +46,7 @@ jobs:
         
       - name: Extract Refs
         run: |
-          mkdir Callvote\lib
+          mkdir callvote\lib
           tar -xf References.zip -C Callvote/lib
           
       - name: Move Dlls
