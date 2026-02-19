@@ -35,15 +35,7 @@ jobs:
       - name: Download ScpDiscord
         run: Invoke-WebRequest -Uri "https://github.com/KarlOfDuty/SCPDiscord/releases/download/3.3.1/SCPDiscord.dll"
           -OutFile "SCPDiscord.dll"
-
-      - name: Download HSM-EXILED
-        run: Invoke-WebRequest -Uri "https://github.com/MeowServer/HintServiceMeow/releases/download/V5.4.4/HintServiceMeow-Exiled.dll"
-          -OutFile "HintServiceMeow-Exiled.dll"
-
-      - name: Download HSM-LabAPI
-        run: Invoke-WebRequest -Uri "https://github.com/MeowServer/HintServiceMeow/releases/download/V5.4.4/HintServiceMeow-LabAPI.dll"
-          -OutFile "HintServiceMeow-LabAPI.dll"
-        
+          
       - name: Extract Refs
         run: |
           mkdir callvote\lib
