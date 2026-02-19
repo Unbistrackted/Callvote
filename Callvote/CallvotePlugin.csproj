@@ -54,7 +54,7 @@
 		<PackageReference Include="ExMod.Exiled" Version="9.12.6" />
 		
 		<Reference Include="HSM">
-			<HintPath>$(EXILED_REFERENCES)\HintServiceMeow-EXILED.dll</HintPath>
+			<HintPath>$(EXILED_REFERENCES)\HintServiceMeow-Exiled.dll</HintPath>
 		</Reference>
 	</ItemGroup>
 
