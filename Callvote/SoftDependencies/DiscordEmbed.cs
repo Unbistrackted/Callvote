@@ -1,6 +1,6 @@
 ﻿using System.Linq;
+using Callvote.SoftDependencies.DiscordEmbedProviders;
 using Callvote.SoftDependencies.Interfaces;
-using Callvote.SoftDependencies.WebhookProviders;
 using HarmonyLib;
 
 namespace Callvote.SoftDependencies

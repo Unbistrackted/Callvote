@@ -1,17 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using Callvote.Configuration;
 using Callvote.Features;
 using Callvote.SoftDependencies.Interfaces;
-using Google.Protobuf.Collections;
-using SCPDiscord.Interface;
+using Discord;
+using DiscordLab.Bot;
+using Config = Callvote.Configuration.Config;
 
-namespace Callvote.SoftDependencies.WebhookProviders
+namespace Callvote.SoftDependencies.DiscordEmbedProviders
 {
     /// <summary>
     /// Represents the type that sends a vote result via DiscordLab Webhook using DiscordLab's Bot.
     /// </summary>
-    public class ScpDiscordMessageProvider : IWebhookProvider
+    internal class DiscordLabMessageProvider : IWebhookProvider
     {
         private static Translation Translation => CallvotePlugin.Instance.Translation;
 
@@ -20,53 +23,51 @@ namespace Callvote.SoftDependencies.WebhookProviders
         /// <inheritdoc/>
         public void SendVoteResults(Vote vote)
         {
-            if (!SCPDiscord.NetworkSystem.IsConnected())
+            if (!Client.IsClientReady)
             {
                 ServerConsole.AddLog($"[ERROR] [Callvote] DiscordLab was not initialized!", ConsoleColor.Red);
                 return;
             }
 
-            RepeatedField<EmbedMessage.Types.DiscordEmbedField> fields = [];
+            List<EmbedFieldBuilder> fields = [];
 
             // Player who called the vote
-            fields.Add(new EmbedMessage.Types.DiscordEmbedField()
+            fields.Add(new EmbedFieldBuilder()
             {
                 Name = Translation.WebhookPlayer,
                 Value = vote.CallVotePlayer?.Nickname ?? vote.CallVotePlayerId,
-                Inline = false,
+                IsInline = false,
             });
 
             // Vote Question
-            fields.Add(new EmbedMessage.Types.DiscordEmbedField()
+            fields.Add(new EmbedFieldBuilder()
             {
                 Name = Translation.WebhookQuestion,
                 Value = RemoveColorTags(vote?.Question),
-                Inline = false,
+                IsInline = false,
             });
 
             // Vote Options and Counters
             foreach (VoteOption option in vote.VoteOptions)
             {
-                fields.Add(new EmbedMessage.Types.DiscordEmbedField()
+                fields.Add(new EmbedFieldBuilder()
                 {
                     Name = RemoveColorTags(option.Detail),
                     Value = vote.Counter[option].ToString(),
-                    Inline = true,
+                    IsInline = true,
                 });
             }
 
-            EmbedMessage embedMessage = new()
+            EmbedBuilder embedBuilder = new()
             {
                 Title = Translation.WebhookTitle,
-                ChannelID = Config.DiscordChannelId,
-                Colour = GetColor(vote.GetWinningVoteOption()?.Detail),
+                Color = GetColor(vote.GetWinningVoteOption()?.Detail),
+                Fields = fields,
             };
-
-            embedMessage.Fields.AddRange(fields);
 
             try
             {
-                SCPDiscord.SCPDiscord.SendEmbedByID(embedMessage);
+                Client.GetOrAddChannel(Config.DiscordChannelId).SendMessageAsync(embed: embedBuilder.Build());
             }
             catch (Exception ex)
             {
@@ -79,27 +80,21 @@ namespace Callvote.SoftDependencies.WebhookProviders
             return Regex.Replace(input, "<color=.*?>|</color>", string.Empty);
         }
 
-        private static EmbedMessage.Types.DiscordColour GetColor(string option)
+        private static Color GetColor(string option)
         {
             if (string.IsNullOrEmpty(option))
             {
-                return EmbedMessage.Types.DiscordColour.None;
+                return Color.Default;
             }
 
             string color = Regex.Match(option, "<color=(.*?)>").Groups[1].Value;
 
-            return color switch
+            if (Color.TryParse(color, out Color parsedColor))
             {
-                "red" => EmbedMessage.Types.DiscordColour.Red,
-                "cyan" => EmbedMessage.Types.DiscordColour.Cyan,
-                "blue" => EmbedMessage.Types.DiscordColour.Blue,
-                "magenta" => EmbedMessage.Types.DiscordColour.Magenta,
-                "white" => EmbedMessage.Types.DiscordColour.White,
-                "green" => EmbedMessage.Types.DiscordColour.Green,
-                "yellow" => EmbedMessage.Types.DiscordColour.Yellow,
-                "black" => EmbedMessage.Types.DiscordColour.Black,
-                _ => EmbedMessage.Types.DiscordColour.None,
-            };
+                return parsedColor;
+            }
+
+            return Color.Parse(GameConsoleTransmission.ProcessColor(color).ToHex().Remove(7));
         }
     }
 }

@@ -33,7 +33,7 @@ namespace Callvote.Commands.CallVoteCommands
 #if EXILED
             if ((player != null && !player.CheckPermission("cv.callvotecustom")) || (player == null && sender is not ServerConsoleSender))
 #else
-            if (player != null && !player.HasPermissions("cv.callvotecustom") || (player == null && sender is not ServerConsoleSender))
+            if ((player != null && !player.HasPermissions("cv.callvotecustom")) || (player == null && sender is not ServerConsoleSender))
 #endif
             {
                 response = CallvotePlugin.Instance.Translation.NoPermission;

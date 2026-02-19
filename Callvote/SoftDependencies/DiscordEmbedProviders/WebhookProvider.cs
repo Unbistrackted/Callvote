@@ -7,7 +7,7 @@ using Callvote.Configuration;
 using Callvote.Features;
 using Callvote.SoftDependencies.Interfaces;
 
-namespace Callvote.SoftDependencies.WebhookProviders
+namespace Callvote.SoftDependencies.DiscordEmbedProviders
 {
     /// <summary>
     /// Represents the type that sends a vote result via Callvote's implementation of a webhook.
