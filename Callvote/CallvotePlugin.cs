@@ -26,7 +26,7 @@ namespace Callvote
         public override string Author { get; } = AssemblyInfo.Author;
 
 #if EXILED
-        public override Version RequiredExiledVersion => new(9, 12, 6);
+        public override Version RequiredExiledVersion => new(9, 13, 1);
 
         public override PluginPriority Priority => PluginPriority.Default;
 

@@ -51,19 +51,13 @@
 	</PropertyGroup>
 
 	<ItemGroup Condition="'$(Configuration)' == 'EXILED'">
-		<PackageReference Include="ExMod.Exiled" Version="9.12.6" />
-		
-		<Reference Include="HintServiceMeow">
-			<HintPath>$(EXILED_REFERENCES)\HintServiceMeow-Exiled.dll</HintPath>
-		</Reference>
+		<PackageReference Include="ExMod.Exiled" Version="9.13.1" />
+		<PackageReference Include="HintServiceMeow-Exiled" Version="5.4.1" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(Configuration)' == 'Release'">
 		<PackageReference Include="Northwood.LabAPI" Version="1.1.5" />
-		
-		<Reference Include="HintServiceMeow">
-			<HintPath>$(EXILED_REFERENCES)\HintServiceMeow-LabAPI.dll</HintPath>
-		</Reference>
+		<PackageReference Include="HintServiceMeow" Version="5.4.1" />
 
 		<Reference Include="CommandSystem.Core">
 			<HintPath>$(EXILED_REFERENCES)\CommandSystem.Core.dll</HintPath>
@@ -116,9 +110,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="DiscordLab.Bot" Version="2.2.1" />
+		<PackageReference Include="DiscordLab.Bot" Version="2.5.0" />
 		<PackageReference Include="Google.Protobuf" Version="3.33.5" />
-		<PackageReference Include="Lib.Harmony" Version="2.2.2" />
+		<PackageReference Include="Lib.Harmony" Version="2.3.6" />
 		<PackageReference Include="RueI" Version="3.1.2" />
 		<PackageReference Include="System.Net.Http" Version="4.3.4" />
 		<PackageReference Include="YamlDotNet" Version="16.0.0" />
