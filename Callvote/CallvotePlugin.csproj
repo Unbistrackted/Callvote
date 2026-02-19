@@ -53,7 +53,7 @@
 	<ItemGroup Condition="'$(Configuration)' == 'EXILED'">
 		<PackageReference Include="ExMod.Exiled" Version="9.12.6" />
 		
-		<Reference Include="HSM">
+		<Reference Include="HintServiceMeow">
 			<HintPath>$(EXILED_REFERENCES)\HintServiceMeow-Exiled.dll</HintPath>
 		</Reference>
 	</ItemGroup>
@@ -61,7 +61,7 @@
 	<ItemGroup Condition="'$(Configuration)' == 'Release'">
 		<PackageReference Include="Northwood.LabAPI" Version="1.1.5" />
 		
-		<Reference Include="HSM">
+		<Reference Include="HintServiceMeow">
 			<HintPath>$(EXILED_REFERENCES)\HintServiceMeow-LabAPI.dll</HintPath>
 		</Reference>
 
