@@ -47,10 +47,10 @@ jobs:
       - name: Extract Refs
         run: |
           mkdir callvote\lib
-          tar -xf References.zip -C Callvote/lib
+          tar -xf References.zip -C callvote/lib
           
       - name: Move Dlls
-        run: move *.dll Callvote\lib
+        run: move *.dll callvote\lib
           
       - name: Build EXILED
         run: dotnet build Callvote.sln -c EXILED -p:Platform=x64
