@@ -51,6 +51,9 @@ jobs:
           
       - name: Move Dlls
         run: move *.dll callvote\lib
+
+      - name: List callvote/lib (detailed)
+        run: Get-ChildItem callvote\lib -Recurse
           
       - name: Build EXILED
         run: dotnet build Callvote.sln -c EXILED -p:Platform=x64
