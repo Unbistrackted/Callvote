@@ -1,8 +1,8 @@
 ﻿#if EXILED
 using Callvote.Commands.CallVoteCommands;
+using Callvote.Commands.MiscellaneousCommands;
 #endif
 using System;
-using Callvote.Commands.MiscellaneousCommands;
 using CommandSystem;
 
 namespace Callvote.Commands.ParentCommands
@@ -20,7 +20,7 @@ namespace Callvote.Commands.ParentCommands
 
         public override string Description => "Enables player to call votes, manage the queue and more!";
 
-        public override void LoadGeneratedCommands()
+        public override sealed void LoadGeneratedCommands()
         {
 #if EXILED
             this.RegisterCommand(new CallVoteQueueParentCommand());

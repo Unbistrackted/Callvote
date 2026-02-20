@@ -1,7 +1,7 @@
-﻿using System.Linq;
-using Callvote.SoftDependencies.Interfaces;
+﻿using Callvote.SoftDependencies.Interfaces;
 using Callvote.SoftDependencies.MessageProviders;
 using HarmonyLib;
+using System.Linq;
 
 namespace Callvote.SoftDependencies
 {

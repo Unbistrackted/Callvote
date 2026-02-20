@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using Callvote.Configuration;
+﻿using Callvote.Configuration;
 using Callvote.Properties;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UserSettings.ServerSpecific;
 

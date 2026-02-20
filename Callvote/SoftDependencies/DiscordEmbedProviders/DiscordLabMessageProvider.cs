@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
-using Callvote.Configuration;
+﻿using Callvote.Configuration;
 using Callvote.Features;
 using Callvote.SoftDependencies.Interfaces;
 using Discord;
 using DiscordLab.Bot;
+using System;
+using System.Text.RegularExpressions;
 using Config = Callvote.Configuration.Config;
 
 namespace Callvote.SoftDependencies.DiscordEmbedProviders
@@ -29,54 +27,16 @@ namespace Callvote.SoftDependencies.DiscordEmbedProviders
                 return;
             }
 
-            List<EmbedFieldBuilder> fields = [];
-
-            // Player who called the vote
-            fields.Add(new EmbedFieldBuilder()
-            {
-                Name = Translation.WebhookPlayer,
-                Value = vote.CallVotePlayer?.Nickname ?? vote.CallVotePlayerId,
-                IsInline = false,
-            });
-
-            // Vote Question
-            fields.Add(new EmbedFieldBuilder()
-            {
-                Name = Translation.WebhookQuestion,
-                Value = RemoveColorTags(vote?.Question),
-                IsInline = false,
-            });
-
-            // Vote Options and Counters
-            foreach (VoteOption option in vote.VoteOptions)
-            {
-                fields.Add(new EmbedFieldBuilder()
-                {
-                    Name = RemoveColorTags(option.Detail),
-                    Value = vote.Counter[option].ToString(),
-                    IsInline = true,
-                });
-            }
-
-            EmbedBuilder embedBuilder = new()
-            {
-                Title = Translation.WebhookTitle,
-                Color = GetColor(vote.GetWinningVoteOption()?.Detail),
-                Fields = fields,
-            };
-
-            try
-            {
-                Client.GetOrAddChannel(Config.DiscordChannelId).SendMessageAsync(embed: embedBuilder.Build());
-            }
-            catch (Exception ex)
-            {
-                ServerConsole.AddLog($"[ERROR] [Callvote] " + "Webhook Error: " + ex.Message + " " + ex.Source + " " + ex.StackTrace, ConsoleColor.Red);
-            }
+            _ = Client.GetOrAddChannel(Config.DiscordChannelId)?.SendMessageAsync(embed: BuildEmbed(vote));
         }
 
         private static string RemoveColorTags(string input)
         {
+            if (string.IsNullOrEmpty(input))
+            {
+                return string.Empty;
+            }
+
             return Regex.Replace(input, "<color=.*?>|</color>", string.Empty);
         }
 
@@ -95,6 +55,25 @@ namespace Callvote.SoftDependencies.DiscordEmbedProviders
             }
 
             return Color.Parse(GameConsoleTransmission.ProcessColor(color).ToHex().Remove(7));
+        }
+
+        private static Embed BuildEmbed(Vote vote)
+        {
+            EmbedBuilder embedBuilder = new()
+            {
+                Title = Translation.WebhookTitle,
+                Color = GetColor(vote.GetWinningVoteOption()?.Detail),
+            };
+
+            embedBuilder.AddField(Translation.WebhookPlayer, vote.CallVotePlayer?.Nickname ?? vote.CallVotePlayerId);
+            embedBuilder.AddField(Translation.WebhookQuestion, RemoveColorTags(vote?.Question));
+
+            foreach (VoteOption option in vote.VoteOptions)
+            {
+                embedBuilder.AddField(RemoveColorTags(option.Detail), vote.Counter[option].ToString(), true);
+            }
+
+            return embedBuilder.Build();
         }
     }
 }

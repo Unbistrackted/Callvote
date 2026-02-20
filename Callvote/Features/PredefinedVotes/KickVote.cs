@@ -1,13 +1,11 @@
 ﻿#if EXILED
 using Exiled.API.Features;
 #else
-using LabApi.Features.Permissions;
 using LabApi.Features.Wrappers;
 #endif
 using System;
 using Callvote.API.VoteTemplate;
 using Callvote.Configuration;
-using Callvote.Features.Enums;
 using Callvote.Features.Interfaces;
 using Callvote.SoftDependencies;
 

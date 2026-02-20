@@ -1,10 +1,10 @@
-﻿using System;
-using System.Text.RegularExpressions;
-using Callvote.Configuration;
+﻿using Callvote.Configuration;
 using Callvote.Features;
 using Callvote.SoftDependencies.Interfaces;
 using Google.Protobuf.Collections;
 using SCPDiscord.Interface;
+using System;
+using System.Text.RegularExpressions;
 
 namespace Callvote.SoftDependencies.DiscordEmbedProviders
 {
