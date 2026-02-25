@@ -1,0 +1,108 @@
+﻿using System;
+using Callvote.API.Providers.DisplayMessage;
+using Callvote.API.Votes;
+using Callvote.API.Votes.Enums;
+using LabApi.Events.Handlers;
+
+namespace Callvote.API
+{
+    /// <summary>
+    /// Represents the static handler that manages <see cref="Vote"/> lifecycle and the <see cref="Vote"/> queue.
+    /// Provides methods to call, finish, enqueue, start <see cref="Vote"/>, add options, and many more.
+    /// </summary>
+    public static class VoteHandler
+    {
+        static VoteHandler()
+        {
+            ServerEvents.RoundRestarted += () => FinishVote(true); // Remove this in the future
+            ServerEvents.WaitingForPlayers += () => FinishVote(true);
+        }
+
+        /// <summary>
+        /// Gets the currently active <see cref="Vote"/> instance. Null when no vote is in progress.
+        /// </summary>
+        public static Vote CurrentVote { get; internal set; }
+
+        /// <summary>
+        /// Gets a value indicating whether the <see cref="Vote"/> is currently active.
+        /// </summary>
+        public static bool IsVoteActive => CurrentVote != null;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the Discord Webhook will be able to send a webhook message.
+        /// </summary>
+        public static bool ShouldSendWebhookMessage { get; set; } = false;
+
+        /// <summary>
+        /// Request to start a <see cref="Vote"/>.
+        /// If queueing is enabled the <paramref name="vote"/> will be enqueued and the <see cref="Vote"/> is started immediately.
+        /// </summary>
+        /// <param name="vote">The <see cref="Vote"/> to start or enqueue.</param>
+        /// <returns>A <see cref="CallVoteStatus"/> representing if the action was sucessfull, or for example, if the queue is full.</returns>
+        public static CallVoteStatus CallVote(Vote vote)
+        {
+            if (vote == null)
+            {
+                throw new ArgumentNullException(nameof(vote), "Vote cannot be null!");
+            }
+
+            if (!IsVoteActive)
+            {
+                CurrentVote = vote;
+                CurrentVote.Start();
+                return CallVoteStatus.VoteStarted;
+            }
+
+            return CallVoteStatus.VoteInProgress;
+        }
+
+        /// <summary>
+        /// Finishes and clears the active <see cref="Vote"/>.
+        /// Stops the vote, displays results (or invokes a callback when provided),
+        /// sends results to configured Discord webhook asynchronously if <see cref="ShouldSendWebhookMessage"/> is true, clears <see cref="CurrentVote"/> and, starts the next
+        /// queued <see cref="Vote"/> if queueing is enabled.
+        /// </summary>
+        /// <param name="isForced">If the voting will display the results message or invoke the Callback.</param>
+        public static void FinishVote(bool isForced = false)
+        {
+            if (!IsVoteActive)
+            {
+                return;
+            }
+
+            CurrentVote?.Stop();
+
+            if (!isForced)
+            {
+                if (CurrentVote?.Callback == null)
+                {
+                    DisplayHandler.Show(CurrentVote.ResultsMessageDuration, CurrentVote.BuildResultsMessage(), CurrentVote.AllowedPlayers);
+                }
+                else
+                {
+                    CurrentVote?.Callback.Invoke(CurrentVote);
+                }
+
+                if (ShouldSendWebhookMessage)
+                {
+                    // Vote vote = CurrentVote;
+
+                    // WebhookProvider.SendVoteResults(vote);
+                }
+            }
+
+            CurrentVote = null;
+        }
+
+        /// <summary>
+        /// Creates a <see cref="VoteOption"/>.
+        /// </summary>
+        /// <param name="option">The <see cref="VoteOption"/> Option.</param>
+        /// <param name="detail">The <see cref="VoteOption"/> Detail.</param>
+        /// <returns>A new a <see cref="VoteOption"/>.</returns>
+        public static VoteOption CreateVoteOption(string option, string detail)
+        {
+            return new VoteOption(option, detail);
+        }
+    }
+}
