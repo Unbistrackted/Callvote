@@ -48,7 +48,7 @@ namespace Callvote.Commands.QueueCommands
 
             string voteType = arguments.At(0);
 
-            List<Vote> voteToRemove = MaxVotesAndQueue.VoteQueue.Where(v => v.VoteType.ToLower().Equals(voteType.ToLower())).ToList();
+            List<Vote> voteToRemove = MaxVotesAndQueue.VoteQueue.Where(v => v.Type.ToLower().Equals(voteType.ToLower())).ToList();
 
             if (voteToRemove.Count() == 0)
             {

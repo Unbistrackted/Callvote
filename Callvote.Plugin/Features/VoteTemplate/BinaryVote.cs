@@ -19,7 +19,7 @@ namespace Callvote.Features.VoteTemplate
         /// </summary>
         /// <param name="player"><see cref="Vote.CallVotePlayer"/>.</param>
         /// <param name="question"><see cref="Vote.Question"/>.</param>
-        /// <param name="voteType"><see cref="Vote.VoteType"/>.</param>
+        /// <param name="voteType"><see cref="Vote.Type"/>.</param>
         /// <param name="callback"><see cref="Vote.Callback"/>.</param>
         /// <param name="players"><see cref="Vote.AllowedPlayers"/>.</param>
         public BinaryVote(Player player, string question, string voteType, Action<Vote> callback = null, IEnumerable<Player> players = null)

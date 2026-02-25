@@ -1,14 +1,13 @@
 ﻿using System.Collections.Generic;
 using Callvote.API.Providers.DisplayMessage;
 using Callvote.API.Providers.Enums;
-using Callvote.API.Providers.Interfaces;
 
 namespace Callvote.API.Providers.SendDiscordEmbed
 {
     /// <summary>
     /// Represents the type that manages the <see cref="EmbedProvider"/> provider.
     /// </summary>
-    public class DiscordEmbedHandler : ProviderHandler<EmbedProvider>
+    public class DiscordEmbedHandler : BaseProviderHandler<EmbedProvider>
     {
         private EmbedProvider currentProvider;
 

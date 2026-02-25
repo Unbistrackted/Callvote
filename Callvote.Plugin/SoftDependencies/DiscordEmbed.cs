@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using Callvote.API.Providers.SendDiscordEmbed;
+using Callvote.API.Features.DiscordEmbed;
 using Callvote.SoftDependencies.DiscordEmbedProviders;
 using HarmonyLib;
 

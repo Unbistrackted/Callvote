@@ -1,8 +1,8 @@
-﻿using Callvote.API.Providers.Enums;
-using Callvote.API.Providers.Interfaces;
-using Callvote.API.Votes;
+﻿using Callvote.API.Enums;
+using Callvote.API.Features.Core.Interfaces;
+using Callvote.API.Features.Votes;
 
-namespace Callvote.API.Providers.SendDiscordEmbed
+namespace Callvote.API.Features.DiscordEmbed
 {
     /// <summary>
     /// Represents the interface for Webhook Providers, which are used to send messages via Webhooks to Discord.

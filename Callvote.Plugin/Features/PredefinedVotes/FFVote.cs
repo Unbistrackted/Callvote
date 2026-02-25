@@ -15,7 +15,7 @@ namespace Callvote.Features.PredefinedVotes
     /// Initializes a new instance of the <see cref="FFVote"/> class.
     /// </summary>
     /// <param name="player"><see cref="Vote.CallVotePlayer"/>.</param>
-    public class FFVote(Player player) : BinaryVote(player, ReplacePlayer(player), nameof(VoteTypeEnum.Ff), AddCallback), IPredefinedVote
+    public class FFVote(Player player) : BinaryVote(player, ReplacePlayer(player), nameof(VoteType.Ff), AddCallback), IPredefinedVote
     {
         private static void AddCallback(Vote vote)
         {

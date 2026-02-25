@@ -40,7 +40,7 @@ namespace Callvote.Features.VoteTemplate
         /// </summary>
         /// <param name="player"><see cref="Vote.CallVotePlayer"/>.</param>
         /// <param name="question"><see cref="Vote.Question"/>.</param>
-        /// <param name="voteType"><see cref="Vote.VoteType"/>.</param>
+        /// <param name="voteType"><see cref="Vote.Type"/>.</param>
         /// <param name="voteTemplate">The <see cref="IPredefinedVote"/> to be copied from.</param>
         /// <param name="players">A <see cref="IEnumerable{Player}"/> that takes <see cref="Player"/>s that are only allowed to see and vote in a <see cref="Vote"/>. If null, gets all ready players instead.</param>
         public CustomVote(Player player, string question, string voteType, IPredefinedVote voteTemplate, IEnumerable<Player> players = null)

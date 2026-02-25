@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Callvote.API.Providers.Enums;
+using Callvote.API.Providers.Interfaces;
 
-namespace Callvote.API.Providers.Interfaces
+namespace Callvote.API.Providers
 {
     /// <summary>
     /// The type that manages the <see cref="IProvider"/> instances.
     /// </summary>
     /// <typeparam name="T">As <see cref="IProvider"/>.</typeparam>
-    public abstract class ProviderHandler<T>
+    public abstract class BaseProviderHandler<T>
         where T : IProvider
     {
         /// <summary>

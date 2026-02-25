@@ -71,7 +71,7 @@ namespace Callvote.Commands.CallVoteCommands
                 options.Add(VoteHandler.CreateVoteOption(command, detail));
             }
 
-            CallVoteStatus status = VoteHandler.CallVote(new CustomVote(player ?? Server.Host, CallvotePlugin.Instance.Translation.AskedCustom.Replace("%Player%", player?.Nickname ?? Server.Host.Nickname).Replace("%Custom%", separatedArgs.First()), nameof(VoteTypeEnum.Custom), options));
+            CallVoteStatus status = VoteHandler.CallVote(new CustomVote(player ?? Server.Host, CallvotePlugin.Instance.Translation.AskedCustom.Replace("%Player%", player?.Nickname ?? Server.Host.Nickname).Replace("%Custom%", separatedArgs.First()), nameof(VoteType.Custom), options));
 
             response = VoteHandler.CurrentVote.GetMessageFromCallVoteStatus(status);
             return true;

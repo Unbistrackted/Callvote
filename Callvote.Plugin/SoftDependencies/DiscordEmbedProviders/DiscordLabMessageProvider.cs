@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Text.RegularExpressions;
+using Callvote.API.Features.Votes;
 using Callvote.API.Providers.Enums;
-using Callvote.API.Providers.SendDiscordEmbed;
-using Callvote.API.Votes;
 using Callvote.Configuration;
 using Discord;
 using DiscordLab.Bot;
 using Respawning.Objectives;
 using Config = Callvote.Configuration.Config;
-using EmbedProvider = Callvote.API.Providers.SendDiscordEmbed.EmbedProvider;
+using EmbedProvider = Callvote.API.Features.DiscordEmbed.EmbedProvider;
 
 namespace Callvote.SoftDependencies.DiscordEmbedProviders
 {

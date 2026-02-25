@@ -43,7 +43,7 @@ namespace Callvote.Commands.QueueCommands
 
             foreach (Vote vote in MaxVotesAndQueue.VoteQueue)
             {
-                votesInfo += $"\nVote {counter} ----- Type {vote.VoteType} ----- {vote.Question}\n";
+                votesInfo += $"\nVote {counter} ----- Type {vote.Type} ----- {vote.Question}\n";
                 counter++;
             }
 

@@ -3,8 +3,8 @@ using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Callvote.API.Providers.SendDiscordEmbed;
-using Callvote.API.Votes;
+using Callvote.API.Features.DiscordEmbed;
+using Callvote.API.Features.Votes;
 using Callvote.Configuration;
 using Respawning.Objectives;
 

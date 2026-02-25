@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Callvote.API.Providers.DisplayMessage.DefaultProviders;
 using Callvote.API.Providers.Enums;
-using Callvote.API.Providers.Interfaces;
 using Callvote.API.Votes;
 using UnityEngine;
 
@@ -11,7 +10,7 @@ namespace Callvote.API.Providers.DisplayMessage
     /// <summary>
     /// Represents the type that displays the messages during the vote lifecycle, such as the first message with the question and options, the message that updates while vote is active, and the final results message.
     /// </summary>
-    public class DisplayHandler : ProviderHandler<DisplayProvider>
+    public class DisplayHandler : BaseProviderHandler<DisplayProvider>
     {
         private DisplayProvider currentProvider;
 

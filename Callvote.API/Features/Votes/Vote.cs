@@ -34,7 +34,7 @@ namespace Callvote.API.Votes
             this.CallVotePlayer = player;
             this.CallVotePlayerId = player.PlayerId;
             this.Question = question;
-            this.VoteType = voteType;
+            this.Type = voteType;
             this.Duration = duration;
             this.Callback = callback;
             this.VoteOptions = voteOptions;
@@ -82,7 +82,7 @@ namespace Callvote.API.Votes
         /// <summary>
         /// Gets the <see cref="Vote"/> type.
         /// </summary>
-        public string VoteType { get; init; }
+        public string Type { get; init; }
 
         /// <summary>
         /// Gets the <see cref="Vote"/> duration.

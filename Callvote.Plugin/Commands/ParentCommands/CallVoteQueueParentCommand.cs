@@ -53,7 +53,7 @@ namespace Callvote.Commands.ParentCommands
             int counter = 0;
             foreach (Vote vote in MaxVotesAndQueue.VoteQueue)
             {
-                votesInfo += $"\nVote {counter} ----- Type {vote.VoteType} ----- {vote.Question}\n";
+                votesInfo += $"\nVote {counter} ----- Type {vote.Type} ----- {vote.Question}\n";
                 counter++;
             }
 

@@ -39,7 +39,7 @@ namespace Callvote.Commands.CallVoteCommands
                 return false;
             }
 
-            CallVoteStatus status = VoteHandler.CallVote(new BinaryVote(player ?? Server.Host, CallvotePlugin.Instance.Translation.AskedCustom.Replace("%Player%", player?.Nickname ?? Server.Host.Nickname).Replace("%Custom%", string.Join(" ", args)), nameof(VoteTypeEnum.Binary), null));
+            CallVoteStatus status = VoteHandler.CallVote(new BinaryVote(player ?? Server.Host, CallvotePlugin.Instance.Translation.AskedCustom.Replace("%Player%", player?.Nickname ?? Server.Host.Nickname).Replace("%Custom%", string.Join(" ", args)), nameof(VoteType.Binary), null));
 
             response = VoteHandler.CurrentVote.GetMessageFromCallVoteStatus(status);
             return true;

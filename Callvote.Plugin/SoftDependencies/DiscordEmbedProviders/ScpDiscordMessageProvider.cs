@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.RegularExpressions;
-using Callvote.API.Providers.SendDiscordEmbed;
-using Callvote.API.Votes;
+using Callvote.API.Features.DiscordEmbed;
+using Callvote.API.Features.Votes;
 using Callvote.Configuration;
 using Google.Protobuf.Collections;
 using Respawning.Objectives;
