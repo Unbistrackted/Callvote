@@ -4,11 +4,12 @@ using Exiled.API.Features;
 using LabApi.Features.Wrappers;
 #endif
 using System;
-using Callvote.API.Providers.DisplayMessage;
-using Callvote.API.Votes;
-using Callvote.API.Votes.Enums;
 using Callvote.Configuration;
 using Callvote.Features.VoteTemplate;
+using Callvote.API.Enums;
+using Callvote.API.Interfaces;
+using Callvote.API.Features.Votes;
+using Callvote.API.Features.DisplayMessage;
 
 namespace Callvote.Features.PredefinedVotes
 {

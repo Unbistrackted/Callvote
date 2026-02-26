@@ -9,10 +9,10 @@ using LabApi.Features.Wrappers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Callvote.API;
-using Callvote.API.Votes.Enums;
 using Callvote.Features.PredefinedVotes;
 using CommandSystem;
+using Callvote.API.Enums;
+using Callvote.API.Features.Votes;
 
 namespace Callvote.Commands.CallVoteCommands
 {

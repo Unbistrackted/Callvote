@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Callvote.Configuration;
 using Callvote.Properties;
 using UnityEngine;
 using UserSettings.ServerSpecific;
@@ -21,7 +20,6 @@ namespace Callvote.Features
         private static SSKeybindSetting ciKeybindSetting;
 
         internal static IEnumerable<ServerSpecificSettingBase> CallvoteSettings { get; set; }
-
 
         internal static void RegisterSettings()
         {

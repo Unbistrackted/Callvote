@@ -13,7 +13,7 @@ namespace Callvote.API.Features.Display.DefaultProviders
         public override string Name => "Callvote.API.Broadcast";
 
         /// <inheritdoc/>
-        public override void Show(TimeSpan duration, string content, IEnumerable<ReferenceHub> players)
+        public override void Show(TimeSpan duration, string content, HashSet<ReferenceHub> players)
         {
             foreach (ReferenceHub player in players)
             {

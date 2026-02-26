@@ -1,5 +1,4 @@
-using Callvote.API;
-using Callvote.API.Votes;
+using Callvote.API.Features.Votes;
 using Callvote.Configuration;
 using UserSettings.ServerSpecific;
 

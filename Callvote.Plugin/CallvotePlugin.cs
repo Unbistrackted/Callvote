@@ -8,10 +8,10 @@ using LabApi.Loader.Features.Plugins;
 #endif
 using System;
 using System.ComponentModel;
-using Callvote.API.Providers.DisplayMessage;
 using Callvote.Features;
 using Callvote.Properties;
 using HarmonyLib;
+using Callvote.API.Features.DisplayMessage;
 
 namespace Callvote
 {

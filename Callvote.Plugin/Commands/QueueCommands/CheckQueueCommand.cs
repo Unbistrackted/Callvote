@@ -5,9 +5,9 @@ using Callvote.Commands.ParentCommands;
 using LabApi.Features.Wrappers;
 #endif
 using System;
-using Callvote.API.Votes;
 using Callvote.Features;
 using CommandSystem;
+using Callvote.API.Features.Votes;
 
 namespace Callvote.Commands.QueueCommands
 {

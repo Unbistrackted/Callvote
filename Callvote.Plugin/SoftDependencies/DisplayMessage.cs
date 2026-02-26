@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using Callvote.API.Providers.DisplayMessage;
+using Callvote.API.Features.DisplayMessage;
 using Callvote.API.Providers.DisplayMessage.DefaultProviders;
 using Callvote.SoftDependencies.MessageProviders;
 using HarmonyLib;

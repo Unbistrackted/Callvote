@@ -1,8 +1,8 @@
 ﻿using System;
-using Callvote.API.Votes.Delegates;
+using Callvote.API.Delegates;
 using CommandSystem;
 
-namespace Callvote.API.Votes
+namespace Callvote.API.Features.Votes
 {
     /// <summary>
     /// Represents the class for creating a generic command for the Vote.

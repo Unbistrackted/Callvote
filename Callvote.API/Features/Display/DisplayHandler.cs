@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using Callvote.API.Providers.DisplayMessage.DefaultProviders;
-using Callvote.API.Providers.Enums;
-using Callvote.API.Votes;
+using Callvote.API.Enums;
+using Callvote.API.Features.Display.DefaultProviders;
+using Callvote.API.Features.Generic;
+using Callvote.API.Features.Votes;
 using UnityEngine;
 
-namespace Callvote.API.Providers.DisplayMessage
+namespace Callvote.API.Features.Display
 {
     /// <summary>
     /// Represents the type that displays the messages during the vote lifecycle, such as the first message with the question and options, the message that updates while vote is active, and the final results message.
@@ -38,7 +39,7 @@ namespace Callvote.API.Providers.DisplayMessage
         /// <param name="duration">The message duration.</param>
         /// <param name="message">The message to be displayed.</param>
         /// <param name="allowedPlayers">The allowed players that will be able to see this vote.</param>
-        public static void Show(float duration, string message, IEnumerable<ReferenceHub> allowedPlayers)
+        public static void Show(float duration, string message, HashSet<ReferenceHub> allowedPlayers)
         {
             if (string.IsNullOrEmpty(message))
             {

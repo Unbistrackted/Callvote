@@ -1,4 +1,6 @@
-﻿namespace Callvote.API.Votes.Delegates
+﻿using Callvote.API.Features.Votes;
+
+namespace Callvote.API.Delegates
 {
     /// <summary>
     /// Defines a method for returning a reponse in <see cref="VoteCommand"/>.

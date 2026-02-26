@@ -1,6 +1,6 @@
 ﻿using Callvote.API.Enums;
-using Callvote.API.Features.Core.Interfaces;
 using Callvote.API.Features.Votes;
+using Callvote.API.Interfaces;
 
 namespace Callvote.API.Features.DiscordEmbed
 {

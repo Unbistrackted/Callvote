@@ -7,8 +7,8 @@ using LabApi.Features.Permissions;
 using LabApi.Features.Wrappers;
 #endif
 using System;
-using Callvote.API;
 using CommandSystem;
+using Callvote.API.Features.Votes;
 
 namespace Callvote.Commands.MiscellaneousCommands
 {

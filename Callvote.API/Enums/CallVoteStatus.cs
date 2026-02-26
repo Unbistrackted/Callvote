@@ -1,4 +1,6 @@
-﻿namespace Callvote.API.Votes.Enums
+﻿using Callvote.API.Features.Votes;
+
+namespace Callvote.API.Enums
 {
     /// <summary>
     /// Represents the enumeration for the <see cref="VoteHandler.CallVote(Vote)"/> Status.

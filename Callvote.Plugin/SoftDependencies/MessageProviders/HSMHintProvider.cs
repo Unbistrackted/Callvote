@@ -5,7 +5,7 @@ using Player = LabApi.Features.Wrappers.Player;
 #endif
 using System;
 using System.Collections.Generic;
-using Callvote.API.Providers.DisplayMessage;
+using Callvote.API.Features.Display;
 using HintServiceMeow.Core.Extension;
 using HintServiceMeow.Core.Utilities;
 
@@ -20,7 +20,7 @@ namespace Callvote.SoftDependencies.MessageProviders
         public override string Name => "Callvote.HSM";
 
         /// <inheritdoc/>
-        public override void Show(TimeSpan timer, string content, IEnumerable<ReferenceHub> players)
+        public override void Show(TimeSpan timer, string content, HashSet<ReferenceHub> players)
         {
             foreach (ReferenceHub player in players)
             {

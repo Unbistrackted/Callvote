@@ -10,9 +10,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Callvote.API;
-using Callvote.API.Votes;
-using Callvote.API.Votes.Enums;
+using Callvote.API.Enums;
+using Callvote.API.Features.Votes;
 using Callvote.Features.VoteTemplate;
 using CommandSystem;
 

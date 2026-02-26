@@ -7,10 +7,10 @@ using LabApi.Features.Permissions;
 using LabApi.Features.Wrappers;
 #endif
 using System;
-using Callvote.API;
-using Callvote.API.Votes.Enums;
 using Callvote.Features.PredefinedVotes;
 using CommandSystem;
+using Callvote.API.Enums;
+using Callvote.API.Features.Votes;
 
 namespace Callvote.Commands.CallVoteCommands
 {

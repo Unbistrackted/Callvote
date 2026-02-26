@@ -1,10 +1,10 @@
 ﻿using System;
-using Callvote.API.Votes.Delegates;
+using Callvote.API.Delegates;
 using CommandSystem;
 using LabApi.Features.Wrappers;
 using RemoteAdmin;
 
-namespace Callvote.API.Votes
+namespace Callvote.API.Features.Votes
 {
     /// <summary>
     /// Represents the type that manages and creates a <see cref="VoteOption"/> Option.

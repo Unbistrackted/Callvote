@@ -6,10 +6,9 @@ using LabApi.Features.Permissions;
 using LabApi.Features.Wrappers;
 #endif
 using System.Collections.Generic;
-using Callvote.API;
-using Callvote.API.Votes;
-using Callvote.API.Votes.Enums;
 using Callvote.Patches;
+using Callvote.API.Enums;
+using Callvote.API.Features.Votes;
 
 namespace Callvote.Features
 {

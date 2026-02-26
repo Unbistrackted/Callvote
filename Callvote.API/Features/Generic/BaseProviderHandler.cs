@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using Callvote.API.Providers.Enums;
-using Callvote.API.Providers.Interfaces;
+using Callvote.API.Enums;
+using Callvote.API.Interfaces;
 
-namespace Callvote.API.Providers
+namespace Callvote.API.Features.Generic
 {
     /// <summary>
     /// The type that manages the <see cref="IProvider"/> instances.

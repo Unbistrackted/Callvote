@@ -7,9 +7,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Callvote.API;
-using Callvote.API.Votes;
-using Callvote.API.Votes.Enums;
+using Callvote.API.Enums;
+using Callvote.API.Features.Votes;
+using Callvote.API.Interfaces;
 using LabAPIPlayer = LabApi.Features.Wrappers.Player;
 
 namespace Callvote.Features.VoteTemplate
@@ -26,10 +26,10 @@ namespace Callvote.Features.VoteTemplate
         /// <param name="question">A <see cref="string"/> that represents the vote question.</param>
         /// <param name="voteType">A <see cref="string"/> that represents the vote type.</param>
         /// <param name="callback">A <see cref="Action{T}"/> that takes in a <see cref="Vote"/> that works as a callback.</param>
-        /// <param name="options">A <see cref="HashSet{Vote}"/> that takes in a <see cref="VoteOption"/>.</param>
-        /// <param name="players">A <see cref="IEnumerable{Player}"/> that takes <see cref="Player"/>s that are only allowed to see and vote in a <see cref="Vote"/>. If null, gets all ready players instead.</param>
-        public CustomVote(Player player, string question, string voteType, HashSet<VoteOption> options, Action<Vote> callback = null, IEnumerable<Player> players = null)
-            : base(player.ReferenceHub, question, voteType, callback, options, players?.Select(p => p.ReferenceHub) ?? LabAPIPlayer.ReadyList.Select(p => p.ReferenceHub), CallvotePlugin.Instance.Config.VoteDuration)
+        /// <param name="options">A <see cref="HashSet{T}"/> that takes in a <see cref="VoteOption"/>.</param>
+        /// <param name="players">A <see cref="HashSet{T}"/> that takes <see cref="Player"/>s that are only allowed to see and vote in a <see cref="Vote"/>. If null, gets all ready players instead.</param>
+        public CustomVote(Player player, string question, string voteType, HashSet<VoteOption> options, Action<Vote> callback = null, HashSet<Player> players = null)
+            : base(player.ReferenceHub, question, voteType, callback, options, players?.Select(p => p.ReferenceHub).ToHashSet() ?? LabAPIPlayer.ReadyList.Select(p => p.ReferenceHub).ToHashSet(), CallvotePlugin.Instance.Config.VoteDuration)
         {
             this.ResultsMessageDuration = CallvotePlugin.Instance.Config.FinalResultsDuration;
             this.RefreshInterval = CallvotePlugin.Instance.Config.RefreshInterval;
@@ -42,9 +42,9 @@ namespace Callvote.Features.VoteTemplate
         /// <param name="question"><see cref="Vote.Question"/>.</param>
         /// <param name="voteType"><see cref="Vote.Type"/>.</param>
         /// <param name="voteTemplate">The <see cref="IPredefinedVote"/> to be copied from.</param>
-        /// <param name="players">A <see cref="IEnumerable{Player}"/> that takes <see cref="Player"/>s that are only allowed to see and vote in a <see cref="Vote"/>. If null, gets all ready players instead.</param>
-        public CustomVote(Player player, string question, string voteType, IPredefinedVote voteTemplate, IEnumerable<Player> players = null)
-            : base(player.ReferenceHub, question, voteType, voteTemplate.Callback, voteTemplate.VoteOptions, players?.Select(p => p.ReferenceHub) ?? LabAPIPlayer.ReadyList.Select(p => p.ReferenceHub), duration: CallvotePlugin.Instance.Config.VoteDuration)
+        /// <param name="players">A <see cref="HashSet{T}"/> that takes <see cref="Player"/>s that are only allowed to see and vote in a <see cref="Vote"/>. If null, gets all ready players instead.</param>
+        public CustomVote(Player player, string question, string voteType, IPredefinedVote voteTemplate, HashSet<Player> players = null)
+            : base(player.ReferenceHub, question, voteType, voteTemplate.Callback, voteTemplate.VoteOptions, players?.Select(p => p.ReferenceHub).ToHashSet() ?? LabAPIPlayer.ReadyList.Select(p => p.ReferenceHub).ToHashSet(), duration: CallvotePlugin.Instance.Config.VoteDuration)
         {
             this.ResultsMessageDuration = CallvotePlugin.Instance.Config.FinalResultsDuration;
             this.RefreshInterval = CallvotePlugin.Instance.Config.RefreshInterval;

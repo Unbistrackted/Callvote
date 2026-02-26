@@ -1,6 +1,6 @@
-﻿using Callvote.API.Providers.Interfaces;
+﻿using Callvote.API.Interfaces;
 
-namespace Callvote.API.Providers.Enums
+namespace Callvote.API.Enums
 {
     /// <summary>
     /// Represents the enumeration for the <see cref="IProvider"/> type.

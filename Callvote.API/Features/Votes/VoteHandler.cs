@@ -1,10 +1,9 @@
 ﻿using System;
-using Callvote.API.Providers.DisplayMessage;
-using Callvote.API.Votes;
-using Callvote.API.Votes.Enums;
+using Callvote.API.Enums;
+using Callvote.API.Features.Display;
 using LabApi.Events.Handlers;
 
-namespace Callvote.API
+namespace Callvote.API.Features.Votes
 {
     /// <summary>
     /// Represents the static handler that manages <see cref="Vote"/> lifecycle and the <see cref="Vote"/> queue.

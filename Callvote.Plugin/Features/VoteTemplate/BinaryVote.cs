@@ -5,7 +5,7 @@ using LabApi.Features.Wrappers;
 #endif
 using System;
 using System.Collections.Generic;
-using Callvote.API.Votes;
+using Callvote.API.Features.Votes;
 
 namespace Callvote.Features.VoteTemplate
 {
@@ -22,7 +22,7 @@ namespace Callvote.Features.VoteTemplate
         /// <param name="voteType"><see cref="Vote.Type"/>.</param>
         /// <param name="callback"><see cref="Vote.Callback"/>.</param>
         /// <param name="players"><see cref="Vote.AllowedPlayers"/>.</param>
-        public BinaryVote(Player player, string question, string voteType, Action<Vote> callback = null, IEnumerable<Player> players = null)
+        public BinaryVote(Player player, string question, string voteType, Action<Vote> callback = null, HashSet<Player> players = null)
             : base(player, question, voteType, AddVotes(out VoteOption yes, out VoteOption no), callback, players)
         {
             this.YesVoteOption = yes;

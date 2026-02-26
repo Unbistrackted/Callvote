@@ -3,17 +3,18 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Callvote.API.Providers.DisplayMessage;
-using Callvote.API.Votes.Enums;
+using Callvote.API.Enums;
+using Callvote.API.Features.Display;
+using Callvote.API.Interfaces;
 using LabApi.Features.Wrappers;
 using MEC;
 using RemoteAdmin;
 
-namespace Callvote.API.Votes
+namespace Callvote.API.Features.Votes
 {
     /// <summary>
     /// Represents the type that manages and creates the <see cref="Vote"/>.
-    /// Responsible for the <see cref="Vote"/> cycle, and managing the <see cref="Votes.VoteOption"/>s.
+    /// Responsible for the <see cref="Vote"/> cycle, and managing the <see cref="VoteOption"/>s.
     /// </summary>
     public class Vote
     {
@@ -29,7 +30,7 @@ namespace Callvote.API.Votes
         /// <param name="voteOptions">The Hashset containing the <see cref="VoteOptions"/>.</param>
         /// <param name="players">The Hashset of <see cref="ReferenceHub"/>s that will be able to see and vote.</param>
         /// <param name="duration">The voting duration.</param>
-        public Vote(ReferenceHub player, string question, string voteType, Action<Vote> callback, HashSet<VoteOption> voteOptions, IEnumerable<ReferenceHub> players, float duration = 30)
+        public Vote(ReferenceHub player, string question, string voteType, Action<Vote> callback, HashSet<VoteOption> voteOptions, HashSet<ReferenceHub> players, float duration = 30)
         {
             this.CallVotePlayer = player;
             this.CallVotePlayerId = player.PlayerId;
@@ -118,12 +119,12 @@ namespace Callvote.API.Votes
         /// <summary>
         /// Gets the allowed players that can see and vote on the <see cref="Vote"/> .
         /// </summary>
-        public IEnumerable<ReferenceHub> AllowedPlayers { get; init; }
+        public HashSet<ReferenceHub> AllowedPlayers { get; init; }
 
         /// <summary>
-        /// Gets the <see cref="HashSet{Vote}"/> with the available <see cref="Votes.VoteOption"/>s in the <see cref="Vote"/> .
+        /// Gets the <see cref="HashSet{Vote}"/> with the available <see cref="VoteOption"/>s in the <see cref="Vote"/> .
         /// </summary>
-        /// <remarks><see cref="Votes.VoteOption"/>s can have the same <see cref="VoteOption.Option"/>, but not the same Command.</remarks>
+        /// <remarks><see cref="VoteOption"/>s can have the same <see cref="VoteOption.Option"/>, but not the same Command.</remarks>
         public HashSet<VoteOption> VoteOptions { get; init; }
 
         /// <summary>
@@ -137,22 +138,22 @@ namespace Callvote.API.Votes
         public long VoteId { get; private set; }
 
         /// <summary>
-        /// Gets the Dictionary of Players with their <see cref="Votes.VoteOption"/> in the <see cref="Vote"/> .
-        /// Key: Player. Value: <see cref="Votes.VoteOption"/>.
+        /// Gets the Dictionary of Players with their <see cref="VoteOption"/> in the <see cref="Vote"/> .
+        /// Key: Player. Value: <see cref="VoteOption"/>.
         /// </summary>
         public Dictionary<ReferenceHub, VoteOption> PlayerVote { get; private set; }
 
         /// <summary>
-        /// Gets the ammount of votes of a <see cref="Votes.VoteOption"/> in a <see cref="Vote"/>.
-        /// Key: <see cref="Votes.VoteOption"/>. Value: Ammount of votes.
+        /// Gets the ammount of votes of a <see cref="VoteOption"/> in a <see cref="Vote"/>.
+        /// Key: <see cref="VoteOption"/>. Value: Ammount of votes.
         /// </summary>
         public ConcurrentDictionary<VoteOption, int> Counter { get; }
 
         /// <summary>
-        /// Makes a <see cref="Player"/> vote on a <see cref="Votes.VoteOption"/> of a <see cref="Vote"/>.
+        /// Makes a <see cref="Player"/> vote on a <see cref="VoteOption"/> of a <see cref="Vote"/>.
         /// </summary>
         /// <param name="player">The <see cref="Player"/> who is will be submiting the vote option.</param>
-        /// <param name="vote">The <see cref="Votes.VoteOption"/> that will be selected.</param>
+        /// <param name="vote">The <see cref="VoteOption"/> that will be selected.</param>
         /// <returns>A <see cref="bool"/> representing if the vote process was sucessful or not.</returns>
         /// <remarks>
         /// The vote will only go through if the <see cref="voteCoroutine"/> is active.
@@ -196,26 +197,26 @@ namespace Callvote.API.Votes
         }
 
         /// <summary>
-        /// Gets the <see cref="Votes.VoteOption"/> in a <see cref="Vote"/> .
+        /// Gets the <see cref="VoteOption"/> in a <see cref="Vote"/> .
         /// </summary>
         /// <param name="command">The command that will be searched for.</param>
-        /// <returns>A <see cref="Votes.VoteOption"/> if found, otherwise null.</returns>
+        /// <returns>A <see cref="VoteOption"/> if found, otherwise null.</returns>
         public VoteOption GetVoteOptionFromCommand(string command) => this.VoteOptions.FirstOrDefault(vote => vote.Command == command);
 
         /// <summary>
-        /// Gets the <see cref="Votes.VoteOption"/> in a <see cref="Vote"/> .
+        /// Gets the <see cref="VoteOption"/> in a <see cref="Vote"/> .
         /// </summary>
         /// <param name="option">The option that will be searched for.</param>
         /// <returns>A <see cref="HashSet{Vote}"/> .</returns>
-        /// <remarks><see cref="Votes.VoteOption"/>s in <see cref="VoteOptions"/> can have the same <see cref="VoteOption.Option"/>, consider using <see cref="GetVoteOptionFromCommand"/> if you made sure the command is not already registed by another plugin.</remarks>
+        /// <remarks><see cref="VoteOption"/>s in <see cref="VoteOptions"/> can have the same <see cref="VoteOption.Option"/>, consider using <see cref="GetVoteOptionFromCommand"/> if you made sure the command is not already registed by another plugin.</remarks>
         public HashSet<VoteOption> GetVoteOptions(string option) => [.. this.VoteOptions.Where(vote => vote.Option == option)];
 
         /// <summary>
-        /// Gets the <see cref="Votes.VoteOption"/> in a <see cref="Vote"/> .
+        /// Gets the <see cref="VoteOption"/> in a <see cref="Vote"/> .
         /// </summary>
         /// <param name="command">The string option that will be searched for.</param>
-        /// <param name="vote">Returns a <see cref="Votes.VoteOption"/> if found, otherwise null.</param>
-        /// <returns>If the specific <see cref="Votes.VoteOption"/> was found.</returns>
+        /// <param name="vote">Returns a <see cref="VoteOption"/> if found, otherwise null.</param>
+        /// <returns>If the specific <see cref="VoteOption"/> was found.</returns>
         public bool TryGetVoteOptionFromCommand(string command, out VoteOption vote)
         {
             vote = this.GetVoteOptionFromCommand(command);
@@ -229,9 +230,9 @@ namespace Callvote.API.Votes
         }
 
         /// <summary>
-        /// Checks if a <see cref="Votes.VoteOption"/> exists in a <see cref="Vote"/> .
+        /// Checks if a <see cref="VoteOption"/> exists in a <see cref="Vote"/> .
         /// </summary>
-        /// <param name="vote">The <see cref="Votes.VoteOption"/> that will be searched for.</param>
+        /// <param name="vote">The <see cref="VoteOption"/> that will be searched for.</param>
         /// <returns>A true if found, otherwise false.</returns>
         public bool IsVoteOptionPresent(VoteOption vote)
         {
@@ -244,9 +245,9 @@ namespace Callvote.API.Votes
         }
 
         /// <summary>
-        /// Gets a <see cref="Votes.VoteOption"/> percentage based on <see cref="AllowedPlayers"/> in a <see cref="Vote"/> .
+        /// Gets a <see cref="VoteOption"/> percentage based on <see cref="AllowedPlayers"/> in a <see cref="Vote"/> .
         /// </summary>
-        /// <param name="voteOption">The <see cref="Votes.VoteOption"/> that will be searched for.</param>
+        /// <param name="voteOption">The <see cref="VoteOption"/> that will be searched for.</param>
         /// <returns>A int value as a percentage.</returns>
         public int GetVoteOptionPercentage(VoteOption voteOption)
         {
@@ -259,9 +260,9 @@ namespace Callvote.API.Votes
         }
 
         /// <summary>
-        /// Gets the <see cref="Votes.VoteOption"/> that has the most ammount of votes .
+        /// Gets the <see cref="VoteOption"/> that has the most ammount of votes .
         /// </summary>
-        /// <returns>Ai<see cref="Votes.VoteOption"/> with the most ammount of votes in this <see cref="Vote"/>.</returns>
+        /// <returns>Ai<see cref="VoteOption"/> with the most ammount of votes in this <see cref="Vote"/>.</returns>
         public VoteOption GetWinningVoteOption()
         {
             if (this.Counter.Count == 0)
@@ -288,7 +289,7 @@ namespace Callvote.API.Votes
         /// Rigs the <see cref="Vote"/> <see cref="Counter"/> .
         /// </summary>
         /// <param name="option">The option that will be rigged.</param>
-        /// <param name="vote">The <see cref="Votes.VoteOption"/> from the <see cref="Vote"/>.</param>
+        /// <param name="vote">The <see cref="VoteOption"/> from the <see cref="Vote"/>.</param>
         /// <param name="amount">The ammount of votes added to that option.</param>
         /// <returns>If the vote rigging was sucessful or not.</returns>
         /// <remarks>

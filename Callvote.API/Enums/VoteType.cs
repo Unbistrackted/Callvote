@@ -1,11 +1,13 @@
-﻿namespace Callvote.API.Votes.Enums
+﻿using Callvote.API.Features.Votes;
+
+namespace Callvote.API.Enums
 {
     /// <summary>
     /// Represents the enumeration for <see cref="Vote"/> types.
     /// </summary>
     public enum VoteType
     {
-#pragma warning disable SA1602 // Enumeration items should be documented
+#pragma warning disable SA1602
         Binary,
         Ff,
         Kick,
@@ -14,6 +16,5 @@
         RespawnWave,
         RestartRound,
         Custom,
-#pragma warning restore SA1602 // Enumeration items should be documented
     }
 }

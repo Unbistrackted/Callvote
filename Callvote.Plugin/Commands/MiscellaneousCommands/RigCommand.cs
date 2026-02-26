@@ -8,9 +8,8 @@ using LabApi.Features.Wrappers;
 #endif
 using System;
 using System.Linq;
-using Callvote.API;
-using Callvote.API.Votes;
 using CommandSystem;
+using Callvote.API.Features.Votes;
 
 namespace Callvote.Commands.MiscellaneousCommands
 {

@@ -1,6 +1,6 @@
-﻿using Callvote.API.Providers.Enums;
+﻿using Callvote.API.Enums;
 
-namespace Callvote.API.Providers.Interfaces
+namespace Callvote.API.Interfaces
 {
     /// <summary>
     /// Represents the interface for providers.

@@ -4,8 +4,9 @@
 #endif
 using System;
 using System.Collections.Generic;
+using Callvote.API.Features.Votes;
 
-namespace Callvote.API.Votes
+namespace Callvote.API.Interfaces
 {
     /// <summary>
     /// Represents the interface for Vote templates.
