@@ -8,10 +8,10 @@ using LabApi.Loader.Features.Plugins;
 #endif
 using System;
 using System.ComponentModel;
+using Callvote.API.Features.Display;
 using Callvote.Features;
 using Callvote.Properties;
 using HarmonyLib;
-using Callvote.API.Features.DisplayMessage;
 
 namespace Callvote
 {
@@ -65,7 +65,6 @@ namespace Callvote
             ServerSpecificSettings.RegisterSettings();
             this.Harmony.PatchAll();
             DisplayHandler.Instance.RegisterProvider(SoftDependencies.DisplayMessage.GetMessageProvider());
-            //API.Providers.SendDiscordEmbed.DiscordEmbedHandler.GetEmbedMethod = SoftDependencies.DiscordEmbed.GetWebhookProvider;
 #if EXILED
             base.OnEnabled();
 #endif

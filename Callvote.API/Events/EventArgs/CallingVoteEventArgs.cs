@@ -11,12 +11,10 @@ namespace Callvote.API.Events.EventArgs
         /// <summary>
         /// Initializes a new instance of the <see cref="CallingVoteEventArgs"/> class.
         /// </summary>
-        /// <param name="referenceHub"><inheritdoc cref="ReferenceHub"/></param>
         /// <param name="vote"><inheritdoc cref="Vote"/></param>
         /// <param name="isAllowed"><inheritdoc cref="IsAllowed"/></param>
-        public CallingVoteEventArgs(ReferenceHub referenceHub, Vote vote, bool isAllowed = true)
+        public CallingVoteEventArgs(Vote vote, bool isAllowed = true)
         {
-            this.ReferenceHub = referenceHub;
             this.Vote = vote;
             this.IsAllowed = isAllowed;
         }

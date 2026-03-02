@@ -3,10 +3,10 @@ using Exiled.API.Features;
 #else
 using LabApi.Features.Wrappers;
 #endif
-using Callvote.Features;
-using HarmonyLib;
 using Callvote.API.Enums;
 using Callvote.API.Features.Votes;
+using Callvote.Features;
+using HarmonyLib;
 
 namespace Callvote.Patches
 {
@@ -33,7 +33,6 @@ namespace Callvote.Patches
             if (!MaxVotesAndQueue.IsCallVoteAllowed(Player.Get(vote.CallVotePlayer)))
             {
                 __result = CallVoteStatus.MaxedCallVotes;
-                Log.Info("entro aqui");
                 return false;
             }
 

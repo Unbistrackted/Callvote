@@ -37,7 +37,7 @@ namespace Callvote.API.Features.Votes
         public string Detail { get; init; }
 
         /// <summary>
-        /// Gets the <see cref="Vote"/> of which this <see cref="VoteOption"/> is part of.
+        /// Gets the <see cref="Vote"/> that registed this <see cref="VoteOption"/>.
         /// </summary>
         public Vote Vote { get; internal set; }
 

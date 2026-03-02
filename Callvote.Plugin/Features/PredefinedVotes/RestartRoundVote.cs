@@ -3,11 +3,11 @@ using Exiled.API.Features;
 #else
 using LabApi.Features.Wrappers;
 #endif
-using Callvote.Features.VoteTemplate;
 using Callvote.API.Enums;
-using Callvote.API.Interfaces;
+using Callvote.API.Features.Display;
 using Callvote.API.Features.Votes;
-using Callvote.API.Features.DisplayMessage;
+using Callvote.API.Interfaces;
+using Callvote.Features.VoteTemplate;
 
 namespace Callvote.Features.PredefinedVotes
 {

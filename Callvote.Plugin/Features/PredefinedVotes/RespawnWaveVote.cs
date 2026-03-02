@@ -6,15 +6,15 @@ using LabApi.Features.Wrappers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Callvote.API.Enums;
+using Callvote.API.Features.Display;
+using Callvote.API.Features.Votes;
+using Callvote.API.Interfaces;
+using Callvote.Features.VoteTemplate;
 using PlayerRoles;
 using Respawning;
 using Respawning.Config;
 using Respawning.Waves;
-using Callvote.Features.VoteTemplate;
-using Callvote.API.Enums;
-using Callvote.API.Interfaces;
-using Callvote.API.Features.Votes;
-using Callvote.API.Features.DisplayMessage;
 
 namespace Callvote.Features.PredefinedVotes
 {

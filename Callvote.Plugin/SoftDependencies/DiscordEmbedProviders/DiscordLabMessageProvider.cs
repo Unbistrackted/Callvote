@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 using Callvote.API.Features.Votes;
-using Callvote.API.Providers.Enums;
 using Callvote.Configuration;
 using Discord;
 using DiscordLab.Bot;
 using Respawning.Objectives;
 using Config = Callvote.Configuration.Config;
-using EmbedProvider = Callvote.API.Features.DiscordEmbed.EmbedProvider;
+using EmbedProvider = Callvote.SoftDependencies.DiscordEmbed.EmbedProvider;
 
 namespace Callvote.SoftDependencies.DiscordEmbedProviders
 {
@@ -16,9 +15,6 @@ namespace Callvote.SoftDependencies.DiscordEmbedProviders
     /// </summary>
     internal class DiscordLabMessageProvider : EmbedProvider
     {
-        /// <inheritdoc/>
-        public override string Name => "Callvote.DiscordLab";
-
         private static Translation Translation => CallvotePlugin.Instance.Translation;
 
         private static Config Config => CallvotePlugin.Instance.Config;
@@ -33,12 +29,6 @@ namespace Callvote.SoftDependencies.DiscordEmbedProviders
             }
 
             _ = Client.GetOrAddChannel(Config.DiscordChannelId)?.SendMessageAsync(embed: BuildEmbed(vote));
-        }
-
-        /// <inheritdoc/>
-        public override void SendVoteStarted(Vote vote)
-        {
-            throw new NotImplementedException();
         }
 
         private static string RemoveColorTags(string input)

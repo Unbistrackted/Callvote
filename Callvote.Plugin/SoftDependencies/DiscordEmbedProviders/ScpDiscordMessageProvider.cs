@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Text.RegularExpressions;
-using Callvote.API.Features.DiscordEmbed;
 using Callvote.API.Features.Votes;
 using Callvote.Configuration;
+using Callvote.SoftDependencies.DiscordEmbed;
 using Google.Protobuf.Collections;
 using Respawning.Objectives;
 using SCPDiscord.Interface;
@@ -14,9 +14,6 @@ namespace Callvote.SoftDependencies.DiscordEmbedProviders
     /// </summary>
     public class ScpDiscordMessageProvider : EmbedProvider
     {
-        /// <inheritdoc/>
-        public override string Name => "Callvote.ScpDiscord";
-
         private static Translation Translation => CallvotePlugin.Instance.Translation;
 
         private static Config Config => CallvotePlugin.Instance.Config;
@@ -104,11 +101,6 @@ namespace Callvote.SoftDependencies.DiscordEmbedProviders
                 "black" => EmbedMessage.Types.DiscordColour.Black,
                 _ => EmbedMessage.Types.DiscordColour.None,
             };
-        }
-
-        public override void SendVoteStarted(Vote vote)
-        {
-            throw new NotImplementedException();
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using Callvote.API.Features.DiscordEmbed;
+using Callvote.SoftDependencies.DiscordEmbed;
 using Callvote.SoftDependencies.DiscordEmbedProviders;
 using HarmonyLib;
 
@@ -8,9 +8,18 @@ namespace Callvote.SoftDependencies
     /// <summary>
     /// Represents the type that handles Callvote's Webhook Soft Dependency System.
     /// </summary>
-    public class DiscordEmbed
+    public class DiscordEmbedHandler
     {
-        public static EmbedProvider GetWebhookProvider()
+        /// <summary>
+        /// Gets the current instance of the embed provider used for handling webhooks.
+        /// </summary>
+        public static EmbedProvider CurrentProvider => GetWebhookProvider();
+
+        /// <summary>
+        /// Gets the webhook provider to use for sending vote results and vote started messages to Discord, based on the plugins that are currently loaded and patched in the server.
+        /// </summary>
+        /// <returns>Gets the webhook provider to use.</returns>
+        private static EmbedProvider GetWebhookProvider()
         {
             if (CallvotePlugin.Instance.Config.DiscordChannelId == 0)
             {

@@ -3,9 +3,9 @@ using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Callvote.API.Features.DiscordEmbed;
 using Callvote.API.Features.Votes;
 using Callvote.Configuration;
+using Callvote.SoftDependencies.DiscordEmbed;
 using Respawning.Objectives;
 
 namespace Callvote.SoftDependencies.DiscordEmbedProviders
@@ -16,9 +16,6 @@ namespace Callvote.SoftDependencies.DiscordEmbedProviders
     internal class WebhookProvider : EmbedProvider
     {
         private readonly HttpClient httpClient = new();
-
-        /// <inheritdoc/>
-        public override string Name => "Callvote.Webhook";
 
         private static Translation Translation => CallvotePlugin.Instance.Translation;
 
@@ -90,11 +87,6 @@ namespace Callvote.SoftDependencies.DiscordEmbedProviders
             {
                 ServerConsole.AddLog($"[ERROR] [Callvote] " + "Webhook Error: " + ex.Message + " " + ex.Source + " " + ex.StackTrace, ConsoleColor.Red);
             }
-        }
-
-        public override void SendVoteStarted(Vote vote)
-        {
-            throw new NotImplementedException();
         }
     }
 }
