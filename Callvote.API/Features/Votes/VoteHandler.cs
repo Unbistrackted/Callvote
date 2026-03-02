@@ -1,5 +1,7 @@
 ﻿using System;
 using Callvote.API.Enums;
+using Callvote.API.Events;
+using Callvote.API.Events.EventArgs;
 using Callvote.API.Features.Display;
 using LabApi.Events.Handlers;
 
@@ -47,8 +49,17 @@ namespace Callvote.API.Features.Votes
 
             if (!IsVoteActive)
             {
+                CallingVoteEventArgs e = new(vote);
+                Handlers.OnCallingVote(e);
+                if (!e.IsAllowed)
+                {
+                    return CallVoteStatus.VoteCancelled;
+                }
+
                 CurrentVote = vote;
                 CurrentVote.Start();
+                CalledVoteEventArgs ev = new(CurrentVote);
+                Handlers.OnCalledVote(ev);
                 return CallVoteStatus.VoteStarted;
             }
 
@@ -57,14 +68,18 @@ namespace Callvote.API.Features.Votes
 
         /// <summary>
         /// Finishes and clears the active <see cref="Vote"/>.
-        /// Stops the vote, displays results (or invokes a callback when provided),
-        /// sends results to configured Discord webhook asynchronously if <see cref="ShouldSendWebhookMessage"/> is true, clears <see cref="CurrentVote"/> and, starts the next
-        /// queued <see cref="Vote"/> if queueing is enabled.
+        /// Stops the vote, displays results (or invokes a callback when provided).
         /// </summary>
         /// <param name="isForced">If the voting will display the results message or invoke the Callback.</param>
         public static void FinishVote(bool isForced = false)
         {
             if (!IsVoteActive)
+            {
+                return;
+            }
+
+            VoteEndingEventArgs e = new(CurrentVote);
+            if (!e.IsAllowed)
             {
                 return;
             }
@@ -81,16 +96,11 @@ namespace Callvote.API.Features.Votes
                 {
                     CurrentVote?.Callback.Invoke(CurrentVote);
                 }
-
-                if (ShouldSendWebhookMessage)
-                {
-                    // Vote vote = CurrentVote;
-
-                    // WebhookProvider.SendVoteResults(vote);
-                }
             }
 
             CurrentVote = null;
+            VoteEndedEventArgs ev = new(CurrentVote);
+            Handlers.OnVoteEnded(ev);
         }
 
         /// <summary>

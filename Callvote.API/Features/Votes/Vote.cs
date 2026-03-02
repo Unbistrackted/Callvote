@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Callvote.API.Enums;
+using Callvote.API.Events;
+using Callvote.API.Events.EventArgs;
 using Callvote.API.Features.Display;
 using Callvote.API.Interfaces;
 using LabApi.Features.Wrappers;
@@ -153,46 +155,45 @@ namespace Callvote.API.Features.Votes
         /// Makes a <see cref="Player"/> vote on a <see cref="VoteOption"/> of a <see cref="Vote"/>.
         /// </summary>
         /// <param name="player">The <see cref="Player"/> who is will be submiting the vote option.</param>
-        /// <param name="vote">The <see cref="VoteOption"/> that will be selected.</param>
+        /// <param name="voteOption">The <see cref="VoteOption"/> that will be selected.</param>
         /// <returns>A <see cref="bool"/> representing if the vote process was sucessful or not.</returns>
         /// <remarks>
         /// The vote will only go through if the <see cref="voteCoroutine"/> is active.
         /// </remarks>
-        public bool SubmitVoteOption(ReferenceHub player, VoteOption vote)
+        public bool SubmitVoteOption(ReferenceHub player, VoteOption voteOption)
         {
-            if (!this.voteCoroutine.IsRunning)
+            if (!this.voteCoroutine.IsRunning || !this.AllowedPlayers.Contains(player) || !this.IsVoteOptionPresent(voteOption))
             {
                 return false;
             }
 
-            if (!this.AllowedPlayers.Contains(player))
+            VotingEventArgs e = new(voteOption);
+            Handlers.OnVoting(new VotingEventArgs(voteOption));
+            if (!e.IsAllowed)
             {
                 return false;
             }
 
-            if (!this.IsVoteOptionPresent(vote))
+            if (this.PlayerVote.TryGetValue(player, out VoteOption oldOption))
             {
-                return false;
-            }
-
-            if (this.PlayerVote.ContainsKey(player))
-            {
-                if (this.PlayerVote[player] == vote)
+                if (oldOption == voteOption)
                 {
                     return false;
                 }
 
-                this.Counter.AddOrUpdate(this.PlayerVote[player], 0, (key, value) => Math.Max(0, value - 1)); // Removes the Value of the previous vote of the player
+                this.Counter.AddOrUpdate(oldOption, 0, (key, value) => Math.Max(0, value - 1)); // Removes the Value of the previous vote of the player
 
-                this.PlayerVote[player] = vote;
+                this.PlayerVote[player] = voteOption;
             }
             else
             {
-                this.PlayerVote.Add(player, vote);
+                this.PlayerVote.Add(player, voteOption);
             }
 
-            this.Counter.AddOrUpdate(vote, 1, (key, value) => value + 1);
+            this.Counter.AddOrUpdate(voteOption, 1, (key, value) => value + 1);
 
+            VotedEventArgs ev = new(voteOption);
+            Handlers.OnVoted(ev);
             return true;
         }
 

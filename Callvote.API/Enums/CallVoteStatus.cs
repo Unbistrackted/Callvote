@@ -7,6 +7,9 @@ namespace Callvote.API.Enums
     /// </summary>
     public enum CallVoteStatus
     {
+        /// <summary>The <see cref="Vote"/> was cancelled.</summary>
+        VoteCancelled,
+
         /// <summary><see cref="Vote"/>  was enqueued.</summary>
         VoteEnqueued = -1,
 

@@ -37,6 +37,11 @@ namespace Callvote.API.Features.Votes
         public string Detail { get; init; }
 
         /// <summary>
+        /// Gets the <see cref="Vote"/> of which this <see cref="VoteOption"/> is part of.
+        /// </summary>
+        public Vote Vote { get; internal set; }
+
+        /// <summary>
         /// Gets a value indicating whether the command was registered.
         /// </summary>
         public bool IsCommandRegistered => QueryProcessor.DotCommandHandler.TryGetCommand(this.Command, out _);
@@ -68,6 +73,7 @@ namespace Callvote.API.Features.Votes
             }
 
             vote.RegisterVoteOption(this);
+            this.Vote = vote;
         }
 
         /// <summary>
@@ -78,6 +84,7 @@ namespace Callvote.API.Features.Votes
             if (this.IsCommandRegistered)
             {
                 QueryProcessor.DotCommandHandler.UnregisterCommand(this);
+                this.Vote = null;
             }
         }
     }
