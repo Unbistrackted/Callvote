@@ -1,5 +1,6 @@
+using Callvote.API.Events.EventArgs;
 using Callvote.API.Features.Votes;
-using Callvote.Configuration;
+using Callvote.SoftDependencies;
 using UserSettings.ServerSpecific;
 
 namespace Callvote
@@ -10,11 +11,18 @@ namespace Callvote
         internal EventHandlers()
         {
             ServerSpecificSettingsSync.ServerOnSettingValueReceived += this.OnUserInput;
+            API.Events.EventsHandlers.VoteEnded += this.OnVoteEnded;
         }
 
         ~EventHandlers()
         {
             ServerSpecificSettingsSync.ServerOnSettingValueReceived -= this.OnUserInput;
+            API.Events.EventsHandlers.VoteEnded -= this.OnVoteEnded;
+        }
+
+        private void OnVoteEnded(VoteEndedEventArgs ev)
+        {
+            DiscordEmbedHandler.CurrentProvider.SendVoteResults(ev.Vote);
         }
 
         private void OnUserInput(ReferenceHub sender, ServerSpecificSettingBase settingBase)

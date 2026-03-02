@@ -5,7 +5,7 @@ using Callvote.API.Events.EventArgs;
 namespace Callvote.API.Events
 {
     [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:Elements should be documented", Justification = "Seft-explanatory.")]
-    public static class Handlers
+    public static class EventsHandlers
     {
         public static event CustomEventHandler<CalledVoteEventArgs> CalledVote;
 

@@ -168,7 +168,7 @@ namespace Callvote.API.Features.Votes
             }
 
             VotingEventArgs e = new(voteOption);
-            Handlers.OnVoting(new VotingEventArgs(voteOption));
+            EventsHandlers.OnVoting(new VotingEventArgs(voteOption));
             if (!e.IsAllowed)
             {
                 return false;
@@ -193,7 +193,7 @@ namespace Callvote.API.Features.Votes
             this.Counter.AddOrUpdate(voteOption, 1, (key, value) => value + 1);
 
             VotedEventArgs ev = new(voteOption);
-            Handlers.OnVoted(ev);
+            EventsHandlers.OnVoted(ev);
             return true;
         }
 

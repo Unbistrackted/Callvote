@@ -64,7 +64,7 @@ namespace Callvote
             this.eventHandler = new EventHandlers();
             ServerSpecificSettings.RegisterSettings();
             this.Harmony.PatchAll();
-            DisplayHandler.Instance.RegisterProvider(SoftDependencies.DisplayMessage.GetMessageProvider());
+            DisplayHandler.Instance.RegisterProvider(SoftDependencies.DisplayMessageHandler.GetMessageProvider());
 #if EXILED
             base.OnEnabled();
 #endif

@@ -9,7 +9,7 @@ namespace Callvote.SoftDependencies
     /// <summary>
     /// Represents the type that handles Callvote's Message Soft Dependency System.
     /// </summary>
-    internal class DisplayMessage
+    internal class DisplayMessageHandler
     {
         /// <summary>
         /// Gets the <see cref="DisplayProvider"/> instance based on the configured message provider.

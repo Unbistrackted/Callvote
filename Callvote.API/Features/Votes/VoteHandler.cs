@@ -50,7 +50,7 @@ namespace Callvote.API.Features.Votes
             if (!IsVoteActive)
             {
                 CallingVoteEventArgs e = new(vote);
-                Handlers.OnCallingVote(e);
+                EventsHandlers.OnCallingVote(e);
                 if (!e.IsAllowed)
                 {
                     return CallVoteStatus.VoteCancelled;
@@ -59,7 +59,7 @@ namespace Callvote.API.Features.Votes
                 CurrentVote = vote;
                 CurrentVote.Start();
                 CalledVoteEventArgs ev = new(CurrentVote);
-                Handlers.OnCalledVote(ev);
+                EventsHandlers.OnCalledVote(ev);
                 return CallVoteStatus.VoteStarted;
             }
 
@@ -100,7 +100,7 @@ namespace Callvote.API.Features.Votes
 
             CurrentVote = null;
             VoteEndedEventArgs ev = new(CurrentVote);
-            Handlers.OnVoteEnded(ev);
+            EventsHandlers.OnVoteEnded(ev);
         }
 
         /// <summary>
