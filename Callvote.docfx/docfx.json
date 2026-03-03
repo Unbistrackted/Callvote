@@ -6,7 +6,7 @@
         {
           "src": "..",
           "files": [
-            "/Callvote/CallvotePlugin.csproj"
+            "/Callvote/Callvote.API.csproj"
           ]
         }
       ],
