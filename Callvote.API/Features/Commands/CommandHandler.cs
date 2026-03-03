@@ -23,12 +23,22 @@ namespace Callvote.API.Features.Commands
         }
 
         /// <inheritdoc/>
-        public override Dictionary<string, CommandProvider> Providers => throw new System.NotImplementedException();
+        public override Dictionary<string, CommandProvider> Providers { get; } = [];
 
         /// <inheritdoc/>
         public override ProviderType ProviderHandlerType => ProviderType.Command;
 
-        public static CommandProvider GetCommandProvider()
+        public static void RegisterCommand(VoteCommand command)
+        {
+            Instance.CurrentProvider.RegisterCommand(command);
+        }
+
+        public static void UnregisterCommand(VoteCommand command)
+        {
+            Instance.CurrentProvider.UnregisterCommand(command);
+        }
+
+        private static CommandProvider GetCommandProvider()
         {
             var gameObj = GameObject.FindWithTag("SCPSL");
             if (gameObj == null)
