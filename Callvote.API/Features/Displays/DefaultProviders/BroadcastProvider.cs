@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using LabApi.Features.Wrappers;
 
-namespace Callvote.API.Features.Display.DefaultProviders
+namespace Callvote.API.Features.Displays.DefaultProviders
 {
     /// <summary>
     /// Represents the type that provides broadcasts messages.

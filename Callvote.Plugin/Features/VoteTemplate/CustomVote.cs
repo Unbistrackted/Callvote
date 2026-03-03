@@ -87,11 +87,11 @@ namespace Callvote.Features.VoteTemplate
             {
                 if (counter == 0)
                 {
-                    stringBuilder.Append($"|  {CallvotePlugin.Instance.Translation.Options.Replace("%VoteCommand%", voteOption.Command).Replace("%VoteDetail%", voteOption.Detail)}  |");
+                    stringBuilder.Append($"|  {CallvotePlugin.Instance.Translation.Options.Replace("%VoteCommand%", voteOption.VoteCommand.Command).Replace("%VoteDetail%", voteOption.Detail)}  |");
                 }
                 else
                 {
-                    stringBuilder.Append($"  {CallvotePlugin.Instance.Translation.Options.Replace("%VoteCommand%", voteOption.Command).Replace("%VoteDetail%", voteOption.Detail)} |");
+                    stringBuilder.Append($"  {CallvotePlugin.Instance.Translation.Options.Replace("%VoteCommand%", voteOption.VoteCommand.Command).Replace("%VoteDetail%", voteOption.Detail)} |");
                 }
 
                 counter++;
@@ -136,7 +136,7 @@ namespace Callvote.Features.VoteTemplate
 
             if (!VoteHandler.CurrentVote.IsVoteOptionPresent(voteOption))
             {
-                return (false, CallvotePlugin.Instance.Translation.NoOptionAvailable.Replace("%Option%", voteOption.Command));
+                return (false, CallvotePlugin.Instance.Translation.NoOptionAvailable.Replace("%Option%", voteOption.VoteCommand.Command));
             }
 
             if (VoteHandler.CurrentVote.PlayerVote.TryGetValue(player, out VoteOption v) && v == voteOption)

@@ -9,5 +9,6 @@ namespace Callvote.API.Enums
     {
 #pragma warning disable SA1602 // Enumeration items should be documented
         DisplayMessage,
+        Command,
     }
 }

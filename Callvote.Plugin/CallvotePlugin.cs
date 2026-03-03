@@ -8,7 +8,7 @@ using LabApi.Loader.Features.Plugins;
 #endif
 using System;
 using System.ComponentModel;
-using Callvote.API.Features.Display;
+using Callvote.API.Features.Displays;
 using Callvote.Features;
 using Callvote.Properties;
 using HarmonyLib;

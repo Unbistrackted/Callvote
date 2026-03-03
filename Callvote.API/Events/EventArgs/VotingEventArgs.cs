@@ -13,8 +13,10 @@ namespace Callvote.API.Events.EventArgs
         /// </summary>
         /// <param name="voteOption"><inheritdoc cref="VoteOption"/></param>
         /// <param name="isAllowed"><inheritdoc cref="IsAllowed"/></param>
-        public VotingEventArgs(VoteOption voteOption, bool isAllowed = true)
+        /// <param name="vote"><inheritdoc cref="Vote"/></param>
+        public VotingEventArgs(Vote vote, VoteOption voteOption, bool isAllowed = true)
         {
+            this.Vote = vote;
             this.VoteOption = voteOption;
             this.IsAllowed = isAllowed;
         }
@@ -23,7 +25,7 @@ namespace Callvote.API.Events.EventArgs
         public ReferenceHub ReferenceHub => this.Vote.CallVotePlayer;
 
         /// <inheritdoc />
-        public Vote Vote => this.VoteOption.Vote;
+        public Vote Vote { get; }
 
         /// <inheritdoc />
         public VoteOption VoteOption { get; }

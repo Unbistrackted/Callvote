@@ -2,7 +2,7 @@
 using Callvote.API.Enums;
 using Callvote.API.Events;
 using Callvote.API.Events.EventArgs;
-using Callvote.API.Features.Display;
+using Callvote.API.Features.Displays;
 using LabApi.Events.Handlers;
 
 namespace Callvote.API.Features.Votes

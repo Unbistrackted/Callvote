@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Callvote.API.Enums;
-using Callvote.API.Features.Display;
+using Callvote.API.Features.Displays;
 using Callvote.API.Features.Votes;
 using Callvote.API.Interfaces;
 using Callvote.Features.VoteTemplate;

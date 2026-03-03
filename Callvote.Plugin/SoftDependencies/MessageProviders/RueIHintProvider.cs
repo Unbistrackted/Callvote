@@ -5,7 +5,7 @@ using Player = LabApi.Features.Wrappers.Player;
 #endif
 using System;
 using System.Collections.Generic;
-using Callvote.API.Features.Display;
+using Callvote.API.Features.Displays;
 using RueI.API;
 using RueI.API.Elements;
 

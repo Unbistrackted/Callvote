@@ -12,8 +12,10 @@ namespace Callvote.API.Events.EventArgs
         /// Initializes a new instance of the <see cref="VotedEventArgs"/> class.
         /// </summary>
         /// <param name="voteOption"><inheritdoc cref="VoteOption"/></param>
-        public VotedEventArgs(VoteOption voteOption)
+        /// <param name="vote"><inheritdoc cref="Vote"/></param>
+        public VotedEventArgs(Vote vote, VoteOption voteOption)
         {
+            this.Vote = vote;
             this.VoteOption = voteOption;
         }
 
@@ -21,7 +23,7 @@ namespace Callvote.API.Events.EventArgs
         public ReferenceHub ReferenceHub => this.Vote.CallVotePlayer;
 
         /// <inheritdoc />
-        public Vote Vote => this.VoteOption.Vote;
+        public Vote Vote { get; }
 
         /// <inheritdoc />
         public VoteOption VoteOption { get; }

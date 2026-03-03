@@ -1,6 +1,6 @@
 ﻿using System.Linq;
-using Callvote.API.Features.Display;
-using Callvote.API.Features.Display.DefaultProviders;
+using Callvote.API.Features.Displays;
+using Callvote.API.Features.Displays.DefaultProviders;
 using Callvote.SoftDependencies.MessageProviders;
 using HarmonyLib;
 

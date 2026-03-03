@@ -35,7 +35,7 @@ namespace Callvote.SoftDependencies.DiscordEmbedProviders
             foreach (VoteOption voteOption in vote.VoteOptions)
             {
                 resultsMessage += Translation.OptionAndCounter
-                    .Replace("%VoteCommand%", voteOption.Command)
+                    .Replace("%VoteCommand%", voteOption.VoteCommand.Command)
                     .Replace("%VoteDetail%", voteOption.Detail)
                     .Replace("%VoteCounter%", vote.Counter[voteOption].ToString());
             }

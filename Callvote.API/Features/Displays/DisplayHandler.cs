@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using Callvote.API.Enums;
-using Callvote.API.Features.Display.DefaultProviders;
+using Callvote.API.Features.Displays.DefaultProviders;
 using Callvote.API.Features.Generic;
 using Callvote.API.Features.Votes;
 using UnityEngine;
 
-namespace Callvote.API.Features.Display
+namespace Callvote.API.Features.Displays
 {
     /// <summary>
     /// Represents the type that displays the messages during the vote lifecycle, such as the first message with the question and options, the message that updates while vote is active, and the final results message.

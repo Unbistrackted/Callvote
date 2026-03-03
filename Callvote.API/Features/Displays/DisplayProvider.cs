@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Callvote.API.Enums;
 using Callvote.API.Interfaces;
 
-namespace Callvote.API.Features.Display
+namespace Callvote.API.Features.Displays
 {
     /// <summary>
     /// Represents the interface for the type that provides message displaying functionality to Callvote.

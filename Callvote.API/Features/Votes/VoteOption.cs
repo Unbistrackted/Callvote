@@ -1,8 +1,5 @@
-﻿using System;
-using Callvote.API.Delegates;
-using CommandSystem;
-using LabApi.Features.Wrappers;
-using RemoteAdmin;
+﻿using Callvote.API.Delegates;
+using Callvote.API.Features.Commands;
 
 namespace Callvote.API.Features.Votes
 {
@@ -11,19 +8,19 @@ namespace Callvote.API.Features.Votes
     /// Responsible for the <see cref="VoteOption"/> Option, Detail and Command Registration.
     /// </summary>
     /// <remarks>The Command syntax might change if a command is already registered.</remarks>
-    public class VoteOption : VoteCommand
+    public class VoteOption
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="VoteOption"/> class with the specified option and detail.
         /// </summary>
         /// <param name="option">The <see cref="VoteOption"/> Option.</param>
         /// <param name="detail">The <see cref="VoteOption"/> <see cref="Detail"/>.</param>
-        /// <param name="responseHandler">The response handler for the command.</param>
-        public VoteOption(string option, string detail, ResponseHandler responseHandler = null)
-            : base(option, responseHandler)
+        /// <param name="customResponseHandler">The .</param>
+        public VoteOption(string option, string detail, ResponseHandler customResponseHandler = null)
         {
             this.Option = option;
             this.Detail = detail;
+            this.VoteCommand = new(this, customResponseHandler);
         }
 
         /// <summary>
@@ -37,55 +34,8 @@ namespace Callvote.API.Features.Votes
         public string Detail { get; init; }
 
         /// <summary>
-        /// Gets the <see cref="Vote"/> that registed this <see cref="VoteOption"/>.
+        /// Gets the <see cref="Commands.VoteCommand"/> associated with this <see cref="VoteOption"/>.
         /// </summary>
-        public Vote Vote { get; internal set; }
-
-        /// <summary>
-        /// Gets a value indicating whether the command was registered.
-        /// </summary>
-        public bool IsCommandRegistered => QueryProcessor.DotCommandHandler.TryGetCommand(this.Command, out _);
-
-        /// <inheritdoc/>
-        public override bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
-        {
-            (bool, string)? responseHandler = this.ResponseHandler?.Invoke(Player.Get(sender)?.ReferenceHub, this);
-
-            if (!responseHandler.HasValue)
-            {
-                response = "The response method wasn't set!";
-                return false;
-            }
-
-            (bool sucess, response) = responseHandler.Value;
-            return sucess;
-        }
-
-        /// <summary>
-        /// Registers the <see cref="VoteCommand"/>.
-        /// </summary>
-        /// <param name="vote">The <see cref="Vote"/> that the <see cref="VoteOption"/> is being registed .</param>
-        internal void Register(Vote vote)
-        {
-            if (this.ResponseHandler == null)
-            {
-                this.ResponseHandler = vote.VoteCommandResponse;
-            }
-
-            vote.RegisterVoteOption(this);
-            this.Vote = vote;
-        }
-
-        /// <summary>
-        /// Unregisters the <see cref="VoteCommand"/>.
-        /// </summary>
-        internal void UnregisterCommand()
-        {
-            if (this.IsCommandRegistered)
-            {
-                QueryProcessor.DotCommandHandler.UnregisterCommand(this);
-                this.Vote = null;
-            }
-        }
+        public VoteCommand VoteCommand { get; }
     }
 }

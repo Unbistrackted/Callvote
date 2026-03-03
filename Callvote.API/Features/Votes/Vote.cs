@@ -6,7 +6,8 @@ using System.Text;
 using Callvote.API.Enums;
 using Callvote.API.Events;
 using Callvote.API.Events.EventArgs;
-using Callvote.API.Features.Display;
+using Callvote.API.Features.Commands;
+using Callvote.API.Features.Displays;
 using Callvote.API.Interfaces;
 using LabApi.Features.Wrappers;
 using MEC;
@@ -167,8 +168,8 @@ namespace Callvote.API.Features.Votes
                 return false;
             }
 
-            VotingEventArgs e = new(voteOption);
-            EventsHandlers.OnVoting(new VotingEventArgs(voteOption));
+            VotingEventArgs e = new(this, voteOption);
+            EventsHandlers.OnVoting(e);
             if (!e.IsAllowed)
             {
                 return false;
@@ -192,7 +193,7 @@ namespace Callvote.API.Features.Votes
 
             this.Counter.AddOrUpdate(voteOption, 1, (key, value) => value + 1);
 
-            VotedEventArgs ev = new(voteOption);
+            VotedEventArgs ev = new(this, voteOption);
             EventsHandlers.OnVoted(ev);
             return true;
         }
@@ -202,7 +203,7 @@ namespace Callvote.API.Features.Votes
         /// </summary>
         /// <param name="command">The command that will be searched for.</param>
         /// <returns>A <see cref="VoteOption"/> if found, otherwise null.</returns>
-        public VoteOption GetVoteOptionFromCommand(string command) => this.VoteOptions.FirstOrDefault(vote => vote.Command == command);
+        public VoteOption GetVoteOptionFromCommand(string command) => this.VoteOptions.FirstOrDefault(vote => vote.VoteCommand.Command == command);
 
         /// <summary>
         /// Gets the <see cref="VoteOption"/> in a <see cref="Vote"/> .
@@ -346,7 +347,7 @@ namespace Callvote.API.Features.Votes
 
             if (!this.IsVoteOptionPresent(voteOption))
             {
-                return (false, $"Vote does not have the option {voteOption.Command}.");
+                return (false, $"Vote does not have the option {voteOption.Option}.");
             }
 
             if (this.PlayerVote.TryGetValue(player, out VoteOption v) && v == voteOption)
@@ -379,7 +380,7 @@ namespace Callvote.API.Features.Votes
 
             foreach (VoteOption voteOption in this.VoteOptions)
             {
-                string optionString = $".{voteOption.Command} = {voteOption.Detail}";
+                string optionString = $".{voteOption.VoteCommand.Command} = {voteOption.Detail}";
                 if (counter == 0)
                 {
                     stringBuilder.Append($"|  {optionString}  |");
@@ -457,20 +458,6 @@ namespace Callvote.API.Features.Votes
             this.StopVoteCoroutine();
         }
 
-        /// <summary>
-        /// Register the <see cref="VoteOption"/>.
-        /// </summary>
-        /// <param name="voteOption">The <see cref="VoteOption"/> to be registered.</param>
-        internal void RegisterVoteOption(VoteOption voteOption)
-        {
-            if (voteOption.IsCommandRegistered)
-            {
-                voteOption.Command = "cv" + voteOption.Option;
-            }
-
-            QueryProcessor.DotCommandHandler.RegisterCommand(voteOption);
-        }
-
         private IEnumerator<float> VoteCoroutine()
         {
             float timerCounter = 0f;
@@ -493,17 +480,17 @@ namespace Callvote.API.Features.Votes
 
         private void RegisterAllVoteOptions()
         {
-            foreach (VoteOption vote in this.VoteOptions)
+            foreach (VoteOption voteOption in this.VoteOptions)
             {
-                vote.Register(this);
+                CommandHandler.CurrentProvider.RegisterCommand(voteOption.VoteCommand);
             }
         }
 
         private void UnregisterVoteOptionsCommand()
         {
-            foreach (VoteOption vote in this.VoteOptions)
+            foreach (VoteOption voteOption in this.VoteOptions)
             {
-                vote.UnregisterCommand();
+                CommandHandler.CurrentProvider.UnregisterCommand(voteOption.VoteCommand);
             }
         }
 

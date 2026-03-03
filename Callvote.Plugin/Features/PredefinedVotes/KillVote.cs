@@ -4,7 +4,7 @@ using Exiled.API.Features;
 using LabApi.Features.Wrappers;
 #endif
 using Callvote.API.Enums;
-using Callvote.API.Features.Display;
+using Callvote.API.Features.Displays;
 using Callvote.API.Features.Votes;
 using Callvote.API.Interfaces;
 using Callvote.Configuration;
