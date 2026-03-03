@@ -40,8 +40,9 @@ namespace Callvote.API.Features.Commands
 
         private static CommandProvider GetCommandProvider()
         {
-            var gameObj = GameObject.FindWithTag("SCPSL"); // Not sure if this will work, on uni rn.
-            if (gameObj == null)
+            string gameName = Application.productName;
+
+            if (Application.productName == "SCPSL")
             {
                 return new SecretLabCommandProvider();
             }
