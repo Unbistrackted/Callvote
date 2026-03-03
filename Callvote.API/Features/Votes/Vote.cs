@@ -482,7 +482,7 @@ namespace Callvote.API.Features.Votes
         {
             foreach (VoteOption voteOption in this.VoteOptions)
             {
-                CommandHandler.CurrentProvider.RegisterCommand(voteOption.VoteCommand);
+                CommandHandler.Instance.CurrentProvider.RegisterCommand(voteOption.VoteCommand);
             }
         }
 
@@ -490,7 +490,7 @@ namespace Callvote.API.Features.Votes
         {
             foreach (VoteOption voteOption in this.VoteOptions)
             {
-                CommandHandler.CurrentProvider.UnregisterCommand(voteOption.VoteCommand);
+                CommandHandler.Instance.CurrentProvider.UnregisterCommand(voteOption.VoteCommand);
             }
         }
 
