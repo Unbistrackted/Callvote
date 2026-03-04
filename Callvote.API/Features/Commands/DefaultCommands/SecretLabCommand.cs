@@ -2,13 +2,15 @@
 using CommandSystem;
 using LabApi.Features.Wrappers;
 
+#pragma warning disable CS1591
+
 namespace Callvote.API.Features.Commands.DefaultCommands
 {
-    public class SecretLabCommand : ICommand
+    internal class SecretLabCommand : ICommand
     {
         private readonly VoteCommand command;
 
-        public SecretLabCommand(VoteCommand command)
+        internal SecretLabCommand(VoteCommand command)
         {
             this.command = command;
         }
@@ -25,3 +27,5 @@ namespace Callvote.API.Features.Commands.DefaultCommands
         }
     }
 }
+
+#pragma warning restore CS1591

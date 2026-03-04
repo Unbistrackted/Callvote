@@ -6,6 +6,9 @@ using UnityEngine;
 
 namespace Callvote.API.Features.Commands
 {
+    /// <summary>
+    /// Represents the type that manage the command system, allowing to register and unregister commands, and also to change the current provider for the commands.
+    /// </summary>
     public class CommandHandler : BaseProviderHandler<CommandProvider>
     {
         private static CommandProvider currentProvider;
@@ -28,11 +31,19 @@ namespace Callvote.API.Features.Commands
         /// <inheritdoc/>
         public override ProviderType ProviderHandlerType => ProviderType.Command;
 
+        /// <summary>
+        /// Registers the <see cref="VoteCommand"/>.
+        /// </summary>
+        /// <param name="command">The <see cref="VoteCommand"/> to register.</param>
         public static void RegisterCommand(VoteCommand command)
         {
             Instance.CurrentProvider.RegisterCommand(command);
         }
 
+        /// <summary>
+        /// Unregisters the <see cref="VoteCommand"/>.
+        /// </summary>
+        /// <param name="command">The <see cref="VoteCommand"/> to unregister.</param>
         public static void UnregisterCommand(VoteCommand command)
         {
             Instance.CurrentProvider.UnregisterCommand(command);

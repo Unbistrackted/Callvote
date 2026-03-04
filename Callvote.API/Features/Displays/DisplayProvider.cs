@@ -6,7 +6,7 @@ using Callvote.API.Interfaces;
 namespace Callvote.API.Features.Displays
 {
     /// <summary>
-    /// Represents the interface for the type that provides message displaying functionality to Callvote.
+    /// Represents the class that provides message displaying functionality to Callvote.
     /// </summary>
     public abstract class DisplayProvider : IProvider
     {

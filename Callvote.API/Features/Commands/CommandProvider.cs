@@ -5,6 +5,9 @@ using Callvote.API.Interfaces;
 
 namespace Callvote.API.Features.Commands
 {
+    /// <summary>
+    /// Represents the class that commands I/O functionality to Callvote.
+    /// </summary>
     public abstract class CommandProvider : IProvider
     {
         /// <inheritdoc/>

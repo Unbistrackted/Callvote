@@ -9,6 +9,7 @@ using LabApi.Features.Wrappers;
 using System;
 using Callvote.API.Enums;
 using Callvote.API.Features.Votes;
+using Callvote.Features;
 using Callvote.Features.VoteTemplate;
 using CommandSystem;
 

@@ -7,8 +7,10 @@ namespace Callvote.API.Enums
     /// </summary>
     public enum ProviderType
     {
-#pragma warning disable SA1602 // Enumeration items should be documented
+        /// <summary>A<see cref="IProvider"/> that handles the displaying of messages.</summary>
         DisplayMessage,
+
+        /// <summary>A<see cref="IProvider"/> that handles the commands.</summary>
         Command,
     }
 }

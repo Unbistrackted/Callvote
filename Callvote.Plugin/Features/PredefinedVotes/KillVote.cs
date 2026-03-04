@@ -3,7 +3,6 @@ using Exiled.API.Features;
 #else
 using LabApi.Features.Wrappers;
 #endif
-using Callvote.API.Enums;
 using Callvote.API.Features.Displays;
 using Callvote.API.Features.Votes;
 using Callvote.API.Interfaces;

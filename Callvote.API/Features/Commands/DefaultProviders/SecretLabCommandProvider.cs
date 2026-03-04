@@ -4,6 +4,7 @@ using RemoteAdmin;
 
 namespace Callvote.API.Features.Commands.DefaultProviders
 {
+#pragma warning disable CS1591
     public class SecretLabCommandProvider : CommandProvider
     {
         public override string Name => "SecretLabCommandProvider";
@@ -33,4 +34,5 @@ namespace Callvote.API.Features.Commands.DefaultProviders
             QueryProcessor.DotCommandHandler.UnregisterCommand(cmd);
         }
     }
+#pragma warning disable CS1591
 }

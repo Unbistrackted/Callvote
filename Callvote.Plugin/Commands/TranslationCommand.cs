@@ -9,10 +9,10 @@ using LabApi.Features.Wrappers;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Callvote.API.Features.Votes;
 using Callvote.Features;
 using CommandSystem;
 using MEC;
-using Callvote.API.Features.Votes;
 
 namespace Callvote.Commands
 {
