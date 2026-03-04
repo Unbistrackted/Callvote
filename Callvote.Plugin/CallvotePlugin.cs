@@ -12,6 +12,7 @@ using Callvote.API.Features.Displays;
 using Callvote.Features;
 using Callvote.Properties;
 using HarmonyLib;
+using LabApi.Features.Console;
 
 namespace Callvote
 {
@@ -19,6 +20,33 @@ namespace Callvote
     [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:Elements should be documented", Justification = "Only public API documentation is required")]
     public class CallvotePlugin : Plugin
     {
+        private const string CallvoteLogo = """
+
+==================================================
+         █████                                      
+        ███████                                     
+   ██   ███████                       █████        
+  ████    ███                       █      █         
+  █   ███████████              ██  █      █          
+ ██  █████████████          ███   █      █  ███     
+ ██                      ███       ██████      ███  
+███████████████████████  █      -----------      █  
+██████           ██████  █████               █████  
+      ███████████        █    ████       ████    █  
+      ███████████        █        ███████        █  
+      ███████████        █           █           █  
+      ███████████         ███        █         ██   
+      ███████████            ████    █     ████     
+      ███████████                ██████████         
+      ███████████                                   
+      ███████████                                   
+      ███████████                                   
+
+Version: 7.0.0 - RELEASE CANDIDATE I
+!!! REPORT ANY BUGS TO @Unbistrackted !!!
+==================================================
+""";
+
         private EventHandlers eventHandler;
 
         public static CallvotePlugin Instance { get; private set; }
@@ -65,6 +93,7 @@ namespace Callvote
             ServerSpecificSettings.RegisterSettings();
             this.Harmony.PatchAll();
             DisplayHandler.Instance.RegisterProvider(SoftDependencies.DisplayMessageHandler.GetMessageProvider());
+            Logger.Raw($"\n{CallvoteLogo.Trim('\n')}\n", ConsoleColor.Cyan);
 #if EXILED
             base.OnEnabled();
 #endif
@@ -79,7 +108,6 @@ namespace Callvote
             ServerSpecificSettings.UnregisterSettings();
             this.eventHandler = null;
             Instance = null;
-
 #if EXILED
             base.OnDisabled();
 #endif
