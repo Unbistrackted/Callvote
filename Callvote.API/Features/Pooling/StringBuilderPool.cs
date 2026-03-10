@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using Callvote.API.Features.Generic;
 
 namespace Callvote.API.Features.Pooling
@@ -16,6 +15,12 @@ namespace Callvote.API.Features.Pooling
         public StringBuilderPool(int preload = 0)
             : base(() => new StringBuilder(512), preload)
         {
+        }
+
+        /// <inheritdoc/>
+        public override StringBuilder Fetch()
+        {
+            return base.Fetch();
         }
 
         /// <summary>

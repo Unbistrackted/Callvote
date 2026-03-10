@@ -15,10 +15,10 @@ namespace Callvote.Configuration
         [Description("Is the plugin enabled")]
         public bool IsEnabled { get; set; } = true;
 
+#endif
         [Description("Are the plugin's debug logs enabled")]
         public bool Debug { get; set; } = false;
 
-#endif
         [Description("Which message provider should Callvote use? You can choose between auto, ruei, or broadcasts / bc.")]
         public string MessageProvider { get; set; } = "auto";
 

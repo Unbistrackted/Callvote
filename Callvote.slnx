@@ -6,7 +6,8 @@
     <Platform Project="x64" />
   </Project>
   <Project Path="Callvote.Plugin/Callvote.Plugin.csproj">
-    <BuildType Project="EXILED" />
+    <BuildType Solution="Debug|*" Project="Release" />
+    <BuildType Solution="Release|*" Project="EXILED" />
     <Platform Project="x64" />
   </Project>
 </Solution>

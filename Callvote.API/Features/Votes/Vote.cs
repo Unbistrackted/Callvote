@@ -8,7 +8,6 @@ using Callvote.API.Events;
 using Callvote.API.Events.EventArgs;
 using Callvote.API.Features.Commands;
 using Callvote.API.Features.Displays;
-using Callvote.API.Features.Generic;
 using Callvote.API.Features.Pooling;
 using Callvote.API.Interfaces;
 using LabApi.Features.Wrappers;
@@ -48,7 +47,7 @@ namespace Callvote.API.Features.Votes
             this.Counter = new ConcurrentDictionary<VoteOption, int>();
             this.voteCoroutine = default;
             this.VoteId = DateTime.Now.ToBinary() + this.RandomNumber();
-            this.SbPool = new StringBuilderPool(3);
+            this.SbPool = new StringBuilderPool(2);
 
             foreach (VoteOption vote in this.VoteOptions)
             {
@@ -145,13 +144,13 @@ namespace Callvote.API.Features.Votes
         /// <summary>
         /// Gets the <see cref="Vote"/> ID.
         /// </summary>
-        public long VoteId { get; private set; }
+        public long VoteId { get; }
 
         /// <summary>
         /// Gets the Dictionary of Players with their <see cref="VoteOption"/> in the <see cref="Vote"/> .
         /// Key: Player. Value: <see cref="VoteOption"/>.
         /// </summary>
-        public Dictionary<ReferenceHub, VoteOption> PlayerVote { get; private set; }
+        public ConcurrentDictionary<ReferenceHub, VoteOption> PlayerVote { get; private set; }
 
         /// <summary>
         /// Gets the ammount of votes of a <see cref="VoteOption"/> in a <see cref="Vote"/>.
@@ -182,23 +181,25 @@ namespace Callvote.API.Features.Votes
                 return false;
             }
 
-            if (this.PlayerVote.TryGetValue(player, out VoteOption oldOption))
-            {
-                if (oldOption == voteOption)
+            // So I wanted to make this comment cause AddOrUpdate is so fucking cool and useful like bro DUGYHADHUJBGAHGYDAHDA, props to it
+            this.PlayerVote.AddOrUpdate(
+                player,
+                (hub) =>
                 {
-                    return false;
-                }
+                    this.Counter.AddOrUpdate(voteOption, 1, (_, ammount) => ammount + 1);
+                    return voteOption;
+                },
+                (hub, oldOption) =>
+                {
+                    if (oldOption == voteOption)
+                    {
+                        return oldOption;
+                    }
 
-                this.Counter.AddOrUpdate(oldOption, 0, (key, value) => Math.Max(0, value - 1)); // Removes the Value of the previous vote of the player
-
-                this.PlayerVote[player] = voteOption;
-            }
-            else
-            {
-                this.PlayerVote.Add(player, voteOption);
-            }
-
-            this.Counter.AddOrUpdate(voteOption, 1, (key, value) => value + 1);
+                    this.Counter.AddOrUpdate(oldOption, 0, (_, ammount) => Math.Max(0, ammount - 1));
+                    this.Counter.AddOrUpdate(voteOption, 1, (_, ammount) => ammount + 1);
+                    return voteOption;
+                });
 
             VotedEventArgs ev = new(this, voteOption);
             EventsHandlers.OnVoted(ev);

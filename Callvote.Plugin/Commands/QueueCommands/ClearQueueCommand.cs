@@ -9,6 +9,7 @@ using LabApi.Features.Wrappers;
 using System;
 using Callvote.Features;
 using CommandSystem;
+using Mirror;
 
 namespace Callvote.Commands.QueueCommands
 {

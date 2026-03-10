@@ -31,7 +31,7 @@ namespace Callvote.API.Features.Generic
         /// Fetchs an item from the ppol.
         /// </summary>
         /// <returns>The item to be used.</returns>
-        public T Fetch() => this.pool.TryTake(out T item) ? item : this.factory();
+        public virtual T Fetch() => this.pool.TryTake(out T item) ? item : this.factory();
 
         /// <summary>
         /// Stores an item into the pool.
