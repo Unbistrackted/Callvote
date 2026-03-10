@@ -1,9 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using Callvote.API.Enums;
+﻿using Callvote.API.Enums;
+using Callvote.API.Features.Commands;
+using Callvote.API.Features.Commands.DefaultProviders;
 using Callvote.API.Features.Displays.DefaultProviders;
 using Callvote.API.Features.Generic;
 using Callvote.API.Features.Votes;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Callvote.API.Features.Displays
@@ -26,7 +28,7 @@ namespace Callvote.API.Features.Displays
         /// <inheritdoc/>
         public override DisplayProvider CurrentProvider
         {
-            get => this.currentProvider ??= new BroadcastProvider();
+            get => this.currentProvider ??= GetDisplayProvider();
             internal set => this.currentProvider = value;
         }
 
@@ -74,6 +76,18 @@ namespace Callvote.API.Features.Displays
             defaultSize -= sizeReduction;
 
             return Mathf.Clamp(defaultSize, 30, 52);
+        }
+
+        private static DisplayProvider GetDisplayProvider()
+        {
+            string gameName = Application.productName;
+
+            if (Application.productName == "SCPSL")
+            {
+                return new BroadcastProvider();
+            }
+
+            return null;
         }
     }
 }

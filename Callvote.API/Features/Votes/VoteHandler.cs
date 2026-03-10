@@ -4,6 +4,7 @@ using Callvote.API.Events;
 using Callvote.API.Events.EventArgs;
 using Callvote.API.Features.Displays;
 using LabApi.Events.Handlers;
+using UnityEngine;
 
 namespace Callvote.API.Features.Votes
 {
@@ -15,8 +16,11 @@ namespace Callvote.API.Features.Votes
     {
         static VoteHandler()
         {
-            ServerEvents.RoundRestarted += () => FinishVote(true); // Remove this in the future
-            ServerEvents.WaitingForPlayers += () => FinishVote(true);
+            if (Application.productName == "SCPSL")
+            {
+                ServerEvents.RoundRestarted += () => FinishVote(true);
+                ServerEvents.WaitingForPlayers += () => FinishVote(true);
+            }
         }
 
         /// <summary>

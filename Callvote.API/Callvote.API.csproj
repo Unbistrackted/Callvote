@@ -22,7 +22,7 @@
 		<Version>1.0.0</Version>
 		<Authors>Unbistrackted,PatPeter</Authors>
 		<Copyright>Modified BSD</Copyright>
-		<Description>Callvote system like in the Source engine for SCP:SL.</Description>
+		<Description>Callvote system like in the Source engine for Unity Games.</Description>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 		<RepositoryUrl>https://github.com/Unbistrackted/Callvote</RepositoryUrl>
 		<PackageProjectUrl>https://unbistrackted.github.io/Callvote/</PackageProjectUrl>
@@ -30,7 +30,7 @@
 		<PackageLicenseFile>License.md</PackageLicenseFile>
 		<PackageReadmeFile>NugetREADME.md</PackageReadmeFile>
 		<PackageIcon>Callvote.png</PackageIcon>
-		<PackageTags>LabAPI,EXILED,Callvote,SCPSL</PackageTags>
+		<PackageTags>LabAPI,EXILED,Callvote,SCPSL,Unity</PackageTags>
 	</PropertyGroup>
 	<ItemGroup>
 		<Reference Include="Assembly-CSharp-firstpass">
