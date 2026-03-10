@@ -8,10 +8,11 @@ using Callvote.API.Events;
 using Callvote.API.Events.EventArgs;
 using Callvote.API.Features.Commands;
 using Callvote.API.Features.Displays;
+using Callvote.API.Features.Generic;
+using Callvote.API.Features.Pooling;
 using Callvote.API.Interfaces;
 using LabApi.Features.Wrappers;
 using MEC;
-using RemoteAdmin;
 
 namespace Callvote.API.Features.Votes
 {
@@ -47,6 +48,7 @@ namespace Callvote.API.Features.Votes
             this.Counter = new ConcurrentDictionary<VoteOption, int>();
             this.voteCoroutine = default;
             this.VoteId = DateTime.Now.ToBinary() + this.RandomNumber();
+            this.SbPool = new StringBuilderPool(3);
 
             foreach (VoteOption vote in this.VoteOptions)
             {
@@ -67,6 +69,11 @@ namespace Callvote.API.Features.Votes
             : this(player, question, voteType, predefinedVote.Callback, predefinedVote.VoteOptions, players, duration)
         {
         }
+
+        /// <summary>
+        /// Gets the pool of StringBuilders.
+        /// </summary>
+        public StringBuilderPool SbPool { get; }
 
         /// <summary>
         /// Gets the player who called the <see cref="Vote"/> .
@@ -375,7 +382,7 @@ namespace Callvote.API.Features.Votes
             }
 
             int counter = 0;
-            StringBuilder stringBuilder = new();
+            StringBuilder stringBuilder = this.SbPool.Fetch();
             stringBuilder.Append($"{this.Question}\n");
 
             foreach (VoteOption voteOption in this.VoteOptions)
@@ -393,7 +400,7 @@ namespace Callvote.API.Features.Votes
                 counter++;
             }
 
-            return stringBuilder.ToString();
+            return this.SbPool.ToStringStore(stringBuilder);
         }
 
         /// <summary>
@@ -407,7 +414,7 @@ namespace Callvote.API.Features.Votes
                 return string.Empty;
             }
 
-            StringBuilder stringBuilder = new();
+            StringBuilder stringBuilder = this.SbPool.Fetch();
             stringBuilder.Append($"{this.BuildQuestionMessage()}\n");
 
             foreach (VoteOption voteOption in this.VoteOptions)
@@ -415,7 +422,7 @@ namespace Callvote.API.Features.Votes
                 stringBuilder.Append($" {voteOption.Detail} ({this.Counter[voteOption]}) ");
             }
 
-            return stringBuilder.ToString();
+            return this.SbPool.ToStringStore(stringBuilder);
         }
 
         /// <summary>
@@ -429,7 +436,7 @@ namespace Callvote.API.Features.Votes
                 return string.Empty;
             }
 
-            StringBuilder stringBuilder = new();
+            StringBuilder stringBuilder = this.SbPool.Fetch();
             stringBuilder.Append($"Final results:\n");
 
             foreach (VoteOption voteOption in this.VoteOptions)
@@ -437,7 +444,7 @@ namespace Callvote.API.Features.Votes
                 stringBuilder.Append($" {voteOption.Detail} ({this.Counter[voteOption]}) ");
             }
 
-            return stringBuilder.ToString();
+            return this.SbPool.ToStringStore(stringBuilder);
         }
 
         /// <summary>
