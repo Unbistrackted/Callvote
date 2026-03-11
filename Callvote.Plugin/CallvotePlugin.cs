@@ -42,7 +42,7 @@ namespace Callvote
       ███████████                                   
       ███████████                                   
 
-Version: 7.0.0 - RELEASE CANDIDATE I
+Version: 7.0.0 - RELEASE CANDIDATE II
 !!! REPORT ANY BUGS TO @Unbistrackted !!!
 ==================================================
 """;
@@ -93,7 +93,7 @@ Version: 7.0.0 - RELEASE CANDIDATE I
             ServerSpecificSettings.RegisterSettings();
             this.Harmony.PatchAll();
             DisplayHandler.Instance.RegisterProvider(SoftDependencies.DisplayMessageHandler.GetMessageProvider());
-            Logger.Raw($"\n{CallvoteLogo.Trim('\n')}\n", ConsoleColor.Cyan);
+            Logger.Raw($"\n{CallvoteLogo.Trim('\n')}\n", ConsoleColor.DarkGreen);
 #if EXILED
             base.OnEnabled();
 #endif

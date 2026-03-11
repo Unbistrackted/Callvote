@@ -45,7 +45,6 @@ namespace Callvote.API.Features.Votes
             this.AllowedPlayers = players ?? [];
             this.PlayerVote = [];
             this.Counter = new ConcurrentDictionary<VoteOption, int>();
-            this.voteCoroutine = default;
             this.SbPool = new StringBuilderPool(2);
             this.VoteId = DateTime.Now.ToBinary() + DateTime.UtcNow.Ticks;
 
@@ -183,7 +182,7 @@ namespace Callvote.API.Features.Votes
 
             // So I wanted to make this comment cause AddOrUpdate is so fucking cool and useful like bro DUGYHADHUJBGAHGYDAHDA, props to it
             this.PlayerVote.AddOrUpdate(
-                player,
+                user,
                 (hub) =>
                 {
                     this.Counter.AddOrUpdate(voteOption, 1, (_, ammount) => ammount + 1);
