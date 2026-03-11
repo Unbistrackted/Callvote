@@ -6,7 +6,7 @@ namespace Callvote.API.Events.EventArgs
     /// <summary>
     /// Contains all information about a <see cref="Vote"/> that is being called.
     /// </summary>
-    public class CallingVoteEventArgs : System.EventArgs, IReferenceHubEvent, IVoteEvent, IDeniableEvent
+    public class CallingVoteEventArgs : System.EventArgs, IUserIndentifierEvent, IVoteEvent, IDeniableEvent
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CallingVoteEventArgs"/> class.
@@ -20,7 +20,7 @@ namespace Callvote.API.Events.EventArgs
         }
 
         /// <inheritdoc />
-        public ReferenceHub ReferenceHub => this.Vote.CallVotePlayer;
+        public UserIndentifier User => this.Vote.CallVotePlayer;
 
         /// <inheritdoc />
         public Vote Vote { get; }

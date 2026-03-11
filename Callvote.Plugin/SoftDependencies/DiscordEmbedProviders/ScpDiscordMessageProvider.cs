@@ -33,7 +33,7 @@ namespace Callvote.SoftDependencies.DiscordEmbedProviders
             fields.Add(new EmbedMessage.Types.DiscordEmbedField()
             {
                 Name = Translation.WebhookPlayer,
-                Value = vote.CallVotePlayer?.GetNickname() ?? vote.CallVotePlayerId.ToString(),
+                Value = vote.CallVotePlayer?.Username ?? string.Empty,
                 Inline = false,
             });
 

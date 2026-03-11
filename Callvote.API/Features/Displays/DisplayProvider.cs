@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Callvote.API.Enums;
+using Callvote.API.Features.Votes;
 using Callvote.API.Interfaces;
 
 namespace Callvote.API.Features.Displays
@@ -22,6 +23,6 @@ namespace Callvote.API.Features.Displays
         /// <param name="duration">The duration of the message.</param>
         /// <param name="content">The message that is going to be displayed.</param>
         /// <param name="players">The players to be displayed to.</param>
-        public abstract void Show(TimeSpan duration, string content, HashSet<ReferenceHub> players);
+        public abstract void Show(TimeSpan duration, string content, HashSet<UserIndentifier> players);
     }
 }

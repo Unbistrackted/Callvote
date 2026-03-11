@@ -1,4 +1,6 @@
-﻿using System;
+﻿#if !BAREBONES
+
+using System;
 using CommandSystem;
 using LabApi.Features.Wrappers;
 
@@ -28,4 +30,4 @@ namespace Callvote.API.Features.Commands.DefaultCommands
     }
 }
 
-#pragma warning restore CS1591
+#endif

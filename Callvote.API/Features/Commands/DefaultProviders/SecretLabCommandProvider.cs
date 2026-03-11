@@ -1,10 +1,13 @@
-﻿using Callvote.API.Features.Commands.DefaultCommands;
+﻿#if !BAREBONES
+
+using Callvote.API.Features.Commands.DefaultCommands;
 using CommandSystem;
 using RemoteAdmin;
 
+#pragma warning disable CS1591
+
 namespace Callvote.API.Features.Commands.DefaultProviders
 {
-#pragma warning disable CS1591
     public class SecretLabCommandProvider : CommandProvider
     {
         public override string Name => "SecretLabCommandProvider";
@@ -34,5 +37,6 @@ namespace Callvote.API.Features.Commands.DefaultProviders
             QueryProcessor.DotCommandHandler.UnregisterCommand(cmd);
         }
     }
-#pragma warning disable CS1591
 }
+
+#endif
