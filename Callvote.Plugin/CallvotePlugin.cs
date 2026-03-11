@@ -76,7 +76,7 @@ Version: 7.0.0 - RELEASE CANDIDATE II
 #endif
         public override Version Version { get; } = Version.Parse(AssemblyInfo.Version);
 
-        public Harmony Harmony { get; private set; } = new("Callvote");
+        public Harmony Harmony { get; private set; } = new("CallvotePlugin");
 
 #if EXILED
         public override void OnEnabled()
@@ -93,7 +93,10 @@ Version: 7.0.0 - RELEASE CANDIDATE II
             ServerSpecificSettings.RegisterSettings();
             this.Harmony.PatchAll();
             DisplayHandler.Instance.RegisterProvider(SoftDependencies.DisplayMessageHandler.GetMessageProvider());
-            Logger.Raw($"\n{CallvoteLogo.Trim('\n')}\n", ConsoleColor.DarkGreen);
+            if (this.Config.ShowLogo)
+            {
+                Logger.Raw($"\n{CallvoteLogo.Trim('\n')}\n", ConsoleColor.DarkGreen);
+            }
 #if EXILED
             base.OnEnabled();
 #endif

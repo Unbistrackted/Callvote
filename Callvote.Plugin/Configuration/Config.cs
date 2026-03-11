@@ -25,6 +25,9 @@ namespace Callvote.Configuration
         [Description("Sets the Y coordinate of the hint on a scale from 0-1000, where 0 represents the bottom of the screen (Doesn't apply for broadcasts)")]
         public float HintYCoordinate { get; set; } = 300;
 
+        [Description("Enables or disables the Callvote's logo on startup")]
+        public bool ShowLogo { get; set; } = true;
+
         [Description("Enable or disable Modules.")]
         public bool EnableQueue { get; set; } = true;
 
