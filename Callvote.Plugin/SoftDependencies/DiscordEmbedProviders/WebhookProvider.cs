@@ -42,7 +42,7 @@ namespace Callvote.SoftDependencies.DiscordEmbedProviders
 
             string question = Escape(vote.Question);
             string results = Escape(resultsMessage);
-            string callvotePlayerInfo = Escape($"{vote.CallVotePlayer.GetNickname()}");
+            string callvotePlayerInfo = Escape($"{vote.CallVotePlayer.Username}");
             string payload = $@"{{""content"":null,""embeds"":[{{""title"":""{Translation.WebhookTitle}"",""color"":255,""fields"":[{{""name"":""{Translation.WebhookPlayer}"",""value"":""{callvotePlayerInfo}""}},{{""name"":""{Translation.WebhookQuestion}"",""value"":""{question.Replace($"{callvotePlayerInfo} asks: ", string.Empty)}""}},{{""name"":""{Translation.WebhookVotes}"",""value"":""{results}""}}]}}]}}";
 
             _ = this.SendWebhook(payload, Config.DiscordWebhook);

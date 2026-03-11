@@ -1,7 +1,9 @@
-﻿using System;
+﻿#if !BAREBONES
+using Callvote.API.Features.Displays.DefaultProviders;
+#endif
+using System;
 using System.Collections.Generic;
 using Callvote.API.Enums;
-using Callvote.API.Features.Displays.DefaultProviders;
 using Callvote.API.Features.Generic;
 using Callvote.API.Features.Votes;
 using UnityEngine;
@@ -26,7 +28,7 @@ namespace Callvote.API.Features.Displays
         /// <inheritdoc/>
         public override DisplayProvider CurrentProvider
         {
-            get => this.currentProvider ??= new BroadcastProvider();
+            get => this.currentProvider ??= GetDisplayProvider();
             internal set => this.currentProvider = value;
         }
 
@@ -39,7 +41,7 @@ namespace Callvote.API.Features.Displays
         /// <param name="duration">The message duration.</param>
         /// <param name="message">The message to be displayed.</param>
         /// <param name="allowedPlayers">The allowed players that will be able to see this vote.</param>
-        public static void Show(float duration, string message, HashSet<ReferenceHub> allowedPlayers)
+        public static void Show(float duration, string message, HashSet<UserIndentifier> allowedPlayers)
         {
             if (string.IsNullOrEmpty(message))
             {
@@ -74,6 +76,20 @@ namespace Callvote.API.Features.Displays
             defaultSize -= sizeReduction;
 
             return Mathf.Clamp(defaultSize, 30, 52);
+        }
+
+        private static DisplayProvider GetDisplayProvider()
+        {
+            string gameName = Application.productName;
+
+#if !BAREBONES
+            if (Application.productName == "SCPSL")
+            {
+                return new BroadcastProvider();
+            }
+#endif
+
+            return null;
         }
     }
 }

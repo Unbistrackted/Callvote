@@ -66,7 +66,7 @@ namespace Callvote.SoftDependencies.DiscordEmbedProviders
                 Color = GetColor(vote.GetWinningVoteOption()?.Detail),
             };
 
-            embedBuilder.AddField(Translation.WebhookPlayer, vote.CallVotePlayer?.GetNickname() ?? vote.CallVotePlayerId.ToString());
+            embedBuilder.AddField(Translation.WebhookPlayer, vote.CallVotePlayer?.Username ?? vote.CallVotePlayer?.UniqueUserId);
             embedBuilder.AddField(Translation.WebhookQuestion, RemoveColorTags(vote?.Question));
 
             foreach (VoteOption option in vote.VoteOptions)

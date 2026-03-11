@@ -6,6 +6,7 @@ using Player = LabApi.Features.Wrappers.Player;
 using System;
 using System.Collections.Generic;
 using Callvote.API.Features.Displays;
+using Callvote.API.Features.Votes;
 using RueI.API;
 using RueI.API.Elements;
 
@@ -20,13 +21,13 @@ namespace Callvote.SoftDependencies.MessageProviders
         public override string Name => "Callvote.RueI";
 
         /// <inheritdoc/>
-        public override void Show(TimeSpan timer, string content, HashSet<ReferenceHub> players)
+        public override void Show(TimeSpan timer, string content, HashSet<UserIndentifier> players)
         {
-            foreach (ReferenceHub player in players)
+            foreach (UserIndentifier player in players)
             {
                 Tag tag = new("Callvote-Ruei");
                 BasicElement element = new(CallvotePlugin.Instance.Config.HintYCoordinate, content);
-                RueDisplay display = RueDisplay.Get(player);
+                RueDisplay display = RueDisplay.Get(Player.Get(player.UserId).ReferenceHub);
                 display.Remove(tag);
                 display.Show(tag, element, timer);
             }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +11,7 @@ using Callvote.API.Features.Commands;
 using Callvote.API.Features.Displays;
 using Callvote.API.Features.Pooling;
 using Callvote.API.Interfaces;
-using LabApi.Features.Wrappers;
-using MEC;
+using UnityEngine;
 
 namespace Callvote.API.Features.Votes
 {
@@ -21,33 +21,33 @@ namespace Callvote.API.Features.Votes
     /// </summary>
     public class Vote
     {
-        private CoroutineHandle voteCoroutine;
+        private GameObject coroutineGameObject;
+        private VoteCoroutineMonoBehaviour coroutine;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Vote"/> class.
         /// </summary>
-        /// <param name="player">The <see cref="ReferenceHub"/> that called the vote.</param>
+        /// <param name="player">The <see cref="UserIndentifier"/> that called the vote.</param>
         /// <param name="question">The question.</param>
         /// <param name="voteType">The vote type.</param>
         /// <param name="callback">The vote's callback when it's finished.</param>
         /// <param name="voteOptions">The Hashset containing the <see cref="VoteOptions"/>.</param>
-        /// <param name="players">The Hashset of <see cref="ReferenceHub"/>s that will be able to see and vote.</param>
+        /// <param name="players">The Hashset of <see cref="UserIndentifier"/>s that will be able to see and vote.</param>
         /// <param name="duration">The voting duration.</param>
-        public Vote(ReferenceHub player, string question, string voteType, Action<Vote> callback, HashSet<VoteOption> voteOptions, HashSet<ReferenceHub> players, float duration = 30)
+        public Vote(UserIndentifier player, string question, string voteType, Action<Vote> callback, HashSet<VoteOption> voteOptions, HashSet<UserIndentifier> players, float duration = 30)
         {
             this.CallVotePlayer = player;
-            this.CallVotePlayerId = player.PlayerId;
             this.Question = question;
             this.Type = voteType;
             this.Duration = duration;
             this.Callback = callback;
-            this.VoteOptions = voteOptions;
-            this.AllowedPlayers = players;
+            this.VoteOptions = voteOptions ?? [];
+            this.AllowedPlayers = players ?? [];
             this.PlayerVote = [];
             this.Counter = new ConcurrentDictionary<VoteOption, int>();
             this.voteCoroutine = default;
-            this.VoteId = DateTime.Now.ToBinary() + this.RandomNumber();
             this.SbPool = new StringBuilderPool(2);
+            this.VoteId = DateTime.Now.ToBinary() + DateTime.UtcNow.Ticks;
 
             foreach (VoteOption vote in this.VoteOptions)
             {
@@ -58,13 +58,13 @@ namespace Callvote.API.Features.Votes
         /// <summary>
         /// Initializes a new instance of the <see cref="Vote"/> class using a <see cref="IPredefinedVote"/>.
         /// </summary>
-        /// <param name="player">The <see cref="ReferenceHub"/> that called the vote.</param>
+        /// <param name="player">The <see cref="UserIndentifier"/> that called the vote.</param>
         /// <param name="question">The question.</param>
         /// <param name="voteType">The vote type.</param>
         /// <param name="predefinedVote">The predefined vote.</param>
-        /// <param name="players">The Hashset of <see cref="ReferenceHub"/>s that will be able to see and vote.</param>
+        /// <param name="players">The Hashset of <see cref="UserIndentifier"/>s that will be able to see and vote.</param>
         /// <param name="duration">The voting duration.</param>
-        public Vote(ReferenceHub player, string question, string voteType, IPredefinedVote predefinedVote, HashSet<ReferenceHub> players = null, float duration = 30)
+        public Vote(UserIndentifier player, string question, string voteType, IPredefinedVote predefinedVote, HashSet<UserIndentifier> players = null, float duration = 30)
             : this(player, question, voteType, predefinedVote.Callback, predefinedVote.VoteOptions, players, duration)
         {
         }
@@ -77,69 +77,64 @@ namespace Callvote.API.Features.Votes
         /// <summary>
         /// Gets the player who called the <see cref="Vote"/> .
         /// </summary>
-        public ReferenceHub CallVotePlayer { get; init; }
-
-        /// <summary>
-        /// Gets the id of the player who called the <see cref="Vote"/> .
-        /// </summary>
-        public int CallVotePlayerId { get; init; }
+        public UserIndentifier CallVotePlayer { get; }
 
         /// <summary>
         /// Gets the <see cref="Vote"/> question.
         /// </summary>
-        public string Question { get; init; }
+        public string Question { get; }
 
         /// <summary>
         /// Gets the <see cref="Vote"/> type.
         /// </summary>
-        public string Type { get; init; }
+        public string Type { get; }
 
         /// <summary>
         /// Gets the <see cref="Vote"/> duration.
         /// </summary>
-        public float Duration { get; init; }
-
-        /// <summary>
-        /// Gets the <see cref="Vote"/> refresh interval.
-        /// </summary>
-        public float RefreshInterval { get; init; } = 1;
-
-        /// <summary>
-        /// Gets the <see cref="Vote"/> message letter size.
-        /// </summary>
-        /// <remarks>If the size is 0, it will use Callvote's message sizing method - <see cref="DisplayHandler.CalculateMessageSize(string)"/>.</remarks>
-        public int MessageSize { get; init; } = 0;
-
-        /// <summary>
-        /// Gets the <see cref="Vote"/> inital message duration.
-        /// </summary>
-        public float InitialMessageDuration { get; init; } = 5;
-
-        /// <summary>
-        /// Gets the <see cref="Vote"/> results message duration.
-        /// </summary>
-        public float ResultsMessageDuration { get; init; } = 5;
+        public float Duration { get; }
 
         /// <summary>
         /// Gets the <see cref="Vote"/> callback.
         /// </summary>
-        public Action<Vote> Callback { get; init; }
+        public Action<Vote> Callback { get; }
 
         /// <summary>
         /// Gets the allowed players that can see and vote on the <see cref="Vote"/> .
         /// </summary>
-        public HashSet<ReferenceHub> AllowedPlayers { get; init; }
+        public HashSet<UserIndentifier> AllowedPlayers { get; }
 
         /// <summary>
         /// Gets the <see cref="HashSet{Vote}"/> with the available <see cref="VoteOption"/>s in the <see cref="Vote"/> .
         /// </summary>
         /// <remarks><see cref="VoteOption"/>s can have the same <see cref="VoteOption.Option"/>, but not the same Command.</remarks>
-        public HashSet<VoteOption> VoteOptions { get; init; }
+        public HashSet<VoteOption> VoteOptions { get; }
 
         /// <summary>
-        /// Gets a value indicating whether it can show messages.
+        /// Gets or sets the <see cref="Vote"/> refresh interval.
         /// </summary>
-        public bool CanShowMessages { get; init; } = true;
+        public float RefreshInterval { get; set; } = 1;
+
+        /// <summary>
+        /// Gets or sets the <see cref="Vote"/> message letter size.
+        /// </summary>
+        /// <remarks>If the size is 0, it will use Callvote's message sizing method - <see cref="DisplayHandler.CalculateMessageSize(string)"/>.</remarks>
+        public int MessageSize { get; set; } = 0;
+
+        /// <summary>
+        /// Gets or sets the <see cref="Vote"/> inital message duration.
+        /// </summary>
+        public float InitialMessageDuration { get; set; } = 5;
+
+        /// <summary>
+        /// Gets or sets the <see cref="Vote"/> results message duration.
+        /// </summary>
+        public float ResultsMessageDuration { get; set; } = 5;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether it can show messages.
+        /// </summary>
+        public bool CanShowMessages { get; set; } = true;
 
         /// <summary>
         /// Gets the <see cref="Vote"/> ID.
@@ -150,26 +145,31 @@ namespace Callvote.API.Features.Votes
         /// Gets the Dictionary of Players with their <see cref="VoteOption"/> in the <see cref="Vote"/> .
         /// Key: Player. Value: <see cref="VoteOption"/>.
         /// </summary>
-        public ConcurrentDictionary<ReferenceHub, VoteOption> PlayerVote { get; private set; }
+        public ConcurrentDictionary<UserIndentifier, VoteOption> PlayerVote { get; private set; }
 
         /// <summary>
-        /// Gets the ammount of votes of a <see cref="VoteOption"/> in a <see cref="Vote"/>.
+        /// Gets the ammount of votes of a <see cref="VoteOption"/> in a <see cref="Vote"/>.s
         /// Key: <see cref="VoteOption"/>. Value: Ammount of votes.
         /// </summary>
-        public ConcurrentDictionary<VoteOption, int> Counter { get; }
+        public ConcurrentDictionary<VoteOption, int> Counter { get; private set; }
 
         /// <summary>
-        /// Makes a <see cref="Player"/> vote on a <see cref="VoteOption"/> of a <see cref="Vote"/>.
+        /// Gets a value indicating whether the <see cref="Vote"/> coroutine is active.
         /// </summary>
-        /// <param name="player">The <see cref="Player"/> who is will be submiting the vote option.</param>
+        public bool IsCoroutineActive => this.coroutine != null && this.coroutine.VoteCoroutine != default;
+
+        /// <summary>
+        /// Makes a <see cref="UserIndentifier"/> vote on a <see cref="VoteOption"/> of a <see cref="Vote"/>.
+        /// </summary>
+        /// <param name="user">The <see cref="UserIndentifier"/> who is will be submiting the vote option.</param>
         /// <param name="voteOption">The <see cref="VoteOption"/> that will be selected.</param>
         /// <returns>A <see cref="bool"/> representing if the vote process was sucessful or not.</returns>
         /// <remarks>
-        /// The vote will only go through if the <see cref="voteCoroutine"/> is active.
+        /// The vote will only go through if the <see cref="IsCoroutineActive"/>.
         /// </remarks>
-        public bool SubmitVoteOption(ReferenceHub player, VoteOption voteOption)
+        public bool SubmitVoteOption(UserIndentifier user, VoteOption voteOption)
         {
-            if (!this.voteCoroutine.IsRunning || !this.AllowedPlayers.Contains(player) || !this.IsVoteOptionPresent(voteOption))
+            if (!this.IsCoroutineActive || !this.AllowedPlayers.Contains(user) || !this.IsVoteOptionPresent(voteOption))
             {
                 return false;
             }
@@ -266,34 +266,19 @@ namespace Callvote.API.Features.Votes
                 return 0;
             }
 
-            return (int)(this.Counter[voteOption] / (float)this.AllowedPlayers.Count() * 100f);
+            if (this.AllowedPlayers == null || this.AllowedPlayers.Count == 0)
+            {
+                return 0;
+            }
+
+            return Mathf.Min((int)(this.Counter[voteOption] / (float)this.AllowedPlayers.Count * 100f), 100);
         }
 
         /// <summary>
         /// Gets the <see cref="VoteOption"/> that has the most ammount of votes .
         /// </summary>
         /// <returns>Ai<see cref="VoteOption"/> with the most ammount of votes in this <see cref="Vote"/>.</returns>
-        public VoteOption GetWinningVoteOption()
-        {
-            if (this.Counter.Count == 0)
-            {
-                return null;
-            }
-
-            VoteOption winningOption = this.VoteOptions.First();
-            int highestVotes = 0;
-
-            foreach (KeyValuePair<VoteOption, int> voteOptionAndAmmount in this.Counter)
-            {
-                if (voteOptionAndAmmount.Value >= highestVotes)
-                {
-                    highestVotes = voteOptionAndAmmount.Value;
-                    winningOption = voteOptionAndAmmount.Key;
-                }
-            }
-
-            return winningOption;
-        }
+        public VoteOption GetWinningVoteOption() => this.Counter.OrderByDescending(x => x.Value).First().Key;
 
         /// <summary>
         /// Rigs the <see cref="Vote"/> <see cref="Counter"/> .
@@ -302,9 +287,6 @@ namespace Callvote.API.Features.Votes
         /// <param name="vote">The <see cref="VoteOption"/> from the <see cref="Vote"/>.</param>
         /// <param name="amount">The ammount of votes added to that option.</param>
         /// <returns>If the vote rigging was sucessful or not.</returns>
-        /// <remarks>
-        /// The vote will only go through if the <see cref="voteCoroutine"/> is active.
-        /// </remarks>
         public bool Rig(string option, out VoteOption vote, int amount = 1)
         {
             vote = this.GetVoteOptionFromCommand(option);
@@ -341,7 +323,7 @@ namespace Callvote.API.Features.Votes
         /// <param name="player">The player who sent the vote command.</param>
         /// <param name="voteOption">The option that the player tried to vote on.</param>
         /// <returns>A tuple representing if it was sucessfull and the response.</returns>
-        public virtual (bool Sucess, string Response)? VoteCommandResponse(ReferenceHub player, VoteOption voteOption)
+        public virtual (bool Sucess, string Response)? VoteCommandResponse(UserIndentifier player, VoteOption voteOption)
         {
             if (!VoteHandler.IsVoteActive)
             {
@@ -451,7 +433,7 @@ namespace Callvote.API.Features.Votes
         /// <summary>
         /// Starts the <see cref="Vote"/> by registering the commands and starting the coroutine.
         /// </summary>
-        internal void Start()
+        internal void StartVote()
         {
             this.RegisterAllVoteOptions();
             this.StartVoteCoroutine();
@@ -460,17 +442,22 @@ namespace Callvote.API.Features.Votes
         /// <summary>
         /// Stops the <see cref="Vote"/> by unregistering the command and stopping the coroutine.
         /// </summary>
-        internal void Stop()
+        internal void FinishVote()
         {
             this.UnregisterVoteOptionsCommand();
             this.StopVoteCoroutine();
         }
 
-        private IEnumerator<float> VoteCoroutine()
+        /// <summary>
+        /// Manages the voting process by displaying the voting question and updating the countdown timer until the
+        /// voting period ends.
+        /// </summary>
+        /// <returns>An enumerator that yields control at intervals until the voting duration has elapsed.</returns>
+        internal IEnumerator VoteCoroutine()
         {
             float timerCounter = 0f;
             DisplayHandler.Show(this.InitialMessageDuration, this.BuildQuestionMessage(), this.AllowedPlayers);
-            yield return Timing.WaitForSeconds(5f);
+            yield return new WaitForSeconds(this.InitialMessageDuration);
 
             while (true)
             {
@@ -482,7 +469,7 @@ namespace Callvote.API.Features.Votes
 
                 DisplayHandler.Show(this.RefreshInterval, this.BuildCounterWithQuestionMessage(), this.AllowedPlayers);
                 timerCounter += this.RefreshInterval;
-                yield return Timing.WaitForSeconds(this.RefreshInterval);
+                yield return new WaitForSeconds(this.RefreshInterval);
             }
         }
 
@@ -504,18 +491,24 @@ namespace Callvote.API.Features.Votes
 
         private void StartVoteCoroutine()
         {
-            this.voteCoroutine = Timing.RunCoroutine(this.VoteCoroutine());
+            if (this.IsCoroutineActive)
+            {
+                return;
+            }
+
+            this.coroutineGameObject = new GameObject($"VoteCoroutine_{this.VoteId}");
+            this.coroutine = this.coroutineGameObject.AddComponent<VoteCoroutineMonoBehaviour>();
+            this.coroutine.Vote = this;
         }
 
         private void StopVoteCoroutine()
         {
-            Timing.KillCoroutines(this.voteCoroutine);
-        }
+            if (!this.IsCoroutineActive)
+            {
+                return;
+            }
 
-        private long RandomNumber()
-        {
-            Random rng = new();
-            return rng.Next(-1000, 1000);
+            UnityEngine.Object.Destroy(this.coroutineGameObject);
         }
     }
 }

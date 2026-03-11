@@ -1,13 +1,16 @@
 <Solution>
   <Configurations>
+    <BuildType Name="BareBones" />
+    <BuildType Name="Debug" />
+    <BuildType Name="Release" />
     <Platform Name="x64" />
   </Configurations>
   <Project Path="Callvote.API/Callvote.API.csproj">
     <Platform Project="x64" />
   </Project>
   <Project Path="Callvote.Plugin/Callvote.Plugin.csproj">
-    <BuildType Solution="Debug|*" Project="Release" />
-    <BuildType Solution="Release|*" Project="EXILED" />
+    <BuildType Solution="BareBones|*" Project="EXILED" />
+    <BuildType Solution="Debug|*" Project="EXILED" />
     <Platform Project="x64" />
   </Project>
 </Solution>

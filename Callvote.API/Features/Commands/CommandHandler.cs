@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
-using Callvote.API.Enums;
+﻿#if !BAREBONES
 using Callvote.API.Features.Commands.DefaultProviders;
+#endif
+using System.Collections.Generic;
+using Callvote.API.Enums;
 using Callvote.API.Features.Generic;
 using UnityEngine;
 
@@ -16,7 +18,7 @@ namespace Callvote.API.Features.Commands
         /// <summary>
         /// Gets the <see cref="CommandHandler"/> instance.
         /// </summary>
-        public static CommandHandler Instance { get; private set; } = new();
+        public static CommandHandler Instance { get; } = new();
 
         /// <inheritdoc/>
         public override CommandProvider CurrentProvider
@@ -53,10 +55,12 @@ namespace Callvote.API.Features.Commands
         {
             string gameName = Application.productName;
 
+#if !BAREBONES
             if (Application.productName == "SCPSL")
             {
                 return new SecretLabCommandProvider();
             }
+#endif
 
             return null;
         }
