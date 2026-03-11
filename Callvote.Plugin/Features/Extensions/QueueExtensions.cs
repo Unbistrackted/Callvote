@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
 
 namespace Callvote.Features.Extensions
 {
     [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:Elements should be documented", Justification = "Only public API documentation is required")]
     internal static class QueueExtensions
     {
-        internal static void RemoveFromQueue<T>(this Queue<T> queue, int index)
+        internal static void RemoveFromQueue<T>(this ConcurrentQueue<T> queue, int index)
         {
             if (index < 0 || index >= queue.Count)
             {
@@ -14,7 +15,10 @@ namespace Callvote.Features.Extensions
 
             for (int i = 0; i < queue.Count; i++)
             {
-                T item = queue.Dequeue();
+                if (!queue.TryDequeue(out T item))
+                {
+                    return;
+                }
 
                 if (i != index)
                 {
@@ -23,13 +27,16 @@ namespace Callvote.Features.Extensions
             }
         }
 
-        internal static bool RemoveItemFromQueue<T>(this Queue<T> queue, T value)
+        internal static bool RemoveItemFromQueue<T>(this ConcurrentQueue<T> queue, T value)
         {
             bool removed = false;
 
             for (int i = 0; i < queue.Count; i++)
             {
-                T item = queue.Dequeue();
+                if (!queue.TryDequeue(out T item))
+                {
+                    return false;
+                }
 
                 if (!removed && EqualityComparer<T>.Default.Equals(item, value))
                 {

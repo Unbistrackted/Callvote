@@ -9,6 +9,7 @@ using Callvote.API.Events;
 using Callvote.API.Events.EventArgs;
 using Callvote.API.Features.Commands;
 using Callvote.API.Features.Displays;
+using Callvote.API.Features.Pooling;
 using Callvote.API.Interfaces;
 using UnityEngine;
 
@@ -44,6 +45,8 @@ namespace Callvote.API.Features.Votes
             this.AllowedPlayers = players ?? [];
             this.PlayerVote = [];
             this.Counter = new ConcurrentDictionary<VoteOption, int>();
+            this.voteCoroutine = default;
+            this.SbPool = new StringBuilderPool(2);
             this.VoteId = DateTime.Now.ToBinary() + DateTime.UtcNow.Ticks;
 
             foreach (VoteOption vote in this.VoteOptions)
@@ -65,6 +68,11 @@ namespace Callvote.API.Features.Votes
             : this(player, question, voteType, predefinedVote.Callback, predefinedVote.VoteOptions, players, duration)
         {
         }
+
+        /// <summary>
+        /// Gets the pool of StringBuilders.
+        /// </summary>
+        public StringBuilderPool SbPool { get; }
 
         /// <summary>
         /// Gets the player who called the <see cref="Vote"/> .
@@ -131,13 +139,13 @@ namespace Callvote.API.Features.Votes
         /// <summary>
         /// Gets the <see cref="Vote"/> ID.
         /// </summary>
-        public long VoteId { get; private set; }
+        public long VoteId { get; }
 
         /// <summary>
         /// Gets the Dictionary of Players with their <see cref="VoteOption"/> in the <see cref="Vote"/> .
         /// Key: Player. Value: <see cref="VoteOption"/>.
         /// </summary>
-        public Dictionary<UserIndentifier, VoteOption> PlayerVote { get; private set; }
+        public ConcurrentDictionary<UserIndentifier, VoteOption> PlayerVote { get; private set; }
 
         /// <summary>
         /// Gets the ammount of votes of a <see cref="VoteOption"/> in a <see cref="Vote"/>.s
@@ -173,23 +181,25 @@ namespace Callvote.API.Features.Votes
                 return false;
             }
 
-            if (this.PlayerVote.TryGetValue(user, out VoteOption oldOption))
-            {
-                if (oldOption == voteOption)
+            // So I wanted to make this comment cause AddOrUpdate is so fucking cool and useful like bro DUGYHADHUJBGAHGYDAHDA, props to it
+            this.PlayerVote.AddOrUpdate(
+                player,
+                (hub) =>
                 {
-                    return false;
-                }
+                    this.Counter.AddOrUpdate(voteOption, 1, (_, ammount) => ammount + 1);
+                    return voteOption;
+                },
+                (hub, oldOption) =>
+                {
+                    if (oldOption == voteOption)
+                    {
+                        return oldOption;
+                    }
 
-                this.Counter.AddOrUpdate(oldOption, 0, (key, value) => Math.Max(0, value - 1)); // Removes the Value of the previous vote of the player
-
-                this.PlayerVote[user] = voteOption;
-            }
-            else
-            {
-                this.PlayerVote.Add(user, voteOption);
-            }
-
-            this.Counter.AddOrUpdate(voteOption, 1, (key, value) => value + 1);
+                    this.Counter.AddOrUpdate(oldOption, 0, (_, ammount) => Math.Max(0, ammount - 1));
+                    this.Counter.AddOrUpdate(voteOption, 1, (_, ammount) => ammount + 1);
+                    return voteOption;
+                });
 
             VotedEventArgs ev = new(this, voteOption);
             EventsHandlers.OnVoted(ev);
@@ -355,7 +365,7 @@ namespace Callvote.API.Features.Votes
             }
 
             int counter = 0;
-            StringBuilder stringBuilder = new();
+            StringBuilder stringBuilder = this.SbPool.Fetch();
             stringBuilder.Append($"{this.Question}\n");
 
             foreach (VoteOption voteOption in this.VoteOptions)
@@ -373,7 +383,7 @@ namespace Callvote.API.Features.Votes
                 counter++;
             }
 
-            return stringBuilder.ToString();
+            return this.SbPool.ToStringStore(stringBuilder);
         }
 
         /// <summary>
@@ -387,7 +397,7 @@ namespace Callvote.API.Features.Votes
                 return string.Empty;
             }
 
-            StringBuilder stringBuilder = new();
+            StringBuilder stringBuilder = this.SbPool.Fetch();
             stringBuilder.Append($"{this.BuildQuestionMessage()}\n");
 
             foreach (VoteOption voteOption in this.VoteOptions)
@@ -395,7 +405,7 @@ namespace Callvote.API.Features.Votes
                 stringBuilder.Append($" {voteOption.Detail} ({this.Counter[voteOption]}) ");
             }
 
-            return stringBuilder.ToString();
+            return this.SbPool.ToStringStore(stringBuilder);
         }
 
         /// <summary>
@@ -409,7 +419,7 @@ namespace Callvote.API.Features.Votes
                 return string.Empty;
             }
 
-            StringBuilder stringBuilder = new();
+            StringBuilder stringBuilder = this.SbPool.Fetch();
             stringBuilder.Append($"Final results:\n");
 
             foreach (VoteOption voteOption in this.VoteOptions)
@@ -417,7 +427,7 @@ namespace Callvote.API.Features.Votes
                 stringBuilder.Append($" {voteOption.Detail} ({this.Counter[voteOption]}) ");
             }
 
-            return stringBuilder.ToString();
+            return this.SbPool.ToStringStore(stringBuilder);
         }
 
         /// <summary>

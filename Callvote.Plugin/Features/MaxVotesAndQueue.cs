@@ -5,6 +5,7 @@ using Exiled.Permissions.Extensions;
 using LabApi.Features.Permissions;
 using LabApi.Features.Wrappers;
 #endif
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using Callvote.API.Enums;
 using Callvote.API.Features.Votes;
@@ -21,7 +22,7 @@ namespace Callvote.Features
         /// <summary>
         /// Gets queue of pending <see cref="Vote"/> instances. When queueing is enabled, new votes are placed here.
         /// </summary>
-        public static Queue<Vote> VoteQueue { get; private set; } = new Queue<Vote>();
+        public static ConcurrentQueue<Vote> VoteQueue { get; private set; } = new ConcurrentQueue<Vote>();
 
         /// <summary>
         /// Gets tracks how many <see cref="Vote"/> each player has initiated during the current round.
@@ -51,7 +52,13 @@ namespace Callvote.Features
                 try
                 {
                     VoteHandlerPatch.IsDequeing = true;
-                    VoteHandler.CallVote(VoteQueue.Dequeue());
+
+                    if (!VoteQueue.TryDequeue(out Vote vote))
+                    {
+                        return CallVoteStatus.VoteCancelled;
+                    }
+
+                    VoteHandler.CallVote(vote);
                 }
                 finally
                 {

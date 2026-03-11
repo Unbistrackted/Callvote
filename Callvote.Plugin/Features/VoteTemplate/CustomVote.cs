@@ -58,7 +58,7 @@ namespace Callvote.Features.VoteTemplate
                 return string.Empty;
             }
 
-            StringBuilder stringBuilder = new();
+            StringBuilder stringBuilder = this.SbPool.Fetch();
             stringBuilder.Append($"{this.BuildQuestionMessage()}\n");
 
             foreach (VoteOption vote in this.VoteOptions)
@@ -68,7 +68,7 @@ namespace Callvote.Features.VoteTemplate
                     .Replace("%VoteCounter%", this.Counter[vote].ToString()));
             }
 
-            return stringBuilder.ToString();
+            return this.SbPool.ToStringStore(stringBuilder);
         }
 
         /// <inheritdoc/>
@@ -79,7 +79,7 @@ namespace Callvote.Features.VoteTemplate
                 return string.Empty;
             }
 
-            StringBuilder stringBuilder = new();
+            StringBuilder stringBuilder = this.SbPool.Fetch();
             stringBuilder.Append(CallvotePlugin.Instance.Translation.AskedQuestion.Replace("%Question%", this.Question));
 
             int counter = 0;
@@ -97,7 +97,7 @@ namespace Callvote.Features.VoteTemplate
                 counter++;
             }
 
-            return stringBuilder.ToString();
+            return this.SbPool.ToStringStore(stringBuilder);
         }
 
         /// <inheritdoc/>
@@ -108,7 +108,7 @@ namespace Callvote.Features.VoteTemplate
                 return string.Empty;
             }
 
-            StringBuilder stringBuilder = new();
+            StringBuilder stringBuilder = this.SbPool.Fetch();
             stringBuilder.Append(CallvotePlugin.Instance.Translation.Results);
 
             foreach (VoteOption vote in this.VoteOptions)
@@ -118,7 +118,7 @@ namespace Callvote.Features.VoteTemplate
                     .Replace("%VoteCounter%", this.Counter[vote].ToString()));
             }
 
-            return stringBuilder.ToString();
+            return this.SbPool.ToStringStore(stringBuilder);
         }
 
         /// <inheritdoc/>

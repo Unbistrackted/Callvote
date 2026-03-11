@@ -25,7 +25,9 @@ namespace Callvote.API.Features.Commands.DefaultCommands
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
-            return this.command.OnCommandExecuted(Player.Get(sender)?.ReferenceHub, out response);
+            ReferenceHub player = sender is ServerConsoleSender ? Server.Host.ReferenceHub : Player.Get(sender)?.ReferenceHub;
+
+            return this.command.OnCommandExecuted(player, out response);
         }
     }
 }
