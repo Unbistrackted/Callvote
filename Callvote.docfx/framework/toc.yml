@@ -1,0 +1,9 @@
+- name: ⚙️ Framework
+- name: Basic Concepts
+  href: files/basic.md
+- name: Creating your own Vote
+  href: files/create.md
+- name: Pratical Example - Kill Surface Camping Player
+  href: files/example-camping.md
+- name: Pratical Example - Integration with Auto Events
+  href: files/example-autoevents.md

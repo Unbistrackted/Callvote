@@ -1,4 +1,6 @@
-- name: Tutorial
-  href: tutorial/
+- name: SCP:SL
+  href: scpsl/
+- name: Framework
+  href: framework/
 - name: API
   href: api/

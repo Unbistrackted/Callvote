@@ -15,9 +15,9 @@ Introduction to ``Callvote's`` Framework
 
 You can find ``Callvote's`` package in [EXILED Nuget](https://www.nuget.org/packages/Callvote.EXILED/) or [LabAPI Nuget](https://www.nuget.org/packages/Callvote.LabAPI/)
 
-### Custom and Binary Vote
+### Vote
 
-TODO
+Callvote's framework is supposed to be 
 
 
 
