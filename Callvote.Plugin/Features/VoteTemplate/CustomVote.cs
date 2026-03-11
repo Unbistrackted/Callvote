@@ -29,7 +29,7 @@ namespace Callvote.Features.VoteTemplate
         /// <param name="options">A <see cref="HashSet{T}"/> that takes in a <see cref="VoteOption"/>.</param>
         /// <param name="players">A <see cref="HashSet{T}"/> that takes <see cref="Player"/>s that are only allowed to see and vote in a <see cref="Vote"/>. If null, gets all ready players instead.</param>
         public CustomVote(Player player, string question, string voteType, HashSet<VoteOption> options, Action<Vote> callback = null, HashSet<Player> players = null)
-            : base(player.ReferenceHub, question, voteType, callback, options, players?.Select(p => p.ReferenceHub).ToHashSet() ?? LabAPIPlayer.ReadyList.Select(p => p.ReferenceHub).ToHashSet(), CallvotePlugin.Instance.Config.VoteDuration)
+            : base(player.ReferenceHub, question, voteType, callback, options, players?.Select(p => (UserIndentifier)p.ReferenceHub).ToHashSet() ?? LabAPIPlayer.ReadyList.Select(p => (UserIndentifier)p.ReferenceHub).ToHashSet(), CallvotePlugin.Instance.Config.VoteDuration)
         {
             this.ResultsMessageDuration = CallvotePlugin.Instance.Config.FinalResultsDuration;
             this.RefreshInterval = CallvotePlugin.Instance.Config.RefreshInterval;
@@ -44,7 +44,7 @@ namespace Callvote.Features.VoteTemplate
         /// <param name="voteTemplate">The <see cref="IPredefinedVote"/> to be copied from.</param>
         /// <param name="players">A <see cref="HashSet{T}"/> that takes <see cref="Player"/>s that are only allowed to see and vote in a <see cref="Vote"/>. If null, gets all ready players instead.</param>
         public CustomVote(Player player, string question, string voteType, IPredefinedVote voteTemplate, HashSet<Player> players = null)
-            : base(player.ReferenceHub, question, voteType, voteTemplate.Callback, voteTemplate.VoteOptions, players?.Select(p => p.ReferenceHub).ToHashSet() ?? LabAPIPlayer.ReadyList.Select(p => p.ReferenceHub).ToHashSet(), duration: CallvotePlugin.Instance.Config.VoteDuration)
+            : base(player.ReferenceHub, question, voteType, voteTemplate.Callback, voteTemplate.VoteOptions, players?.Select(p => (UserIndentifier)p.ReferenceHub).ToHashSet() ?? LabAPIPlayer.ReadyList.Select(p => (UserIndentifier)p.ReferenceHub).ToHashSet(), duration: CallvotePlugin.Instance.Config.VoteDuration)
         {
             this.ResultsMessageDuration = CallvotePlugin.Instance.Config.FinalResultsDuration;
             this.RefreshInterval = CallvotePlugin.Instance.Config.RefreshInterval;
@@ -122,7 +122,7 @@ namespace Callvote.Features.VoteTemplate
         }
 
         /// <inheritdoc/>
-        public override (bool Sucess, string Response)? VoteCommandResponse(ReferenceHub player, VoteOption voteOption)
+        public override (bool Sucess, string Response)? VoteCommandResponse(UserIndentifier player, VoteOption voteOption)
         {
             if (!VoteHandler.IsVoteActive)
             {

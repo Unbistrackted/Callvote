@@ -1,7 +1,6 @@
 using Callvote.API.Events.EventArgs;
 using Callvote.API.Features.Votes;
 using Callvote.SoftDependencies;
-using Exiled.API.Features;
 using UserSettings.ServerSpecific;
 
 namespace Callvote

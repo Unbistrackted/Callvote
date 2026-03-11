@@ -1,8 +1,4 @@
-﻿#if EXILED
-#else
-
-#endif
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Callvote.API.Features.Votes;
 

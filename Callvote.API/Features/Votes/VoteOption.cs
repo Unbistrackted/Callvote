@@ -26,12 +26,12 @@ namespace Callvote.API.Features.Votes
         /// <summary>
         /// Gets the <see cref="VoteOption"/> Option.
         /// </summary>
-        public string Option { get; init; }
+        public string Option { get; }
 
         /// <summary>
         /// Gets the <see cref="VoteOption"/> Detail, which is the description of the option.
         /// </summary>
-        public string Detail { get; init; }
+        public string Detail { get; }
 
         /// <summary>
         /// Gets the <see cref="Commands.VoteCommand"/> associated with this <see cref="VoteOption"/>.

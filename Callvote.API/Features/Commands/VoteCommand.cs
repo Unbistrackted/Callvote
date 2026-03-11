@@ -37,10 +37,10 @@ namespace Callvote.API.Features.Commands
         /// <summary>
         /// Executes a command using the specified arguments and provides a response message indicating the result.
         /// </summary>
-        /// <param name="referenceHub">The reference hub that supplies context and state information for the command execution. Can be null.</param>
+        /// <param name="user">The user that supplies context and state information for the command execution. Can be null.</param>
         /// <param name="response">When this method returns, contains the response message generated during command execution.</param>
         /// <returns>true if the command was executed successfully; otherwise, false.</returns>
-        public virtual bool OnCommandExecuted(ReferenceHub referenceHub, out string response)
+        public virtual bool OnCommandExecuted(UserIndentifier user, out string response)
         {
             if (VoteHandler.CurrentVote == null)
             {
@@ -50,7 +50,7 @@ namespace Callvote.API.Features.Commands
 
             var handler = this.responseHandler ?? VoteHandler.CurrentVote.VoteCommandResponse;
 
-            (bool, string)? results = handler?.Invoke(referenceHub, this.voteOption);
+            (bool, string)? results = handler?.Invoke(user, this.voteOption);
 
             if (!results.HasValue)
             {

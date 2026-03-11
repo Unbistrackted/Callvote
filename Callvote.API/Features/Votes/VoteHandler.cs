@@ -3,8 +3,6 @@ using Callvote.API.Enums;
 using Callvote.API.Events;
 using Callvote.API.Events.EventArgs;
 using Callvote.API.Features.Displays;
-using LabApi.Events.Handlers;
-using UnityEngine;
 
 namespace Callvote.API.Features.Votes
 {
@@ -14,14 +12,16 @@ namespace Callvote.API.Features.Votes
     /// </summary>
     public static class VoteHandler
     {
+#if !BAREBONES
         static VoteHandler()
         {
-            if (Application.productName == "SCPSL")
+            if (UnityEngine.Application.productName == "SCPSL")
             {
-                ServerEvents.RoundRestarted += () => FinishVote(true);
-                ServerEvents.WaitingForPlayers += () => FinishVote(true);
+                LabApi.Events.Handlers.ServerEvents.RoundRestarted += () => FinishVote(true);
+                LabApi.Events.Handlers.ServerEvents.WaitingForPlayers += () => FinishVote(true);
             }
         }
+#endif
 
         /// <summary>
         /// Gets the currently active <see cref="Vote"/> instance. Null when no vote is in progress.
@@ -61,7 +61,7 @@ namespace Callvote.API.Features.Votes
                 }
 
                 CurrentVote = vote;
-                CurrentVote.Start();
+                CurrentVote.StartVote();
                 CalledVoteEventArgs ev = new(CurrentVote);
                 EventsHandlers.OnCalledVote(ev);
                 return CallVoteStatus.VoteStarted;
@@ -88,7 +88,7 @@ namespace Callvote.API.Features.Votes
                 return;
             }
 
-            CurrentVote?.Stop();
+            CurrentVote?.FinishVote();
 
             if (!isForced)
             {
@@ -102,8 +102,10 @@ namespace Callvote.API.Features.Votes
                 }
             }
 
+            Vote vote = CurrentVote;
             CurrentVote = null;
-            VoteEndedEventArgs ev = new(CurrentVote);
+
+            VoteEndedEventArgs ev = new(vote);
             EventsHandlers.OnVoteEnded(ev);
         }
 

@@ -13,6 +13,7 @@
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<WarningsAsErrors>true</WarningsAsErrors>
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+		<Configurations>Debug;Release;BareBones</Configurations>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -33,13 +34,6 @@
 		<PackageTags>LabAPI,EXILED,Callvote,SCPSL,Unity</PackageTags>
 	</PropertyGroup>
 	<ItemGroup>
-		<Reference Include="Assembly-CSharp-firstpass">
-			<HintPath>$(EXILED_REFERENCES)\Assembly-CSharp-firstpass.dll</HintPath>
-		</Reference>
-		<Reference Include="Mirror">
-			<HintPath>$(EXILED_REFERENCES)\Mirror.dll</HintPath>
-		</Reference>
-
 		<Reference Include="UnityEngine">
 			<HintPath>$(EXILED_REFERENCES)\UnityEngine.dll</HintPath>
 		</Reference>
@@ -51,19 +45,24 @@
 		<Reference Include="UnityEngine.PhysicsModule">
 			<HintPath>$(EXILED_REFERENCES)\UnityEngine.PhysicsModule.dll</HintPath>
 		</Reference>
+	</ItemGroup>
 
+	<ItemGroup Condition="'$(Configuration)' != 'BareBones'">
 		<Reference Include="CommandSystem.Core">
 			<HintPath>$(EXILED_REFERENCES)\CommandSystem.Core.dll</HintPath>
-		</Reference>
-
-		<Reference Include="NorthwoodLib">
-			<HintPath>$(EXILED_REFERENCES)\NorthwoodLib.dll</HintPath>
 		</Reference>
 
 		<Reference Include="Assembly-CSharp-Publicized">
 			<HintPath>$(EXILED_REFERENCES)\Assembly-CSharp-Publicized.dll</HintPath>
 		</Reference>
 
+		<Reference Include="Assembly-CSharp-firstpass">
+			<HintPath>$(EXILED_REFERENCES)\Assembly-CSharp-firstpass.dll</HintPath>
+		</Reference>
+
+		<Reference Include="Mirror">
+			<HintPath>$(EXILED_REFERENCES)\Mirror.dll</HintPath>
+		</Reference>
 	</ItemGroup>
 
 	<ItemGroup>

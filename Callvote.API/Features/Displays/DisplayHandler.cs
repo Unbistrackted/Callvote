@@ -1,11 +1,11 @@
-﻿using Callvote.API.Enums;
-using Callvote.API.Features.Commands;
-using Callvote.API.Features.Commands.DefaultProviders;
+﻿#if !BAREBONES
 using Callvote.API.Features.Displays.DefaultProviders;
-using Callvote.API.Features.Generic;
-using Callvote.API.Features.Votes;
+#endif
 using System;
 using System.Collections.Generic;
+using Callvote.API.Enums;
+using Callvote.API.Features.Generic;
+using Callvote.API.Features.Votes;
 using UnityEngine;
 
 namespace Callvote.API.Features.Displays
@@ -41,7 +41,7 @@ namespace Callvote.API.Features.Displays
         /// <param name="duration">The message duration.</param>
         /// <param name="message">The message to be displayed.</param>
         /// <param name="allowedPlayers">The allowed players that will be able to see this vote.</param>
-        public static void Show(float duration, string message, HashSet<ReferenceHub> allowedPlayers)
+        public static void Show(float duration, string message, HashSet<UserIndentifier> allowedPlayers)
         {
             if (string.IsNullOrEmpty(message))
             {
@@ -82,10 +82,12 @@ namespace Callvote.API.Features.Displays
         {
             string gameName = Application.productName;
 
+#if !BAREBONES
             if (Application.productName == "SCPSL")
             {
                 return new BroadcastProvider();
             }
+#endif
 
             return null;
         }
