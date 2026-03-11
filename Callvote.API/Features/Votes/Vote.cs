@@ -41,12 +41,9 @@ namespace Callvote.API.Features.Votes
             this.Type = voteType;
             this.Duration = duration;
             this.Callback = callback;
-            this.VoteOptions = voteOptions ?? [];
-            this.AllowedPlayers = players ?? [];
-            this.PlayerVote = [];
-            this.Counter = new ConcurrentDictionary<VoteOption, int>();
-            this.SbPool = new StringBuilderPool(2);
-            this.VoteId = DateTime.Now.ToBinary() + DateTime.UtcNow.Ticks;
+            this.VoteOptions = voteOptions ?? new HashSet<VoteOption>();
+            this.AllowedPlayers = players ?? new HashSet<UserIndentifier>();
+            this.VoteId = DateTime.UtcNow.Ticks;
 
             foreach (VoteOption vote in this.VoteOptions)
             {
@@ -71,7 +68,7 @@ namespace Callvote.API.Features.Votes
         /// <summary>
         /// Gets the pool of StringBuilders.
         /// </summary>
-        public StringBuilderPool SbPool { get; }
+        public StringBuilderPool SbPool { get; } = new StringBuilderPool(2);
 
         /// <summary>
         /// Gets the player who called the <see cref="Vote"/> .
@@ -102,6 +99,11 @@ namespace Callvote.API.Features.Votes
         /// Gets the allowed players that can see and vote on the <see cref="Vote"/> .
         /// </summary>
         public HashSet<UserIndentifier> AllowedPlayers { get; }
+
+        /// <summary>
+        /// Gets a dictionary of <see cref="VoteCommand"/> that have been registered, indexed by their command names.
+        /// </summary>
+        public Dictionary<string, VoteCommand> RegisteredCommands { get; } = [];
 
         /// <summary>
         /// Gets the <see cref="HashSet{Vote}"/> with the available <see cref="VoteOption"/>s in the <see cref="Vote"/> .
@@ -136,6 +138,11 @@ namespace Callvote.API.Features.Votes
         public bool CanShowMessages { get; set; } = true;
 
         /// <summary>
+        /// Gets or sets a value indicating whether multiple votes are allowed for the same player.
+        /// </summary>
+        public bool IsMultipleVotesAllowed { get; set; } = false;
+
+        /// <summary>
         /// Gets the <see cref="Vote"/> ID.
         /// </summary>
         public long VoteId { get; }
@@ -144,18 +151,18 @@ namespace Callvote.API.Features.Votes
         /// Gets the Dictionary of Players with their <see cref="VoteOption"/> in the <see cref="Vote"/> .
         /// Key: Player. Value: <see cref="VoteOption"/>.
         /// </summary>
-        public ConcurrentDictionary<UserIndentifier, VoteOption> PlayerVote { get; private set; }
+        public ConcurrentDictionary<UserIndentifier, HashSet<VoteOption>> PlayerVote { get; } = new();
 
         /// <summary>
         /// Gets the ammount of votes of a <see cref="VoteOption"/> in a <see cref="Vote"/>.s
         /// Key: <see cref="VoteOption"/>. Value: Ammount of votes.
         /// </summary>
-        public ConcurrentDictionary<VoteOption, int> Counter { get; private set; }
+        public ConcurrentDictionary<VoteOption, int> Counter { get; private set; } = new();
 
         /// <summary>
         /// Gets a value indicating whether the <see cref="Vote"/> coroutine is active.
         /// </summary>
-        public bool IsCoroutineActive => this.coroutine != null && this.coroutine.VoteCoroutine != default;
+        public bool IsCoroutineActive => this.coroutine != null;
 
         /// <summary>
         /// Makes a <see cref="UserIndentifier"/> vote on a <see cref="VoteOption"/> of a <see cref="Vote"/>.
@@ -183,21 +190,44 @@ namespace Callvote.API.Features.Votes
             // So I wanted to make this comment cause AddOrUpdate is so fucking cool and useful like bro DUGYHADHUJBGAHGYDAHDA, props to it
             this.PlayerVote.AddOrUpdate(
                 user,
-                (hub) =>
+                (_) =>
                 {
                     this.Counter.AddOrUpdate(voteOption, 1, (_, ammount) => ammount + 1);
-                    return voteOption;
+                    return [voteOption];
                 },
-                (hub, oldOption) =>
+                (_, votes) =>
                 {
-                    if (oldOption == voteOption)
+                    // Need to lock cause hashset is not thread safe and I don't feel like using a concurrent dictionary with a random ass value
+                    lock (votes)
                     {
-                        return oldOption;
-                    }
+                        if (votes.Contains(voteOption))
+                        {
+                            if (this.IsMultipleVotesAllowed)
+                            {
+                                // Removes the votes if player already voted on the same option.
+                                this.Counter.AddOrUpdate(voteOption, 0, (_, ammount) => Math.Max(0, ammount - 1));
+                                votes.Remove(voteOption);
+                            }
 
-                    this.Counter.AddOrUpdate(oldOption, 0, (_, ammount) => Math.Max(0, ammount - 1));
-                    this.Counter.AddOrUpdate(voteOption, 1, (_, ammount) => ammount + 1);
-                    return voteOption;
+                            return votes;
+                        }
+
+                        if (!this.IsMultipleVotesAllowed)
+                        {
+                            // Since there's only one vote inside of the hashset when multiple votes are not allowed, the .first() is always getting the one that I want
+                            this.Counter.AddOrUpdate(votes.First(), 0, (_, ammount) => Math.Max(0, ammount - 1));
+                            votes.Remove(votes.First());
+                            this.Counter.AddOrUpdate(voteOption, 1, (_, ammount) => ammount + 1);
+                        }
+                        else
+                        {
+                            this.Counter.AddOrUpdate(voteOption, 1, (_, ammount) => ammount + 1);
+                        }
+
+                        votes.Add(voteOption);
+
+                        return votes;
+                    }
                 });
 
             VotedEventArgs ev = new(this, voteOption);
@@ -210,7 +240,15 @@ namespace Callvote.API.Features.Votes
         /// </summary>
         /// <param name="command">The command that will be searched for.</param>
         /// <returns>A <see cref="VoteOption"/> if found, otherwise null.</returns>
-        public VoteOption GetVoteOptionFromCommand(string command) => this.VoteOptions.FirstOrDefault(vote => vote.VoteCommand.Command == command);
+        public VoteOption GetVoteOptionFromCommand(string command) => this.RegisteredCommands.TryGetValue(command, out VoteCommand voteCommand) ? voteCommand.VoteOption : null;
+
+        /// <summary>
+        /// Gets a value indicating whether the <see cref="UserIndentifier"/> has already voted on a specific <see cref="VoteOption"/> in a <see cref="Vote"/> .
+        /// </summary>
+        /// <param name="user">The user that is going to checked if he voted on a option or not.</param>
+        /// <param name="voteOption">The vote option.</param>
+        /// <returns>If the user voted in a vote option.</returns>
+        public bool HasPlayerVotedOnOption(UserIndentifier user, VoteOption voteOption) => this.PlayerVote.TryGetValue(user, out HashSet<VoteOption> votes) && votes.Contains(voteOption);
 
         /// <summary>
         /// Gets the <see cref="VoteOption"/> in a <see cref="Vote"/> .
@@ -270,14 +308,19 @@ namespace Callvote.API.Features.Votes
                 return 0;
             }
 
-            return Mathf.Min((int)(this.Counter[voteOption] / (float)this.AllowedPlayers.Count * 100f), 100);
+            if (!this.Counter.TryGetValue(voteOption, out int count))
+            {
+                return 0;
+            }
+
+            return Mathf.Min((int)(count / (float)this.AllowedPlayers.Count * 100f), 100);
         }
 
         /// <summary>
         /// Gets the <see cref="VoteOption"/> that has the most ammount of votes .
         /// </summary>
         /// <returns>Ai<see cref="VoteOption"/> with the most ammount of votes in this <see cref="Vote"/>.</returns>
-        public VoteOption GetWinningVoteOption() => this.Counter.OrderByDescending(x => x.Value).First().Key;
+        public VoteOption GetWinningVoteOption() => this.Counter.Count == 0 ? null : this.Counter.OrderByDescending(x => x.Value).First().Key;
 
         /// <summary>
         /// Rigs the <see cref="Vote"/> <see cref="Counter"/> .
@@ -339,7 +382,7 @@ namespace Callvote.API.Features.Votes
                 return (false, $"Vote does not have the option {voteOption.Option}.");
             }
 
-            if (this.PlayerVote.TryGetValue(player, out VoteOption v) && v == voteOption)
+            if (this.HasPlayerVotedOnOption(player, voteOption))
             {
                 return (false, $"You've already voted on {voteOption.Detail}.");
             }
@@ -401,7 +444,12 @@ namespace Callvote.API.Features.Votes
 
             foreach (VoteOption voteOption in this.VoteOptions)
             {
-                stringBuilder.Append($" {voteOption.Detail} ({this.Counter[voteOption]}) ");
+                if (!this.Counter.TryGetValue(voteOption, out int count))
+                {
+                    continue;
+                }
+
+                stringBuilder.Append($" {voteOption.Detail} ({count}) ");
             }
 
             return this.SbPool.ToStringStore(stringBuilder);
@@ -423,7 +471,12 @@ namespace Callvote.API.Features.Votes
 
             foreach (VoteOption voteOption in this.VoteOptions)
             {
-                stringBuilder.Append($" {voteOption.Detail} ({this.Counter[voteOption]}) ");
+                if (!this.Counter.TryGetValue(voteOption, out int count))
+                {
+                    continue;
+                }
+
+                stringBuilder.Append($" {voteOption.Detail} ({count}) ");
             }
 
             return this.SbPool.ToStringStore(stringBuilder);
@@ -477,14 +530,15 @@ namespace Callvote.API.Features.Votes
             foreach (VoteOption voteOption in this.VoteOptions)
             {
                 CommandHandler.RegisterCommand(voteOption.VoteCommand);
+                this.RegisteredCommands[voteOption.VoteCommand.Command] = voteOption.VoteCommand;
             }
         }
 
         private void UnregisterVoteOptionsCommand()
         {
-            foreach (VoteOption voteOption in this.VoteOptions)
+            foreach (KeyValuePair<string, VoteCommand> commandKvp in this.RegisteredCommands)
             {
-                CommandHandler.UnregisterCommand(voteOption.VoteCommand);
+                CommandHandler.UnregisterCommand(commandKvp.Value);
             }
         }
 

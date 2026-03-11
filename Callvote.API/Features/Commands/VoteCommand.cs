@@ -8,7 +8,6 @@ namespace Callvote.API.Features.Commands
     /// </summary>
     public class VoteCommand
     {
-        private readonly VoteOption voteOption;
         private readonly ResponseHandler responseHandler;
 
         /// <summary>
@@ -18,7 +17,7 @@ namespace Callvote.API.Features.Commands
         /// <param name="responseHandler">The response handler for the command.</param>
         internal VoteCommand(VoteOption voteOption, ResponseHandler responseHandler)
         {
-            this.voteOption = voteOption;
+            this.VoteOption = voteOption;
             this.responseHandler = responseHandler;
             this.Command = voteOption.Option;
             this.Description = voteOption.Detail;
@@ -33,6 +32,12 @@ namespace Callvote.API.Features.Commands
         /// Gets the description of the vote command.
         /// </summary>
         public string Description { get; }
+
+        /// <summary>
+        /// Gets the <see cref="Votes.VoteOption"/> associated with this <see cref="VoteCommand"/>.
+        /// </summary>
+        public VoteOption VoteOption { get; }
+
 
         /// <summary>
         /// Executes a command using the specified arguments and provides a response message indicating the result.
@@ -50,7 +55,7 @@ namespace Callvote.API.Features.Commands
 
             var handler = this.responseHandler ?? VoteHandler.CurrentVote.VoteCommandResponse;
 
-            (bool, string)? results = handler?.Invoke(user, this.voteOption);
+            (bool, string)? results = handler?.Invoke(user, this.VoteOption);
 
             if (!results.HasValue)
             {
