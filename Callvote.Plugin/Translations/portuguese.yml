@@ -1,6 +1,6 @@
 ﻿Callvote:
-# Made by Firething and Unbistrackted
-# %player%, %VotePercent%, %Offender%, %ThresholdKick%, %ThresholdRespawnWave%, %ThresholdNuke%, %ThresholdKill%, %ThresholdRestartRound%, %VoteDetail%, %VoteCommand%, %VoteCounter%, %Timer%, %Custom%, %Type%, %Number%
+  # Made by Firething and Unbistrackted
+  # %player%, %VotePercent%, %Offender%, %ThresholdKick%, %ThresholdRespawnWave%, %ThresholdNuke%, %ThresholdKill%, %ThresholdRestartRound%, %VoteDetail%, %VoteCommand%, %VoteCounter%, %Timer%, %Custom%, %Type%, %Number%
   wrong_syntax: "Sintaxe errada. Por favor use callvote help"
   max_vote: 'Quantidade máxima de chamada de votação feita nessa partida.'
   vote_in_progress: 'Uma votação está atualmente em progresso'
