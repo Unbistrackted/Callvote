@@ -139,7 +139,7 @@ namespace Callvote.Features.VoteTemplate
                 return (false, CallvotePlugin.Instance.Translation.NoOptionAvailable.Replace("%Option%", voteOption.VoteCommand.Command));
             }
 
-            if (VoteHandler.CurrentVote.PlayerVote.TryGetValue(player, out VoteOption v) && v == voteOption)
+            if (VoteHandler.CurrentVote.HasPlayerVotedOnOption(player, voteOption))
             {
                 return (false, CallvotePlugin.Instance.Translation.AlreadyVoted.Replace("%Option%", voteOption.Detail));
             }
