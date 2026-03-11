@@ -15,7 +15,7 @@ If you want to develop using Callvote, please install the [EXILED Nuget Package]
 
 ## Documentation
 
-> https://unbistrackted.github.io/Callvote/
+> https://callvote.me/
 
 ## Download
 
