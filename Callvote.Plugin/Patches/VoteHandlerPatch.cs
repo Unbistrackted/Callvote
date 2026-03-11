@@ -30,7 +30,7 @@ namespace Callvote.Patches
                 return true;
             }
 
-            if (!MaxVotesAndQueue.IsCallVoteAllowed(Player.Get(vote.CallVotePlayer)))
+            if (!MaxVotesAndQueue.IsCallVoteAllowed(Player.Get(vote.CallVotePlayer.UserId)))
             {
                 __result = CallVoteStatus.MaxedCallVotes;
                 return false;
