@@ -101,7 +101,7 @@ namespace Callvote.Commands.CallVoteCommands
 
             string reason = string.Join(" ", args.Skip(1));
 
-            CallVoteStatus status = VoteHandler.CallVote(new KillVote(player, locatedPlayer, reason));
+            CallVoteStatus status = VoteHandler.CallVote(new KillVote(player ?? Server.Host, locatedPlayer, reason));
 
             response = VoteHandler.CurrentVote.GetMessageFromCallVoteStatus(status);
             return true;

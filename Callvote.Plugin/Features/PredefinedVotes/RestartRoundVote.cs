@@ -52,9 +52,6 @@ namespace Callvote.Features.PredefinedVotes
             DisplayHandler.Show(CallvotePlugin.Instance.Config.FinalResultsDuration, message, vote.AllowedPlayers);
         }
 
-        private static string ReplacePlayer(Player player)
-        {
-            return CallvotePlugin.Instance.Translation.AskedToRestart.Replace("%Player%", player.Nickname);
-        }
+        private static string ReplacePlayer(Player player) => CallvotePlugin.Instance.Translation.AskedToRestart.Replace("%Player%", player.Nickname);
     }
 }

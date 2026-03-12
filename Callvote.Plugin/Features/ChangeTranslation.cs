@@ -2,6 +2,8 @@
 using Exiled.API.Enums;
 using Exiled.API.Features;
 using Exiled.Loader;
+using LabApi.Features.Console;
+
 #else
 using LabApi.Features.Wrappers;
 using LabApi.Loader;
@@ -72,7 +74,7 @@ namespace Callvote.Features
             }
             catch (Exception ex)
             {
-                ServerConsole.AddLog($"[ERROR] [Callvote] {ex.Message}:\n {ex.StackTrace}", ConsoleColor.Red);
+                Logger.Warn($"{ex.Message}:\n {ex.StackTrace}");
                 return false;
             }
         }
@@ -97,7 +99,7 @@ namespace Callvote.Features
                 catch (WebException ex)
                 {
                     input = "en";
-                    ServerConsole.AddLog($"[ERROR] [Callvote] {ex.Message}", ConsoleColor.Red);
+                    Logger.Warn($"{ex.Message}");
                 }
 
                 if (!LanguageByCountryCodeDictionary.TryGetValue(input, out language))

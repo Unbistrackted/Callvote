@@ -129,7 +129,7 @@ namespace Callvote.Features.VoteTemplate
                 return (false, CallvotePlugin.Instance.Translation.NoVoteInProgress);
             }
 
-            if (!VoteHandler.CurrentVote.AllowedPlayers.Contains(player))
+            if (!VoteHandler.CurrentVote.AllowedPlayers.Contains(player) && player != (UserIndentifier)Server.Host.ReferenceHub)
             {
                 return (false, CallvotePlugin.Instance.Translation.NoPermission);
             }

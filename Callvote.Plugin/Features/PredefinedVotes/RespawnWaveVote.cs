@@ -10,6 +10,7 @@ using Callvote.API.Features.Displays;
 using Callvote.API.Features.Votes;
 using Callvote.API.Interfaces;
 using Callvote.Features.VoteTemplate;
+using LabApi.Features.Console;
 using PlayerRoles;
 using Respawning;
 using Respawning.Config;
@@ -68,11 +69,11 @@ namespace Callvote.Features.PredefinedVotes
                     .Replace("%VotePercent%", mtfVotePercent + "%")
                     .Replace("%VoteDetail%", respawnVote.MtfVoteOption.Detail);
 
-                SpawnableWaveBase mtfWave = WaveManager.Waves.Where(wave => wave.TargetFaction == Faction.FoundationStaff && wave.Configuration is not StandardWaveConfig<NtfMiniWave>).FirstOrDefault();
+                SpawnableWaveBase mtfWave = GetWaveBase(Faction.FoundationStaff);
 
                 if (mtfWave == null)
                 {
-                    ServerConsole.AddLog($"[ERROR] [Callvote] NW Moment!!!!! For some reason Wave is null!!!!!!!! I LOVE NW!!!!!!", ConsoleColor.Red);
+                    Logger.Warn($"NW Moment!!!!! For some reason Wave is null!!!!!!!! I LOVE NW!!!!!!");
                     return;
                 }
 
@@ -84,11 +85,11 @@ namespace Callvote.Features.PredefinedVotes
                     .Replace("%VotePercent%", ciVotePercent + "%")
                     .Replace("%VoteDetail%", respawnVote.CiVoteOption.Detail);
 
-                SpawnableWaveBase ciWave = WaveManager.Waves.Where(wave => wave.TargetFaction == Faction.FoundationEnemy && wave.Configuration is not StandardWaveConfig<ChaosMiniWave>).FirstOrDefault();
+                SpawnableWaveBase ciWave = GetWaveBase(Faction.FoundationEnemy);
 
                 if (ciWave == null)
                 {
-                    ServerConsole.AddLog($"[ERROR] [Callvote] NW Moment!!!!! For some reason Wave is null!!!!!!!! I LOVE NW!!!!!!", ConsoleColor.Red);
+                    Logger.Warn($"NW Moment!!!!! For some reason Wave is null!!!!!!!! I LOVE NW!!!!!!");
                     return;
                 }
 
@@ -114,9 +115,7 @@ namespace Callvote.Features.PredefinedVotes
             return [no, mtf, ci];
         }
 
-        private static string ReplacePlayer(Player player)
-        {
-            return CallvotePlugin.Instance.Translation.AskedToRespawn.Replace("%Player%", player.Nickname);
-        }
+        private static string ReplacePlayer(Player player) => CallvotePlugin.Instance.Translation.AskedToRespawn.Replace("%Player%", player.Nickname);
+        private static SpawnableWaveBase GetWaveBase(Faction faction) => WaveManager.Waves.Where(wave => wave.TargetFaction == faction && wave.Configuration.GetType().GetGenericTypeDefinition() == typeof(PrimaryWaveConfig<>)).FirstOrDefault();
     }
 }
