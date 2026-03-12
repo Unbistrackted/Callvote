@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Callvote.API.Enums;
-using Callvote.API.Events;
-using Callvote.API.Events.EventArgs;
-using Callvote.API.Features.Displays;
+using Utils.NonAllocLINQ;
 
 namespace Callvote.API.Features.Votes
 {
@@ -22,6 +22,10 @@ namespace Callvote.API.Features.Votes
             }
         }
 #endif
+
+        public static IReadOnlyCollection<Vote> ReadOnlyActiveParallelVotes => ActiveParallelVotes;
+
+        internal static HashSet<Vote> ActiveParallelVotes { get; } = new HashSet<Vote>();
 
         /// <summary>
         /// Gets the currently active <see cref="Vote"/> instance. Null when no vote is in progress.
@@ -43,28 +47,25 @@ namespace Callvote.API.Features.Votes
         /// If queueing is enabled the <paramref name="vote"/> will be enqueued and the <see cref="Vote"/> is started immediately.
         /// </summary>
         /// <param name="vote">The <see cref="Vote"/> to start or enqueue.</param>
+        /// <param name="isParallel">If the vote will be ran in parallel.</param>
         /// <returns>A <see cref="CallVoteStatus"/> representing if the action was sucessfull, or for example, if the queue is full.</returns>
-        public static CallVoteStatus CallVote(Vote vote)
+        public static CallVoteStatus CallVote(Vote vote, bool isParallel = false)
         {
             if (vote == null)
             {
                 throw new ArgumentNullException(nameof(vote), "Vote cannot be null!");
             }
 
+            if (isParallel)
+            {
+                ActiveParallelVotes.Add(vote);
+                return CurrentVote.StartVote();
+            }
+
             if (!IsVoteActive)
             {
-                CallingVoteEventArgs e = new(vote);
-                EventsHandlers.OnCallingVote(e);
-                if (!e.IsAllowed)
-                {
-                    return CallVoteStatus.VoteCancelled;
-                }
-
                 CurrentVote = vote;
-                CurrentVote.StartVote();
-                CalledVoteEventArgs ev = new(CurrentVote);
-                EventsHandlers.OnCalledVote(ev);
-                return CallVoteStatus.VoteStarted;
+                return CurrentVote.StartVote();
             }
 
             return CallVoteStatus.VoteInProgress;
@@ -82,31 +83,76 @@ namespace Callvote.API.Features.Votes
                 return;
             }
 
-            VoteEndingEventArgs e = new(CurrentVote);
-            if (!e.IsAllowed)
+            CurrentVote?.FinishVote(isForced);
+
+            CurrentVote = null;
+        }
+
+        public static void StopParallelVote(Vote vote, bool isForced = false)
+        {
+            if (vote == null)
             {
                 return;
             }
 
-            CurrentVote?.FinishVote();
-
-            if (!isForced)
+            if (!ActiveParallelVotes.Contains(vote) && !vote.IsCoroutineActive)
             {
-                if (CurrentVote?.Callback == null)
-                {
-                    DisplayHandler.Show(CurrentVote.ResultsMessageDuration, CurrentVote.BuildResultsMessage(), CurrentVote.AllowedPlayers);
-                }
-                else
-                {
-                    CurrentVote?.Callback.Invoke(CurrentVote);
-                }
+                return;
             }
 
-            Vote vote = CurrentVote;
-            CurrentVote = null;
+            CurrentVote?.FinishVote(isForced);
+            ActiveParallelVotes.Remove(vote);
+        }
 
-            VoteEndedEventArgs ev = new(vote);
-            EventsHandlers.OnVoteEnded(ev);
+        public static void StopParallelVote(long voteId, bool isForced = false)
+        {
+            if (voteId == 0)
+            {
+                return;
+            }
+
+            if (!ActiveParallelVotes.TryGetFirst(v => v.VoteId == voteId, out Vote vote))
+            {
+                return;
+            }
+
+            StopParallelVote(vote, isForced);
+        }
+
+        public static void StopParallelVotes(UserIndentifier user, bool isForced = false)
+        {
+            if (user == null)
+            {
+                return;
+            }
+
+            foreach (Vote vote in ActiveParallelVotes.Where(v => v.CallVotePlayer == user))
+            {
+                StopParallelVote(vote, isForced);
+            }
+        }
+
+        public static void StopParallelVotes(IEnumerable<Vote> votes, bool isForced = false)
+        {
+            if (votes == null)
+            {
+                return;
+            }
+
+            foreach (Vote vote in votes)
+            {
+                StopParallelVote(vote, isForced);
+            }
+        }
+
+        public static void StopAllParallelVotes(bool isForced = false)
+        {
+            foreach (Vote vote in ActiveParallelVotes)
+            {
+                StopParallelVote(vote, isForced);
+            }
+
+            ActiveParallelVotes.Clear();
         }
 
         /// <summary>
