@@ -1,46 +1,36 @@
-﻿#if EXILED
-using Exiled.API.Features;
-using Exiled.Permissions.Extensions;
-#else
-using Callvote.Commands.ParentCommands;
+﻿using Callvote.Commands.ParentCommands;
 using LabApi.Features.Permissions;
 using LabApi.Features.Wrappers;
-#endif
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Callvote.API.Enums;
 using Callvote.API.Features.Votes;
-using Callvote.Features.PredefinedVotes;
 using CommandSystem;
+using Callvote.CustomVotes.Features.PredefinedVotes;
 
-namespace Callvote.Commands.CallVoteCommands
+namespace Callvote.CustomVotes.Commands
 {
-#if !EXILED
     [CommandHandler(typeof(CallVoteParentCommand))]
-#endif
-    public class KickCommand : ICommand
+    public class KillCommand : ICommand
     {
-        public string Command => "kick";
+        public string Command => "kill";
 
-        public string[] Aliases => ["ki", "k"];
+        public string[] Aliases => ["death", "kil"];
 
-        public string Description => "Calls a kick vote.";
+        public string Description => "Calls a kill vote.";
 
         public bool Execute(ArraySegment<string> args, ICommandSender sender, out string response)
         {
             Player player = Player.Get(sender);
 
-            if (!CallvotePlugin.Instance.Config.EnableKick)
+            if (!CallvotePlugin.Instance.Config.EnableKill)
             {
-                response = CallvotePlugin.Instance.Translation.VoteKickDisabled;
+                response = CallvotePlugin.Instance.Translation.VoteKillDisabled;
                 return false;
             }
-#if EXILED
-            if ((player != null && !player.CheckPermission("cv.callvotekick")) || (player == null && sender is not ServerConsoleSender))
-#else
-            if ((player != null && !player.HasPermissions("cv.callvotekick")) || (player == null && sender is not ServerConsoleSender))
-#endif
+
+            if ((player != null && !player.HasPermissions("cv.callvotekill")) || (player == null && sender is not ServerConsoleSender))
             {
                 response = CallvotePlugin.Instance.Translation.NoPermission;
                 return false;
@@ -48,18 +38,13 @@ namespace Callvote.Commands.CallVoteCommands
 
             if (args.Count == 0)
             {
-                response = "callvote Kick [player] [reason]";
+                response = "callvote Kill [player] [reason]";
                 return false;
             }
-#if EXILED
-            if (player != null && !player.CheckPermission("cv.bypass") && Round.ElapsedTime.TotalSeconds < CallvotePlugin.Instance.Config.MaxWaitKick)
+
+            if (player != null && !player.HasPermissions("cv.bypass") && Round.Duration.TotalSeconds < CallvotePlugin.Instance.Config.MaxWaitKill)
             {
-                response = CallvotePlugin.Instance.Translation.WaitToVote.Replace("%Timer%", $"{CallvotePlugin.Instance.Config.MaxWaitKick - Round.ElapsedTime.TotalSeconds:F0}");
-#else
-            if (player != null && !player.HasPermissions("cv.bypass") && Round.Duration.TotalSeconds < CallvotePlugin.Instance.Config.MaxWaitKick)
-            {
-                response = CallvotePlugin.Instance.Translation.WaitToVote.Replace("%Timer%", $"{CallvotePlugin.Instance.Config.MaxWaitKick - Round.Duration.TotalSeconds:F0}");
-#endif
+                response = CallvotePlugin.Instance.Translation.WaitToVote.Replace("%Timer%", $"{CallvotePlugin.Instance.Config.MaxWaitKill - Round.Duration.TotalSeconds:F0}");
                 return false;
             }
 
@@ -68,11 +53,8 @@ namespace Callvote.Commands.CallVoteCommands
                 response = CallvotePlugin.Instance.Translation.PassReason;
                 return false;
             }
-#if EXILED
-            Player locatedPlayer = Player.Get(args.ElementAt(0));
-#else
+
             Player locatedPlayer = Player.GetByNickname(args.ElementAt(0));
-#endif
 
             if (locatedPlayer == null)
             {
@@ -80,11 +62,7 @@ namespace Callvote.Commands.CallVoteCommands
                 return false;
             }
 
-#if EXILED
-            if (!locatedPlayer.CheckPermission("cv.untouchable"))
-#else
             if (!locatedPlayer.HasPermissions("cv.untouchable"))
-#endif
             {
                 response = "Player is Untouchable! :trollface:";
                 return false;
@@ -100,7 +78,7 @@ namespace Callvote.Commands.CallVoteCommands
 
             string reason = string.Join(" ", args.Skip(1));
 
-            CallVoteStatus status = VoteHandler.CallVote(new KickVote(player ?? Server.Host, locatedPlayer, reason));
+            CallVoteStatus status = VoteHandler.CallVote(new KillVote(player ?? Server.Host, locatedPlayer, reason));
 
             response = VoteHandler.CurrentVote.GetMessageFromCallVoteStatus(status);
             return true;

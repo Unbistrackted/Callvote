@@ -1,22 +1,15 @@
-﻿#if EXILED
-using Exiled.API.Features;
-using Exiled.Permissions.Extensions;
-#else
-using Callvote.Commands.ParentCommands;
+﻿using Callvote.Commands.ParentCommands;
 using LabApi.Features.Permissions;
 using LabApi.Features.Wrappers;
-#endif
 using System;
 using Callvote.API.Enums;
 using Callvote.API.Features.Votes;
-using Callvote.Features.PredefinedVotes;
 using CommandSystem;
+using Callvote.CustomVotes.Features.PredefinedVotes;
 
-namespace Callvote.Commands.CallVoteCommands
+namespace Callvote.CustomVotes.Commands
 {
-#if !EXILED
     [CommandHandler(typeof(CallVoteParentCommand))]
-#endif
     public class RespawnWaveCommand : ICommand
     {
         public string Command => "respawnwave";
@@ -34,24 +27,16 @@ namespace Callvote.Commands.CallVoteCommands
                 response = CallvotePlugin.Instance.Translation.VoteRespawnWaveDisabled;
                 return false;
             }
-#if EXILED
-            if ((player != null && !player.CheckPermission("cv.callvoterespawnwave")) || (player == null && sender is not ServerConsoleSender))
-#else
+
             if ((player != null && !player.HasPermissions("cv.callvoterespawnwave")) || (player == null && sender is not ServerConsoleSender))
-#endif
             {
                 response = CallvotePlugin.Instance.Translation.NoPermission;
                 return false;
             }
-#if EXILED
-            if (player != null && !player.CheckPermission("cv.bypass") && Round.ElapsedTime.TotalSeconds < CallvotePlugin.Instance.Config.MaxWaitRespawnWave)
-            {
-                response = CallvotePlugin.Instance.Translation.WaitToVote.Replace("%Timer%", $"{CallvotePlugin.Instance.Config.MaxWaitRespawnWave - Round.ElapsedTime.TotalSeconds:F0}");
-#else
+
             if (player != null && !player.HasPermissions("cv.bypass") && Round.Duration.TotalSeconds < CallvotePlugin.Instance.Config.MaxWaitRespawnWave)
             {
                 response = CallvotePlugin.Instance.Translation.WaitToVote.Replace("%Timer%", $"{CallvotePlugin.Instance.Config.MaxWaitRespawnWave - Round.Duration.TotalSeconds:F0}");
-#endif
                 return false;
             }
 

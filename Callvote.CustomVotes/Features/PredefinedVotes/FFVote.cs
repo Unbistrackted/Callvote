@@ -1,21 +1,17 @@
-﻿#if EXILED
-using Exiled.API.Features;
-#else
-using LabApi.Features.Wrappers;
-#endif
+﻿using LabApi.Features.Wrappers;
 using Callvote.API.Features.Displays;
 using Callvote.API.Features.Votes;
 using Callvote.API.Interfaces;
 using Callvote.Features.VoteTemplate;
 
-namespace Callvote.Features.PredefinedVotes
+namespace Callvote.CustomVotes.Features.PredefinedVotes
 {
     /// <summary>
     /// Represents the type for the Friendly Fire enable/disable Predefined Vote.
     /// Initializes a new instance of the <see cref="FFVote"/> class.
     /// </summary>
     /// <param name="player"><see cref="Vote.CallVotePlayer"/>.</param>
-    public class FFVote(Player player) : BinaryVote(player, ReplacePlayer(player), nameof(VoteType.Ff), AddCallback), IPredefinedVote
+    public class FFVote(Player player) : BinaryVote(player, ReplacePlayer(player), nameof(CustomVoteType.Ff), AddCallback), IPredefinedVote
     {
         private static void AddCallback(Vote vote)
         {

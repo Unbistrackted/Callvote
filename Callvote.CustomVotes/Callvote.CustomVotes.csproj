@@ -54,12 +54,12 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\Callvote.API\Callvote.API.csproj" />
+		<ProjectReference Include="..\Callvote.Plugin\Callvote.Plugin.csproj" />
 		<PackageReference Include="Northwood.LabAPI" Version="1.1.5" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <Folder Include="Commands\" />
-	  <Folder Include="Features\" />
 	</ItemGroup>
 
 

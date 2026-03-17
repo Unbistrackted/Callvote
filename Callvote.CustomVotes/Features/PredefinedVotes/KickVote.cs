@@ -1,14 +1,10 @@
-﻿#if EXILED
-using Exiled.API.Features;
-#else
-using LabApi.Features.Wrappers;
-#endif
+﻿using LabApi.Features.Wrappers;
 using Callvote.API.Features.Displays;
 using Callvote.API.Features.Votes;
 using Callvote.API.Interfaces;
 using Callvote.Features.VoteTemplate;
 
-namespace Callvote.Features.PredefinedVotes
+namespace Callvote.CustomVotes.Features.PredefinedVotes
 {
     /// <summary>
     /// Represents the type for the Kick Player Predefined Vote.
@@ -17,7 +13,7 @@ namespace Callvote.Features.PredefinedVotes
     /// <param name="player"><see cref="Vote.CallVotePlayer"/>.</param>
     /// <param name="ofender">The <see cref="Player"/> that is going to be kicked.</param>
     /// <param name="reason">The reason for the kick.</param>
-    public class KickVote(Player player, Player ofender, string reason) : BinaryVote(player, ReplacePlayer(player, ofender, reason), nameof(VoteType.Kick), vote => AddCallback(vote, player, ofender, reason)), IPredefinedVote
+    public class KickVote(Player player, Player ofender, string reason) : BinaryVote(player, ReplacePlayer(player, ofender, reason), nameof(CustomVoteType.Kick), vote => AddCallback(vote, player, ofender, reason)), IPredefinedVote
     {
         private static void AddCallback(Vote vote, Player player, Player ofender, string reason)
         {

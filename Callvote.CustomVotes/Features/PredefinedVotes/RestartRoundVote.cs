@@ -1,21 +1,17 @@
-﻿#if EXILED
-using Exiled.API.Features;
-#else
-using LabApi.Features.Wrappers;
-#endif
+﻿using LabApi.Features.Wrappers;
 using Callvote.API.Features.Displays;
 using Callvote.API.Features.Votes;
 using Callvote.API.Interfaces;
 using Callvote.Features.VoteTemplate;
 
-namespace Callvote.Features.PredefinedVotes
+namespace Callvote.CustomVotes.Features.PredefinedVotes
 {
     /// <summary>
-    /// Represents the type for the Nuke Predefined Vote.
-    /// Initializes a new instance of the <see cref="NukeVote"/> class.
+    /// Represents the type for the Restart Round Predefined Vote.
+    /// Initializes a new instance of the <see cref="RestartRoundVote"/> class.
     /// </summary>
     /// <param name="player"><see cref="Vote.CallVotePlayer"/>.</param>
-    public class NukeVote(Player player) : BinaryVote(player, ReplacePlayer(player), nameof(VoteType.Nuke), AddCallback), IPredefinedVote
+    public class RestartRoundVote(Player player) : BinaryVote(player, ReplacePlayer(player), nameof(CustomVoteType.RestartRound), AddCallback), IPredefinedVote
     {
         private static void AddCallback(Vote vote)
         {
@@ -29,25 +25,29 @@ namespace Callvote.Features.PredefinedVotes
 
             string message;
 
-            if (yesVotePercent >= CallvotePlugin.Instance.Config.ThresholdNuke && yesVotePercent > noVotePercent)
+            if (yesVotePercent >= CallvotePlugin.Instance.Config.ThresholdRestartRound && yesVotePercent > noVotePercent)
             {
-                message = CallvotePlugin.Instance.Translation.FoundationNuked
+                message = CallvotePlugin.Instance.Translation.RoundRestarting
                     .Replace("%VotePercent%", yesVotePercent.ToString())
                     .Replace("%VoteDetail%", binaryVote.YesVoteOption.Detail);
-
-                Warhead.Detonate();
+#if EXILED
+                Round.EndRound(true);
+#else
+                Round.End();
+#endif
             }
             else
             {
-                message = CallvotePlugin.Instance.Translation.NoSuccessFullNuke
+                message = CallvotePlugin.Instance.Translation.NoSuccessFullRestart
                     .Replace("%VotePercent%", yesVotePercent.ToString())
-                    .Replace("%ThresholdNuke%", CallvotePlugin.Instance.Config.ThresholdNuke.ToString())
+                    .Replace("%ThresholdRestartRound%", CallvotePlugin.Instance.Config.ThresholdRestartRound.ToString())
+                    .Replace("%VoteDetail%", binaryVote.YesVoteOption.Detail)
                     .Replace("%VoteDetail%", binaryVote.YesVoteOption.Detail);
             }
 
             DisplayHandler.Show(CallvotePlugin.Instance.Config.FinalResultsDuration, message, vote.AllowedPlayers);
         }
 
-        private static string ReplacePlayer(Player player) => CallvotePlugin.Instance.Translation.AskedToNuke.Replace("%Player%", player.Nickname);
+        private static string ReplacePlayer(Player player) => CallvotePlugin.Instance.Translation.AskedToRestart.Replace("%Player%", player.Nickname);
     }
 }

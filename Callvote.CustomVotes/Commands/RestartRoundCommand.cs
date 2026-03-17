@@ -1,16 +1,11 @@
-﻿#if EXILED
-using Exiled.API.Features;
-using Exiled.Permissions.Extensions;
-#else
-using Callvote.Commands.ParentCommands;
+﻿using Callvote.Commands.ParentCommands;
 using LabApi.Features.Permissions;
 using LabApi.Features.Wrappers;
-#endif
 using System;
 using Callvote.API.Enums;
 using Callvote.API.Features.Votes;
-using Callvote.Features.PredefinedVotes;
 using CommandSystem;
+using Callvote.CustomVotes.Features.PredefinedVotes;
 
 namespace Callvote.Commands.CallVoteCommands
 {
@@ -34,25 +29,16 @@ namespace Callvote.Commands.CallVoteCommands
                 response = CallvotePlugin.Instance.Translation.VoteRestartRoundDisabled;
                 return false;
             }
-#if EXILED
-            if ((player != null && !player.CheckPermission("cv.callvoterestartround")) || (player == null && sender is not ServerConsoleSender))
-#else
+
             if ((player != null && !player.HasPermissions("cv.callvoterestartround")) || (player == null && sender is not ServerConsoleSender))
-#endif
             {
                 response = CallvotePlugin.Instance.Translation.NoPermission;
                 return false;
             }
 
-#if EXILED
-            if (player != null && !player.CheckPermission("cv.bypass") && Round.ElapsedTime.TotalSeconds < CallvotePlugin.Instance.Config.MaxWaitRestartRound)
-            {
-                response = CallvotePlugin.Instance.Translation.WaitToVote.Replace("%Timer%", $"{CallvotePlugin.Instance.Config.MaxWaitRestartRound - Round.ElapsedTime.TotalSeconds:F0}");
-#else
             if (player != null && !player.HasPermissions("cv.bypass") && Round.Duration.TotalSeconds < CallvotePlugin.Instance.Config.MaxWaitRestartRound)
             {
                 response = CallvotePlugin.Instance.Translation.WaitToVote.Replace("%Timer%", $"{CallvotePlugin.Instance.Config.MaxWaitRestartRound - Round.Duration.TotalSeconds:F0}");
-#endif
                 return false;
             }
 

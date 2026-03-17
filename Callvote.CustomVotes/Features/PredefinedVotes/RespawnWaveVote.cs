@@ -1,9 +1,4 @@
-﻿#if EXILED
-using Exiled.API.Features;
-#else
-using LabApi.Features.Wrappers;
-#endif
-using System;
+﻿using LabApi.Features.Wrappers;
 using System.Collections.Generic;
 using System.Linq;
 using Callvote.API.Features.Displays;
@@ -16,7 +11,7 @@ using Respawning;
 using Respawning.Config;
 using Respawning.Waves;
 
-namespace Callvote.Features.PredefinedVotes
+namespace Callvote.CustomVotes.Features.PredefinedVotes
 {
     /// <summary>
     /// Represents the type for the Respawn Wave Predefined Vote.
@@ -28,7 +23,7 @@ namespace Callvote.Features.PredefinedVotes
         /// </summary>
         /// <param name="player"><see cref="Vote.CallVotePlayer"/>.</param>
         public RespawnWaveVote(Player player)
-            : base(player, ReplacePlayer(player), nameof(VoteType.RespawnWave), AddOptions(out VoteOption no, out VoteOption mtf, out VoteOption ci), AddCallback)
+            : base(player, ReplacePlayer(player), nameof(CustomVoteType.RespawnWave), AddOptions(out VoteOption no, out VoteOption mtf, out VoteOption ci), AddCallback)
         {
             this.NoVoteOption = no;
             this.MtfVoteOption = mtf;
