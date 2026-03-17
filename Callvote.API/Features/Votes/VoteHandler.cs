@@ -23,9 +23,10 @@ namespace Callvote.API.Features.Votes
         }
 #endif
 
+        /// <summary>
+        /// Gets the list of active parallel <see cref="Vote"/>s. These votes are ran in parallel with the main <see cref="CurrentVote"/> and are not affected by it.
+        /// </summary>
         public static IReadOnlyCollection<Vote> ReadOnlyActiveParallelVotes => ActiveParallelVotes;
-
-        internal static HashSet<Vote> ActiveParallelVotes { get; } = new HashSet<Vote>();
 
         /// <summary>
         /// Gets the currently active <see cref="Vote"/> instance. Null when no vote is in progress.
@@ -41,6 +42,11 @@ namespace Callvote.API.Features.Votes
         /// Gets or sets a value indicating whether the Discord Webhook will be able to send a webhook message.
         /// </summary>
         public static bool ShouldSendWebhookMessage { get; set; } = false;
+
+        /// <summary>
+        /// Gets the lists of active parallel <see cref="Vote"/>s. These votes are ran in parallel with the main <see cref="CurrentVote"/> and are not affected by it.
+        /// </summary>
+        internal static HashSet<Vote> ActiveParallelVotes { get; } = new HashSet<Vote>();
 
         /// <summary>
         /// Request to start a <see cref="Vote"/>.
@@ -88,6 +94,11 @@ namespace Callvote.API.Features.Votes
             CurrentVote = null;
         }
 
+        /// <summary>
+        /// Stops a parallel <see cref="Vote"/>. If the <paramref name="vote"/> is not active or is not in the <see cref="ActiveParallelVotes"/> list, the method does nothing.
+        /// </summary>
+        /// <param name="vote">The <see cref="Vote"/> to be stopped.</param>
+        /// <param name="isForced">If it's forced.</param>
         public static void StopParallelVote(Vote vote, bool isForced = false)
         {
             if (vote == null)
@@ -104,6 +115,11 @@ namespace Callvote.API.Features.Votes
             ActiveParallelVotes.Remove(vote);
         }
 
+        /// <summary>
+        /// Stops a parallel <see cref="Vote"/> by its ID. If the <paramref name="voteId"/> is not active or is not in the <see cref="ActiveParallelVotes"/> list, the method does nothing.
+        /// </summary>
+        /// <param name="voteId">The <see cref="Vote.VoteId"/> to stop the <see cref="Vote"/>.</param>
+        /// <param name="isForced">If it's forced.</param>
         public static void StopParallelVote(long voteId, bool isForced = false)
         {
             if (voteId == 0)
@@ -119,6 +135,11 @@ namespace Callvote.API.Features.Votes
             StopParallelVote(vote, isForced);
         }
 
+        /// <summary>
+        /// Stops all active parallel <see cref="Vote"/>s associated with the specified user.
+        /// </summary>
+        /// <param name="user">The identifier of the user whose parallel votes are to be stopped. Cannot be null.</param>
+        /// <param name="isForced">If it's forced.</param>
         public static void StopParallelVotes(UserIndentifier user, bool isForced = false)
         {
             if (user == null)
@@ -132,6 +153,11 @@ namespace Callvote.API.Features.Votes
             }
         }
 
+        /// <summary>
+        /// Stops a collection of parallel <see cref="Vote"/>s.
+        /// </summary>
+        /// <param name="votes">The collection of parallel <see cref="Vote"/>s.</param>
+        /// <param name="isForced">If it's forced.</param>
         public static void StopParallelVotes(IEnumerable<Vote> votes, bool isForced = false)
         {
             if (votes == null)
@@ -145,6 +171,10 @@ namespace Callvote.API.Features.Votes
             }
         }
 
+        /// <summary>
+        /// Stops all active parallel votes and clears the list of active votes.
+        /// </summary>
+        /// <param name="isForced">If it's forced.</param>
         public static void StopAllParallelVotes(bool isForced = false)
         {
             foreach (Vote vote in ActiveParallelVotes)
