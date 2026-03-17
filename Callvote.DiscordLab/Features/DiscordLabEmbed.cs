@@ -40,7 +40,7 @@ namespace Callvote.DiscordLab.Features
                 .Replace("%winningVoteOption%", vote.GetWinningVoteOption().Option)
                 .Replace("%winningVoteOptionColor%", GetColor(vote.GetWinningVoteOption()?.Detail).ToString());
 
-            if (String.IsNullOrEmpty(configJson) || !EmbedBuilderUtils.TryParse(configJson, out EmbedBuilder embedBuilder))
+            if (string.IsNullOrEmpty(configJson) || !EmbedBuilderUtils.TryParse(configJson, out EmbedBuilder embedBuilder))
             {
                 embedBuilder = new()
                 {

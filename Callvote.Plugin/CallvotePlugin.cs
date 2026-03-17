@@ -90,7 +90,7 @@ Version: 7.0.0 - RELEASE CANDIDATE II
             this.LoadConfigs();
 #endif
             this.eventHandler = new EventHandlers();
-            ServerSpecificSettings.RegisterSettings();
+            SSSCallvoteMenu.RegisterSettings();
             this.Harmony.PatchAll();
             DisplayHandler.Instance.RegisterProvider(SoftDependencies.DisplayMessageHandler.GetMessageProvider());
             if (this.Config.ShowLogo)
@@ -108,7 +108,7 @@ Version: 7.0.0 - RELEASE CANDIDATE II
         public override void Disable()
 #endif
         {
-            ServerSpecificSettings.UnregisterSettings();
+            SSSCallvoteMenu.UnregisterSettings();
             this.eventHandler = null;
             Instance = null;
 #if EXILED

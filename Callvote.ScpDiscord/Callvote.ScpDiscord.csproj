@@ -54,10 +54,13 @@
 			<HintPath>$(EXILED_REFERENCES)\SCPDiscord.dll</HintPath>
 		</Reference>
 
+		<Reference Include="System.Text.Json" HintPath="$(SL_REFERENCES)\System.Text.Json.dll" />
+
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\Callvote.API\Callvote.API.csproj" />
+		<PackageReference Include="Google.Protobuf" Version="3.33.5" />
 		<PackageReference Include="Northwood.LabAPI" Version="1.1.5" />
 	</ItemGroup>
 

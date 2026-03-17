@@ -2,7 +2,7 @@
 using Callvote.API.Events.EventArgs;
 using Callvote.DiscordLab.Features;
 
-namespace Callvote.ScpDiscord
+namespace Callvote.DiscordLab
 {
     internal class EventHandler
     {

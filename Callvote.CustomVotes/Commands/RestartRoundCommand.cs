@@ -6,6 +6,7 @@ using Callvote.API.Enums;
 using Callvote.API.Features.Votes;
 using CommandSystem;
 using Callvote.CustomVotes.Features.PredefinedVotes;
+using Callvote.CustomVotes;
 
 namespace Callvote.Commands.CallVoteCommands
 {
@@ -24,9 +25,9 @@ namespace Callvote.Commands.CallVoteCommands
         {
             Player player = Player.Get(sender);
 
-            if (!CallvotePlugin.Instance.Config.EnableRoundRestart)
+            if (!Plugin.Instance.Config.EnableRoundRestart)
             {
-                response = CallvotePlugin.Instance.Translation.VoteRestartRoundDisabled;
+                response = Plugin.Instance.Translation.VoteRestartRoundDisabled;
                 return false;
             }
 
@@ -36,9 +37,9 @@ namespace Callvote.Commands.CallVoteCommands
                 return false;
             }
 
-            if (player != null && !player.HasPermissions("cv.bypass") && Round.Duration.TotalSeconds < CallvotePlugin.Instance.Config.MaxWaitRestartRound)
+            if (player != null && !player.HasPermissions("cv.bypass") && Round.Duration.TotalSeconds < Plugin.Instance.Config.MaxWaitRestartRound)
             {
-                response = CallvotePlugin.Instance.Translation.WaitToVote.Replace("%Timer%", $"{CallvotePlugin.Instance.Config.MaxWaitRestartRound - Round.Duration.TotalSeconds:F0}");
+                response = Plugin.Instance.Translation.WaitToVote.Replace("%Timer%", $"{Plugin.Instance.Config.MaxWaitRestartRound - Round.Duration.TotalSeconds:F0}");
                 return false;
             }
 

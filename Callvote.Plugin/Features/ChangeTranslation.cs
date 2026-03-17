@@ -3,8 +3,8 @@ using Exiled.API.Enums;
 using Exiled.API.Features;
 using Exiled.Loader;
 using LabApi.Features.Console;
-
 #else
+using LabApi.Features.Console;
 using LabApi.Features.Wrappers;
 using LabApi.Loader;
 #endif
@@ -68,8 +68,8 @@ namespace Callvote.Features
 #else
                 CallvotePlugin.Instance.LoadConfigs();
 #endif
-                ServerSpecificSettings.UnregisterSettings();
-                ServerSpecificSettings.RegisterSettings();
+                SSSCallvoteMenu.UnregisterSettings();
+                SSSCallvoteMenu.RegisterSettings();
                 return true;
             }
             catch (Exception ex)

@@ -7,6 +7,9 @@ namespace Callvote.ScpDiscord.Configuration
         [Description("If SCPDiscord is present and this is set to a valid Channel Id, sends the vote results there. 0 = disabled")]
         public ulong DiscordChannelId { get; set; } = 0;
 
+        [Description("Change this if you want to use your own embed JSON. %player%, %question%, %winningVoteOption%, %winningVoteOptionColor%")]
+        public string EmbedJson { get; set; } = string.Empty;
+
         [Description("Embed:")]
         public string EmbedTitle { get; set; } = "Vote Results:";
 

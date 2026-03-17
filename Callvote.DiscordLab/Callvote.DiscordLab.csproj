@@ -4,9 +4,10 @@
 		<TargetFramework>net48</TargetFramework>
 		<Platforms>x64</Platforms>
 		<LangVersion>latest</LangVersion>
-		<RootNamespace>Callvote.ScpDiscord</RootNamespace>
-		<AssemblyName>Callvote.ScpDiscord</AssemblyName>
+		<RootNamespace>Callvote.DiscordLab</RootNamespace>
+		<AssemblyName>Callvote.DiscordLab</AssemblyName>
 		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+		<Version>1.0.0</Version>
 		<DebugType>portable</DebugType>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
@@ -14,6 +15,9 @@
 		<WarningsAsErrors>true</WarningsAsErrors>
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 		<Configurations>Debug;Release</Configurations>
+		<Authors>Unbistrackted</Authors>
+		<Title>Callvote.DiscordLab</Title>
+		<Description>DiscordLab Module for Callvote</Description>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -49,7 +53,7 @@
 		<Reference Include="UnityEngine.PhysicsModule">
 			<HintPath>$(EXILED_REFERENCES)\UnityEngine.PhysicsModule.dll</HintPath>
 		</Reference>
-
+		
 	</ItemGroup>
 
 	<ItemGroup>

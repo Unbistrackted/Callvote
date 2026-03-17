@@ -11,13 +11,20 @@ namespace Callvote
         internal EventHandlers()
         {
             ServerSpecificSettingsSync.ServerOnSettingValueReceived += this.OnUserInput;
+            ServerSpecificSettingsSync.SendOnJoinFilter += this.OnSendOnJoinFilter;
             API.Events.EventsHandlers.VoteEnded += this.OnVoteEnded;
         }
 
         ~EventHandlers()
         {
             ServerSpecificSettingsSync.ServerOnSettingValueReceived -= this.OnUserInput;
+            ServerSpecificSettingsSync.SendOnJoinFilter -= this.OnSendOnJoinFilter;
             API.Events.EventsHandlers.VoteEnded -= this.OnVoteEnded;
+        }
+
+        private bool OnSendOnJoinFilter(ReferenceHub hub)
+        {
+            return true;
         }
 
         private void OnVoteEnded(VoteEndedEventArgs ev)
@@ -48,22 +55,6 @@ namespace Callvote
                         if (VoteHandler.CurrentVote.TryGetVoteOptionFromCommand(CallvotePlugin.Instance.Translation.CommandNo, out VoteOption noVote))
                         {
                             VoteHandler.CurrentVote.SubmitVoteOption(sender, noVote);
-                        }
-
-                        break;
-
-                    case int id when id == CallvotePlugin.Instance.Config.MtfKeybindSettingId:
-                        if (VoteHandler.CurrentVote.TryGetVoteOptionFromCommand(CallvotePlugin.Instance.Translation.CommandMobileTaskForce, out VoteOption mtfVote))
-                        {
-                            VoteHandler.CurrentVote.SubmitVoteOption(sender, mtfVote);
-                        }
-
-                        break;
-
-                    case int id when id == CallvotePlugin.Instance.Config.CiKeybindSettingId:
-                        if (VoteHandler.CurrentVote.TryGetVoteOptionFromCommand(CallvotePlugin.Instance.Translation.CommandChaosInsurgency, out VoteOption ciVote))
-                        {
-                            VoteHandler.CurrentVote.SubmitVoteOption(sender, ciVote);
                         }
 
                         break;

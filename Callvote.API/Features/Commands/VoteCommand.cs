@@ -38,7 +38,6 @@ namespace Callvote.API.Features.Commands
         /// </summary>
         public VoteOption VoteOption { get; }
 
-
         /// <summary>
         /// Executes a command using the specified arguments and provides a response message indicating the result.
         /// </summary>

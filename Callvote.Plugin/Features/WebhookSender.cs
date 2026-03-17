@@ -18,7 +18,11 @@ namespace Callvote.Features
 
         private static Config Config => CallvotePlugin.Instance.Config;
 
-        public static void SendVoteResults(Vote vote)
+        /// <summary>
+        /// Sends a vote results via discord's webhook.
+        /// </summary>
+        /// <param name="vote">The vote to be sent via discord webhook.</param>
+        internal static void SendVoteResults(Vote vote)
         {
             // Made by Playeroth and Edi, and I'm too lazy to organize this mess
             if (string.IsNullOrWhiteSpace(Config.DiscordWebhook))

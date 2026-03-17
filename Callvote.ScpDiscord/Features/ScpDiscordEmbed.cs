@@ -1,7 +1,11 @@
 ﻿using Callvote.API.Features.Votes;
 using Callvote.ScpDiscord.Configuration;
+using Google.Protobuf.Collections;
 using LabApi.Features.Console;
+using SCPDiscord.Interface;
 using System;
+using System.IO;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 
 namespace Callvote.ScpDiscord.Features
@@ -27,24 +31,38 @@ namespace Callvote.ScpDiscord.Features
                 return;
             }
 
+            EmbedMessage msg;
 
             RepeatedField<EmbedMessage.Types.DiscordEmbedField> fields = [];
 
-            // Player who called the vote
-            fields.Add(new EmbedMessage.Types.DiscordEmbedField()
-            {
-                Name = Config.EmbedPlayer,
-                Value = vote.CallVotePlayer?.Username ?? vote.CallVotePlayer?.UniqueUserId,
-                Inline = false,
-            });
+            string configJson = Config.EmbedJson
+                .Replace("%player%", vote.CallVotePlayer?.Username ?? vote.CallVotePlayer?.UniqueUserId)
+                .Replace("%question%", RemoveColorTags(vote?.Question))
+                .Replace("%winningVoteOption%", vote.GetWinningVoteOption().Option)
+                .Replace("%winningVoteOptionColor%", GetColor(vote.GetWinningVoteOption()?.Detail).ToString());
 
-            // Vote Question
-            fields.Add(new EmbedMessage.Types.DiscordEmbedField()
+            if (string.IsNullOrEmpty(configJson))
             {
-                Name = Config.EmbedQuestion,
-                Value = RemoveColorTags(vote?.Question),
-                Inline = false,
-            });
+                msg = EmbedMessage.Parser.ParseJson(configJson);
+            }
+            else
+            {
+                // Player who called the vote
+                fields.Add(new EmbedMessage.Types.DiscordEmbedField()
+                {
+                    Name = Config.EmbedPlayer,
+                    Value = vote.CallVotePlayer?.Username ?? vote.CallVotePlayer?.UniqueUserId,
+                    Inline = false,
+                });
+
+                // Vote Question
+                fields.Add(new EmbedMessage.Types.DiscordEmbedField()
+                {
+                    Name = Config.EmbedQuestion,
+                    Value = RemoveColorTags(vote?.Question),
+                    Inline = false,
+                });
+            }
 
             // Vote Options and Counters
             foreach (VoteOption option in vote.VoteOptions)
@@ -57,18 +75,21 @@ namespace Callvote.ScpDiscord.Features
                 });
             }
 
-            EmbedMessage embedMessage = new()
+            msg = new()
             {
                 Title = Config.EmbedTitle,
                 ChannelID = Config.DiscordChannelId,
                 Colour = GetColor(vote.GetWinningVoteOption()?.Detail),
             };
 
-            embedMessage.Fields.AddRange(fields);
+            msg.Fields.AddRange(fields);
 
             try
             {
-                SCPDiscord.SCPDiscord.SendEmbedByID(embedMessage);
+                SCPDiscord.SCPDiscord.SendEmbedByID(msg);
+                using FileStream fileStream = File.Create("something.json");
+
+                JsonSerializer.Serialize(fileStream, msg, new JsonSerializerOptions { WriteIndented = true });
             }
             catch (Exception ex)
             {

@@ -24,9 +24,9 @@ namespace Callvote.CustomVotes.Commands
         {
             Player player = Player.Get(sender);
 
-            if (!CallvotePlugin.Instance.Config.EnableKick)
+            if (!Plugin.Instance.Config.EnableKick)
             {
-                response = CallvotePlugin.Instance.Translation.VoteKickDisabled;
+                response = Plugin.Instance.Translation.VoteKickDisabled;
                 return false;
             }
 
@@ -42,15 +42,15 @@ namespace Callvote.CustomVotes.Commands
                 return false;
             }
 
-            if (player != null && !player.HasPermissions("cv.bypass") && Round.Duration.TotalSeconds < CallvotePlugin.Instance.Config.MaxWaitKick)
+            if (player != null && !player.HasPermissions("cv.bypass") && Round.Duration.TotalSeconds < Plugin.Instance.Config.MaxWaitKick)
             {
-                response = CallvotePlugin.Instance.Translation.WaitToVote.Replace("%Timer%", $"{CallvotePlugin.Instance.Config.MaxWaitKick - Round.Duration.TotalSeconds:F0}");
+                response = Plugin.Instance.Translation.WaitToVote.Replace("%Timer%", $"{Plugin.Instance.Config.MaxWaitKick - Round.Duration.TotalSeconds:F0}");
                 return false;
             }
 
             if (args.Count == 1)
             {
-                response = CallvotePlugin.Instance.Translation.PassReason;
+                response = Plugin.Instance.Translation.PassReason;
                 return false;
             }
 

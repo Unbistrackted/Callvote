@@ -22,33 +22,25 @@ namespace Callvote.CustomVotes.Commands
         {
             Player player = Player.Get(sender);
 
-            if (!CallvotePlugin.Instance.Config.EnableFf)
+            if (!Plugin.Instance.Config.EnableFf)
             {
-                response = CallvotePlugin.Instance.Translation.VoteFFDisabled;
+                response = Plugin.Instance.Translation.VoteFFDisabled;
                 return false;
             }
+
             if ((player != null && !player.HasPermissions("cv.callvoteff")) || (player == null && sender is not ServerConsoleSender))
             {
                 response = CallvotePlugin.Instance.Translation.NoPermission;
                 return false;
             }
 
-            if (player != null && !player.HasPermissions("cv.bypass") && Round.Duration.TotalSeconds < CallvotePlugin.Instance.Config.MaxWaitFf)
+            if (player != null && !player.HasPermissions("cv.bypass") && Round.Duration.TotalSeconds < Plugin.Instance.Config.MaxWaitFf)
             {
-                response = CallvotePlugin.Instance.Translation.WaitToVote.Replace("%Timer%", $"{CallvotePlugin.Instance.Config.MaxWaitFf - Round.Duration.TotalSeconds:F0}");
+                response = Plugin.Instance.Translation.WaitToVote.Replace("%Timer%", $"{Plugin.Instance.Config.MaxWaitFf - Round.Duration.TotalSeconds:F0}");
                 return false;
             }
 
-            string question;
-
-            if (!Server.FriendlyFire)
-            {
-                question = CallvotePlugin.Instance.Translation.AskedToDisableFf;
-            }
-            else
-            {
-                question = CallvotePlugin.Instance.Translation.AskedToEnableFf;
-            }
+            string question = Server.FriendlyFire ? Plugin.Instance.Translation.AskedToEnableFf : Plugin.Instance.Translation.AskedToDisableFf;
 
             CallVoteStatus status = VoteHandler.CallVote(new FFVote(player ?? Server.Host));
 

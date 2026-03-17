@@ -25,9 +25,9 @@ namespace Callvote.CustomVotes.Features.PredefinedVotes
 
             string message;
 
-            if (yesVotePercent >= CallvotePlugin.Instance.Config.ThresholdRestartRound && yesVotePercent > noVotePercent)
+            if (yesVotePercent >= Plugin.Instance.Config.ThresholdRestartRound && yesVotePercent > noVotePercent)
             {
-                message = CallvotePlugin.Instance.Translation.RoundRestarting
+                message = Plugin.Instance.Translation.RoundRestarting
                     .Replace("%VotePercent%", yesVotePercent.ToString())
                     .Replace("%VoteDetail%", binaryVote.YesVoteOption.Detail);
 #if EXILED
@@ -38,9 +38,9 @@ namespace Callvote.CustomVotes.Features.PredefinedVotes
             }
             else
             {
-                message = CallvotePlugin.Instance.Translation.NoSuccessFullRestart
+                message = Plugin.Instance.Translation.NoSuccessFullRestart
                     .Replace("%VotePercent%", yesVotePercent.ToString())
-                    .Replace("%ThresholdRestartRound%", CallvotePlugin.Instance.Config.ThresholdRestartRound.ToString())
+                    .Replace("%ThresholdRestartRound%", Plugin.Instance.Config.ThresholdRestartRound.ToString())
                     .Replace("%VoteDetail%", binaryVote.YesVoteOption.Detail)
                     .Replace("%VoteDetail%", binaryVote.YesVoteOption.Detail);
             }
@@ -48,6 +48,6 @@ namespace Callvote.CustomVotes.Features.PredefinedVotes
             DisplayHandler.Show(CallvotePlugin.Instance.Config.FinalResultsDuration, message, vote.AllowedPlayers);
         }
 
-        private static string ReplacePlayer(Player player) => CallvotePlugin.Instance.Translation.AskedToRestart.Replace("%Player%", player.Nickname);
+        private static string ReplacePlayer(Player player) => Plugin.Instance.Translation.AskedToRestart.Replace("%Player%", player.Nickname);
     }
 }

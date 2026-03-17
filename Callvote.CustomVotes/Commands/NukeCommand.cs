@@ -22,9 +22,9 @@ namespace Callvote.CustomVotes.Commands
         {
             Player player = Player.Get(sender);
 
-            if (!CallvotePlugin.Instance.Config.EnableNuke)
+            if (!Plugin.Instance.Config.EnableNuke)
             {
-                response = CallvotePlugin.Instance.Translation.VoteNukeDisabled;
+                response = Plugin.Instance.Translation.VoteNukeDisabled;
                 return false;
             }
 
@@ -34,9 +34,9 @@ namespace Callvote.CustomVotes.Commands
                 return false;
             }
 
-            if (player != null && !player.HasPermissions("cv.bypass") && Round.Duration.TotalSeconds < CallvotePlugin.Instance.Config.MaxWaitNuke)
+            if (player != null && !player.HasPermissions("cv.bypass") && Round.Duration.TotalSeconds < Plugin.Instance.Config.MaxWaitNuke)
             {
-                response = CallvotePlugin.Instance.Translation.WaitToVote.Replace("%Timer%", $"{CallvotePlugin.Instance.Config.MaxWaitNuke - Round.Duration.TotalSeconds:F0}");
+                response = Plugin.Instance.Translation.WaitToVote.Replace("%Timer%", $"{Plugin.Instance.Config.MaxWaitNuke - Round.Duration.TotalSeconds:F0}");
                 return false;
             }
 

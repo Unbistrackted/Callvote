@@ -22,9 +22,9 @@ namespace Callvote.CustomVotes.Commands
         {
             Player player = Player.Get(sender);
 
-            if (!CallvotePlugin.Instance.Config.EnableRespawnWave)
+            if (!Plugin.Instance.Config.EnableRespawnWave)
             {
-                response = CallvotePlugin.Instance.Translation.VoteRespawnWaveDisabled;
+                response = Plugin.Instance.Translation.VoteRespawnWaveDisabled;
                 return false;
             }
 
@@ -34,9 +34,9 @@ namespace Callvote.CustomVotes.Commands
                 return false;
             }
 
-            if (player != null && !player.HasPermissions("cv.bypass") && Round.Duration.TotalSeconds < CallvotePlugin.Instance.Config.MaxWaitRespawnWave)
+            if (player != null && !player.HasPermissions("cv.bypass") && Round.Duration.TotalSeconds < Plugin.Instance.Config.MaxWaitRespawnWave)
             {
-                response = CallvotePlugin.Instance.Translation.WaitToVote.Replace("%Timer%", $"{CallvotePlugin.Instance.Config.MaxWaitRespawnWave - Round.Duration.TotalSeconds:F0}");
+                response = Plugin.Instance.Translation.WaitToVote.Replace("%Timer%", $"{Plugin.Instance.Config.MaxWaitRespawnWave - Round.Duration.TotalSeconds:F0}");
                 return false;
             }
 
