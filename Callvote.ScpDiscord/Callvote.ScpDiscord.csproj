@@ -61,9 +61,4 @@
 		<PackageReference Include="Northwood.LabAPI" Version="1.1.5" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Commands\" />
-	  <Folder Include="Configuration\" />
-	</ItemGroup>
-
 </Project>

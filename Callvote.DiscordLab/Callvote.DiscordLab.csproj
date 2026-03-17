@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFramework>net48</TargetFramework>
@@ -56,10 +56,6 @@
 		<ProjectReference Include="..\Callvote.API\Callvote.API.csproj" />
 		<PackageReference Include="Northwood.LabAPI" Version="1.1.5" />
 		<PackageReference Include="DiscordLab.Bot" Version="2.5.0" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Configuration\" />
 	</ItemGroup>
 
 </Project>
