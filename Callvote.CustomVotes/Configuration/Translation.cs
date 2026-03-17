@@ -77,6 +77,7 @@ namespace Callvote.CustomVotes.Configuration
         public string CommandChaosInsurgency { get; set; } = "ci";
 
         public string CommandMobileTaskForce { get; set; } = "mtf";
+
         public string DetailMtf { get; set; } = "<color=blue>MTF</color>";
 
         public string DetailCi { get; set; } = "<color=green>CI</color>";

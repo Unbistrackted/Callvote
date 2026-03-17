@@ -8,16 +8,15 @@ using LabApi.Loader.Features.Plugins;
 #endif
 using System;
 using System.ComponentModel;
+using System.Reflection;
 using Callvote.API.Features.Displays;
 using Callvote.Features;
-using Callvote.Properties;
 using HarmonyLib;
 using LabApi.Features.Console;
 
 namespace Callvote
 {
     [EditorBrowsable(EditorBrowsableState.Never)]
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:Elements should be documented", Justification = "Only public API documentation is required")]
     public class CallvotePlugin : Plugin
     {
         private const string CallvoteLogo = """
@@ -51,30 +50,30 @@ Version: 7.0.0 - RELEASE CANDIDATE II
 
         public static CallvotePlugin Instance { get; private set; }
 
-        public override string Name { get; } = AssemblyInfo.Name;
+        public override string Name { get; } = typeof(Plugin).Assembly.GetName().Name;
 
-        public override string Author { get; } = AssemblyInfo.Author;
+        public override string Author { get; } = "Unbistrackted";
 
 #if EXILED
         public override Version RequiredExiledVersion => new(9, 13, 1);
 
         public override PluginPriority Priority => PluginPriority.Default;
 
-        public override string Prefix { get; } = AssemblyInfo.LangFile;
+        public override string Prefix => this.Name;
 
 #else
-        public override string Description => AssemblyInfo.Description;
+        public override string Description => typeof(Plugin).Assembly.GetCustomAttribute<AssemblyDescriptionAttribute>().Description;
 
-        public override Version RequiredApiVersion { get; } = new Version(1, 1, 5);
+        public override Version RequiredApiVersion { get; } = new(LabApi.Features.LabApiProperties.CompiledVersion);
 
-        public string Prefix { get; } = AssemblyInfo.LangFile;
+        public string Prefix => this.Name;
 
         public Translation Translation { get; private set; }
 
         public Config Config { get; private set; }
-
 #endif
-        public override Version Version { get; } = Version.Parse(AssemblyInfo.Version);
+
+        public override Version Version { get; } = typeof(Plugin).Assembly.GetName().Version;
 
         public Harmony Harmony { get; private set; } = new("CallvotePlugin");
 

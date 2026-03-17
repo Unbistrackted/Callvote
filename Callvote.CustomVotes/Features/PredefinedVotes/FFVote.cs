@@ -1,8 +1,8 @@
-﻿using LabApi.Features.Wrappers;
-using Callvote.API.Features.Displays;
+﻿using Callvote.API.Features.Displays;
 using Callvote.API.Features.Votes;
 using Callvote.API.Interfaces;
 using Callvote.Features.VoteTemplate;
+using LabApi.Features.Wrappers;
 
 namespace Callvote.CustomVotes.Features.PredefinedVotes
 {

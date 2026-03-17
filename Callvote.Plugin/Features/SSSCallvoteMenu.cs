@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Callvote.Properties;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UserSettings.ServerSpecific;
 
@@ -25,7 +22,7 @@ namespace Callvote.Features
                 return;
             }
 
-            settingsHeader = new(CallvotePlugin.Instance.Config.HeaderSettingId, AssemblyInfo.Name);
+            settingsHeader = new(CallvotePlugin.Instance.Config.HeaderSettingId, CallvotePlugin.Instance.Name);
 
             yesKeybindSetting = new SSKeybindSetting(CallvotePlugin.Instance.Config.YesKeybindSettingId, CallvotePlugin.Instance.Translation.VoteKeybind.Replace("%Option%", CallvotePlugin.Instance.Translation.DetailYes), KeyCode.Y, hint: CallvotePlugin.Instance.Translation.KeybindHint.Replace("%Option%", CallvotePlugin.Instance.Translation.DetailYes));
             noKeybindSetting = new SSKeybindSetting(CallvotePlugin.Instance.Config.NoKeybindSettingId, CallvotePlugin.Instance.Translation.VoteKeybind.Replace("%Option%", CallvotePlugin.Instance.Translation.DetailNo), KeyCode.U, hint: CallvotePlugin.Instance.Translation.KeybindHint.Replace("%Option%", CallvotePlugin.Instance.Translation.DetailNo));

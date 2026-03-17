@@ -1,11 +1,11 @@
-﻿using LabApi.Features.Wrappers;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Callvote.API.Features.Displays;
 using Callvote.API.Features.Votes;
 using Callvote.API.Interfaces;
 using Callvote.Features.VoteTemplate;
 using LabApi.Features.Console;
+using LabApi.Features.Wrappers;
 using PlayerRoles;
 using Respawning;
 using Respawning.Config;
@@ -111,6 +111,7 @@ namespace Callvote.CustomVotes.Features.PredefinedVotes
         }
 
         private static string ReplacePlayer(Player player) => Plugin.Instance.Translation.AskedToRespawn.Replace("%Player%", player.Nickname);
-        private static SpawnableWaveBase GetWaveBase(Faction faction) => WaveManager.Waves.Where(wave => wave.TargetFaction == faction && wave.Configuration.GetType().GetGenericTypeDefinition() == typeof(PrimaryWaveConfig<>)).FirstOrDefault();
+
+        private static SpawnableWaveBase GetWaveBase(Faction faction) => WaveManager.Waves.FirstOrDefault(wave => wave.TargetFaction == faction && wave.Configuration.GetType().GetGenericTypeDefinition() == typeof(PrimaryWaveConfig<>));
     }
 }

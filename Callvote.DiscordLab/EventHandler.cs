@@ -8,12 +8,12 @@ namespace Callvote.DiscordLab
     {
         internal EventHandler()
         {
-            EventsHandlers.VoteEnded += OnVoteEnded;
+            EventsHandlers.VoteEnded += this.OnVoteEnded;
         }
 
         ~EventHandler()
         {
-            EventsHandlers.VoteEnded -= OnVoteEnded;
+            EventsHandlers.VoteEnded -= this.OnVoteEnded;
         }
 
         private void OnVoteEnded(VoteEndedEventArgs ev)

@@ -1,5 +1,4 @@
-﻿
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 namespace Callvote.CustomVotes.Configuration
 {
@@ -50,6 +49,5 @@ namespace Callvote.CustomVotes.Configuration
         public int ThresholdRespawnWave { get; set; } = 30;
 
         public int ThresholdRestartRound { get; set; } = 30;
-
     }
 }

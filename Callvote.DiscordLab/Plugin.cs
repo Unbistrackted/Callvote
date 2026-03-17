@@ -1,6 +1,7 @@
-﻿using Callvote.DiscordLab.Configuration;
+﻿using System;
+using System.Reflection;
+using Callvote.DiscordLab.Configuration;
 using LabApi.Loader.Features.Plugins;
-using System;
 
 namespace Callvote.DiscordLab
 {
@@ -12,24 +13,23 @@ namespace Callvote.DiscordLab
 
         public override string Name => typeof(Plugin).Assembly.GetName().Name;
 
-        public override string Description => "DiscordLab Module for Callvote";
+        public override string Description => typeof(Plugin).Assembly.GetCustomAttribute<AssemblyDescriptionAttribute>().Description;
 
         public override string Author => "Unbistrackted";
 
         public override Version Version => typeof(Plugin).Assembly.GetName().Version;
 
-        public override Version RequiredApiVersion => new(1, 1, 5);
-
+        public override Version RequiredApiVersion => new(LabApi.Features.LabApiProperties.CompiledVersion);
 
         public override void Enable()
         {
             Instance = this;
-            eventHandler = new EventHandler();
+            this.eventHandler = new EventHandler();
         }
 
         public override void Disable()
         {
-            eventHandler = null;
+            this.eventHandler = null;
             Instance = null;
         }
     }

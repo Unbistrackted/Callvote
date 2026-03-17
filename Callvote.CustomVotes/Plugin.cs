@@ -1,7 +1,9 @@
-﻿using Callvote.CustomVotes.Configuration;
+﻿using System;
+using System.Reflection;
+using Callvote.CustomVotes.Configuration;
 using Callvote.CustomVotes.Features;
 using LabApi.Loader.Features.Plugins;
-using System;
+using LabApi.Loader.Features.Plugins.Enums;
 
 namespace Callvote.CustomVotes
 {
@@ -13,20 +15,22 @@ namespace Callvote.CustomVotes
 
         public override string Name => typeof(Plugin).Assembly.GetName().Name;
 
-        public override string Description => "Custom Votes Module for Callvote";
+        public override string Description => typeof(Plugin).Assembly.GetCustomAttribute<AssemblyDescriptionAttribute>().Description;
 
         public override string Author => "Unbistrackted";
 
         public override Version Version => typeof(Plugin).Assembly.GetName().Version;
 
-        public override Version RequiredApiVersion => new(1, 1, 5);
+        public override Version RequiredApiVersion => new(LabApi.Features.LabApiProperties.CompiledVersion);
+
+        public override LoadPriority Priority => LoadPriority.Lowest;
 
         public Translation Translation { get; private set; }
 
         public override void Enable()
         {
             Instance = this;
-            eventHandler = new EventHandler();
+            this.eventHandler = new EventHandler();
             SSSCustomVoteMenu.RegisterSettings();
         }
 
@@ -34,7 +38,7 @@ namespace Callvote.CustomVotes
         {
             SSSCustomVoteMenu.UnregisterSettings();
             Instance = null;
-            eventHandler = null;
+            this.eventHandler = null;
         }
     }
 }

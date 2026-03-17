@@ -4,6 +4,7 @@ using UserSettings.ServerSpecific;
 
 namespace Callvote.CustomVotes.Features
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:Elements should be documented", Justification = "Only public API documentation is required")]
     internal class SSSCustomVoteMenu
     {
         private static SSGroupHeader settingsHeader;

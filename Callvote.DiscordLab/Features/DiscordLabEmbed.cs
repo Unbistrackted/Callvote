@@ -1,18 +1,25 @@
-﻿using Callvote.API.Features.Votes;
+﻿using System.Text.RegularExpressions;
+using Callvote.API.Features.Votes;
 using Discord;
-using DiscordLab.Bot;
-using Config = Callvote.DiscordLab.Configuration.Config;
-using LabApi.Features.Console;
-using System.Text.RegularExpressions;
 using Discord.Rest;
-using System;
+using DiscordLab.Bot;
+using LabApi.Features.Console;
+using Config = Callvote.DiscordLab.Configuration.Config;
 
 namespace Callvote.DiscordLab.Features
 {
+    /// <summary>
+    /// Provides static methods for constructing and sending embedded voting result messages to a Discord channel within
+    /// the DiscordLab integration.
+    /// </summary>
     internal static class DiscordLabEmbed
     {
         private static Config Config => Plugin.Instance.Config;
 
+        /// <summary>
+        /// Sends a vote results via DiscordLab.
+        /// </summary>
+        /// <param name="vote">The vote to be sent via DiscordLab bot.</param>
         internal static void SendVoteResults(Vote vote)
         {
             try

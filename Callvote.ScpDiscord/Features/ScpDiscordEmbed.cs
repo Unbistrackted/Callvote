@@ -1,20 +1,24 @@
-﻿using Callvote.API.Features.Votes;
+﻿using System;
+using System.Text.RegularExpressions;
+using Callvote.API.Features.Votes;
 using Callvote.ScpDiscord.Configuration;
 using Google.Protobuf.Collections;
 using LabApi.Features.Console;
 using SCPDiscord.Interface;
-using System;
-using System.IO;
-using System.Text.Json;
-using System.Text.RegularExpressions;
 
 namespace Callvote.ScpDiscord.Features
 {
+    /// <summary>
+    /// Provides methods for composing and sending vote result messages to a Discord channel using the SCPDiscord bot integration.
+    /// </summary>
     internal static class ScpDiscordEmbed
     {
         private static Config Config => Plugin.Instance.Config;
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Sends a vote results via SCPDiscord bot.
+        /// </summary>
+        /// <param name="vote">The vote to be sent via SCPDiscord bot.</param>
         internal static void SendVoteResults(Vote vote)
         {
             try
@@ -62,6 +66,13 @@ namespace Callvote.ScpDiscord.Features
                     Value = RemoveColorTags(vote?.Question),
                     Inline = false,
                 });
+
+                msg = new()
+                {
+                    Title = Config.EmbedTitle,
+                    ChannelID = Config.DiscordChannelId,
+                    Colour = GetColor(vote.GetWinningVoteOption()?.Detail),
+                };
             }
 
             // Vote Options and Counters
@@ -75,21 +86,11 @@ namespace Callvote.ScpDiscord.Features
                 });
             }
 
-            msg = new()
-            {
-                Title = Config.EmbedTitle,
-                ChannelID = Config.DiscordChannelId,
-                Colour = GetColor(vote.GetWinningVoteOption()?.Detail),
-            };
-
             msg.Fields.AddRange(fields);
 
             try
             {
                 SCPDiscord.SCPDiscord.SendEmbedByID(msg);
-                using FileStream fileStream = File.Create("something.json");
-
-                JsonSerializer.Serialize(fileStream, msg, new JsonSerializerOptions { WriteIndented = true });
             }
             catch (Exception ex)
             {
