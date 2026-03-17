@@ -3,7 +3,7 @@
 namespace Callvote.API.Enums
 {
     /// <summary>
-    /// Represents the enumeration for the <see cref="VoteHandler.CallVote(Vote)"/> Status.
+    /// Represents the enumeration for the <see cref="VoteHandler.CallVote(Vote, bool)"/> Status.
     /// </summary>
     public enum CallVoteStatus
     {

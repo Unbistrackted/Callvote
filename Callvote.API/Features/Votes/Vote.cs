@@ -485,19 +485,57 @@ namespace Callvote.API.Features.Votes
         /// <summary>
         /// Starts the <see cref="Vote"/> by registering the commands and starting the coroutine.
         /// </summary>
-        internal void StartVote()
+        /// <returns>Returns the <see cref="CallVoteStatus"/>.</returns>
+        internal CallVoteStatus StartVote()
         {
+            CallingVoteEventArgs e = new(this);
+            EventsHandlers.OnCallingVote(e);
+            if (!e.IsAllowed)
+            {
+                return CallVoteStatus.VoteCancelled;
+            }
+
             this.RegisterAllVoteOptions();
             this.StartVoteCoroutine();
+
+            CalledVoteEventArgs ev = new(this);
+            EventsHandlers.OnCalledVote(ev);
+            return CallVoteStatus.VoteStarted;
         }
 
         /// <summary>
         /// Stops the <see cref="Vote"/> by unregistering the command and stopping the coroutine.
         /// </summary>
-        internal void FinishVote()
+        /// <param name="isForced">If the voting will display the results message or invoke the Callback.</param>
+        internal void FinishVote(bool isForced = false)
         {
+            VoteEndingEventArgs e = new(this);
+            if (!e.IsAllowed)
+            {
+                return;
+            }
+
             this.UnregisterVoteOptionsCommand();
             this.StopVoteCoroutine();
+
+            if (!isForced)
+            {
+                return;
+            }
+
+            if (this.Callback == null)
+            {
+                DisplayHandler.Show(this.ResultsMessageDuration, this.BuildResultsMessage(), this.AllowedPlayers);
+            }
+            else
+            {
+                this?.Callback.Invoke(this);
+            }
+
+            // Prevents being null when it's later used in the event
+            Vote vote = this;
+            VoteEndedEventArgs ev = new(vote);
+            EventsHandlers.OnVoteEnded(ev);
         }
 
         /// <summary>

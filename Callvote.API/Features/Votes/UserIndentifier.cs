@@ -51,7 +51,7 @@ namespace Callvote.API.Features.Votes
         /// <param name="left">The first <see cref="UserIndentifier"/> instance to compare.</param>
         /// <param name="right">The second <see cref="UserIndentifier"/> instance to compare.</param>
         /// <returns>true if the two <see cref="UserIndentifier"/> instances are equal; otherwise, false.</returns>
-        public static bool operator ==(UserIndentifier left, UserIndentifier right) => left.Equals(right);
+        public static bool operator ==(UserIndentifier left, UserIndentifier right) => (left == null || right == null) && left.Equals(right);
 
         /// <summary>
         /// Determines whether two instances of the <see cref="UserIndentifier"/> class are not equal.
@@ -59,13 +59,13 @@ namespace Callvote.API.Features.Votes
         /// <param name="left">The first <see cref="UserIndentifier"/> instance to compare.</param>
         /// <param name="right">The second <see cref="UserIndentifier"/> instance to compare.</param>
         /// <returns>true if the two <see cref="UserIndentifier"/> instances not are equal; otherwise, false.</returns>
-        public static bool operator !=(UserIndentifier left, UserIndentifier right) => !left.Equals(right);
-
-        /// <inheritdoc/>
-        public bool Equals(UserIndentifier other) => this.UniqueUserId == other.UniqueUserId && this.UserId == other.UserId;
+        public static bool operator !=(UserIndentifier left, UserIndentifier right) => (left == null || right == null) && !left.Equals(right);
 
         /// <inheritdoc/>
         public override bool Equals(object obj) => obj is UserIndentifier other && this.Equals(other);
+
+        /// <inheritdoc/>
+        public bool Equals(UserIndentifier other) => other is not null && this.UniqueUserId == other.UniqueUserId;
 
         /// <inheritdoc/>
         public override int GetHashCode() => this.UniqueUserId.GetHashCode();
