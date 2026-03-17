@@ -1,46 +1,47 @@
-﻿using System;
+﻿using Callvote.API.Features.Votes;
+using Callvote.ScpDiscord.Configuration;
+using LabApi.Features.Console;
+using System;
 using System.Text.RegularExpressions;
-using Callvote.API.Features.Votes;
-using Callvote.Configuration;
-using Callvote.SoftDependencies.DiscordEmbed;
-using Google.Protobuf.Collections;
-using Respawning.Objectives;
-using SCPDiscord.Interface;
 
-namespace Callvote.SoftDependencies.DiscordEmbedProviders
+namespace Callvote.ScpDiscord.Features
 {
-    /// <summary>
-    /// Represents the type that sends a vote result via DiscordLab Webhook using DiscordLab's Bot.
-    /// </summary>
-    public class ScpDiscordMessageProvider : EmbedProvider
+    internal static class ScpDiscordEmbed
     {
-        private static Translation Translation => CallvotePlugin.Instance.Translation;
-
-        private static Config Config => CallvotePlugin.Instance.Config;
+        private static Config Config => Plugin.Instance.Config;
 
         /// <inheritdoc/>
-        public override void SendVoteResults(Vote vote)
+        internal static void SendVoteResults(Vote vote)
         {
-            if (!SCPDiscord.NetworkSystem.IsConnected())
+            try
             {
-                ServerConsole.AddLog($"[ERROR] [Callvote] DiscordLab was not initialized!", ConsoleColor.Red);
+                if (!SCPDiscord.NetworkSystem.IsConnected())
+                {
+                    Logger.Warn($"SCPDiscord was not initialized when the voting ended!");
+                    return;
+                }
+            }
+            catch
+            {
+                Logger.Warn($"SCPDiscord was not initialized when the voting ended!");
                 return;
             }
+
 
             RepeatedField<EmbedMessage.Types.DiscordEmbedField> fields = [];
 
             // Player who called the vote
             fields.Add(new EmbedMessage.Types.DiscordEmbedField()
             {
-                Name = Translation.WebhookPlayer,
-                Value = vote.CallVotePlayer?.Username ?? string.Empty,
+                Name = Config.EmbedPlayer,
+                Value = vote.CallVotePlayer?.Username ?? vote.CallVotePlayer?.UniqueUserId,
                 Inline = false,
             });
 
             // Vote Question
             fields.Add(new EmbedMessage.Types.DiscordEmbedField()
             {
-                Name = Translation.WebhookQuestion,
+                Name = Config.EmbedQuestion,
                 Value = RemoveColorTags(vote?.Question),
                 Inline = false,
             });
@@ -58,7 +59,7 @@ namespace Callvote.SoftDependencies.DiscordEmbedProviders
 
             EmbedMessage embedMessage = new()
             {
-                Title = Translation.WebhookTitle,
+                Title = Config.EmbedTitle,
                 ChannelID = Config.DiscordChannelId,
                 Colour = GetColor(vote.GetWinningVoteOption()?.Detail),
             };
@@ -71,7 +72,7 @@ namespace Callvote.SoftDependencies.DiscordEmbedProviders
             }
             catch (Exception ex)
             {
-                ServerConsole.AddLog($"[ERROR] [Callvote] " + "Webhook Error: " + ex.Message + " " + ex.Source + " " + ex.StackTrace, ConsoleColor.Red);
+                Logger.Error("Webhook Error: " + ex.Message + " " + ex.Source + " " + ex.StackTrace);
             }
         }
 

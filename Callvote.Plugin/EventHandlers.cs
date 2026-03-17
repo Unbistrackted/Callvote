@@ -1,6 +1,6 @@
 using Callvote.API.Events.EventArgs;
 using Callvote.API.Features.Votes;
-using Callvote.SoftDependencies;
+using Callvote.Features;
 using UserSettings.ServerSpecific;
 
 namespace Callvote
@@ -22,7 +22,7 @@ namespace Callvote
 
         private void OnVoteEnded(VoteEndedEventArgs ev)
         {
-            DiscordEmbedHandler.CurrentProvider.SendVoteResults(ev.Vote);
+            WebhookSender.SendVoteResults(ev.Vote);
         }
 
         private void OnUserInput(ReferenceHub sender, ServerSpecificSettingBase settingBase)

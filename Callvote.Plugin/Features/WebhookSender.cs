@@ -5,24 +5,20 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Callvote.API.Features.Votes;
 using Callvote.Configuration;
-using Callvote.SoftDependencies.DiscordEmbed;
-using Respawning.Objectives;
+using LabApi.Features.Console;
 
-namespace Callvote.SoftDependencies.DiscordEmbedProviders
+namespace Callvote.Features
 {
     /// <summary>
     /// Represents the type that sends a vote result via Callvote's implementation of a webhook.
     /// </summary>
-    internal class WebhookProvider : EmbedProvider
+    internal class WebhookSender
     {
-        private readonly HttpClient httpClient = new();
-
         private static Translation Translation => CallvotePlugin.Instance.Translation;
 
         private static Config Config => CallvotePlugin.Instance.Config;
 
-        /// <inheritdoc/>
-        public override void SendVoteResults(Vote vote)
+        public static void SendVoteResults(Vote vote)
         {
             // Made by Playeroth and Edi, and I'm too lazy to organize this mess
             if (string.IsNullOrWhiteSpace(Config.DiscordWebhook))
@@ -45,7 +41,7 @@ namespace Callvote.SoftDependencies.DiscordEmbedProviders
             string callvotePlayerInfo = Escape($"{vote.CallVotePlayer.Username}");
             string payload = $@"{{""content"":null,""embeds"":[{{""title"":""{Translation.WebhookTitle}"",""color"":255,""fields"":[{{""name"":""{Translation.WebhookPlayer}"",""value"":""{callvotePlayerInfo}""}},{{""name"":""{Translation.WebhookQuestion}"",""value"":""{question.Replace($"{callvotePlayerInfo} asks: ", string.Empty)}""}},{{""name"":""{Translation.WebhookVotes}"",""value"":""{results}""}}]}}]}}";
 
-            _ = this.SendWebhook(payload, Config.DiscordWebhook);
+            _ = SendWebhook(payload, Config.DiscordWebhook);
         }
 
         private static string RemoveColorTags(string input)
@@ -69,23 +65,25 @@ namespace Callvote.SoftDependencies.DiscordEmbedProviders
                 .Replace("\r", "\\r");
         }
 
-        private async Task SendWebhook(string payload, string webhook)
+        private static async Task SendWebhook(string payload, string webhook)
         {
             try
             {
+                HttpClient httpClient = new();
+
                 var request = new StringContent(payload, Encoding.UTF8, "application/json");
 
-                HttpResponseMessage response = await this.httpClient.PostAsync(webhook, request);
+                HttpResponseMessage response = await httpClient.PostAsync(webhook, request);
 
                 if (!response.IsSuccessStatusCode)
                 {
-                    ServerConsole.AddLog($"[ERROR] [Callvote] Webhook Error: {response.StatusCode} - {await response.Content.ReadAsStringAsync()}", ConsoleColor.Red);
+                    Logger.Error($"Webhook Error: {response.StatusCode} - {await response.Content.ReadAsStringAsync()}");
                     return;
                 }
             }
             catch (Exception ex)
             {
-                ServerConsole.AddLog($"[ERROR] [Callvote] " + "Webhook Error: " + ex.Message + " " + ex.Source + " " + ex.StackTrace, ConsoleColor.Red);
+                Logger.Error($"Webhook Error: " + ex.Message + " " + ex.Source + " " + ex.StackTrace);
             }
         }
     }

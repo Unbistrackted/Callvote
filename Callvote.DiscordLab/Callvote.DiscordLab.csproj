@@ -1,0 +1,65 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net48</TargetFramework>
+		<Platforms>x64</Platforms>
+		<LangVersion>latest</LangVersion>
+		<RootNamespace>Callvote.ScpDiscord</RootNamespace>
+		<AssemblyName>Callvote.ScpDiscord</AssemblyName>
+		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+		<DebugType>portable</DebugType>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<WarningsAsErrors>true</WarningsAsErrors>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+		<Configurations>Debug;Release</Configurations>
+	</PropertyGroup>
+
+	<ItemGroup>
+
+		<Reference Include="CommandSystem.Core">
+			<HintPath>$(EXILED_REFERENCES)\CommandSystem.Core.dll</HintPath>
+		</Reference>
+
+		<Reference Include="NorthwoodLib">
+			<HintPath>$(EXILED_REFERENCES)\NorthwoodLib.dll</HintPath>
+		</Reference>
+
+		<Reference Include="Assembly-CSharp-Publicized">
+			<HintPath>$(EXILED_REFERENCES)\Assembly-CSharp-Publicized.dll</HintPath>
+		</Reference>
+
+		<Reference Include="Assembly-CSharp-firstpass">
+			<HintPath>$(EXILED_REFERENCES)\Assembly-CSharp-firstpass.dll</HintPath>
+		</Reference>
+
+		<Reference Include="Mirror">
+			<HintPath>$(EXILED_REFERENCES)\Mirror.dll</HintPath>
+		</Reference>
+
+		<Reference Include="UnityEngine">
+			<HintPath>$(EXILED_REFERENCES)\UnityEngine.dll</HintPath>
+		</Reference>
+
+		<Reference Include="UnityEngine.CoreModule">
+			<HintPath>$(EXILED_REFERENCES)\UnityEngine.CoreModule.dll</HintPath>
+		</Reference>
+
+		<Reference Include="UnityEngine.PhysicsModule">
+			<HintPath>$(EXILED_REFERENCES)\UnityEngine.PhysicsModule.dll</HintPath>
+		</Reference>
+
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Callvote.API\Callvote.API.csproj" />
+		<PackageReference Include="Northwood.LabAPI" Version="1.1.5" />
+		<PackageReference Include="DiscordLab.Bot" Version="2.5.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Configuration\" />
+	</ItemGroup>
+
+</Project>

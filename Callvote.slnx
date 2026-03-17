@@ -13,4 +13,13 @@
     <BuildType Solution="Debug|*" Project="EXILED" />
     <Platform Project="x64" />
   </Project>
+   <Project Path="Callvote.CustomVotes/Callvote.CustomVotes.csproj">
+    <Platform Project="x64" />
+  </Project>
+   <Project Path="Callvote.ScpDiscord/Callvote.ScpDiscord.csproj">
+    <Platform Project="x64" />
+  </Project>
+   <Project Path="Callvote.DiscordLab/Callvote.DiscordLab.csproj">
+    <Platform Project="x64" />
+  </Project>
 </Solution>
