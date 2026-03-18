@@ -1,20 +1,13 @@
-﻿#if EXILED
-using Exiled.API.Features;
-using Exiled.Permissions.Extensions;
-#else
-using Callvote.Commands.ParentCommands;
+﻿using System;
+using Callvote.Features;
+using Callvote.Queue.Commands.ParentCommands;
+using CommandSystem;
 using LabApi.Features.Permissions;
 using LabApi.Features.Wrappers;
-#endif
-using System;
-using Callvote.Features;
-using CommandSystem;
 
-namespace Callvote.Commands.QueueCommands
+namespace Callvote.Queue.Commands.QueueCommands
 {
-#if !EXILED
     [CommandHandler(typeof(CallVoteQueueParentCommand))]
-#endif
     public class PauseQueueCommand : ICommand
     {
         public string Command => "pause";
@@ -25,18 +18,15 @@ namespace Callvote.Commands.QueueCommands
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
-            if (!CallvotePlugin.Instance.Config.EnableQueue)
+            if (!Plugin.Instance.Config.EnableQueue)
             {
-                response = CallvotePlugin.Instance.Translation.QueueDisabled;
+                response = Plugin.Instance.Translation.QueueDisabled;
                 return false;
             }
 
             Player player = Player.Get(sender);
-#if EXILED
-            if ((player != null && !player.CheckPermission("cv.managequeue")) || (player == null && sender is not ServerConsoleSender))
-#else
+
             if ((player != null && !player.HasPermissions("cv.managequeue")) || (player == null && sender is not ServerConsoleSender))
-#endif
             {
                 response = CallvotePlugin.Instance.Translation.NoPermission;
                 return false;
@@ -45,14 +35,14 @@ namespace Callvote.Commands.QueueCommands
             if (!MaxVotesAndQueue.IsQueuePaused)
             {
                 MaxVotesAndQueue.IsQueuePaused = true;
-                response = CallvotePlugin.Instance.Translation.QueuePaused;
+                response = Plugin.Instance.Translation.QueuePaused;
                 return true;
             }
 
             MaxVotesAndQueue.IsQueuePaused = false;
             MaxVotesAndQueue.DequeueVote();
 
-            response = CallvotePlugin.Instance.Translation.QueueResumed;
+            response = Plugin.Instance.Translation.QueueResumed;
             return true;
         }
     }

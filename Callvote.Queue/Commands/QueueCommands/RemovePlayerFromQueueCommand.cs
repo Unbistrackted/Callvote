@@ -1,24 +1,17 @@
-﻿#if EXILED
-using Exiled.API.Features;
-using Exiled.Permissions.Extensions;
-#else
-using Callvote.Commands.ParentCommands;
-using LabApi.Features.Permissions;
-using LabApi.Features.Wrappers;
-#endif
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Callvote.API.Features.Votes;
 using Callvote.Features;
 using Callvote.Features.Extensions;
+using Callvote.Queue.Commands.ParentCommands;
 using CommandSystem;
+using LabApi.Features.Permissions;
+using LabApi.Features.Wrappers;
 
-namespace Callvote.Commands.QueueCommands
+namespace Callvote.Queue.Commands.QueueCommands
 {
-#if !EXILED
     [CommandHandler(typeof(CallVoteQueueParentCommand))]
-#endif
     public class RemovePlayerFromQueueCommand : ICommand
     {
         public string Command => "removeplayer";
@@ -29,18 +22,15 @@ namespace Callvote.Commands.QueueCommands
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
-            if (!CallvotePlugin.Instance.Config.EnableQueue)
+            if (!Plugin.Instance.Config.EnableQueue)
             {
-                response = CallvotePlugin.Instance.Translation.QueueDisabled;
+                response = Plugin.Instance.Translation.QueueDisabled;
                 return false;
             }
 
             Player player = Player.Get(sender);
-#if EXILED
-            if ((player != null && !player.CheckPermission("cv.managequeue")) || (player == null && sender is not ServerConsoleSender))
-#else
+
             if ((player != null && !player.HasPermissions("cv.managequeue")) || (player == null && sender is not ServerConsoleSender))
-#endif
             {
                 response = CallvotePlugin.Instance.Translation.NoPermission;
                 return false;
@@ -52,7 +42,7 @@ namespace Callvote.Commands.QueueCommands
 
             if (votesToRemove.Count() == 0)
             {
-                response = CallvotePlugin.Instance.Translation.PlayerNotFound.Replace("%Player%", playerToRemove.Nickname);
+                response = Plugin.Instance.Translation.PlayerNotFound.Replace("%Player%", playerToRemove.Nickname);
                 return false;
             }
 
@@ -61,7 +51,7 @@ namespace Callvote.Commands.QueueCommands
                 MaxVotesAndQueue.VoteQueue.RemoveItemFromQueue(vote);
             }
 
-            response = CallvotePlugin.Instance.Translation.RemovedFromQueue.Replace("%Number%", votesToRemove.Count.ToString());
+            response = Plugin.Instance.Translation.RemovedFromQueue.Replace("%Number%", votesToRemove.Count.ToString());
             return true;
         }
     }

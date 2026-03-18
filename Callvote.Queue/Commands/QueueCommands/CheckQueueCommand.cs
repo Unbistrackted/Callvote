@@ -1,19 +1,12 @@
-﻿#if EXILED
-using Exiled.API.Features;
-#else
-using Callvote.Commands.ParentCommands;
-using LabApi.Features.Wrappers;
-#endif
-using System;
+﻿using System;
 using Callvote.API.Features.Votes;
 using Callvote.Features;
+using Callvote.Queue.Commands.ParentCommands;
 using CommandSystem;
 
-namespace Callvote.Commands.QueueCommands
+namespace Callvote.Queue.Commands.QueueCommands
 {
-#if !EXILED
     [CommandHandler(typeof(CallVoteQueueParentCommand))]
-#endif
     public class CheckQueueCommand : ICommand
     {
         public string Command => "check";
@@ -24,17 +17,15 @@ namespace Callvote.Commands.QueueCommands
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
-            if (!CallvotePlugin.Instance.Config.EnableQueue)
+            if (!Plugin.Instance.Config.EnableQueue)
             {
-                response = CallvotePlugin.Instance.Translation.QueueDisabled;
+                response = Plugin.Instance.Translation.QueueDisabled;
                 return false;
             }
 
-            Player player = Player.Get(sender);
-
             if (MaxVotesAndQueue.VoteQueue.Count == 0)
             {
-                response = CallvotePlugin.Instance.Translation.NoVoteInQueue;
+                response = Plugin.Instance.Translation.NoVoteInQueue;
                 return false;
             }
 

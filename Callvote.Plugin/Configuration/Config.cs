@@ -28,14 +28,8 @@ namespace Callvote.Configuration
         [Description("Enables or disables the Callvote's logo on startup")]
         public bool ShowLogo { get; set; } = true;
 
-        [Description("Enable or disable Modules.")]
-        public bool EnableQueue { get; set; } = true;
-
         [Description("Changes the vote duration.")]
         public int VoteDuration { get; set; } = 30;
-
-        [Description("Changes the maximum amount of vote each player can call in a match.")]
-        public int MaxAmountOfVotesPerRound { get; set; } = 10;
 
         [Description("Changes Callvote's message size. (0 = Callvote's default size calculation algorithm)")]
         public int MessageSize { get; set; } = 0;
@@ -45,9 +39,6 @@ namespace Callvote.Configuration
 
         [Description("Changes Callvote's results message duration.")]
         public int FinalResultsDuration { get; set; } = 5;
-
-        [Description("Changes Callvote's Queue size if enabled.")]
-        public int QueueSize { get; set; } = 5;
 
         [Description("Add a Discord Webhook if you want to send a Vote Result message to using discord's webhook.")]
         public string DiscordWebhook { get; set; } = string.Empty;

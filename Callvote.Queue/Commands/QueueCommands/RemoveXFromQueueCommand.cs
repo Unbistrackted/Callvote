@@ -1,21 +1,14 @@
-﻿#if EXILED
-using Exiled.API.Features;
-using Exiled.Permissions.Extensions;
-#else
-using Callvote.Commands.ParentCommands;
-using LabApi.Features.Permissions;
-using LabApi.Features.Wrappers;
-#endif
-using System;
+﻿using System;
 using Callvote.Features;
 using Callvote.Features.Extensions;
+using Callvote.Queue.Commands.ParentCommands;
 using CommandSystem;
+using LabApi.Features.Permissions;
+using LabApi.Features.Wrappers;
 
-namespace Callvote.Commands.QueueCommands
+namespace Callvote.Queue.Commands.QueueCommands
 {
-#if !EXILED
     [CommandHandler(typeof(CallVoteQueueParentCommand))]
-#endif
     public class RemoveXFromQueueCommand : ICommand
     {
         public string Command => "removeindex";
@@ -26,9 +19,9 @@ namespace Callvote.Commands.QueueCommands
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
-            if (!CallvotePlugin.Instance.Config.EnableQueue)
+            if (!Plugin.Instance.Config.EnableQueue)
             {
-                response = CallvotePlugin.Instance.Translation.QueueDisabled;
+                response = Plugin.Instance.Translation.QueueDisabled;
                 return false;
             }
 
@@ -46,7 +39,7 @@ namespace Callvote.Commands.QueueCommands
 
             if (!int.TryParse(arguments.At(0), out int number))
             {
-                response = CallvotePlugin.Instance.Translation.InvalidArgument;
+                response = Plugin.Instance.Translation.InvalidArgument;
                 return false;
             }
 
@@ -54,7 +47,7 @@ namespace Callvote.Commands.QueueCommands
 
             MaxVotesAndQueue.VoteQueue.RemoveFromQueue(number);
 
-            response = CallvotePlugin.Instance.Translation.RemovedFromQueue.Replace("%Number%", (size - MaxVotesAndQueue.VoteQueue.Count).ToString());
+            response = Plugin.Instance.Translation.RemovedFromQueue.Replace("%Number%", (size - MaxVotesAndQueue.VoteQueue.Count).ToString());
             return true;
         }
     }

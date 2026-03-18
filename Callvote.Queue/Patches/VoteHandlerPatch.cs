@@ -7,6 +7,7 @@ using Callvote.API.Enums;
 using Callvote.API.Features.Votes;
 using Callvote.Features;
 using HarmonyLib;
+using Callvote.Queue;
 
 namespace Callvote.Patches
 {
@@ -36,7 +37,7 @@ namespace Callvote.Patches
                 return false;
             }
 
-            if (CallvotePlugin.Instance.Config.EnableQueue)
+            if (Plugin.Instance.Config.EnableQueue)
             {
                 if (MaxVotesAndQueue.IsQueueFull)
                 {
@@ -62,7 +63,7 @@ namespace Callvote.Patches
         [HarmonyPostfix]
         private static void FinishVotePostix(bool isForced = true)
         {
-            if (CallvotePlugin.Instance.Config.EnableQueue)
+            if (Plugin.Instance.Config.EnableQueue)
             {
                 MaxVotesAndQueue.DequeueVote();
             }

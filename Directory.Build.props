@@ -16,6 +16,10 @@
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	</PropertyGroup>
 
+    <Target Name="MoveDlls" AfterTargets="Build">
+        <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(SolutionDir)Build\" />
+    </Target>
+
     <ItemGroup>
         <Reference Include="UnityEngine" HintPath="$(SL_REFERENCES)\UnityEngine.dll" />
         <Reference Include="UnityEngine.CoreModule" HintPath="$(SL_REFERENCES)\UnityEngine.CoreModule.dll" />

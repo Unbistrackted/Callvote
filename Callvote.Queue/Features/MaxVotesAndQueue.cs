@@ -1,15 +1,11 @@
-﻿#if EXILED
-using Exiled.API.Features;
-using Exiled.Permissions.Extensions;
-#else
-using LabApi.Features.Permissions;
-using LabApi.Features.Wrappers;
-#endif
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using Callvote.API.Enums;
 using Callvote.API.Features.Votes;
 using Callvote.Patches;
+using Callvote.Queue;
+using LabApi.Features.Permissions;
+using LabApi.Features.Wrappers;
 
 namespace Callvote.Features
 {
@@ -33,7 +29,7 @@ namespace Callvote.Features
         /// <summary>
         /// Gets a value indicating whether the Queue is full.
         /// </summary>
-        public static bool IsQueueFull => VoteQueue.Count >= CallvotePlugin.Instance.Config.QueueSize;
+        public static bool IsQueueFull => VoteQueue.Count >= Plugin.Instance.Config.QueueSize;
 
         /// <summary>
         /// Gets or sets a value indicating whether the vote queue will or will not start the next vote even if entries exist.
@@ -85,12 +81,7 @@ namespace Callvote.Features
 
             PlayerCallVoteAmount[player]++;
 
-            if (PlayerCallVoteAmount[player] > CallvotePlugin.Instance.Config.MaxAmountOfVotesPerRound &&
-#if EXILED
-                !player.CheckPermission("cv.bypass"))
-#else
-                !player.HasPermissions("cv.bypass"))
-#endif
+            if (PlayerCallVoteAmount[player] > Plugin.Instance.Config.MaxAmountOfVotesPerRound && !player.HasPermissions("cv.bypass"))
             {
                 return false;
             }

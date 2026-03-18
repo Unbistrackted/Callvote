@@ -6,16 +6,19 @@
     <BuildType Project="Debug" />
     <Platform Project="x64" />
   </Project>
+  <Project Path="Callvote.CustomVotes/Callvote.CustomVotes.csproj">
+    <Platform Project="x64" />
+  </Project>
+  <Project Path="Callvote.DiscordLab/Callvote.DiscordLab.csproj">
+    <Platform Project="x64" />
+  </Project>
   <Project Path="Callvote.Plugin/Callvote.Plugin.csproj">
     <Platform Project="x64" />
   </Project>
-   <Project Path="Callvote.CustomVotes/Callvote.CustomVotes.csproj">
+  <Project Path="Callvote.Queue/Callvote.Queue.csproj" Id="488a69f2-b7c6-4b2d-a71d-68e5952ce3bd">
     <Platform Project="x64" />
   </Project>
-   <Project Path="Callvote.ScpDiscord/Callvote.ScpDiscord.csproj">
-    <Platform Project="x64" />
-  </Project>
-   <Project Path="Callvote.DiscordLab/Callvote.DiscordLab.csproj">
+  <Project Path="Callvote.ScpDiscord/Callvote.ScpDiscord.csproj">
     <Platform Project="x64" />
   </Project>
 </Solution>
