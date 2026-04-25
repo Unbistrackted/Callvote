@@ -16,9 +16,9 @@ namespace Callvote.CustomVotes.Features.PredefinedVotes
     /// <param name="reason">The reason for the kick.</param>
     public class KillVote(Player player, Player ofender, string reason) : BinaryVote(player, ReplacePlayer(player, ofender, reason), nameof(CustomVoteType.Kill), vote => AddCallback(vote, player, ofender, reason)), IPredefinedVote
     {
-        private static Translation Translation => Plugin.Instance.Translation;
+        private static Translation Translation => CustomVotePlugin.Instance.Translation;
 
-        private static Config Config => Plugin.Instance.Config;
+        private static Config Config => CustomVotePlugin.Instance.Config;
 
         private static void AddCallback(Vote vote, Player player, Player ofender, string reason)
         {

@@ -364,7 +364,7 @@ namespace Callvote.API.Features.Votes
         /// </summary>
         /// <param name="player">The player who sent the vote command.</param>
         /// <param name="voteOption">The option that the player tried to vote on.</param>
-        /// <returns>A tuple representing if it was sucessfull and the response.</returns>
+        /// <returns>A tuple representing if it was successful and the response.</returns>
         public virtual (bool Sucess, string Response)? VoteCommandResponse(UserIndentifier player, VoteOption voteOption)
         {
             if (!VoteHandler.IsVoteActive)
@@ -429,7 +429,7 @@ namespace Callvote.API.Features.Votes
         }
 
         /// <summary>
-        /// Builds a string with the counter vote message.
+        /// Builds a string with the counter-vote message.
         /// </summary>
         /// <returns>The string that was formated.</returns>
         public virtual string BuildCounterWithQuestionMessage()
@@ -456,7 +456,7 @@ namespace Callvote.API.Features.Votes
         }
 
         /// <summary>
-        /// Builds a string with the counter vote message.
+        /// Builds a string with the counter-vote message.
         /// </summary>
         /// <returns>The string that was formated.</returns>
         public virtual string BuildResultsMessage()
@@ -506,10 +506,11 @@ namespace Callvote.API.Features.Votes
         /// <summary>
         /// Stops the <see cref="Vote"/> by unregistering the command and stopping the coroutine.
         /// </summary>
-        /// <param name="isForced">If the voting will display the results message or invoke the Callback.</param>
+        /// <param name="isForced">If the voting displays the results message or invokes the Callback.</param>
         internal void FinishVote(bool isForced = false)
         {
             VoteEndingEventArgs e = new(this);
+            EventsHandlers.OnVoteEnding(e);
             if (!e.IsAllowed)
             {
                 return;

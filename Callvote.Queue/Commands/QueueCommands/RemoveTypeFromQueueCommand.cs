@@ -1,17 +1,23 @@
-﻿using System;
+﻿#if EXILED
+using Exiled.API.Features;
+using Exiled.Permissions.Extensions;
+#else
+using LabApi.Features.Permissions;
+using LabApi.Features.Wrappers;
+#endif
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Callvote.API.Features.Votes;
-using Callvote.Features;
 using Callvote.Features.Extensions;
-using Callvote.Queue.Commands.ParentCommands;
+using Callvote.Queue.Features;
 using CommandSystem;
-using LabApi.Features.Permissions;
-using LabApi.Features.Wrappers;
 
 namespace Callvote.Queue.Commands.QueueCommands
 {
+/*#if !EXILED
     [CommandHandler(typeof(CallVoteQueueParentCommand))]
+#endif*/
     public class RemoveTypeFromQueueCommand : ICommand
     {
         public string Command => "removetype";
@@ -22,15 +28,19 @@ namespace Callvote.Queue.Commands.QueueCommands
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
-            if (!Plugin.Instance.Config.EnableQueue)
+            if (!QueuePlugin.Instance.Config.EnableQueue)
             {
-                response = Plugin.Instance.Translation.QueueDisabled;
+                response = QueuePlugin.Instance.Translation.QueueDisabled;
                 return false;
             }
 
             Player player = Player.Get(sender);
 
+#if EXILED
+            if ((player != null && !player.CheckPermission("cv.managequeue")) || (player == null && sender is not ServerConsoleSender))
+#else
             if ((player != null && !player.HasPermissions("cv.managequeue")) || (player == null && sender is not ServerConsoleSender))
+#endif
             {
                 response = CallvotePlugin.Instance.Translation.NoPermission;
                 return false;
@@ -40,9 +50,9 @@ namespace Callvote.Queue.Commands.QueueCommands
 
             List<Vote> voteToRemove = MaxVotesAndQueue.VoteQueue.Where(v => v.Type.ToLower().Equals(voteType.ToLower())).ToList();
 
-            if (voteToRemove.Count() == 0)
+            if (!voteToRemove.Any())
             {
-                response = Plugin.Instance.Translation.TypeNotFound.Replace("%Type%", arguments.At(0));
+                response = QueuePlugin.Instance.Translation.TypeNotFound.Replace("%Type%", arguments.At(0));
                 return false;
             }
 
@@ -51,7 +61,7 @@ namespace Callvote.Queue.Commands.QueueCommands
                 MaxVotesAndQueue.VoteQueue.RemoveItemFromQueue(vote);
             }
 
-            response = Plugin.Instance.Translation.RemovedFromQueue.Replace("%Number%", voteToRemove.Count.ToString());
+            response = QueuePlugin.Instance.Translation.RemovedFromQueue.Replace("%Number%", voteToRemove.Count.ToString());
             return true;
         }
     }

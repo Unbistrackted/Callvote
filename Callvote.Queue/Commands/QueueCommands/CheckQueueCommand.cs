@@ -1,12 +1,16 @@
-﻿using System;
-using Callvote.API.Features.Votes;
-using Callvote.Features;
+﻿#if !EXILED
 using Callvote.Queue.Commands.ParentCommands;
+#endif
+using System;
+using Callvote.API.Features.Votes;
+using Callvote.Queue.Features;
 using CommandSystem;
 
 namespace Callvote.Queue.Commands.QueueCommands
 {
+/*#if !EXILED
     [CommandHandler(typeof(CallVoteQueueParentCommand))]
+#endif*/
     public class CheckQueueCommand : ICommand
     {
         public string Command => "check";
@@ -17,15 +21,15 @@ namespace Callvote.Queue.Commands.QueueCommands
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
-            if (!Plugin.Instance.Config.EnableQueue)
+            if (!QueuePlugin.Instance.Config.EnableQueue)
             {
-                response = Plugin.Instance.Translation.QueueDisabled;
+                response = QueuePlugin.Instance.Translation.QueueDisabled;
                 return false;
             }
 
             if (MaxVotesAndQueue.VoteQueue.Count == 0)
             {
-                response = Plugin.Instance.Translation.NoVoteInQueue;
+                response = QueuePlugin.Instance.Translation.NoVoteInQueue;
                 return false;
             }
 

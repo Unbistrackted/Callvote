@@ -17,15 +17,15 @@ namespace Callvote.CustomVotes.Features
 
         internal static void RegisterSettings()
         {
-            if (!Plugin.Instance.Config.EnableSsKeybinds || !Plugin.Instance.Config.EnableRespawnWave)
+            if (!CustomVotePlugin.Instance.Config.EnableSsKeybinds || !CustomVotePlugin.Instance.Config.EnableRespawnWave)
             {
                 return;
             }
 
             settingsHeader = new(CallvotePlugin.Instance.Config.HeaderSettingId, "Callvote Custom Votes");
 
-            mtfKeybindSetting = new SSKeybindSetting(Plugin.Instance.Config.MtfKeybindSettingId, CallvotePlugin.Instance.Translation.VoteKeybind.Replace("%Option%", Plugin.Instance.Translation.DetailMtf), KeyCode.I, hint: CallvotePlugin.Instance.Translation.KeybindHint.Replace("%Option%", Plugin.Instance.Translation.DetailMtf));
-            ciKeybindSetting = new SSKeybindSetting(Plugin.Instance.Config.CiKeybindSettingId, CallvotePlugin.Instance.Translation.VoteKeybind.Replace("%Option%", Plugin.Instance.Translation.DetailCi), KeyCode.O, hint: CallvotePlugin.Instance.Translation.KeybindHint.Replace("%Option%", Plugin.Instance.Translation.DetailCi));
+            mtfKeybindSetting = new SSKeybindSetting(CustomVotePlugin.Instance.Config.MtfKeybindSettingId, CallvotePlugin.Instance.Translation.VoteKeybind.Replace("%Option%", CustomVotePlugin.Instance.Translation.DetailMtf), KeyCode.I, hint: CallvotePlugin.Instance.Translation.KeybindHint.Replace("%Option%", CustomVotePlugin.Instance.Translation.DetailMtf));
+            ciKeybindSetting = new SSKeybindSetting(CustomVotePlugin.Instance.Config.CiKeybindSettingId, CallvotePlugin.Instance.Translation.VoteKeybind.Replace("%Option%", CustomVotePlugin.Instance.Translation.DetailCi), KeyCode.O, hint: CallvotePlugin.Instance.Translation.KeybindHint.Replace("%Option%", CustomVotePlugin.Instance.Translation.DetailCi));
 
             CustomVoteSettings = [settingsHeader, mtfKeybindSetting, ciKeybindSetting];
 

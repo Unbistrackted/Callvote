@@ -1,9 +1,24 @@
-﻿using System.ComponentModel;
+﻿#if EXILED
+using Exiled.API.Interfaces;
+#endif
+using System.ComponentModel;
 
 namespace Callvote.CustomVotes.Configuration
 {
+#if EXILED
+    public class Config : IConfig
+#else
     public class Config
+#endif
     {
+#if EXILED
+        [Description("Is the plugin enabled")]
+        public bool IsEnabled { get; set; } = true;
+
+#endif
+        [Description("Are the plugin's debug logs enabled")]
+        public bool Debug { get; set; } = false;
+
         [Description("SSS Menu related:")]
         public bool EnableSsKeybinds { get; set; } = true;
 

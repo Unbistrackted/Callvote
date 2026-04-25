@@ -25,11 +25,11 @@ namespace Callvote.CustomVotes.Features.PredefinedVotes
 
             string message;
 
-            if (yesVotePercent >= Plugin.Instance.Config.ThresholdFf && yesVotePercent > noVotePercent)
+            if (yesVotePercent >= CustomVotePlugin.Instance.Config.ThresholdFf && yesVotePercent > noVotePercent)
             {
                 message = Server.FriendlyFire
-                    ? Plugin.Instance.Translation.EnablingFriendlyFire
-                    : Plugin.Instance.Translation.DisablingFriendlyFire;
+                    ? CustomVotePlugin.Instance.Translation.EnablingFriendlyFire
+                    : CustomVotePlugin.Instance.Translation.DisablingFriendlyFire;
 
                 message = message
                     .Replace("%VotePercent%", yesVotePercent.ToString())
@@ -40,12 +40,12 @@ namespace Callvote.CustomVotes.Features.PredefinedVotes
             else
             {
                 message = Server.FriendlyFire
-                    ? Plugin.Instance.Translation.NoSuccessFullDisableFf
-                    : Plugin.Instance.Translation.NoSuccessFullEnableFf;
+                    ? CustomVotePlugin.Instance.Translation.NoSuccessFullDisableFf
+                    : CustomVotePlugin.Instance.Translation.NoSuccessFullEnableFf;
 
                 message = message
                     .Replace("%VotePercent%", yesVotePercent.ToString())
-                    .Replace("%ThresholdFF%", Plugin.Instance.Config.ThresholdFf.ToString())
+                    .Replace("%ThresholdFF%", CustomVotePlugin.Instance.Config.ThresholdFf.ToString())
                     .Replace("%VoteDetail%", binaryVote.YesVoteOption.Detail);
             }
 
@@ -55,8 +55,8 @@ namespace Callvote.CustomVotes.Features.PredefinedVotes
         private static string ReplacePlayer(Player player)
         {
             string baseQuestion = Server.FriendlyFire // Not sure how I would do that but if the vote was queued and the FF state changed, the question would not reflect the new state.
-                ? Plugin.Instance.Translation.AskedToDisableFf
-                : Plugin.Instance.Translation.AskedToEnableFf;
+                ? CustomVotePlugin.Instance.Translation.AskedToDisableFf
+                : CustomVotePlugin.Instance.Translation.AskedToEnableFf;
 
             return baseQuestion.Replace("%Player%", player.Nickname);
         }

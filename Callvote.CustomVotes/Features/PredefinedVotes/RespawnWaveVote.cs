@@ -58,9 +58,9 @@ namespace Callvote.CustomVotes.Features.PredefinedVotes
 
             string message;
 
-            if (mtfVotePercent >= Plugin.Instance.Config.ThresholdRespawnWave)
+            if (mtfVotePercent >= CustomVotePlugin.Instance.Config.ThresholdRespawnWave)
             {
-                message = Plugin.Instance.Translation.MtfRespawn
+                message = CustomVotePlugin.Instance.Translation.MtfRespawn
                     .Replace("%VotePercent%", mtfVotePercent + "%")
                     .Replace("%VoteDetail%", respawnVote.MtfVoteOption.Detail);
 
@@ -74,9 +74,9 @@ namespace Callvote.CustomVotes.Features.PredefinedVotes
 
                 WaveManager.Spawn(mtfWave);
             }
-            else if (ciVotePercent >= Plugin.Instance.Config.ThresholdRespawnWave)
+            else if (ciVotePercent >= CustomVotePlugin.Instance.Config.ThresholdRespawnWave)
             {
-                message = Plugin.Instance.Translation.CiRespawn
+                message = CustomVotePlugin.Instance.Translation.CiRespawn
                     .Replace("%VotePercent%", ciVotePercent + "%")
                     .Replace("%VoteDetail%", respawnVote.CiVoteOption.Detail);
 
@@ -92,9 +92,9 @@ namespace Callvote.CustomVotes.Features.PredefinedVotes
             }
             else
             {
-                message = Plugin.Instance.Translation.NoSuccessFullRespawn
+                message = CustomVotePlugin.Instance.Translation.NoSuccessFullRespawn
                     .Replace("%VotePercent%", noVotePercent.ToString())
-                    .Replace("%ThresholdRespawnWave%", Plugin.Instance.Config.ThresholdRespawnWave.ToString())
+                    .Replace("%ThresholdRespawnWave%", CustomVotePlugin.Instance.Config.ThresholdRespawnWave.ToString())
                     .Replace("%VoteDetail%", respawnVote.NoVoteOption.Detail);
             }
 
@@ -104,13 +104,13 @@ namespace Callvote.CustomVotes.Features.PredefinedVotes
         private static HashSet<VoteOption> AddOptions(out VoteOption no, out VoteOption mtf, out VoteOption ci)
         {
             no = new VoteOption(CallvotePlugin.Instance.Translation.CommandNo, CallvotePlugin.Instance.Translation.DetailNo);
-            mtf = new VoteOption(Plugin.Instance.Translation.CommandMobileTaskForce, Plugin.Instance.Translation.DetailMtf);
-            ci = new VoteOption(Plugin.Instance.Translation.CommandChaosInsurgency, Plugin.Instance.Translation.DetailCi);
+            mtf = new VoteOption(CustomVotePlugin.Instance.Translation.CommandMobileTaskForce, CustomVotePlugin.Instance.Translation.DetailMtf);
+            ci = new VoteOption(CustomVotePlugin.Instance.Translation.CommandChaosInsurgency, CustomVotePlugin.Instance.Translation.DetailCi);
 
             return [no, mtf, ci];
         }
 
-        private static string ReplacePlayer(Player player) => Plugin.Instance.Translation.AskedToRespawn.Replace("%Player%", player.Nickname);
+        private static string ReplacePlayer(Player player) => CustomVotePlugin.Instance.Translation.AskedToRespawn.Replace("%Player%", player.Nickname);
 
         private static SpawnableWaveBase GetWaveBase(Faction faction) => WaveManager.Waves.FirstOrDefault(wave => wave.TargetFaction == faction && wave.Configuration.GetType().GetGenericTypeDefinition() == typeof(PrimaryWaveConfig<>));
     }

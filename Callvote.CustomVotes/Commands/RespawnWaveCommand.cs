@@ -9,7 +9,6 @@ using LabApi.Features.Wrappers;
 
 namespace Callvote.CustomVotes.Commands
 {
-    [CommandHandler(typeof(CallVoteParentCommand))]
     public class RespawnWaveCommand : ICommand
     {
         public string Command => "respawnwave";
@@ -22,9 +21,9 @@ namespace Callvote.CustomVotes.Commands
         {
             Player player = Player.Get(sender);
 
-            if (!Plugin.Instance.Config.EnableRespawnWave)
+            if (!CustomVotePlugin.Instance.Config.EnableRespawnWave)
             {
-                response = Plugin.Instance.Translation.VoteRespawnWaveDisabled;
+                response = CustomVotePlugin.Instance.Translation.VoteRespawnWaveDisabled;
                 return false;
             }
 
@@ -34,9 +33,9 @@ namespace Callvote.CustomVotes.Commands
                 return false;
             }
 
-            if (player != null && !player.HasPermissions("cv.bypass") && Round.Duration.TotalSeconds < Plugin.Instance.Config.MaxWaitRespawnWave)
+            if (player != null && !player.HasPermissions("cv.bypass") && Round.Duration.TotalSeconds < CustomVotePlugin.Instance.Config.MaxWaitRespawnWave)
             {
-                response = Plugin.Instance.Translation.WaitToVote.Replace("%Timer%", $"{Plugin.Instance.Config.MaxWaitRespawnWave - Round.Duration.TotalSeconds:F0}");
+                response = CustomVotePlugin.Instance.Translation.WaitToVote.Replace("%Timer%", $"{CustomVotePlugin.Instance.Config.MaxWaitRespawnWave - Round.Duration.TotalSeconds:F0}");
                 return false;
             }
 

@@ -21,36 +21,36 @@ namespace Callvote
     {
         private const string CallvoteLogo = """
 
-==================================================
-         █████                                      
-        ███████                                     
-   ██   ███████                       █████        
-  ████    ███                       █      █         
-  █   ███████████              ██  █      █          
- ██  █████████████          ███   █      █  ███     
- ██                      ███       ██████      ███  
-███████████████████████  █      -----------      █  
-██████           ██████  █████               █████  
-      ███████████        █    ████       ████    █  
-      ███████████        █        ███████        █  
-      ███████████        █           █           █  
-      ███████████         ███        █         ██   
-      ███████████            ████    █     ████     
-      ███████████                ██████████         
-      ███████████                                   
-      ███████████                                   
-      ███████████                                   
+                                            ==================================================
+                                                     █████                                      
+                                                    ███████                                     
+                                               ██   ███████                       █████        
+                                              ████    ███                       █      █         
+                                              █   ███████████              ██  █      █          
+                                             ██  █████████████          ███   █      █  ███     
+                                             ██                      ███       ██████      ███  
+                                            ███████████████████████  █      -----------      █  
+                                            ██████           ██████  █████               █████  
+                                                  ███████████        █    ████       ████    █  
+                                                  ███████████        █        ███████        █  
+                                                  ███████████        █           █           █  
+                                                  ███████████         ███        █         ██   
+                                                  ███████████            ████    █     ████     
+                                                  ███████████                ██████████         
+                                                  ███████████                                   
+                                                  ███████████                                   
+                                                  ███████████                                   
 
-Version: 7.0.0 - RELEASE CANDIDATE II
-!!! REPORT ANY BUGS TO @Unbistrackted !!!
-==================================================
-""";
+                                            Version: 7.0.0 - RELEASE CANDIDATE II
+                                            !!! REPORT ANY BUGS TO @Unbistrackted !!!
+                                            ==================================================
+                                            """;
 
         private EventHandlers eventHandler;
 
         public static CallvotePlugin Instance { get; private set; }
 
-        public override string Name { get; } = typeof(Plugin).Assembly.GetName().Name;
+        public override string Name { get; } = typeof(CallvotePlugin).Assembly.GetName().Name;
 
         public override string Author { get; } = "Unbistrackted";
 
@@ -58,8 +58,6 @@ Version: 7.0.0 - RELEASE CANDIDATE II
         public override Version RequiredExiledVersion => new(9, 13, 1);
 
         public override PluginPriority Priority => PluginPriority.Default;
-
-        public override string Prefix => this.Name;
 
 #else
         public override string Description => typeof(Plugin).Assembly.GetCustomAttribute<AssemblyDescriptionAttribute>().Description;
@@ -75,8 +73,6 @@ Version: 7.0.0 - RELEASE CANDIDATE II
 
         public override Version Version { get; } = typeof(Plugin).Assembly.GetName().Version;
 
-        public Harmony Harmony { get; private set; } = new("CallvotePlugin");
-
 #if EXILED
         public override void OnEnabled()
 #else
@@ -90,12 +86,12 @@ Version: 7.0.0 - RELEASE CANDIDATE II
 #endif
             this.eventHandler = new EventHandlers();
             SSSCallvoteMenu.RegisterSettings();
-            this.Harmony.PatchAll();
             DisplayHandler.Instance.RegisterProvider(SoftDependencies.DisplayMessageHandler.GetMessageProvider());
             if (this.Config.ShowLogo)
             {
                 Logger.Raw($"\n{CallvoteLogo.Trim('\n')}\n", ConsoleColor.DarkGreen);
             }
+
 #if EXILED
             base.OnEnabled();
 #endif
@@ -110,6 +106,7 @@ Version: 7.0.0 - RELEASE CANDIDATE II
             SSSCallvoteMenu.UnregisterSettings();
             this.eventHandler = null;
             Instance = null;
+
 #if EXILED
             base.OnDisabled();
 #endif

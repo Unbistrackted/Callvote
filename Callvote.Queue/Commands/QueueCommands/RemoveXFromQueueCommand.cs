@@ -1,14 +1,20 @@
-﻿using System;
-using Callvote.Features;
-using Callvote.Features.Extensions;
-using Callvote.Queue.Commands.ParentCommands;
-using CommandSystem;
+﻿#if EXILED
+using Exiled.API.Features;
+using Exiled.Permissions.Extensions;
+#else
 using LabApi.Features.Permissions;
 using LabApi.Features.Wrappers;
+#endif
+using System;
+using Callvote.Features.Extensions;
+using Callvote.Queue.Features;
+using CommandSystem;
 
 namespace Callvote.Queue.Commands.QueueCommands
 {
+/*#if !EXILED
     [CommandHandler(typeof(CallVoteQueueParentCommand))]
+#endif*/
     public class RemoveXFromQueueCommand : ICommand
     {
         public string Command => "removeindex";
@@ -19,9 +25,9 @@ namespace Callvote.Queue.Commands.QueueCommands
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
-            if (!Plugin.Instance.Config.EnableQueue)
+            if (!QueuePlugin.Instance.Config.EnableQueue)
             {
-                response = Plugin.Instance.Translation.QueueDisabled;
+                response = QueuePlugin.Instance.Translation.QueueDisabled;
                 return false;
             }
 
@@ -39,7 +45,7 @@ namespace Callvote.Queue.Commands.QueueCommands
 
             if (!int.TryParse(arguments.At(0), out int number))
             {
-                response = Plugin.Instance.Translation.InvalidArgument;
+                response = CallvotePlugin.Instance.Translation.InvalidArgument;
                 return false;
             }
 
@@ -47,7 +53,7 @@ namespace Callvote.Queue.Commands.QueueCommands
 
             MaxVotesAndQueue.VoteQueue.RemoveFromQueue(number);
 
-            response = Plugin.Instance.Translation.RemovedFromQueue.Replace("%Number%", (size - MaxVotesAndQueue.VoteQueue.Count).ToString());
+            response = QueuePlugin.Instance.Translation.RemovedFromQueue.Replace("%Number%", (size - MaxVotesAndQueue.VoteQueue.Count).ToString());
             return true;
         }
     }

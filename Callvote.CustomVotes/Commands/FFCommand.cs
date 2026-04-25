@@ -9,7 +9,6 @@ using LabApi.Features.Wrappers;
 
 namespace Callvote.CustomVotes.Commands
 {
-    [CommandHandler(typeof(CallVoteParentCommand))]
     public class FFCommand : ICommand
     {
         public string Command => "friendlyfire";
@@ -22,9 +21,9 @@ namespace Callvote.CustomVotes.Commands
         {
             Player player = Player.Get(sender);
 
-            if (!Plugin.Instance.Config.EnableFf)
+            if (!CustomVotePlugin.Instance.Config.EnableFf)
             {
-                response = Plugin.Instance.Translation.VoteFFDisabled;
+                response = CustomVotePlugin.Instance.Translation.VoteFFDisabled;
                 return false;
             }
 
@@ -34,13 +33,13 @@ namespace Callvote.CustomVotes.Commands
                 return false;
             }
 
-            if (player != null && !player.HasPermissions("cv.bypass") && Round.Duration.TotalSeconds < Plugin.Instance.Config.MaxWaitFf)
+            if (player != null && !player.HasPermissions("cv.bypass") && Round.Duration.TotalSeconds < CustomVotePlugin.Instance.Config.MaxWaitFf)
             {
-                response = Plugin.Instance.Translation.WaitToVote.Replace("%Timer%", $"{Plugin.Instance.Config.MaxWaitFf - Round.Duration.TotalSeconds:F0}");
+                response = CustomVotePlugin.Instance.Translation.WaitToVote.Replace("%Timer%", $"{CustomVotePlugin.Instance.Config.MaxWaitFf - Round.Duration.TotalSeconds:F0}");
                 return false;
             }
 
-            string question = Server.FriendlyFire ? Plugin.Instance.Translation.AskedToEnableFf : Plugin.Instance.Translation.AskedToDisableFf;
+            string question = Server.FriendlyFire ? CustomVotePlugin.Instance.Translation.AskedToEnableFf : CustomVotePlugin.Instance.Translation.AskedToDisableFf;
 
             CallVoteStatus status = VoteHandler.CallVote(new FFVote(player ?? Server.Host));
 

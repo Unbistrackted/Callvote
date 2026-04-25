@@ -9,7 +9,6 @@ using LabApi.Features.Wrappers;
 
 namespace Callvote.CustomVotes.Commands
 {
-    [CommandHandler(typeof(CallVoteParentCommand))]
     public class NukeCommand : ICommand
     {
         public string Command => "nuke";
@@ -22,9 +21,9 @@ namespace Callvote.CustomVotes.Commands
         {
             Player player = Player.Get(sender);
 
-            if (!Plugin.Instance.Config.EnableNuke)
+            if (!CustomVotePlugin.Instance.Config.EnableNuke)
             {
-                response = Plugin.Instance.Translation.VoteNukeDisabled;
+                response = CustomVotePlugin.Instance.Translation.VoteNukeDisabled;
                 return false;
             }
 
@@ -34,9 +33,9 @@ namespace Callvote.CustomVotes.Commands
                 return false;
             }
 
-            if (player != null && !player.HasPermissions("cv.bypass") && Round.Duration.TotalSeconds < Plugin.Instance.Config.MaxWaitNuke)
+            if (player != null && !player.HasPermissions("cv.bypass") && Round.Duration.TotalSeconds < CustomVotePlugin.Instance.Config.MaxWaitNuke)
             {
-                response = Plugin.Instance.Translation.WaitToVote.Replace("%Timer%", $"{Plugin.Instance.Config.MaxWaitNuke - Round.Duration.TotalSeconds:F0}");
+                response = CustomVotePlugin.Instance.Translation.WaitToVote.Replace("%Timer%", $"{CustomVotePlugin.Instance.Config.MaxWaitNuke - Round.Duration.TotalSeconds:F0}");
                 return false;
             }
 

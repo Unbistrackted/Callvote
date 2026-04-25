@@ -11,7 +11,6 @@ using LabApi.Features.Wrappers;
 
 namespace Callvote.CustomVotes.Commands
 {
-    [CommandHandler(typeof(CallVoteParentCommand))]
     public class KillCommand : ICommand
     {
         public string Command => "kill";
@@ -24,9 +23,9 @@ namespace Callvote.CustomVotes.Commands
         {
             Player player = Player.Get(sender);
 
-            if (!Plugin.Instance.Config.EnableKill)
+            if (!CustomVotePlugin.Instance.Config.EnableKill)
             {
-                response = Plugin.Instance.Translation.VoteKillDisabled;
+                response = CustomVotePlugin.Instance.Translation.VoteKillDisabled;
                 return false;
             }
 
@@ -42,15 +41,15 @@ namespace Callvote.CustomVotes.Commands
                 return false;
             }
 
-            if (player != null && !player.HasPermissions("cv.bypass") && Round.Duration.TotalSeconds < Plugin.Instance.Config.MaxWaitKill)
+            if (player != null && !player.HasPermissions("cv.bypass") && Round.Duration.TotalSeconds < CustomVotePlugin.Instance.Config.MaxWaitKill)
             {
-                response = Plugin.Instance.Translation.WaitToVote.Replace("%Timer%", $"{Plugin.Instance.Config.MaxWaitKill - Round.Duration.TotalSeconds:F0}");
+                response = CustomVotePlugin.Instance.Translation.WaitToVote.Replace("%Timer%", $"{CustomVotePlugin.Instance.Config.MaxWaitKill - Round.Duration.TotalSeconds:F0}");
                 return false;
             }
 
             if (args.Count == 1)
             {
-                response = Plugin.Instance.Translation.PassReason;
+                response = CustomVotePlugin.Instance.Translation.PassReason;
                 return false;
             }
 

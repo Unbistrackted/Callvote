@@ -25,9 +25,9 @@ namespace Callvote.CustomVotes.Features.PredefinedVotes
 
             string message;
 
-            if (yesVotePercent >= Plugin.Instance.Config.ThresholdNuke && yesVotePercent > noVotePercent)
+            if (yesVotePercent >= CustomVotePlugin.Instance.Config.ThresholdNuke && yesVotePercent > noVotePercent)
             {
-                message = Plugin.Instance.Translation.FoundationNuked
+                message = CustomVotePlugin.Instance.Translation.FoundationNuked
                     .Replace("%VotePercent%", yesVotePercent.ToString())
                     .Replace("%VoteDetail%", binaryVote.YesVoteOption.Detail);
 
@@ -35,15 +35,15 @@ namespace Callvote.CustomVotes.Features.PredefinedVotes
             }
             else
             {
-                message = Plugin.Instance.Translation.NoSuccessFullNuke
+                message = CustomVotePlugin.Instance.Translation.NoSuccessFullNuke
                     .Replace("%VotePercent%", yesVotePercent.ToString())
-                    .Replace("%ThresholdNuke%", Plugin.Instance.Config.ThresholdNuke.ToString())
+                    .Replace("%ThresholdNuke%", CustomVotePlugin.Instance.Config.ThresholdNuke.ToString())
                     .Replace("%VoteDetail%", binaryVote.YesVoteOption.Detail);
             }
 
             DisplayHandler.Show(CallvotePlugin.Instance.Config.FinalResultsDuration, message, vote.AllowedPlayers);
         }
 
-        private static string ReplacePlayer(Player player) => Plugin.Instance.Translation.AskedToNuke.Replace("%Player%", player.Nickname);
+        private static string ReplacePlayer(Player player) => CustomVotePlugin.Instance.Translation.AskedToNuke.Replace("%Player%", player.Nickname);
     }
 }

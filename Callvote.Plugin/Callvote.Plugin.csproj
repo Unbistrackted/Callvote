@@ -29,7 +29,6 @@
 	</ItemGroup>
 	
 	<ItemGroup Condition="'$(Configuration)' == 'EXILED'">
-		<PackageReference Include="ExMod.Exiled" Version="9.13.1" />
 		<PackageReference Include="HintServiceMeow-Exiled" Version="5.4.1" />
 	</ItemGroup>
 

@@ -18,7 +18,7 @@ namespace Callvote.CustomVotes
 
         private void OnUserInput(ReferenceHub sender, ServerSpecificSettingBase settingBase)
         {
-            if (!VoteHandler.IsVoteActive || !Plugin.Instance.Config.EnableSsKeybinds || VoteHandler.CurrentVote is not RespawnWaveVote)
+            if (!VoteHandler.IsVoteActive || !CustomVotePlugin.Instance.Config.EnableSsKeybinds || VoteHandler.CurrentVote is not RespawnWaveVote)
             {
                 return;
             }
@@ -27,16 +27,16 @@ namespace Callvote.CustomVotes
             {
                 switch (keybindSetting.SettingId)
                 {
-                    case int id when id == Plugin.Instance.Config.MtfKeybindSettingId:
-                        if (VoteHandler.CurrentVote.TryGetVoteOptionFromCommand(Plugin.Instance.Translation.CommandMobileTaskForce, out VoteOption mtfVote))
+                    case int id when id == CustomVotePlugin.Instance.Config.MtfKeybindSettingId:
+                        if (VoteHandler.CurrentVote.TryGetVoteOptionFromCommand(CustomVotePlugin.Instance.Translation.CommandMobileTaskForce, out VoteOption mtfVote))
                         {
                             VoteHandler.CurrentVote.SubmitVoteOption(sender, mtfVote);
                         }
 
                         break;
 
-                    case int id when id == Plugin.Instance.Config.CiKeybindSettingId:
-                        if (VoteHandler.CurrentVote.TryGetVoteOptionFromCommand(Plugin.Instance.Translation.CommandChaosInsurgency, out VoteOption ciVote))
+                    case int id when id == CustomVotePlugin.Instance.Config.CiKeybindSettingId:
+                        if (VoteHandler.CurrentVote.TryGetVoteOptionFromCommand(CustomVotePlugin.Instance.Translation.CommandChaosInsurgency, out VoteOption ciVote))
                         {
                             VoteHandler.CurrentVote.SubmitVoteOption(sender, ciVote);
                         }

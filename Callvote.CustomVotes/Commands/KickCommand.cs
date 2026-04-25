@@ -11,7 +11,6 @@ using LabApi.Features.Wrappers;
 
 namespace Callvote.CustomVotes.Commands
 {
-    [CommandHandler(typeof(CallVoteParentCommand))]
     public class KickCommand : ICommand
     {
         public string Command => "kick";
@@ -24,9 +23,9 @@ namespace Callvote.CustomVotes.Commands
         {
             Player player = Player.Get(sender);
 
-            if (!Plugin.Instance.Config.EnableKick)
+            if (!CustomVotePlugin.Instance.Config.EnableKick)
             {
-                response = Plugin.Instance.Translation.VoteKickDisabled;
+                response = CustomVotePlugin.Instance.Translation.VoteKickDisabled;
                 return false;
             }
 
@@ -42,15 +41,15 @@ namespace Callvote.CustomVotes.Commands
                 return false;
             }
 
-            if (player != null && !player.HasPermissions("cv.bypass") && Round.Duration.TotalSeconds < Plugin.Instance.Config.MaxWaitKick)
+            if (player != null && !player.HasPermissions("cv.bypass") && Round.Duration.TotalSeconds < CustomVotePlugin.Instance.Config.MaxWaitKick)
             {
-                response = Plugin.Instance.Translation.WaitToVote.Replace("%Timer%", $"{Plugin.Instance.Config.MaxWaitKick - Round.Duration.TotalSeconds:F0}");
+                response = CustomVotePlugin.Instance.Translation.WaitToVote.Replace("%Timer%", $"{CustomVotePlugin.Instance.Config.MaxWaitKick - Round.Duration.TotalSeconds:F0}");
                 return false;
             }
 
             if (args.Count == 1)
             {
-                response = Plugin.Instance.Translation.PassReason;
+                response = CustomVotePlugin.Instance.Translation.PassReason;
                 return false;
             }
 

@@ -1,12 +1,12 @@
 ﻿using System;
 using Callvote.API.Features.Votes;
-using Callvote.Commands.ParentCommands;
-using Callvote.Features;
+using Callvote.Queue.Commands.QueueCommands;
+using Callvote.Queue.Features;
 using CommandSystem;
 
 namespace Callvote.Queue.Commands.ParentCommands
 {
-    [CommandHandler(typeof(CallVoteParentCommand))]
+    // [CommandHandler(typeof(CallVoteParentCommand))]
     public class CallVoteQueueParentCommand : ParentCommand
     {
         public CallVoteQueueParentCommand() => this.LoadGeneratedCommands();
@@ -17,21 +17,27 @@ namespace Callvote.Queue.Commands.ParentCommands
 
         public override string Description => "Commands related to Callvote queue.";
 
-        public override void LoadGeneratedCommands()
+        public override sealed void LoadGeneratedCommands()
         {
+            this.RegisterCommand(new CheckQueueCommand());
+            this.RegisterCommand(new ClearQueueCommand());
+            this.RegisterCommand(new RemovePlayerFromQueueCommand());
+            this.RegisterCommand(new RemoveTypeFromQueueCommand());
+            this.RegisterCommand(new RemoveXFromQueueCommand());
+            this.RegisterCommand(new PauseQueueCommand());
         }
 
         protected override bool ExecuteParent(ArraySegment<string> args, ICommandSender sender, out string response)
         {
-            if (!Plugin.Instance.Config.EnableQueue)
+            if (!QueuePlugin.Instance.Config.EnableQueue)
             {
-                response = Plugin.Instance.Translation.QueueDisabled;
+                response = QueuePlugin.Instance.Translation.QueueDisabled;
                 return false;
             }
 
             if (MaxVotesAndQueue.VoteQueue.Count == 0)
             {
-                response = Plugin.Instance.Translation.NoVoteInQueue;
+                response = QueuePlugin.Instance.Translation.NoVoteInQueue;
                 return false;
             }
 

@@ -4,6 +4,8 @@
 		<Title>Callvote.DiscordLab</Title>
 		<Description>DiscordLab Module for SCP:SL's Callvote.</Description>
 		<Version>1.0.0</Version>
+		<Configurations>Debug;Release;EXILED</Configurations>
+		<Platforms>x64</Platforms>
 	</PropertyGroup>
 
 	<ItemGroup>

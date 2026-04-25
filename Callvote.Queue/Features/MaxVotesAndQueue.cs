@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using Callvote.API.Enums;
 using Callvote.API.Features.Votes;
-using Callvote.Patches;
-using Callvote.Queue;
+using Callvote.Queue.Patches;
 using LabApi.Features.Permissions;
 using LabApi.Features.Wrappers;
 
-namespace Callvote.Features
+namespace Callvote.Queue.Features
 {
     /// <summary>
     /// Represents the static handler that manages <see cref="Vote"/> queue and maximum called votes.
@@ -29,7 +28,7 @@ namespace Callvote.Features
         /// <summary>
         /// Gets a value indicating whether the Queue is full.
         /// </summary>
-        public static bool IsQueueFull => VoteQueue.Count >= Plugin.Instance.Config.QueueSize;
+        public static bool IsQueueFull => VoteQueue.Count >= QueuePlugin.Instance.Config.QueueSize;
 
         /// <summary>
         /// Gets or sets a value indicating whether the vote queue will or will not start the next vote even if entries exist.
@@ -81,7 +80,7 @@ namespace Callvote.Features
 
             PlayerCallVoteAmount[player]++;
 
-            if (PlayerCallVoteAmount[player] > Plugin.Instance.Config.MaxAmountOfVotesPerRound && !player.HasPermissions("cv.bypass"))
+            if (PlayerCallVoteAmount[player] > QueuePlugin.Instance.Config.MaxAmountOfVotesPerRound && !player.HasPermissions("cv.bypass"))
             {
                 return false;
             }

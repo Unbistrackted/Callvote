@@ -1,13 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿#if EXILED
+using Exiled.API.Interfaces;
+#endif
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Callvote.CustomVotes.Configuration
 {
+#if EXILED
+    public class Translation : ITranslation
+#else
     public class Translation
+#endif
     {
         [Description("Vote Questions Messages:")]
         public string AskedToKill { get; set; } = "%Player% <color=#EEDC8A>asks</color>: Kill %Offender% for %Reason%?";

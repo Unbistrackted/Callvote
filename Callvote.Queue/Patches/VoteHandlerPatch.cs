@@ -5,21 +5,20 @@ using LabApi.Features.Wrappers;
 #endif
 using Callvote.API.Enums;
 using Callvote.API.Features.Votes;
-using Callvote.Features;
+using Callvote.Queue.Features;
 using HarmonyLib;
-using Callvote.Queue;
 
-namespace Callvote.Patches
+namespace Callvote.Queue.Patches
 {
 #pragma warning disable SA1313
+#pragma warning disable SA1401 // Fields should be private
+#pragma warning disable SA1600 // Elements should be documented
     /// <summary>
     /// Patch for adding Queue Functionality to Callvote.
     /// </summary>
     [HarmonyPatch(typeof(VoteHandler))]
     internal class VoteHandlerPatch
     {
-#pragma warning disable SA1401 // Fields should be private
-#pragma warning disable SA1600 // Elements should be documented
         internal static bool IsDequeing = false;
 
         [HarmonyPatch(nameof(VoteHandler.CallVote))]
@@ -37,7 +36,7 @@ namespace Callvote.Patches
                 return false;
             }
 
-            if (Plugin.Instance.Config.EnableQueue)
+            if (QueuePlugin.Instance.Config.EnableQueue)
             {
                 if (MaxVotesAndQueue.IsQueueFull)
                 {
@@ -63,7 +62,7 @@ namespace Callvote.Patches
         [HarmonyPostfix]
         private static void FinishVotePostix(bool isForced = true)
         {
-            if (Plugin.Instance.Config.EnableQueue)
+            if (QueuePlugin.Instance.Config.EnableQueue)
             {
                 MaxVotesAndQueue.DequeueVote();
             }

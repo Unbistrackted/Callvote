@@ -27,9 +27,9 @@ namespace Callvote.CustomVotes.Features.PredefinedVotes
 
             string message;
 
-            if (yesVotePercent >= Plugin.Instance.Config.ThresholdKick && yesVotePercent > noVotePercent)
+            if (yesVotePercent >= CustomVotePlugin.Instance.Config.ThresholdKick && yesVotePercent > noVotePercent)
             {
-                message = Plugin.Instance.Translation.PlayerKicked
+                message = CustomVotePlugin.Instance.Translation.PlayerKicked
                     .Replace("%VotePercent%", yesVotePercent.ToString())
                     .Replace("%Player%", player.Nickname)
                     .Replace("%Offender%", ofender.Nickname)
@@ -39,9 +39,9 @@ namespace Callvote.CustomVotes.Features.PredefinedVotes
             }
             else
             {
-                message = Plugin.Instance.Translation.NotSuccessFullKick
+                message = CustomVotePlugin.Instance.Translation.NotSuccessFullKick
                     .Replace("%VotePercent%", yesVotePercent.ToString())
-                    .Replace("%ThresholdKick%", Plugin.Instance.Config.ThresholdKick.ToString())
+                    .Replace("%ThresholdKick%", CustomVotePlugin.Instance.Config.ThresholdKick.ToString())
                     .Replace("%Offender%", ofender.Nickname)
                     .Replace("%VoteDetail%", binaryVote.YesVoteOption.Detail);
             }
@@ -51,7 +51,7 @@ namespace Callvote.CustomVotes.Features.PredefinedVotes
 
         private static string ReplacePlayer(Player player, Player offender, string reason)
         {
-            return Plugin.Instance.Translation.AskedToKick
+            return CustomVotePlugin.Instance.Translation.AskedToKick
                     .Replace("%Player%", player.Nickname)
                     .Replace("%Offender%", offender.Nickname)
                     .Replace("%Reason%", reason);

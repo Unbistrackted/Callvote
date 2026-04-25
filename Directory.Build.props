@@ -42,6 +42,10 @@
         <PackageReference Include="Lib.Harmony" Version="2.3.6" />
     </ItemGroup>
 
+    <ItemGroup Condition="'$(Configuration)' == 'EXILED'">
+		<PackageReference Include="ExMod.Exiled" Version="9.13.1" />
+	</ItemGroup>
+
     <ItemGroup>
        <Compile Remove="*.yml" />
     </ItemGroup>

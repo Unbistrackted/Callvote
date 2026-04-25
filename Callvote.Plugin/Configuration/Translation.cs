@@ -39,24 +39,6 @@ namespace Callvote.Configuration
 
         public string DuplicateCommand { get; set; } = "It's not possible to create a custom command with the same name!";
 
-        public string QueueDisabled { get; set; } = "Callvote queue disabled.";
-
-        public string QueueCleared { get; set; } = "Vote Queue Cleared.";
-
-        public string QueuePaused { get; set; } = "Queue Paused";
-
-        public string QueueResumed { get; set; } = "Vote Queue resumed.";
-
-        public string RemovedFromQueue { get; set; } = "Removed %Number% Vote(s)";
-
-        public string NoVoteInQueue { get; set; } = "There's no vote in the queue.";
-
-        public string QueueIsFull { get; set; } = "<color=red>Queue is full.</color>";
-
-        public string VoteEnqueued { get; set; } = "<color=#EDF193>Vote Enqueued.</color>";
-
-        public string TypeNotFound { get; set; } = "Did not find any Vote with the type <color=red>%Type%</color>";
-
         public string InvalidArgument { get; set; } = "Invalid argument.";
 
         public string TranslationChanged { get; set; } = "Changed translation to: English";
@@ -71,7 +53,7 @@ namespace Callvote.Configuration
 
         public string NoPermission { get; set; } = "You do not have permission to run this command!";
 
-        public string VoteStoped { get; set; } = "Vote stopped.";
+        public string VoteStopped { get; set; } = "Vote stopped.";
 
         public string MaxVote { get; set; } = "Max amounts of votes done this round";
 

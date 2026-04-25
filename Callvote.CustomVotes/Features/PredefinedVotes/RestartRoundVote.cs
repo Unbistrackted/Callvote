@@ -1,8 +1,12 @@
-﻿using Callvote.API.Features.Displays;
+﻿#if EXILED
+using Exiled.API.Features;
+#else
+using LabApi.Features.Wrappers;
+#endif
+using Callvote.API.Features.Displays;
 using Callvote.API.Features.Votes;
 using Callvote.API.Interfaces;
 using Callvote.Features.VoteTemplate;
-using LabApi.Features.Wrappers;
 
 namespace Callvote.CustomVotes.Features.PredefinedVotes
 {
@@ -25,9 +29,9 @@ namespace Callvote.CustomVotes.Features.PredefinedVotes
 
             string message;
 
-            if (yesVotePercent >= Plugin.Instance.Config.ThresholdRestartRound && yesVotePercent > noVotePercent)
+            if (yesVotePercent >= CustomVotePlugin.Instance.Config.ThresholdRestartRound && yesVotePercent > noVotePercent)
             {
-                message = Plugin.Instance.Translation.RoundRestarting
+                message = CustomVotePlugin.Instance.Translation.RoundRestarting
                     .Replace("%VotePercent%", yesVotePercent.ToString())
                     .Replace("%VoteDetail%", binaryVote.YesVoteOption.Detail);
 #if EXILED
@@ -38,9 +42,9 @@ namespace Callvote.CustomVotes.Features.PredefinedVotes
             }
             else
             {
-                message = Plugin.Instance.Translation.NoSuccessFullRestart
+                message = CustomVotePlugin.Instance.Translation.NoSuccessFullRestart
                     .Replace("%VotePercent%", yesVotePercent.ToString())
-                    .Replace("%ThresholdRestartRound%", Plugin.Instance.Config.ThresholdRestartRound.ToString())
+                    .Replace("%ThresholdRestartRound%", CustomVotePlugin.Instance.Config.ThresholdRestartRound.ToString())
                     .Replace("%VoteDetail%", binaryVote.YesVoteOption.Detail)
                     .Replace("%VoteDetail%", binaryVote.YesVoteOption.Detail);
             }
@@ -48,6 +52,6 @@ namespace Callvote.CustomVotes.Features.PredefinedVotes
             DisplayHandler.Show(CallvotePlugin.Instance.Config.FinalResultsDuration, message, vote.AllowedPlayers);
         }
 
-        private static string ReplacePlayer(Player player) => Plugin.Instance.Translation.AskedToRestart.Replace("%Player%", player.Nickname);
+        private static string ReplacePlayer(Player player) => CustomVotePlugin.Instance.Translation.AskedToRestart.Replace("%Player%", player.Nickname);
     }
 }
