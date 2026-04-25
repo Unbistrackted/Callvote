@@ -23,18 +23,11 @@ namespace Callvote.Commands.ParentCommands
         public override sealed void LoadGeneratedCommands()
         {
 #if EXILED
-            this.RegisterCommand(new CallVoteQueueParentCommand());
-            this.RegisterCommand(new KickCommand());
-            this.RegisterCommand(new KillCommand());
-            this.RegisterCommand(new NukeCommand());
-            this.RegisterCommand(new RespawnWaveCommand());
-            this.RegisterCommand(new RestartRoundCommand());
             this.RegisterCommand(new RigCommand());
             this.RegisterCommand(new StopVoteCommand());
             this.RegisterCommand(new BinaryCommand());
             this.RegisterCommand(new CustomCommand());
             this.RegisterCommand(new HelpCommand());
-            this.RegisterCommand(new FFCommand());
             this.RegisterCommand(new TranslationCommand());
 #endif
         }

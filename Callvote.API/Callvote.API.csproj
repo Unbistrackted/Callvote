@@ -1,29 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net48</TargetFramework>
-		<Platforms>x64</Platforms>
-		<LangVersion>latest</LangVersion>
-		<RootNamespace>Callvote.API</RootNamespace>
-		<AssemblyName>Callvote.API</AssemblyName>
-		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+		<Title>Callvote.API</Title>
+		<Description>Callvote system like in the Source engine for Unity Games.</Description>
+		<Version>1.0.0</Version>
+	</PropertyGroup>
+
+	<PropertyGroup>
 		<DebugType>portable</DebugType>
-		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-		<EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
-		<GenerateDocumentationFile>true</GenerateDocumentationFile>
-		<WarningsAsErrors>true</WarningsAsErrors>
-		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+		<Optimize>false</Optimize>
 		<Configurations>Debug;Release;BareBones</Configurations>
 	</PropertyGroup>
 
 	<PropertyGroup>
 		<PackageId>Callvote.API</PackageId>
-		<Title>Callvote.API</Title>
 		<Product>Callvote.API</Product>
-		<Version>1.0.0</Version>
-		<Authors>Unbistrackted,PatPeter</Authors>
 		<Copyright>Modified BSD</Copyright>
-		<Description>Callvote system like in the Source engine for Unity Games.</Description>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 		<RepositoryUrl>https://github.com/Unbistrackted/Callvote</RepositoryUrl>
 		<PackageProjectUrl>https://unbistrackted.github.io/Callvote/</PackageProjectUrl>
@@ -33,51 +25,12 @@
 		<PackageIcon>Callvote.png</PackageIcon>
 		<PackageTags>LabAPI,EXILED,Callvote,SCPSL,Unity</PackageTags>
 	</PropertyGroup>
-	<ItemGroup>
-		<Reference Include="UnityEngine">
-			<HintPath>$(EXILED_REFERENCES)\UnityEngine.dll</HintPath>
-		</Reference>
-
-		<Reference Include="UnityEngine.CoreModule">
-			<HintPath>$(EXILED_REFERENCES)\UnityEngine.CoreModule.dll</HintPath>
-		</Reference>
-
-		<Reference Include="UnityEngine.PhysicsModule">
-			<HintPath>$(EXILED_REFERENCES)\UnityEngine.PhysicsModule.dll</HintPath>
-		</Reference>
-	</ItemGroup>
-
-	<ItemGroup Condition="'$(Configuration)' != 'BareBones'">
-		<Reference Include="CommandSystem.Core">
-			<HintPath>$(EXILED_REFERENCES)\CommandSystem.Core.dll</HintPath>
-		</Reference>
-
-		<Reference Include="Assembly-CSharp-Publicized">
-			<HintPath>$(EXILED_REFERENCES)\Assembly-CSharp-Publicized.dll</HintPath>
-		</Reference>
-
-		<Reference Include="Assembly-CSharp-firstpass">
-			<HintPath>$(EXILED_REFERENCES)\Assembly-CSharp-firstpass.dll</HintPath>
-		</Reference>
-
-		<Reference Include="Mirror">
-			<HintPath>$(EXILED_REFERENCES)\Mirror.dll</HintPath>
-		</Reference>
-	</ItemGroup>
 
 	<ItemGroup>
 		<Compile Remove="*.yml" />
 		<None Include="..\Callvote.png" Pack="true" PackagePath="" />
 		<None Include="..\License.md" Pack="true" PackagePath="" />
 		<None Include="..\NugetREADME.md" Pack="true" PackagePath="" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<PackageReference Include="Northwood.LabAPI" Version="1.1.5" />
-		<PackageReference Include="StyleCop.Analyzers.Unstable" Version="1.2.0.556">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
 	</ItemGroup>
 
 </Project>

@@ -33,6 +33,7 @@ namespace Callvote.Features.VoteTemplate
         {
             this.ResultsMessageDuration = CallvotePlugin.Instance.Config.FinalResultsDuration;
             this.RefreshInterval = CallvotePlugin.Instance.Config.RefreshInterval;
+            this.MessageSize = CallvotePlugin.Instance.Config.MessageSize;
         }
 
         /// <summary>
@@ -48,6 +49,7 @@ namespace Callvote.Features.VoteTemplate
         {
             this.ResultsMessageDuration = CallvotePlugin.Instance.Config.FinalResultsDuration;
             this.RefreshInterval = CallvotePlugin.Instance.Config.RefreshInterval;
+            this.MessageSize = CallvotePlugin.Instance.Config.MessageSize;
         }
 
         /// <inheritdoc/>
@@ -159,9 +161,6 @@ namespace Callvote.Features.VoteTemplate
             {
                 CallVoteStatus.VoteStarted => CallvotePlugin.Instance.Translation.VoteStarted,
                 CallVoteStatus.VoteInProgress => CallvotePlugin.Instance.Translation.VoteInProgress,
-                CallVoteStatus.VoteEnqueued => CallvotePlugin.Instance.Translation.VoteEnqueued,
-                CallVoteStatus.QueueIsFull => CallvotePlugin.Instance.Translation.QueueIsFull,
-                CallVoteStatus.QueueDisabled => CallvotePlugin.Instance.Translation.QueueDisabled,
                 CallVoteStatus.MaxedCallVotes => CallvotePlugin.Instance.Translation.MaxVote,
                 _ => string.Empty,
             };

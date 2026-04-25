@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<Title>Callvote.ScpDiscord</Title>
+		<Description>ScpDiscord Module for SCP:SL's Callvote.</Description>
+		<Version>1.0.0</Version>
+		<Configurations>Debug;Release;EXILED</Configurations>
+		<Platforms>x64</Platforms>
+	</PropertyGroup>
+	
+	<ItemGroup>
+		<Reference Include="SCPDiscord" HintPath="$(SL_REFERENCES)\SCPDiscord.dll" />
+		<ProjectReference Include="..\Callvote.API\Callvote.API.csproj" />
+		<PackageReference Include="Google.Protobuf" Version="3.33.5" />
+	</ItemGroup>
+
+</Project>

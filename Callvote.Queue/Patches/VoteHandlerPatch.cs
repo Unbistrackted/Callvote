@@ -1,0 +1,71 @@
+﻿#if EXILED
+using Exiled.API.Features;
+#else
+using LabApi.Features.Wrappers;
+#endif
+using Callvote.API.Enums;
+using Callvote.API.Features.Votes;
+using Callvote.Queue.Features;
+using HarmonyLib;
+
+namespace Callvote.Queue.Patches
+{
+#pragma warning disable SA1313
+#pragma warning disable SA1401 // Fields should be private
+#pragma warning disable SA1600 // Elements should be documented
+    /// <summary>
+    /// Patch for adding Queue Functionality to Callvote.
+    /// </summary>
+    [HarmonyPatch(typeof(VoteHandler))]
+    internal class VoteHandlerPatch
+    {
+        internal static bool IsDequeing = false;
+
+        [HarmonyPatch(nameof(VoteHandler.CallVote))]
+        [HarmonyPrefix]
+        private static bool CallVotePrefix(ref CallVoteStatus __result, Vote vote)
+        {
+            if (IsDequeing)
+            {
+                return true;
+            }
+
+            if (!MaxVotesAndQueue.IsCallVoteAllowed(Player.Get(vote.CallVotePlayer.UserId)))
+            {
+                __result = CallVoteStatus.MaxedCallVotes;
+                return false;
+            }
+
+            if (QueuePlugin.Instance.Config.EnableQueue)
+            {
+                if (MaxVotesAndQueue.IsQueueFull)
+                {
+                    __result = CallVoteStatus.QueueIsFull;
+                    return false;
+                }
+
+                if (MaxVotesAndQueue.IsQueuePaused)
+                {
+                    __result = CallVoteStatus.QueueDisabled;
+                    return false;
+                }
+
+                MaxVotesAndQueue.VoteQueue.Enqueue(vote);
+                __result = MaxVotesAndQueue.DequeueVote();
+                return false;
+            }
+
+            return true;
+        }
+
+        [HarmonyPatch(nameof(VoteHandler.FinishVote))]
+        [HarmonyPostfix]
+        private static void FinishVotePostix(bool isForced = true)
+        {
+            if (QueuePlugin.Instance.Config.EnableQueue)
+            {
+                MaxVotesAndQueue.DequeueVote();
+            }
+        }
+    }
+}

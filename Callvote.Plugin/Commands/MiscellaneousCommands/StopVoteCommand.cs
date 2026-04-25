@@ -45,13 +45,13 @@ namespace Callvote.Commands.MiscellaneousCommands
             if (arguments.Count == 0)
             {
                 VoteHandler.FinishVote();
-                response = CallvotePlugin.Instance.Translation.VoteStoped;
+                response = CallvotePlugin.Instance.Translation.VoteStopped;
                 return false;
             }
 
             VoteHandler.FinishVote(isForced: true);
 
-            response = CallvotePlugin.Instance.Translation.VoteStoped;
+            response = CallvotePlugin.Instance.Translation.VoteStopped;
             return true;
         }
     }

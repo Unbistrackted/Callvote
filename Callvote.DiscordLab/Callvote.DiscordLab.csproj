@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<Title>Callvote.DiscordLab</Title>
+		<Description>DiscordLab Module for SCP:SL's Callvote.</Description>
+		<Version>1.0.0</Version>
+		<Configurations>Debug;Release;EXILED</Configurations>
+		<Platforms>x64</Platforms>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Callvote.API\Callvote.API.csproj" />
+		<PackageReference Include="DiscordLab.Bot" Version="2.5.0" />
+	</ItemGroup>
+
+</Project>

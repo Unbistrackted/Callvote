@@ -27,8 +27,6 @@ namespace Callvote.Features.VoteTemplate
         {
             this.YesVoteOption = yes;
             this.NoVoteOption = no;
-            this.ResultsMessageDuration = CallvotePlugin.Instance.Config.FinalResultsDuration;
-            this.RefreshInterval = CallvotePlugin.Instance.Config.RefreshInterval;
         }
 
         /// <summary>
